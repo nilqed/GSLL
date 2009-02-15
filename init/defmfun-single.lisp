@@ -1,6 +1,6 @@
 ;; Helpers that define a single GSL function interface
 ;; Liam Healy 2009-01-07 22:02:20EST defmfun-single.lisp
-;; Time-stamp: <2009-01-31 21:19:28EST defmfun-single.lisp>
+;; Time-stamp: <2009-02-15 12:01:26EST defmfun-single.lisp>
 ;; $Id: $
 
 (in-package :gsl)
@@ -70,6 +70,26 @@
    "An error indicating that the currently loaded version of the GSL libary
     does not have the function defined."))
 
+(defun allocate-unwind-protect (symbol-definition-free body)
+  "Wrap the body in an unwind-protect defining the symbol, then
+   free it afterward."
+  (if symbol-definition-free
+      (destructuring-bind (symbol definition free) symbol-definition-free
+	`(let ((,symbol ,definition))
+	   (unwind-protect (progn ,@body)
+	     ,free)))
+      body))
+
+(defun defmfun-callback (callback)
+  "Make a list of symbol, definition, and freer that will allocate
+   and free an instance of the callback struct gsl-function."
+  (when callback
+    (with-unique-names (cbf)
+      (list
+       cbf
+       `(make-cbstruct gsl-function nil 'function ,callback)
+       `(cffi:foreign-free ,cbf)))))
+
 (defun complete-definition
     (definition name arglist gsl-name c-arguments key-args
      &optional
@@ -78,15 +98,19 @@
   "A complete definition form, starting with defun, :method, or defmethod."
   (destructuring-bind
 	(&key documentation before after
-	      qualifier gsl-version &allow-other-keys)
+	      qualifier gsl-version callback &allow-other-keys)
       key-args
     (if (have-at-least-gsl-version gsl-version)
 	`(,definition
 	     ,@(when (and name (not (defgeneric-method-p name)))
 		     (list name))
 	     ,@(when qualifier (list qualifier))
-	   ,arglist
-	   ,(declaration-form
+	   ,(if callback
+		(subst arglist)
+		arglist)
+	   ,(allocate-unwind-protect
+	     callback
+	     (declaration-form
 	     (cl-argument-types arglist c-arguments)
 	     (set-difference	       ; find all the unused variables
 	      (arglist-plain-and-categories arglist nil)
@@ -105,7 +129,7 @@
 			   (when auxstart
 			     (apply
 			      'append
-			      (mapcar 'rest (subseq arglist (1+ auxstart))))))))))))
+			      (mapcar 'rest (subseq arglist (1+ auxstart)))))))))))))
 	   ,@(when documentation (list documentation))
 	   ,(funcall body-maker name arglist gsl-name c-arguments key-args))
         `(,definition
