@@ -1,6 +1,6 @@
 ;; Generate matrices used in tests of linear algebra functions
 ;; Liam Healy 2009-09-19 18:28:31EDT matrix-generation.lisp
-;; Time-stamp: <2009-09-26 16:42:11EDT matrix-generation.lisp>
+;; Time-stamp: <2009-10-15 22:51:23EDT matrix-generation.lisp>
 
 (in-package :gsl)
 
@@ -8,27 +8,63 @@
 ;;; tests need to be made.  The symbols are not exported because it
 ;;; assumed they will only be used internally by the test functions.
 
+;;; When sufficiently stable and featureful, these will be exported.
+
 ;;; See linalg/test.c.
 
 ;;;;****************************************************************************
 ;;;; General array creation from indices
 ;;;;****************************************************************************
 
-;;; These should be exported.  Come to think of it, didn't Glen
-;;; have something more general than this?
-(defun set-matrix (matrix function)
-  (dotimes (i (dim0 matrix) matrix)
-    (dotimes (j (dim1 matrix))
-      (setf (maref matrix i j)
-	    (coerce (funcall function i j) (element-type matrix))))))
+(defun set-matrix
+    (matrix function
+     &optional pass-element
+     (row-index-min 0) (row-index-max t) (col-index-min 0) (col-index-max t))
+  "Set the matrix elements to the values defined by the function.
+   The function will be called with two arguments if pass-element is nil:
+    the row index, the column index,
+   or three arguments if it is non-nil:
+    the row index, the column index, and the current value of the element.
+   The range of the indices for rows and columns are defined by the
+   optional arguments 
+     row-index-min, row-index-max, col-index-min, col-index-max;
+   if the -max values are T, then the maximum row or column index possible
+   will be substituted.  Either col-index-min or col-index-max or both
+   can be functions, they will be called with the current row index."
+  (loop for i
+     from row-index-min
+     to (if (eq row-index-max t)
+	    (1- (dim0 matrix))
+	    row-index-max)
+     do
+     (loop for j
+	from (max 0
+		  (typecase col-index-min
+		    (function (funcall col-index-min i))
+		    (integer col-index-min)
+		    (t 0)))
+	to (min (1- (dim1 matrix))
+		(typecase col-index-max
+		  (function (funcall col-index-max i))
+		  (integer col-index-max)
+		  (t array-dimension-limit)))
+	do
+	(setf (maref matrix i j)
+	      (coerce (if pass-element
+			  (funcall function i j (maref matrix i j))
+			  (funcall function i j))
+		      (element-type matrix)))))
+  matrix)
 
 (defun create-matrix
-    (function dim0 &optional (dim1 dim0) (element-type 'double-float))
+    (function dim0
+     &optional (dim1 dim0) pass-element (element-type 'double-float))
   "Make a matrix of the specified dimensions, with contents
    based on a function of the element indices i, j."
   (set-matrix
    (make-marray (cl-single element-type) :dimensions (list dim0 dim1))
-   function))
+   function
+   pass-element))
 
 (defun create-vector
     (function dim &optional (element-type 'double-float))
@@ -50,17 +86,21 @@
     (constant dim0 &optional (dim1 dim0) (element-type 'double-float))
   (let ((cst (coerce constant element-type)))
     (create-matrix (lambda (i j) (declare (ignore i j)) cst)
-		   dim0 dim1 element-type)))
+		   dim0 dim1 nil element-type)))
 
 ;;;;****************************************************************************
 ;;;; Specific arrays used in linear algebra tests
 ;;;;****************************************************************************
 
 (defun create-general-matrix (dim0 dim1)
-  (create-matrix (lambda (i j) (/ (+ 1 i j))) dim0 dim1))
+  (create-matrix
+   (lambda (i j) (/ (+ 1 i j)))
+   dim0 dim1))
 
 (defun create-singular-matrix (dim0 dim1)
-  (create-matrix (lambda (i j) (if (zerop i) 0 (/ (+ 1 i j)))) dim0 dim1))
+  (create-matrix
+   (lambda (i j) (if (zerop i) 0 (/ (+ 1 i j))))
+   dim0 dim1))
 
 (defun create-hilbert-matrix (dim)
   "Make Hilbert matrix used to test linear algebra functions."
@@ -68,20 +108,26 @@
 
 (defun create-vandermonde-matrix (dim)
   "Make Van der Monde matrix used to test linear algebra functions."
-  (create-matrix (lambda (i j) (expt (1+ i) (- dim j 1))) dim))
+  (create-matrix
+   (lambda (i j) (expt (1+ i) (- dim j 1)))
+   dim))
 
 (defun create-moler-matrix (dim)
-  (create-matrix (lambda (i j) (- (min (1+ i) (1+ j)) 2)) dim))
+  (create-matrix
+   (lambda (i j) (- (min (1+ i) (1+ j)) 2))
+   dim))
 
 (defun create-row-matrix (dim0 dim1)
   ;; This would be better named a column matrix, but they call it a row.
-  (create-matrix (lambda (i j) (if (zerop j) (/ (1+ i)) 0)) dim0 dim1))
+  (create-matrix
+   (lambda (i j) (if (zerop j) (/ (1+ i)) 0))
+   dim0 dim1))
 
 (defun create-complex-matrix (dim)
   (create-matrix
    (lambda (i j)
      (complex (/ (+ 1 i j)) (+ 1/2 (expt i 2) (expt j 2))))
-   dim dim '(complex double-float)))
+   dim dim nil '(complex double-float)))
 
 (defun create-rhs-vector (dim &optional (element-type 'double-float))
   (if (subtypep element-type 'complex)
