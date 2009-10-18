@@ -1,6 +1,6 @@
 ;; Helpers for defining GSL functions on arrays
 ;; Liam Healy 2009-01-07 22:01:16EST defmfun-array.lisp
-;; Time-stamp: <2009-04-26 22:27:10EDT defmfun-array.lisp>
+;; Time-stamp: <2009-10-18 19:35:15EDT defmfun-array.lisp>
 ;; $Id: $
 
 (in-package :gsl)
@@ -90,7 +90,7 @@
 		    (complete-definition
 		     defn
 		     (if (eq defn :method) (list nil name) name)
-		     (actual-class-arglist arglist eltype replace-both)
+		     (actual-class-arglist arglist eltype c-arguments replace-both)
 		     (mapcar #'actual-gfn gsl-name)
 		     (mapcar (lambda (args)
 			       (actual-element-c-type eltype args))
@@ -100,7 +100,7 @@
 		    (complete-definition
 		     defn
 		     (if (eq defn :method) (list nil name) name)
-		     (actual-class-arglist arglist eltype replace-both)
+		     (actual-class-arglist arglist eltype c-arguments replace-both)
 		     (actual-gfn gsl-name)
 		     (actual-element-c-type eltype c-arguments)
 		     key-args))))
@@ -139,10 +139,12 @@
 	((subtypep type 'float) 'float)
 	(t (error "Can't pass type ~a." type))))
 
-(defun actual-class-arglist (arglist element-type &optional replace-both)
+(defun actual-class-arglist
+    (arglist element-type c-arguments &optional replace-both)
   "Replace the prototype arglist with an actual arglist."
   (loop for arg in arglist
      with replacing = t
+     with carg-actual = (actual-element-c-type element-type c-arguments)
      do
      (when (and replacing (member arg *defmfun-llk*))
        (setf replacing nil))
@@ -162,9 +164,14 @@
 	 ;; Default values for optional/key arguments are treated
 	 ;; specially for array methods.
 	 (if (and (listp arg) (numberp (second arg)))
-	     (list (first arg)	; Optional arg default numerical value
-		   ;; coerce to the right type
-		   (coerce (second arg) element-type))
+	     (let ((actual-type
+		    (cffi-cl
+		     (st-type (find (first arg) carg-actual :key 'st-symbol)))))
+	       (list (first arg) ; Optional arg default numerical value
+		     (if actual-type
+		     ;; coerce to the right type
+			 (coerce (second arg) actual-type)
+			 (second arg))))
 	     (if (listp arg)
 		 (if (and (listp (second arg))
 			  (eq (first (second arg)) 'eltcase))
@@ -201,9 +208,3 @@
      (subst (cl-cffi element-type) :element-c-type
 	    (subst (component-type element-type) :component-float-type v)))
    c-arguments))
-
-;;; (actual-class-arglist '((v1 vector) (v2 vector) (m matrix) x) '(unsigned-byte 16))
-;;; ((V1 VECTOR-UNSIGNED-BYTE-16) (V2 VECTOR-UNSIGNED-BYTE-16)
-;;;  (M MATRIX-UNSIGNED-BYTE-16) X)
-;;; (V1 V2 M X)
-;;; (MATRIX VECTOR)
