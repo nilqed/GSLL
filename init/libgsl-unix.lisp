@@ -37,6 +37,13 @@
        ((:absolute-ascending "GSL_EIGEN_SORT_ABS_ASC"))
        ((:absolute-descending "GSL_EIGEN_SORT_ABS_DESC")))
 
+(include "gsl/gsl_fft.h")
+
+;; gsl_fft_direction
+(cenum fft-direction
+       ((:forward "gsl_fft_forward"))
+       ((:backward "gsl_fft_backward")))
+
 (include "gsl/gsl_cblas.h")
 
 (cenum cblas-transpose

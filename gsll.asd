@@ -133,7 +133,10 @@
 	     (:file "nonsymmetric" :depends-on ("eigen-struct"))
 	     (:file "generalized")
 	     (:file "nonsymmetric-generalized")))
-   ;; Skip fft for now, I'm not sure how it works in C
+   (:module fast-fourier-transforms
+            :depends-on (init data)
+            :components
+            ((:file "fft-complex")))
    (:module random
 	    :depends-on (init data)
 	    :components
