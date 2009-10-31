@@ -136,7 +136,8 @@
    (:module fast-fourier-transforms
             :depends-on (init data)
             :components
-            ((:file "fft-complex")))
+            ((:file "fft-complex")
+             (:file "fft-real)))
    (:module random
 	    :depends-on (init data)
 	    :components

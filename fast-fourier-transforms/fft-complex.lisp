@@ -110,14 +110,6 @@
   complex radix-2 vector")
 
 ;; Mixed Radix general-N functions
-;; TODO: Get it to work with complex_float. GSL sucks, because the complex
-;; wavetables are named gsl_fft_complex_wavetable and
-;; gsl_fft_complex_wavetable_float. This is not the same as the naming
-;; convention used elsewhere, where gsl_fft_complex_float_wavetable would be
-;; expected.
-;; I could define a new object with superclass fft-wavetable, but I have to
-;; figure out if this is the cleanest way to do it in gsll. Probably an
-;; approach such as with make-marray element-type ... is nicest.
 
 (defmobject complex-wavetable
     "gsl_fft_complex_wavetable" ((n sizet))
