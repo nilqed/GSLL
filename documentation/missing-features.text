@@ -1,10 +1,8 @@
 The following features are missing from GSLL:
 
-Fast Fourier Transforms
-Simulated annealing is broken
 All file input and output (fread, fwrite) functions.
 All submatrix functions and views.
-Stride is always set to 1 in GSL functions that take a stride.
+Stride is usually set to 1 in GSL functions that take a stride.
 
 *******************
 Wishlist
