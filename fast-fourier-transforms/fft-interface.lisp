@@ -5,7 +5,7 @@
 
 ;; Utility to determine if a vector can use a radix-2 transform.
 (defun number-is-radix2 (num)
-  (= num (expt 2 (floor (log num 2)))))
+  (= 1 (logcount num)))
 
 ;; Generalised ways of making wavetables
 (export 'make-fft-wavetable)
@@ -61,6 +61,43 @@
 
 ;;; General FFT functions
 
+;; Power of 2 functions
+(defmfun forward-fourier-transform-radix2
+    ((vector vector) &key (stride 1) (n (expt 2 (floor (log (size vector) 2)))))
+  (double-float "gsl_fft_real_radix2_transform"
+   single-float "gsl_fft_real_float_radix2_transform"
+   complex-double-float "gsl_fft_complex_radix2_forward"
+   complex-single-float "gsl_fft_complex_float_radix2_forward")
+  (((c-pointer vector) :pointer) (stride sizet) (n sizet))
+  :definition :generic
+  :element-types :float-complex
+  :inputs (vector)
+  :outputs (vector)
+  :return (vector)
+  :documentation
+  "Forward FFT for a real radix-2 vector")
+
+(defmfun forward-fourier-transform-nonradix2
+    ((vector vector) &key (stride 1) (n (size vector))
+     (wavetable (eltcase single-float (make-fft-real-wavetable-float (size vector))
+			 double-float (make-fft-real-wavetable (size vector))))
+     (workspace (eltcase single-float (make-fft-real-workspace-float (size vector))
+			 double-float (make-fft-real-workspace (size vector)))))
+  (double-float "gsl_fft_real_transform"
+   single-float "gsl_fft_real_float_transform"
+   complex-double-float "gsl_fft_complex_forward"
+   complex-single-float "gsl_fft_complex_float_forward")
+  ("gsl_fft_real" :type "_transform")
+  (((c-pointer vector) :pointer) (stride sizet) (n sizet)
+   ((mpointer wavetable) :pointer) ((mpointer workspace) :pointer))
+  :definition :generic
+  :element-types :float
+  :inputs (vector)
+  :outputs (vector)
+  :return (vector)
+  :documentation
+  "Forward FFT for a real vector")
+
 (export 'forward-fourier-transform)
 (defun forward-fourier-transform (vector &key wavetable workspace)
   "Generalised forward FFT. Perform a forward FFT on the given vector. If the
@@ -69,20 +106,13 @@
   (let ((el-type (element-type vector))
         (len (size vector)))
     (if (number-is-radix2 len)
-      (cond ((subtypep el-type 'float)
-             (fft-real-radix2-transform vector))
-            ((subtypep el-type 'complex)
-             (fft-complex-radix2-forward vector)))
-      (progn (unless wavetable
-               (setf wavetable (make-fft-wavetable el-type len nil)))
-             (unless workspace
-               (setf workspace (make-fft-workspace el-type len)))
-             (cond ((subtypep el-type 'float)
-                    (fft-real-transform vector :wavetable wavetable
-                                        :workspace workspace))
-                   ((subtypep el-type 'complex)
-                    (fft-complex-forward vector :wavetable wavetable
-                                         :workspace workspace)))))))
+	(forward-fourier-transform-radix2 vector)
+	(progn (unless wavetable
+		 (setf wavetable (make-fft-wavetable el-type len nil)))
+	       (unless workspace
+		 (setf workspace (make-fft-workspace el-type len)))
+	       (forward-fourier-transform-radix2
+		vector :wavetable wavetable :workspace workspace)))))
 
 (export 'backward-fourier-transform)
 (defun backward-fourier-transform (vector &key wavetable workspace)

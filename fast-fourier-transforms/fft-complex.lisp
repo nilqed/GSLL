@@ -8,18 +8,6 @@
 
 ;; Power of 2 functions
 
-(defmfun fft-complex-radix2-forward
-    ((vector vector) &key (stride 1) (n (expt 2 (floor (log (size vector) 2)))))
-  ("gsl_fft" :type "_radix2_forward")
-  (((c-pointer vector) :pointer) (stride sizet) (n sizet))
-  :definition :generic
-  :element-types :complex
-  :inputs (vector)
-  :outputs (vector)
-  :return (vector)
-  :documentation
-  "Forward FFT for a complex radix-2 vector")
-
 (defmfun fft-complex-radix2-backward
   ((vector vector) &key (stride 1) (n (expt 2 (floor (log (size vector) 2)))))
   ("gsl_fft" :type "_radix2_backward")
@@ -221,20 +209,4 @@
   :documentation
   "Inverse FFT for a complex vector")
 
-(defmfun fft-complex-transform
-    ((vector vector) direction &key (stride 1) (n (size vector))
-                     (wavetable (eltcase (complex single-float) (make-complex-wavetable-float (size vector))
-                                         (complex double-float) (make-complex-wavetable (size vector))))
-                     (workspace (eltcase (complex single-float) (make-complex-workspace-float (size vector))
-                                         (complex double-float) (make-complex-workspace (size vector)))))
-  ("gsl_fft" :type "_transform")
-  (((c-pointer vector) :pointer) (stride sizet) (n sizet)
-   ((mpointer wavetable) :pointer) ((mpointer workspace) :pointer)
-   (direction fft-direction))
-  :definition :generic
-  :element-types :complex
-  :inputs (vector)
-  :outputs (vector)
-  :return (vector)
-  :documentation
-  "FFT in the given direction for a complex vector")
+

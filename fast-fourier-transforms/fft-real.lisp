@@ -6,20 +6,6 @@
 
 (in-package :gsl)
 
-;; Power of 2 functions
-
-(defmfun fft-real-radix2-transform
-    ((vector vector) &key (stride 1) (n (expt 2 (floor (log (size vector) 2)))))
-  ("gsl_fft_real" :type "_radix2_transform")
-  (((c-pointer vector) :pointer) (stride sizet) (n sizet))
-  :definition :generic
-  :element-types :float
-  :inputs (vector)
-  :outputs (vector)
-  :return (vector)
-  :documentation
-  "Forward FFT for a real radix-2 vector")
-
 ;; Mixed Radix general-N functions
 
 (defmobject fft-real-wavetable
@@ -78,23 +64,6 @@
   :documentation
   "This function allocates a workspace for a real float transform of length
   n.")
-
-(defmfun fft-real-transform
-    ((vector vector) &key (stride 1) (n (size vector))
-                     (wavetable (eltcase single-float (make-fft-real-wavetable-float (size vector))
-                                         double-float (make-fft-real-wavetable (size vector))))
-                     (workspace (eltcase single-float (make-fft-real-workspace-float (size vector))
-                                         double-float (make-fft-real-workspace (size vector)))))
-  ("gsl_fft_real" :type "_transform")
-  (((c-pointer vector) :pointer) (stride sizet) (n sizet)
-   ((mpointer wavetable) :pointer) ((mpointer workspace) :pointer))
-  :definition :generic
-  :element-types :float
-  :inputs (vector)
-  :outputs (vector)
-  :return (vector)
-  :documentation
-  "Forward FFT for a real vector")
 
 (defmfun fft-real-unpack
          ((vector vector)

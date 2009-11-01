@@ -1,6 +1,6 @@
 ;; Helpers that define a single GSL function interface
 ;; Liam Healy 2009-01-07 22:02:20EST defmfun-single.lisp
-;; Time-stamp: <2009-04-13 22:09:35EDT defmfun-single.lisp>
+;; Time-stamp: <2009-11-01 14:20:53EST defmfun-single.lisp>
 ;; $Id: $
 
 (in-package :gsl)
@@ -76,24 +76,25 @@
 	     (cl-argument-types arglist c-arguments)
 	     (set-difference	       ; find all the unused variables
 	      (arglist-plain-and-categories arglist nil)
-	      (remove-duplicates (union
-	       (if mapdown
-		   (apply 'union
-			  (mapcar 'variables-used-in-c-arguments c-arguments))
-		   (variables-used-in-c-arguments c-arguments))
-	       ;; Forms in :before, :after are checked for used variables
-	       (stupid-code-walk-find-variables
-		(cons
-		 'values
-		 (append before after
-			 (callback-symbol-set
-			  callback-dynamic cbinfo (first callback-dynamic-variables))
-			   ;; &optional/&key/&aux defaults are checked
-			 (let ((auxstart (after-llk arglist)))
-			   (when auxstart
-			     (apply
-			      'append
-			      (mapcar 'rest (remove-if 'atom auxstart)))))))))))
+	      (remove-duplicates
+	       (union
+		(if mapdown
+		    (apply 'union
+			   (mapcar 'variables-used-in-c-arguments c-arguments))
+		    (variables-used-in-c-arguments c-arguments))
+		;; Forms in :before, :after are checked for used variables
+		(stupid-code-walk-find-variables
+		 (cons
+		  'values
+		  (append before after
+			  (callback-symbol-set
+			   callback-dynamic cbinfo (first callback-dynamic-variables))
+			  ;; &optional/&key/&aux defaults are checked
+			  (let ((auxstart (after-llk arglist)))
+			    (when auxstart
+			      (apply
+			       'append
+			       (mapcar 'rest (remove-if 'atom auxstart)))))))))))
 	     (first callback-dynamic-variables))
 	   ,@(when documentation (list documentation))
 	   ,(funcall body-maker name arglist gsl-name c-arguments key-args))
