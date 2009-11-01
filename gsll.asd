@@ -138,6 +138,7 @@
             :components
             ((:file "fft-complex")
              (:file "fft-real")
+             (:file "fft-half-complex" :depends-on ("fft-real"))
              (:file "fft-example" :depends-on ("fft-complex" "fft-real"))))
    (:module random
 	    :depends-on (init data)
