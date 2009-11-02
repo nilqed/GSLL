@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2009-09-19 18:54:29EDT gsll.asd>
+;; Time-stamp: <2009-11-01 23:01:16EST gsll.asd>
 
 (when (asdf:find-system :fsbv nil)
   (pushnew :fsbv *features*))
@@ -139,8 +139,9 @@
             ((:file "fft-complex")
              (:file "fft-real")
              (:file "fft-half-complex" :depends-on ("fft-real"))
+             (:file "forward")
              (:file "fft-interface" :depends-on ("fft-complex" "fft-half-complex" "fft-real"))
-             (:file "fft-example" :depends-on ("fft-complex" "fft-real"))))
+	     (:file "fft-interface-example")))
    (:module random
 	    :depends-on (init data)
 	    :components

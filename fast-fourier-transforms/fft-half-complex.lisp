@@ -1,5 +1,6 @@
 ;; Functions for fast fourier transforms on real data.
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 20:12
+;; Time-stamp: <2009-11-01 23:04:46EST fft-half-complex.lisp>
 
 ;; /usr/include/gsl/gsl_fft_halfcomplex.h
 ;; /usr/include/gsl/gsl_fft_halfcomplex_float.h
@@ -7,18 +8,6 @@
 (in-package :gsl)
 
 ;; Power of 2 functions
-
-(defmfun fft-half-complex-radix2-transform
-    ((vector vector) &key (stride 1) (n (expt 2 (floor (log (size vector) 2)))))
-  ("gsl_fft_halfcomplex" :type "_radix2_transform")
-  (((c-pointer vector) :pointer) (stride sizet) (n sizet))
-  :definition :generic
-  :element-types :float
-  :inputs (vector)
-  :outputs (vector)
-  :return (vector)
-  :documentation
-  "Forward FFT for a half-complex radix-2 vector")
 
 (defmfun fft-half-complex-radix2-backward
     ((vector vector) &key (stride 1) (n (expt 2 (floor (log (size vector) 2)))))
@@ -62,7 +51,7 @@
 
 ;; Mixed Radix general-N functions
 
-(defmobject fft-half-complex-wavetable
+(defmobject fft-half-complex-wavetable-double-float
     "gsl_fft_halfcomplex_wavetable" ((n sizet))
   "structure that holds the factorization and trigonometric lookup tables for
   the mixed radix halfcomplex fft algorithm"
@@ -83,7 +72,7 @@
   functions. The appropriate type of wavetable must be used for forward real
   or inverse half-complex transforms.")
 
-(defmobject fft-half-complex-wavetable-float
+(defmobject fft-half-complex-wavetable-single-float
     "gsl_fft_halfcomplex_wavetable_float" ((n sizet))
   "structure that holds the factorization and trigonometric lookup tables for
   the mixed radix real float fft algorithm"
@@ -104,29 +93,14 @@
   functions. The appropriate type of wavetable must be used for forward real
   or inverse half-complex transforms.")
 
-(defmfun fft-half-complex-transform
-    ((vector vector) &key (stride 1) (n (size vector))
-                     (wavetable (eltcase single-float (make-fft-half-complex-wavetable-float (size vector))
-                                         double-float (make-fft-half-complex-wavetable (size vector))))
-                     (workspace (eltcase single-float (make-fft-real-workspace-float (size vector))
-                                         double-float (make-fft-real-workspace (size vector)))))
-  ("gsl_fft_halfcomplex" :type "_transform")
-  (((c-pointer vector) :pointer) (stride sizet) (n sizet)
-   ((mpointer wavetable) :pointer) ((mpointer workspace) :pointer))
-  :definition :generic
-  :element-types :float
-  :inputs (vector)
-  :outputs (vector)
-  :return (vector)
-  :documentation
-  "Forward FFT for a half-complex vector")
-
 (defmfun fft-half-complex-backward
     ((vector vector) &key (stride 1) (n (size vector))
-                     (wavetable (eltcase single-float (make-half-complex-wavetable-float (size vector))
-                                         double-float (make-half-complex-wavetable (size vector))))
-                     (workspace (eltcase single-float (make-real-workspace-float (size vector))
-                                         double-float (make-real-workspace (size vector)))))
+     (wavetable
+      (eltcase single-float (make-half-complex-wavetable-single-float (size vector))
+	       double-float (make-half-complex-wavetable-double-float (size vector))))
+     (workspace
+      (eltcase single-float (make-real-workspace-single-float (size vector))
+	       double-float (make-real-workspace-double-float (size vector)))))
   ("gsl_fft_halfcomplex" :type "_backward")
   (((c-pointer vector) :pointer) (stride sizet) (n sizet)
    ((mpointer wavetable) :pointer) ((mpointer workspace) :pointer))
@@ -140,10 +114,12 @@
 
 (defmfun fft-half-complex-inverse
     ((vector vector) &key (stride 1) (n (size vector))
-                     (wavetable (eltcase single-float (make-half-complex-wavetable-float (size vector))
-                                         double-float (make-half-complex-wavetable (size vector))))
-                     (workspace (eltcase single-float (make-real-workspace-float (size vector))
-                                         double-float (make-real-workspace (size vector)))))
+     (wavetable
+      (eltcase single-float (make-half-complex-wavetable-single-float (size vector))
+	       double-float (make-half-complex-wavetable-double-float (size vector))))
+     (workspace
+      (eltcase single-float (make-real-workspace-single-float (size vector))
+	       double-float (make-real-workspace-double-float (size vector)))))
   ("gsl_fft_halfcomplex" :type "_inverse")
   (((c-pointer vector) :pointer) (stride sizet) (n sizet)
    ((mpointer wavetable) :pointer) ((mpointer workspace) :pointer))

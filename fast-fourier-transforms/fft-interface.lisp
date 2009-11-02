@@ -1,11 +1,8 @@
 ;; A dirty hack to attempt to make a cleaner interface to the FFTs.
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 23:48
+;; Time-stamp: <2009-11-01 22:47:41EST fft-interface.lisp>
 
 (in-package :gsl)
-
-;; Utility to determine if a vector can use a radix-2 transform.
-(defun number-is-radix2 (num)
-  (= 1 (logcount num)))
 
 ;; Generalised ways of making wavetables
 (export 'make-fft-wavetable)
@@ -15,29 +12,29 @@
   transform on a half-complex vector."
   (cond ((eql element-type 'single-float)
          (if half-complex
-           (make-fft-half-complex-wavetable-float dimension)
-           (make-fft-real-wavetable-float dimension)))
+           (make-fft-half-complex-wavetable-single-float dimension)
+           (make-fft-real-wavetable-single-float dimension)))
         ((eql element-type 'double-float)
          (if half-complex
-           (make-fft-real-wavetable dimension)
-           (make-fft-half-complex-wavetable dimension)))
+           (make-fft-real-wavetable-double-float dimension)
+           (make-fft-half-complex-wavetable-double-float dimension)))
         ((equal element-type '(complex single-float))
-         (make-fft-complex-wavetable-float dimension))
+         (make-fft-complex-wavetable-single-float dimension))
         ((equal element-type '(complex double-float))
-         (make-fft-complex-wavetable dimension))))
+         (make-fft-complex-wavetable-double-float dimension))))
 
 ;; Generalised ways of making workspaces
 (export 'make-fft-workspace)
 (defun make-fft-workspace (element-type dimension)
   "Make a wavetable for an FFT of the given element type and length."
   (cond ((eql element-type 'single-float)
-         (make-fft-real-workspace-float dimension))
+         (make-fft-real-workspace-single-float dimension))
         ((eql element-type 'double-float)
-         (make-fft-real-workspace dimension))
+         (make-fft-real-workspace-double-float dimension))
         ((equal element-type '(complex single-float))
-         (make-fft-complex-workspace-float dimension))
+         (make-fft-complex-workspace-single-float dimension))
         ((equal element-type '(complex double-float))
-         (make-fft-complex-workspace dimension))))
+         (make-fft-complex-workspace-double-float dimension))))
 
 
 ;; An environment to allow more efficient FFTs of the same type and length
@@ -61,59 +58,6 @@
 
 ;;; General FFT functions
 
-;; Power of 2 functions
-(defmfun forward-fourier-transform-radix2
-    ((vector vector) &key (stride 1) (n (expt 2 (floor (log (size vector) 2)))))
-  (double-float "gsl_fft_real_radix2_transform"
-   single-float "gsl_fft_real_float_radix2_transform"
-   complex-double-float "gsl_fft_complex_radix2_forward"
-   complex-single-float "gsl_fft_complex_float_radix2_forward")
-  (((c-pointer vector) :pointer) (stride sizet) (n sizet))
-  :definition :generic
-  :element-types :float-complex
-  :inputs (vector)
-  :outputs (vector)
-  :return (vector)
-  :documentation
-  "Forward FFT for a real radix-2 vector")
-
-(defmfun forward-fourier-transform-nonradix2
-    ((vector vector) &key (stride 1) (n (size vector))
-     (wavetable (eltcase single-float (make-fft-real-wavetable-float (size vector))
-			 double-float (make-fft-real-wavetable (size vector))))
-     (workspace (eltcase single-float (make-fft-real-workspace-float (size vector))
-			 double-float (make-fft-real-workspace (size vector)))))
-  (double-float "gsl_fft_real_transform"
-   single-float "gsl_fft_real_float_transform"
-   complex-double-float "gsl_fft_complex_forward"
-   complex-single-float "gsl_fft_complex_float_forward")
-  ("gsl_fft_real" :type "_transform")
-  (((c-pointer vector) :pointer) (stride sizet) (n sizet)
-   ((mpointer wavetable) :pointer) ((mpointer workspace) :pointer))
-  :definition :generic
-  :element-types :float
-  :inputs (vector)
-  :outputs (vector)
-  :return (vector)
-  :documentation
-  "Forward FFT for a real vector")
-
-(export 'forward-fourier-transform)
-(defun forward-fourier-transform (vector &key wavetable workspace)
-  "Generalised forward FFT. Perform a forward FFT on the given vector. If the
-  length of the vector is not a power of 2, and the user has a suitable
-  wavetable and/or workspace, these can be supplied as keyword arguments."
-  (let ((el-type (element-type vector))
-        (len (size vector)))
-    (if (number-is-radix2 len)
-	(forward-fourier-transform-radix2 vector)
-	(progn (unless wavetable
-		 (setf wavetable (make-fft-wavetable el-type len nil)))
-	       (unless workspace
-		 (setf workspace (make-fft-workspace el-type len)))
-	       (forward-fourier-transform-radix2
-		vector :wavetable wavetable :workspace workspace)))))
-
 (export 'backward-fourier-transform)
 (defun backward-fourier-transform (vector &key wavetable workspace)
   "Generalised backward FFT. Perform a backward FFT on the given vector. If
@@ -124,7 +68,7 @@
   half-complex data."
   (let ((el-type (element-type vector))
         (len (size vector)))
-    (if (number-is-radix2 len)
+    (if (power-of-2-p len)
       (cond ((subtypep el-type 'float)
              (fft-half-complex-radix2-backward vector))
             ((subtypep el-type 'complex)
@@ -150,7 +94,7 @@
   half-complex data."
   (let ((el-type (element-type vector))
         (len (size vector)))
-    (if (number-is-radix2 len)
+    (if (power-of-2-p len)
       (cond ((subtypep el-type 'float)
              (fft-half-complex-radix2-inverse vector))
             ((subtypep el-type 'complex)

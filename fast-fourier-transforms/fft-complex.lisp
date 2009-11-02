@@ -1,5 +1,6 @@
 ;; Functions for fast fourier transforms on complex data.
 ;; Sumant Oemrawsingh, Sat Oct 24 2009 - 12:55
+;; Time-stamp: <2009-11-01 22:46:09EST fft-complex.lisp>
 
 ;; /usr/include/gsl/gsl_fft_complex.h
 ;; /usr/include/gsl/gsl_fft_complex_float.h
@@ -99,7 +100,7 @@
 
 ;; Mixed Radix general-N functions
 
-(defmobject fft-complex-wavetable
+(defmobject fft-complex-wavetable-double-float
     "gsl_fft_complex_wavetable" ((n sizet))
   "structure that holds the factorization and trigonometric lookup tables for
   the mixed radix complex fft algorithm"
@@ -120,7 +121,7 @@
   functions. The same wavetable can be used for both forward and backward (or
   inverse) transforms of a given length.")
 
-(defmobject fft-complex-wavetable-float
+(defmobject fft-complex-wavetable-single-float
     "gsl_fft_complex_wavetable_float" ((n sizet))
   "structure that holds the factorization and trigonometric lookup tables for
   the mixed radix complex float fft algorithm"
@@ -141,15 +142,14 @@
   functions. The same wavetable can be used for both forward and backward (or
   inverse) transforms of a given length.")
 
-
-(defmobject fft-complex-workspace
+(defmobject fft-complex-workspace-double-float
     "gsl_fft_complex_workspace" ((n sizet))
   "Structure that holds the additional working space required for the
   intermediate steps of the mixed radix complex fft algoritms"
   :documentation
   "This function allocates a workspace for a complex transform of length n.")
 
-(defmobject fft-complex-workspace-float
+(defmobject fft-complex-workspace-single-float
     "gsl_fft_complex_workspace_float" ((n sizet))
   "Structure that holds the additional working space required for the
   intermediate steps of the mixed radix complex float fft algoritms"
@@ -157,30 +157,14 @@
   "This function allocates a workspace for a complex float transform of length
   n.")
 
-
-(defmfun fft-complex-forward
-    ((vector vector) &key (stride 1) (n (size vector))
-                     (wavetable (eltcase (complex single-float) (make-fft-complex-wavetable-float (size vector))
-                                         (complex double-float) (make-fft-complex-wavetable (size vector))))
-                     (workspace (eltcase (complex single-float) (make-fft-complex-workspace-float (size vector))
-                                         (complex double-float) (make-fft-complex-workspace (size vector)))))
-  ("gsl_fft" :type "_forward")
-  (((c-pointer vector) :pointer) (stride sizet) (n sizet)
-   ((mpointer wavetable) :pointer) ((mpointer workspace) :pointer))
-  :definition :generic
-  :element-types :complex
-  :inputs (vector)
-  :outputs (vector)
-  :return (vector)
-  :documentation
-  "Forward FFT for a complex vector")
-
 (defmfun fft-complex-backward
     ((vector vector) &key (stride 1) (n (size vector))
-                     (wavetable (eltcase (complex single-float) (make-fft-complex-wavetable-float (size vector))
-                                         (complex double-float) (make-fft-complex-wavetable (size vector))))
-                     (workspace (eltcase (complex single-float) (make-fft-complex-workspace-float (size vector))
-                                         (complex double-float) (make-fft-complex-workspace (size vector)))))
+     (wavetable
+      (eltcase (complex single-float) (make-fft-complex-wavetable-single-float (size vector))
+	       (complex double-float) (make-fft-complex-wavetable-double-float (size vector))))
+     (workspace
+      (eltcase (complex single-float) (make-fft-complex-workspace-single-float (size vector))
+	       (complex double-float) (make-fft-complex-workspace-double-float (size vector)))))
   ("gsl_fft" :type "_backward")
   (((c-pointer vector) :pointer) (stride sizet) (n sizet)
    ((mpointer wavetable) :pointer) ((mpointer workspace) :pointer))
@@ -194,10 +178,10 @@
 
 (defmfun fft-complex-inverse
     ((vector vector) &key (stride 1) (n (size vector))
-                     (wavetable (eltcase (complex single-float) (make-fft-complex-wavetable-float (size vector))
-                                         (complex double-float) (make-fft-complex-wavetable (size vector))))
-                     (workspace (eltcase (complex single-float) (make-fft-complex-workspace-float (size vector))
-                                         (complex double-float) (make-fft-complex-workspace (size vector)))))
+                     (wavetable (eltcase (complex single-float) (make-fft-complex-wavetable-single-float (size vector))
+                                         (complex double-float) (make-fft-complex-wavetable-double-float (size vector))))
+                     (workspace (eltcase (complex single-float) (make-fft-complex-workspace-single-float (size vector))
+                                         (complex double-float) (make-fft-complex-workspace-double-float (size vector)))))
   ("gsl_fft" :type "_inverse")
   (((c-pointer vector) :pointer) (stride sizet) (n sizet)
    ((mpointer wavetable) :pointer) ((mpointer workspace) :pointer))
@@ -208,5 +192,3 @@
   :return (vector)
   :documentation
   "Inverse FFT for a complex vector")
-
-
