@@ -1,6 +1,6 @@
 ;; Functions for fast fourier transforms on real data.
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 20:12
-;; Time-stamp: <2009-11-01 23:04:46EST fft-half-complex.lisp>
+;; Time-stamp: <2009-11-03 23:02:17EST fft-half-complex.lisp>
 
 ;; /usr/include/gsl/gsl_fft_halfcomplex.h
 ;; /usr/include/gsl/gsl_fft_halfcomplex_float.h
@@ -32,22 +32,6 @@
   :return (vector)
   :documentation
   "Inverse FFT for a half-complex radix-2 vector")
-
-(defmfun fft-half-complex-radix2-unpack
-         ((h-complex vector)
-          &key (stride 1) (n (expt 2 (floor (log (size h-complex) 2))))
-          (complex-output (eltcase single-float (make-marray '(complex single-float) :dimensions n)
-                                        t (make-marray '(complex double-float) :dimensions n))))
-  ("gsl_fft_halfcomplex" :type "_radix2_unpack")
-  (((c-pointer h-complex) :pointer) ((c-pointer complex-output) :pointer) (stride sizet) (n sizet))
-  :definition :generic
-  :element-types :float
-  :inputs (h-complex complex-output)
-  :outputs (complex-output)
-  :return (complex-output)
-  :documentation
-  "Convert an array of half-complex coefficients as returned by
-  real-fft-radix2-transform, into an ordinary complex array.")
 
 ;; Mixed Radix general-N functions
 
@@ -131,20 +115,3 @@
   :documentation
   "Forward FFT for a half-complex vector")
 
-(defmfun fft-half-complex-unpack
-         ((h-complex vector)
-          &key (stride 1) (n (size h-complex))
-          (complex-output (eltcase single-float (make-marray '(complex single-float) :dimensions n)
-                                        t (make-marray '(complex double-float) :dimensions n))))
-  ("gsl_fft_halfcomplex" :type "_unpack")
-  (((c-pointer h-complex) :pointer) ((c-pointer complex-output) :pointer) (stride sizet) (n sizet))
-  :definition :generic
-  :element-types :float
-  :inputs (h-complex complex-output)
-  :outputs (complex-output)
-  :return (complex-output)
-  :documentation
-  "This function converts an array of half-complex
-  coefficients as returned by fft-real-transform, into an ordinary complex
-  array. It fills in the complex array using the symmetry z_k = z_{n-k}^* to
-  reconstruct the redundant elements.")

@@ -1,6 +1,6 @@
 ;; Functions for fast fourier transforms on real data.
 ;; Sumant Oemrawsingh, Sun Oct 25 2009 - 16:35
-;; Time-stamp: <2009-11-01 22:41:14EST fft-real.lisp>
+;; Time-stamp: <2009-11-03 23:02:17EST fft-real.lisp>
 
 ;; /usr/include/gsl/gsl_fft_real.h
 ;; /usr/include/gsl/gsl_fft_real_float.h
@@ -65,21 +65,3 @@
   :documentation
   "This function allocates a workspace for a real float transform of length
   n.")
-
-(defmfun fft-real-unpack
-    ((vector vector)
-     &key (stride 1) (n (size vector))
-     (complex-output
-      (eltcase single-float (make-marray '(complex single-float) :dimensions n)
-	       t (make-marray '(complex double-float) :dimensions n))))
-  ("gsl_fft_real" :type "_unpack")
-  (((c-pointer vector) :pointer) ((c-pointer complex-output) :pointer) (stride sizet) (n sizet))
-  :definition :generic
-  :element-types :float
-  :inputs (vector complex-output)
-  :outputs (complex-output)
-  :return (complex-output)
-  :documentation
-  "This function converts a single real array into an equivalent complex
-  array (with imaginary part set to zero), suitable for fft-complex
-  routines.")
