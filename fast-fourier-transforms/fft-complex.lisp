@@ -1,6 +1,6 @@
 ;; Functions for fast fourier transforms on complex data.
 ;; Sumant Oemrawsingh, Sat Oct 24 2009 - 12:55
-;; Time-stamp: <2009-11-01 22:46:09EST fft-complex.lisp>
+;; Time-stamp: <2009-11-03 22:21:07EST fft-complex.lisp>
 
 ;; /usr/include/gsl/gsl_fft_complex.h
 ;; /usr/include/gsl/gsl_fft_complex_float.h
@@ -48,18 +48,6 @@
 ;; These are decimation-in-frequency versions of the radix-2 FFT functions.
 ;; I don't know what they are and how they are supposed to work, so I don't
 ;; know if they work.
-
-(defmfun fft-complex-radix2-dif-forward
-    ((vector vector) &key (stride 1) (n (expt 2 (floor (log (size vector) 2)))))
-  ("gsl_fft" :type "_radix2_dif_forward")
-  (((c-pointer vector) :pointer) (stride sizet) (n sizet))
-  :definition :generic
-  :element-types :complex
-  :inputs (vector)
-  :outputs (vector)
-  :return (vector)
-  :documentation
-  "Decimation-in-frequency version of the forward FFT for a complex radix-2 vector")
 
 (defmfun fft-complex-radix2-dif-backward
   ((vector vector) &key (stride 1) (n (expt 2 (floor (log (size vector) 2)))))

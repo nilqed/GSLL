@@ -1,6 +1,6 @@
 ;; FFT transforms
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 23:48
-;; Time-stamp: <2009-11-01 22:43:18EST forward.lisp>
+;; Time-stamp: <2009-11-03 22:14:37EST forward.lisp>
 
 (in-package :gsl)
 
@@ -106,6 +106,24 @@
    in half complex form.")
 
 ;;;;****************************************************************************
+;;;; Decimation-in-frequency forward FFT
+;;;;****************************************************************************
+
+(defmfun forward-fourier-transform-dif-radix2 ((vector vector) &key (stride 1))
+  ("gsl_fft" :type "_radix2_dif_forward")
+  (((c-pointer vector) :pointer) (stride sizet) ((size vector) sizet))
+  :definition :generic
+  :element-types :complex
+  :inputs (vector)
+  :outputs (vector)
+  :return (vector)
+  :export nil
+  :index forward-fourier-transform
+  :documentation
+  "Forward decimation-in-frequency FFT on a vector for which (floor
+  length stride) is a power of 2.")
+
+;;;;****************************************************************************
 ;;;; Unified function forward-fourier-transform
 ;;;;****************************************************************************
 
@@ -117,7 +135,8 @@
 ;;; This selects among the 12 forward FFT functions that GSL defines.
 (export 'forward-fourier-transform)
 (defun forward-fourier-transform
-    (vector &rest args &key half-complex (stride 1) &allow-other-keys)
+    (vector &rest args
+     &key half-complex decimation-in-frequency (stride 1) &allow-other-keys)
   "Perform a forward fast Fourier transform on the given vector. If
   the length of the vector is not a power of 2, and the user has a
   suitable wavetable and/or workspace, these can be supplied as
@@ -125,11 +144,14 @@
   then the key argument :half-complex should be non-NIL."
   (let ((pass-on-args (copy-list args)))
     (remf pass-on-args :half-complex)
+    (remf pass-on-args :decimation-in-frequency)
     (if (power-of-2-p (floor (size vector) stride))
 	(if half-complex
 	    (apply 'forward-fourier-transform-halfcomplex-radix2
 		   vector pass-on-args)
-	    (apply 'forward-fourier-transform-radix2 vector pass-on-args))
+	    (if decimation-in-frequency
+		(apply 'forward-fourier-transform-dif-radix2 vector pass-on-args)
+		(apply 'forward-fourier-transform-radix2 vector pass-on-args)))
 	(if half-complex
 	    (apply 'forward-fourier-transform-halfcomplex-nonradix2
 		   vector pass-on-args)
