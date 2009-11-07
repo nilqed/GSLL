@@ -1,6 +1,6 @@
-;; FFT transforms
+;; Forward FFT.
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 23:48
-;; Time-stamp: <2009-11-03 22:14:37EST forward.lisp>
+;; Time-stamp: <2009-11-07 09:28:54EST forward.lisp>
 
 (in-package :gsl)
 
@@ -15,7 +15,7 @@
 ;;;; Forward transformation
 ;;;;****************************************************************************
 
-;; Forward transformations where the size is a power of 2
+;;; Forward transformations where the size is a power of 2
 (defmfun forward-fourier-transform-radix2 ((vector vector) &key (stride 1))
   (double-float "gsl_fft_real_radix2_transform"
    single-float "gsl_fft_real_float_radix2_transform"
@@ -132,7 +132,7 @@
   "The integer is a power of 2."
   (= 1 (logcount num)))
 
-;;; This selects among the 12 forward FFT functions that GSL defines.
+;;; This selects among the 14 forward FFT functions that GSL defines.
 (export 'forward-fourier-transform)
 (defun forward-fourier-transform
     (vector &rest args

@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2009-11-03 23:23:15EST gsll.asd>
+;; Time-stamp: <2009-11-07 10:50:09EST gsll.asd>
 
 (when (asdf:find-system :fsbv nil)
   (pushnew :fsbv *features*))
@@ -136,13 +136,13 @@
    (:module fast-fourier-transforms
             :depends-on (init data)
             :components
-            ((:file "fft-complex")
-             (:file "fft-real")
-             (:file "fft-half-complex" :depends-on ("fft-real"))
-             (:file "forward")
+            ((:file "wavetable-workspace")
+	     (:file "forward")
+             (:file "backward")
+             (:file "inverse")
+             (:file "select-direction")
              (:file "unpack")
-             (:file "fft-interface" :depends-on ("fft-complex" "fft-half-complex" "fft-real"))
-	     (:file "fft-interface-example")))
+	     (:file "example")))
    (:module random
 	    :depends-on (init data)
 	    :components
