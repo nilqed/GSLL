@@ -1,6 +1,6 @@
 ;; Definition of GSL objects and ways to use them.
 ;; Liam Healy, Sun Dec  3 2006 - 10:21
-;; Time-stamp: <2009-08-25 20:45:31EDT mobject.lisp>
+;; Time-stamp: <2009-11-07 11:21:10EST mobject.lisp>
 
 ;;; GSL objects are represented in GSLL as and instance of a 'mobject.
 ;;; The macro demobject takes care of defining the appropriate
@@ -61,7 +61,7 @@
     (class prefix allocation-args description 
      &key documentation initialize-suffix initialize-name initialize-args
      arglists-function inputs gsl-version allocator allocate-inputs freer
-     ((:callbacks cbinfo))
+     ((:callbacks cbinfo)) (export t)
      (superclasses (if cbinfo '(callback-included) '(mobject)))
      singular switch ri-c-return)
   "Define the class, the allocate, initialize-instance and
@@ -114,7 +114,7 @@
 		    cbinfo
 		    superclasses
 		    switch ri-c-return))
-	   (export '(,maker ,class))
+	   ,@(when export `((export '(,maker ,class))))
 	   ,@(when cbinfo `((record-callbacks-for-class ',class ',cbinfo)))
 	   ,@(when cbinfo (make-mobject-defmcallbacks cbinfo class))
 	   ,(mobject-maker
@@ -122,7 +122,7 @@
 	     description documentation initialize-args initializerp settingp
 	     singular cbinfo))
 	`(progn
-	   (export ',maker)
+	   ,@(when export `((export ',maker)))
 	   (defun ,maker (&rest args)
 	     (declare (ignore args))
 	     (error 'obsolete-gsl-version

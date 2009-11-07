@@ -1,8 +1,13 @@
 ;; Wavetable and workspace object definitions.
 ;; Sumant Oemrawsingh, Sun Oct 25 2009 - 16:35
-;; Time-stamp: <2009-11-07 10:38:29EST wavetable-workspace.lisp>
+;; Time-stamp: <2009-11-07 11:24:02EST wavetable-workspace.lisp>
 
 (in-package :gsl)
+
+;;; Define the wavetables and workspaces needed for non-power-of-2
+;;; dimension vectors.  These mobjects and their makers are not
+;;; exported; instead, the user should call
+;;; make-fft-wavetable and make-fft-workspace.
 
 ;;;;****************************************************************************
 ;;;; Real
@@ -15,6 +20,7 @@
     "gsl_fft_real_wavetable" ((n sizet))
   "structure that holds the factorization and trigonometric lookup tables for
   the mixed radix real fft algorithm"
+  :export nil
   :documentation
   "These functions prepare trigonometric lookup tables for an FFT of size n
   real elements. The functions return a pointer to the newly allocated struct
@@ -36,6 +42,7 @@
     "gsl_fft_real_wavetable_float" ((n sizet))
   "structure that holds the factorization and trigonometric lookup tables for
   the mixed radix real float fft algorithm"
+  :export nil
   :documentation
   "These functions prepare trigonometric lookup tables for an FFT of size n
   real float elements. The functions return a pointer to the newly allocated
@@ -57,6 +64,7 @@
     "gsl_fft_real_workspace" ((n sizet))
   "Structure that holds the additional working space required for the
   intermediate steps of the mixed radix real fft algoritms"
+  :export nil
   :documentation
   "This function allocates a workspace for a real transform of length n.")
 
@@ -64,6 +72,7 @@
     "gsl_fft_real_workspace_float" ((n sizet))
   "Structure that holds the additional working space required for the
   intermediate steps of the mixed radix real float fft algoritms"
+  :export nil
   :documentation
   "This function allocates a workspace for a real float transform of length
   n.")
@@ -79,6 +88,7 @@
     "gsl_fft_complex_wavetable" ((n sizet))
   "structure that holds the factorization and trigonometric lookup tables for
   the mixed radix complex fft algorithm"
+  :export nil
   :documentation
   "This function prepares a trigonometric lookup table for a complex FFT of
   length n. The function returns a pointer to the newly allocated
@@ -100,6 +110,7 @@
     "gsl_fft_complex_wavetable_float" ((n sizet))
   "structure that holds the factorization and trigonometric lookup tables for
   the mixed radix complex float fft algorithm"
+  :export nil
   :documentation
   "This function prepares a trigonometric lookup table for a complex float FFT
   of length n. The function returns a pointer to the newly allocated
@@ -121,6 +132,7 @@
     "gsl_fft_complex_workspace" ((n sizet))
   "Structure that holds the additional working space required for the
   intermediate steps of the mixed radix complex fft algoritms"
+  :export nil
   :documentation
   "This function allocates a workspace for a complex transform of length n.")
 
@@ -128,6 +140,7 @@
     "gsl_fft_complex_workspace_float" ((n sizet))
   "Structure that holds the additional working space required for the
   intermediate steps of the mixed radix complex float fft algoritms"
+  :export nil
   :documentation
   "This function allocates a workspace for a complex float transform of length
   n.")
@@ -143,6 +156,7 @@
     "gsl_fft_halfcomplex_wavetable" ((n sizet))
   "structure that holds the factorization and trigonometric lookup tables for
   the mixed radix halfcomplex fft algorithm"
+  :export nil
   :documentation
   "These functions prepare trigonometric lookup tables for an FFT of size n
   real elements. The functions return a pointer to the newly allocated struct
@@ -164,6 +178,7 @@
     "gsl_fft_halfcomplex_wavetable_float" ((n sizet))
   "structure that holds the factorization and trigonometric lookup tables for
   the mixed radix real float fft algorithm"
+  :export nil
   :documentation
   "These functions prepare trigonometric lookup tables for an FFT of size n
   real float elements. The functions return a pointer to the newly allocated
@@ -185,7 +200,7 @@
 ;;;; General makers
 ;;;;****************************************************************************
 
-;; Generalised ways of making wavetables
+;;; Generalised ways of making wavetables
 (export 'make-fft-wavetable)
 (defun make-fft-wavetable (element-type dimension &optional (half-complex nil))
   "Make a wavetable for an FFT of the given element type and length. T can be
@@ -204,7 +219,7 @@
         ((equal element-type '(complex double-float))
          (make-fft-complex-wavetable-double-float dimension))))
 
-;; Generalised ways of making workspaces
+;;; Generalised ways of making workspaces
 (export 'make-fft-workspace)
 (defun make-fft-workspace (element-type dimension)
   "Make a wavetable for an FFT of the given element type and length."
@@ -217,7 +232,7 @@
         ((equal element-type '(complex double-float))
          (make-fft-complex-workspace-double-float dimension))))
 
-;; An environment to allow more efficient FFTs of the same type and length
+;;; An environment to allow more efficient FFTs of the same type and length
 (export 'with-fourier-transform-environment)
 (defmacro with-fourier-transform-environment
   ((wavetable workspace element-type dimension &optional (half-complex nil))
