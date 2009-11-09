@@ -48,7 +48,7 @@ even for someone not intending to program in Lisp.
 
 <p>Topics include: polynomials, special functions, vectors and
 matrices, permutations, sorting, linear algebra including BLAS,
-eigensystems, fast Fourier transforms, quadrature, random numbers,
+eigensystems, fast Fourier transforms (FFT), quadrature, random numbers,
 quasi-random sequences, random distributions, statistics, histograms,
 N-tuples, Monte Carlo integration, simulated annealing, ordinary
 differential equations, interpolation, numerical integration,
@@ -178,16 +178,19 @@ Then in Lisp, load the system:
   <p>Please see <a href="status.text">status.text</a> for known failures.
  <h3>With <a href="http://common-lisp.net/project/clbuild/">clbuild</a></h3>
 <p>
+  First, make sure that the development versions of GSL and libffi are
+ loaded, e.g. in Debian/Ubuntu <code>libgsl0-dev</code>
+ and <code>libffi-dev</code>. 
+<p>
  Add the following to <code>wnpp-projects</code>:
   <ul>
     <li><code>gsll get_git git://repo.or.cz/gsll.git</code></li>
     <li><code>fsbv get_git git://repo.or.cz/fsbv.git</code></li>
-    <li><code>trivial-garbage get_darcs http://common-lisp.net/~loliveira/darcs/trivial-garbage</code></li>
-    <li><code>cl-utilities get_cvs_clnet</code></li>
+    <li><code>lisp-unit get_git git://repo.or.cz/lisp-unit.git</code></li>
   </ul>
 <p>and add
   <ul>
-    <li><code>gsll cffi trivial-garbage cl-utilities</code></li>
+    <li><code>gsll cffi trivial-garbage cl-utilities lisp-unit fsbv iterate asdf-system-connections</code></li>
   </ul>
 <p>
 to <code>dependencies</code> and execute
@@ -434,7 +437,7 @@ and arrays used internally or for function return.
 <!-- Created: Feb 25 2005 -->
 <!-- hhmts start -->
 <small>
-Time-stamp: <2009-11-01 22:50:22EST index.html>
+Time-stamp: <2009-11-09 15:27:51EST index.html>
 </small>
 <!-- hhmts end -->
  </div>

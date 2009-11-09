@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2009-11-08 21:37:36EST gsll.asd>
+;; Time-stamp: <2009-11-09 16:04:42EST gsll.asd>
 
 (when (asdf:find-system :fsbv nil)
   (pushnew :fsbv *features*))
@@ -8,8 +8,8 @@
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (asdf:oos 'asdf:load-op :cffi-grovel))
 
-(asdf:defsystem "gsll"
-  :name "gsll"
+(asdf:defsystem GSLL
+  :name "GSLL"
   :description "GNU Scientific Library for Lisp."
   :version "0"
   :author "Liam M. Healy"
@@ -251,6 +251,7 @@
 	     (:file "simulated-annealing")))
    (:file "basis-splines" :depends-on (init data random))
    (:module physical-constants
+	    :depends-on (init)
 	    :components
 	    ((cffi-grovel:grovel-file "mksa")
 	     (cffi-grovel:grovel-file "cgsm")

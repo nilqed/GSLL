@@ -1,6 +1,6 @@
 ;; Inverse FFT
 ;; Sumant Oemrawsingh, Sat Oct 24 2009 - 12:55
-;; Time-stamp: <2009-11-07 10:48:11EST inverse.lisp>
+;; Time-stamp: <2009-11-09 16:31:22EST inverse.lisp>
 
 (in-package :gsl)
 
@@ -30,14 +30,8 @@
 
 (defmfun inverse-fourier-transform-nonradix2
     ((vector vector) &key (stride 1) (n (size vector))
-     (wavetable
-      (eltcase (complex single-float)
-	       (make-fft-complex-wavetable-single-float (size vector))
-	       (complex double-float)
-	       (make-fft-complex-wavetable-double-float (size vector))))
-     (workspace
-      (eltcase (complex single-float) (make-fft-complex-workspace-single-float (size vector))
-	       (complex double-float) (make-fft-complex-workspace-double-float (size vector)))))
+     (wavetable (make-fft-wavetable element-type (size vector)))
+     (workspace (make-fft-workspace element-type (size vector))))
   ("gsl_fft" :type "_inverse")
   (((c-pointer vector) :pointer) (stride sizet) (n sizet)
    ((mpointer wavetable) :pointer) ((mpointer workspace) :pointer))
@@ -73,12 +67,8 @@
 
 (defmfun inverse-fourier-transform-halfcomplex-nonradix2
     ((vector vector) &key (stride 1) (n (size vector))
-     (wavetable
-      (eltcase single-float (make-half-complex-wavetable-single-float (size vector))
-	       double-float (make-half-complex-wavetable-double-float (size vector))))
-     (workspace
-      (eltcase single-float (make-real-workspace-single-float (size vector))
-	       double-float (make-real-workspace-double-float (size vector)))))
+     (wavetable (make-fft-wavetable element-type (size vector) t))
+     (workspace (make-fft-workspace element-type (size vector))))
   ("gsl_fft_halfcomplex" :type "_inverse")
   (((c-pointer vector) :pointer) (stride sizet) (n sizet)
    ((mpointer wavetable) :pointer) ((mpointer workspace) :pointer))

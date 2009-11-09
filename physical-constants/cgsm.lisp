@@ -1,6 +1,6 @@
 ;; Physical constants in the CGSM system
 ;; Liam Healy 2009-05-25 17:01:32EDT cgsm.lisp
-;; Time-stamp: <2009-08-23 10:24:52EDT cgsm.lisp>
+;; Time-stamp: <2009-11-09 12:28:49EST cgsm.lisp>
 ;; $Id: $
 
 (in-package :gsl)
@@ -102,7 +102,7 @@
 (constant (+cgsm-stokes+ GSL_CONST_CGSM_STOKES) :type double-float)
 (constant (+cgsm-faraday+ GSL_CONST_CGSM_FARADAY) :type double-float)
 (constant (+cgsm-electron-charge+ GSL_CONST_CGSM_ELECTRON_CHARGE) :type double-float)
-(constant (+cgsm-gauss+ GSL_CONST_CGSM_GAUSS) :type double-float)
+;;;(constant (+cgsm-gauss+ GSL_CONST_CGSM_GAUSS) :type double-float)
 (constant (+cgsm-stilb+ GSL_CONST_CGSM_STILB) :type double-float)
 (constant (+cgsm-lumen+ GSL_CONST_CGSM_LUMEN) :type double-float)
 (constant (+cgsm-lux+ GSL_CONST_CGSM_LUX) :type double-float)

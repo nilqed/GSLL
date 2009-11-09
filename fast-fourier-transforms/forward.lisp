@@ -1,6 +1,6 @@
 ;; Forward FFT.
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 23:48
-;; Time-stamp: <2009-11-07 09:28:54EST forward.lisp>
+;; Time-stamp: <2009-11-09 16:29:06EST forward.lisp>
 
 (in-package :gsl)
 
@@ -34,20 +34,8 @@
 
 (defmfun forward-fourier-transform-nonradix2
     ((vector vector) &key (stride 1)
-     (wavetable
-      (eltcase single-float (make-fft-real-wavetable-single-float (size vector))
-	       double-float (make-fft-real-wavetable-double-float (size vector))
-	       (complex single-float)
-	       (make-fft-complex-wavetable-single-float (size vector))
-	       (complex double-float)
-	       (make-fft-complex-wavetable-double-float (size vector))))
-     (workspace
-      (eltcase single-float (make-fft-real-workspace-single-float (size vector))
-	       double-float (make-fft-real-workspace-double-float (size vector))
-	       (complex single-float)
-	       (make-fft-complex-workspace-single-float (size vector))
-	       (complex double-float)
-	       (make-fft-complex-workspace-double-float (size vector)))))
+     (wavetable (make-fft-wavetable element-type (size vector)))
+     (workspace (make-fft-workspace element-type (size vector))))
   (double-float "gsl_fft_real_transform"
 		single-float "gsl_fft_real_float_transform"
 		complex-double-float "gsl_fft_complex_forward"
@@ -85,12 +73,8 @@
 
 (defmfun forward-fourier-transform-halfcomplex-nonradix2
     ((vector vector) &key (stride 1)
-     (wavetable
-      (eltcase single-float (make-fft-real-wavetable-single-float (size vector))
-	       double-float (make-fft-real-wavetable-double-float (size vector))))
-     (workspace
-      (eltcase single-float (make-fft-real-workspace-single-float (size vector))
-	       double-float (make-fft-real-workspace-double-float (size vector)))))
+     (wavetable (make-fft-wavetable element-type (size vector) t))
+     (workspace (make-fft-workspace element-type (size vector))))
   ("gsl_fft_halfcomplex" :type "_transform")
   (((c-pointer vector) :pointer) (stride sizet) ((size vector) sizet)
    ((mpointer wavetable) :pointer) ((mpointer workspace) :pointer))

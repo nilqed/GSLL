@@ -1,9 +1,9 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2009-09-26 16:44:38EDT gsll-tests.asd>
+;; Time-stamp: <2009-11-09 16:05:14EST gsll-tests.asd>
 
-(asdf:defsystem "gsll-tests"
-  :name "gsll-tests"
+(asdf:defsystem GSLL-TESTS
+  :name "GSLL-tests"
   :description "Regression (unit) tests for GNU Scientific Library for Lisp."
   :version "0"
   :author "Liam M. Healy"
