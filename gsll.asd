@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2009-11-07 10:50:09EST gsll.asd>
+;; Time-stamp: <2009-11-08 21:37:36EST gsll.asd>
 
 (when (asdf:find-system :fsbv nil)
   (pushnew :fsbv *features*))
@@ -142,6 +142,7 @@
              (:file "inverse")
              (:file "select-direction")
              (:file "unpack")
+             (:file "discrete")
 	     (:file "example")))
    (:module random
 	    :depends-on (init data)

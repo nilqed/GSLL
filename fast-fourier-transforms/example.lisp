@@ -1,6 +1,6 @@
 ;; Example FFT: transform a pulse (using the "clean" fft interface)
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 00:24
-;; Time-stamp: <2009-11-08 21:13:33EST example.lisp>
+;; Time-stamp: <2009-11-08 22:39:41EST example.lisp>
 
 ;;; Here is an example program modelled after the example given in Section
 ;;; 15.3 of the GSL Manual, which computes the FFT of a short pulse. To make
@@ -69,12 +69,9 @@
    See test_real_radix2 in fft/test.mc."
   (multiple-value-bind (complex-vector dft-answer)
       (fft-signal-real-noise element-type size) ; results are complex
-    (let ((real-vector
-	   (make-marray element-type :dimensions (list (* 2 size)))))
-      (loop for i below (total-size real-vector) do
+    (let ((real-vector (make-marray element-type :dimensions (list size))))
+      (loop for i below size do
 	   (setf (maref real-vector i)
-		 (if (evenp i)
-		     (realpart (maref complex-vector (floor i 2)))
-		     (coerce 0 element-type))))
+		 (realpart (maref complex-vector i))))
       (let ((forward-fft (forward-fourier-transform real-vector)))
 	(values dft-answer (unpack forward-fft :unpack-type 'complex))))))
