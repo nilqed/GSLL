@@ -1,6 +1,6 @@
 ;; Example FFT: transform a pulse (using the "clean" fft interface)
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 00:24
-;; Time-stamp: <2009-11-08 22:39:41EST example.lisp>
+;; Time-stamp: <2009-11-09 22:29:03EST example.lisp>
 
 ;;; Here is an example program modelled after the example given in Section
 ;;; 15.3 of the GSL Manual, which computes the FFT of a short pulse. To make
@@ -58,20 +58,23 @@
        (setf (maref vec i) (complex (urand))))
     vec))
 
-(defun fft-signal-real-noise (element-type size)
-  "From generated random data, return the data and DFT.
-   See fft_signal_real_noise in fft/signals.mc."
-  (let ((data (make-urand-vector (list 'complex element-type) size)))
-    (values data (forward-discrete-fourier-transform data))))
+(defun realpart-vector (complex-vector)
+  "The real vector consisting of the real part of the complex vector."
+  (let ((real-vector
+	 (make-marray
+	  (component-float-type (element-type complex-vector))
+	  :dimensions (dimensions complex-vector))))
+    (loop for i below (total-size complex-vector) do
+	 (setf (maref real-vector i)
+	       (realpart (maref complex-vector i))))
+    real-vector))
 
 (defun test-real-radix2 (element-type size)
   "Test for FFT; returns the DFT answer and the computed FFT answer.
    See test_real_radix2 in fft/test.mc."
-  (multiple-value-bind (complex-vector dft-answer)
-      (fft-signal-real-noise element-type size) ; results are complex
-    (let ((real-vector (make-marray element-type :dimensions (list size))))
-      (loop for i below size do
-	   (setf (maref real-vector i)
-		 (realpart (maref complex-vector i))))
-      (let ((forward-fft (forward-fourier-transform real-vector)))
-	(values dft-answer (unpack forward-fft :unpack-type 'complex))))))
+  (let ((random-vector (make-urand-vector (list 'complex element-type) size)))
+    (values
+     (forward-discrete-fourier-transform random-vector)
+     (unpack
+      (forward-fourier-transform (realpart-vector random-vector))
+      :unpack-type 'complex))))
