@@ -15,7 +15,7 @@
      &key (stride 1)
      (result (make-marray element-type :dimensions (dimensions vector))))
   ("gsl_dft" :type "_forward")
-  (((c-pointer vector) :pointer) (stride sizet) ((size vector) sizet)
+  (((c-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
    ((c-pointer result) :pointer))
   :definition :generic
   :element-types :complex
@@ -31,7 +31,7 @@
      &key (stride 1)
      (result (make-marray element-type :dimensions (dimensions vector))))
   ("gsl_dft" :type "_backward")
-  (((c-pointer vector) :pointer) (stride sizet) ((size vector) sizet)
+  (((c-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
    ((c-pointer result) :pointer))
   :definition :generic
   :element-types :complex
@@ -47,7 +47,7 @@
      &key (stride 1)
      (result (make-marray element-type :dimensions (dimensions vector))))
   ("gsl_dft" :type "_inverse")
-  (((c-pointer vector) :pointer) (stride sizet) ((size vector) sizet)
+  (((c-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
    ((c-pointer result) :pointer))
   :definition :generic
   :element-types :complex
@@ -63,7 +63,7 @@
      &key (stride 1)
      (result (make-marray element-type :dimensions (dimensions vector))))
   ("gsl_dft" :type "_transform")
-  (((c-pointer vector) :pointer) (stride sizet) ((size vector) sizet)
+  (((c-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
    ((c-pointer result) :pointer))
   :definition :generic
   :element-types :complex

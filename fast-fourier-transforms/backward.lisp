@@ -15,9 +15,9 @@
 
 ;;; Backward transformations where the size is a power of 2
 (defmfun backward-fourier-transform-radix2
-  ((vector vector) &key (stride 1) (n (expt 2 (floor (log (size vector) 2)))))
+  ((vector vector) &key (stride 1))
   ("gsl_fft" :type "_radix2_backward")
-  (((c-pointer vector) :pointer) (stride sizet) (n sizet))
+  (((c-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet))
   :definition :generic
   :element-types :complex
   :inputs (vector)
@@ -29,11 +29,11 @@
   "Backward FFT on a vector for which (floor length stride) is a power of 2.")
 
 (defmfun backward-fourier-transform-nonradix2
-    ((vector vector) &key (stride 1) (n (size vector))
-     (wavetable (make-fft-wavetable element-type (size vector)))
-     (workspace (make-fft-workspace element-type (size vector))))
+    ((vector vector) &key (stride 1)
+     (wavetable (make-fft-wavetable element-type (floor (size vector) stride)))
+     (workspace (make-fft-workspace element-type (floor (size vector) stride))))
   ("gsl_fft" :type "_backward")
-  (((c-pointer vector) :pointer) (stride sizet) (n sizet)
+  (((c-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
    ((mpointer wavetable) :pointer) ((mpointer workspace) :pointer))
   :definition :generic
   :element-types :complex
@@ -51,9 +51,9 @@
 ;;;;****************************************************************************
 
 (defmfun backward-fourier-transform-halfcomplex-radix2
-    ((vector vector) &key (stride 1) (n (expt 2 (floor (log (size vector) 2)))))
+    ((vector vector) &key (stride 1))
   ("gsl_fft_halfcomplex" :type "_radix2_backward")
-  (((c-pointer vector) :pointer) (stride sizet) (n sizet))
+  (((c-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet))
   :definition :generic
   :element-types :float
   :inputs (vector)
@@ -66,11 +66,11 @@
    in half complex form.")
 
 (defmfun backward-fourier-transform-halfcomplex-nonradix2
-    ((vector vector) &key (stride 1) (n (size vector))
-     (wavetable (make-fft-wavetable element-type (size vector) t))
-     (workspace (make-fft-workspace element-type (size vector))))
+    ((vector vector) &key (stride 1)
+     (wavetable (make-fft-wavetable element-type (floor (size vector) stride) t))
+     (workspace (make-fft-workspace element-type (floor (size vector) stride))))
   ("gsl_fft_halfcomplex" :type "_backward")
-  (((c-pointer vector) :pointer) (stride sizet) (n sizet)
+  (((c-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
    ((mpointer wavetable) :pointer) ((mpointer workspace) :pointer))
   :definition :generic
   :element-types :float
@@ -88,9 +88,9 @@
 ;;;;****************************************************************************
 
 (defmfun backward-fourier-transform-dif-radix2
-  ((vector vector) &key (stride 1) (n (expt 2 (floor (log (size vector) 2)))))
+  ((vector vector) &key (stride 1))
   ("gsl_fft" :type "_radix2_dif_backward")
-  (((c-pointer vector) :pointer) (stride sizet) (n sizet))
+  (((c-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet))
   :definition :generic
   :element-types :complex
   :inputs (vector)
