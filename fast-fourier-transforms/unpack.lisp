@@ -14,13 +14,13 @@
      &key (stride 1)
      (output
 	 (eltcase single-float
-		  (make-marray '(complex single-float) :dimensions (size vector))
+		  (make-marray '(complex single-float) :dimensions (floor (size vector) stride))
 		  t
-		  (make-marray '(complex double-float) :dimensions (size vector)))))
+		  (make-marray '(complex double-float) :dimensions (floor (size vector) stride)))))
   ("gsl_fft_real" :type "_unpack")
   (((c-pointer vector) :pointer)
    ((c-pointer output) :pointer)
-   (stride sizet) ((size vector) sizet))
+   (stride sizet) ((floor (size vector) stride) sizet))
   :definition :generic
   :element-types :float
   :inputs (vector output)
@@ -38,13 +38,13 @@
      &key (stride 1)
      (output
 	 (eltcase single-float
-		  (make-marray '(complex single-float) :dimensions (size vector))
+		  (make-marray '(complex single-float) :dimensions (floor (size vector) stride))
 		  t
-		  (make-marray '(complex double-float) :dimensions (size vector)))))
+		  (make-marray '(complex double-float) :dimensions (floor (size vector) stride)))))
   ("gsl_fft_halfcomplex" :type "_radix2_unpack")
   (((c-pointer vector) :pointer)
    ((c-pointer output) :pointer)
-   (stride sizet) ((size vector) sizet))
+   (stride sizet) ((floor (size vector) stride) sizet))
   :definition :generic
   :element-types :float
   :inputs (vector output)
@@ -61,13 +61,13 @@
      &key (stride 1)
      (output
 	 (eltcase single-float
-		  (make-marray '(complex single-float) :dimensions (size vector))
+		  (make-marray '(complex single-float) :dimensions (floor (size vector) stride))
 		  t
-		  (make-marray '(complex double-float) :dimensions (size vector)))))
+		  (make-marray '(complex double-float) :dimensions (floor (size vector) stride)))))
   ("gsl_fft_halfcomplex" :type "_unpack")
   (((c-pointer vector) :pointer)
    ((c-pointer output) :pointer)
-   (stride sizet) ((size vector) sizet))
+   (stride sizet) ((floor (size vector) stride) sizet))
   :definition :generic
   :element-types :float
   :inputs (vector output)
