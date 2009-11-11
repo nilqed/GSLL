@@ -25,3 +25,24 @@
        collect (list xi (evaluate spline xi :acceleration acc)))))
 
 (save-test interpolation (spline-example 0.1d0))
+
+(defun evaluate-integral-example (&optional (intervals 4))
+  "Evaluate integral of sin(x) in interval 0-pi.  sin(x) is tabulated
+over a 0-2pi interval and interpolated with
++periodic-cubic-spline-interpolation+"
+  (let* ((nodes (1+ intervals))
+	 (max-node (1- nodes))
+	 (xarr 
+	  (loop 
+	     with step = (/ (* 2.0 pi) intervals)
+	     for i from 0 upto max-node
+	     collect (* i step)))
+	 (xmarr (make-marray 'double-float :initial-contents xarr))
+	 ;; cannot use (loop for x on (cl-array xmarr)...) -- c function gives error
+	 (ymarr 
+	  (make-marray 'double-float :initial-contents
+		       (loop for x in xarr
+			  collect (sin x))))
+	 (acc (make-acceleration))
+	 (spline (make-spline +periodic-cubic-spline-interpolation+ xmarr ymarr)))
+  (evaluate-integral spline 0d0 (coerce pi 'double-float) :acceleration acc)))
