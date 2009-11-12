@@ -45,4 +45,7 @@ over a 0-2pi interval and interpolated with
 			  collect (sin x))))
 	 (acc (make-acceleration))
 	 (spline (make-spline +periodic-cubic-spline-interpolation+ xmarr ymarr)))
-  (evaluate-integral spline 0d0 (coerce pi 'double-float) :acceleration acc)))
+  (evaluate-integral spline 0d0
+		     #+clisp(coerce pi 'double-float) ;; pi=3.14..L0 on clisp
+		     #-clisp pi
+		     :acceleration acc)))
