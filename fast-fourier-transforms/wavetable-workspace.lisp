@@ -1,6 +1,6 @@
 ;; Wavetable and workspace object definitions.
 ;; Sumant Oemrawsingh, Sun Oct 25 2009 - 16:35
-;; Time-stamp: <2009-11-07 11:24:02EST wavetable-workspace.lisp>
+;; Time-stamp: <2009-11-11 19:01:48EST wavetable-workspace.lisp>
 
 (in-package :gsl)
 
@@ -212,8 +212,8 @@
            (make-fft-real-wavetable-single-float dimension)))
         ((eql element-type 'double-float)
          (if half-complex
-           (make-fft-real-wavetable-double-float dimension)
-           (make-fft-half-complex-wavetable-double-float dimension)))
+           (make-fft-half-complex-wavetable-double-float dimension)
+           (make-fft-real-wavetable-double-float dimension)))
         ((equal element-type '(complex single-float))
          (make-fft-complex-wavetable-single-float dimension))
         ((equal element-type '(complex double-float))
