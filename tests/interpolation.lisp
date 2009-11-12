@@ -3,7 +3,10 @@
 (in-package :gsl)
 
 (LISP-UNIT:DEFINE-TEST INTERPOLATION
-                       (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
+                       (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
+                        (LIST 1.9999999566460036d0)
+                        (MULTIPLE-VALUE-LIST (EVALUATE-INTEGRAL-EXAMPLE 100)))
+                       (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
                         (LIST
                          (LIST (LIST 0.0d0 1.0d0)
                                (LIST 0.1d0 1.069722939658712d0)
