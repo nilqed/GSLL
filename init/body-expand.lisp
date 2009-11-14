@@ -1,6 +1,6 @@
 ;; Expand the body of a defmfun
 ;; Liam Healy 2009-04-13 22:07:13EDT body-expand.lisp
-;; Time-stamp: <2009-05-03 22:18:13EDT body-expand.lisp>
+;; Time-stamp: <2009-11-14 10:19:46EST body-expand.lisp>
 ;; $Id: $
 
 (in-package :gsl)
@@ -26,19 +26,6 @@
 	     (make-st
 	      (make-symbol (string (st-symbol sd)))
 	      (st-type sd))))))
-
-(defun substitute-symbols (substlist st-list)
-  "Substitute in the new symbols for the old in the st list."
-  (loop for pair in substlist
-     with answer = st-list
-     do
-     (setf answer
-	   (subst
-	    (st-symbol (second pair))
-	    (first pair)
-	    answer
-	    :test 'st-symbol))
-     finally (return answer)))
 
 ;;; This function should never be called even when FSBV is absent,
 ;;; because the potential callers should all have #-fsbv

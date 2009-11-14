@@ -1,6 +1,6 @@
 ;; Psi (digamma) functions
 ;; Liam Healy, Mon May  1 2006 - 22:11
-;; Time-stamp: <2008-10-25 11:27:13EDT psi.lisp>
+;; Time-stamp: <2009-11-14 10:56:27EST psi.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -36,6 +36,7 @@
 ;;;; Trigamma Function
 ;;;;****************************************************************************
 
+(export 'psi-1)
 (defgeneric psi-1 (x)
   ;; FDL
   (:documentation "The Trigamma function."))

@@ -1,6 +1,6 @@
 ;; Number types used by GSL functions, and specification conversion
 ;; Liam Healy 2008-12-31 21:06:34EST types.lisp
-;; Time-stamp: <2009-05-25 16:34:12EDT types.lisp>
+;; Time-stamp: <2009-11-14 10:54:53EST types.lisp>
 ;; $Id: $
 
 (in-package :gsl)
@@ -207,16 +207,3 @@
   "The CL type from the CFFI element type."
   (unless (eq cffi-type :pointer)
     (lookup-type cffi-type *cstd-cl-type-mapping*)))
-
-(defun splice-name (base-name type keyword)
-  "Make a new C name for a data function from a base name."
-  (let ((pos (search keyword base-name)))
-    (when pos
-      (let ((insert (+ pos (length keyword)))
-	    (gsltype (cl-gsl type)))
-	(concatenate 'string 
-		     (subseq base-name 0 insert)
-		     (if (zerop (length gsltype)) "" "_")
-		     (cl-gsl type)
-		     (subseq base-name insert))))))
-

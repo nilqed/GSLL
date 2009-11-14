@@ -1,6 +1,6 @@
 ;; Tridiagonal and Bidiagonal matrices
 ;; Liam Healy, Thu May  4 2006 - 15:43
-;; Time-stamp: <2008-12-07 18:31:38EST diagonal.lisp>
+;; Time-stamp: <2009-11-14 09:22:50EST diagonal.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -211,3 +211,40 @@
        ( e_0 d_1 e_1  0  )
        (  0  e_1 d_2 e_2 )
        ( e_3  0  e_2 d_3 )")
+
+;;;;****************************************************************************
+;;;; Example
+;;;;****************************************************************************
+
+(defun solve-tridiagonal-example (&optional (n 6))
+  "Solution differential equation
+ y=1 with boundary conditions y(0)=(n-1)^2,  y(n-1)=0.
+
+ The solution is the sequence: (n-1)^2, (n-2)^2, ... 9, 4, 2, 1, 0
+
+ Desicretization of y leads to a tridiagonal system of equations
+ (y_(i-1)-2_i+y_(i+1))/2 = 1 for 1 < i < (n - 2)
+
+ The boundary conditions are implemented as 
+ y(0)=(n-1)^2
+ y(n-1)=0"
+  (labels ((mvec (dimension &key initial-element)
+	     "Shorthand for initializing gsll vectors"
+	     (if initial-element
+		 (make-marray 'double-float :dimensions dimension :initial-element initial-element)
+		 (make-marray 'double-float :dimensions dimension))))
+    (let ((x (mvec n))
+	  (b (mvec n :initial-element 1d0))
+	  (diag (mvec n :initial-element -1d0))
+	  (superdiag (mvec (1- n) :initial-element 0.5d0))
+	  (subdiag (mvec (1- n) :initial-element 0.5d0)))
+      (setf
+       ;; i=0 matrix elements
+       (maref diag 0) 1d0
+       (maref superdiag 0) 0d0
+       (maref b 0) (coerce (expt (1- n) 2) 'double-float)
+       ;; i=n-1 matrix elements
+       (maref diag (1- n)) 1d0
+       (maref subdiag (- n 2)) 0d0
+       (maref b (1- n)) 0d0)
+      (solve-tridiagonal diag superdiag subdiag b x))))

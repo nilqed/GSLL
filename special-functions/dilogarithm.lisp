@@ -1,11 +1,11 @@
 ;; Dilogarithm
 ;; Liam Healy, Fri Mar 17 2006 - 18:44
-;; Time-stamp: <2008-10-21 22:57:50EDT dilogarithm.lisp>
-;; $Id$
+;; Time-stamp: <2009-11-14 10:27:52EST dilogarithm.lisp>
 
 (in-package :gsl)
 
 ;;; dilog merge complex and real
+(export 'dilogarithm)
 (defgeneric dilogarithm (x)
   (:documentation			; FDL
    "The dilogarithm."))
