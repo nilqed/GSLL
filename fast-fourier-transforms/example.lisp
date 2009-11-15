@@ -50,10 +50,10 @@
     (values)))
 
 ;; (make-urand-vector '(complex double-float) 5)
-(defun make-urand-vector (element-type dimension)
+(defun make-urand-vector (element-type dimension &key (stride 1))
   "Make a vector with random elements."
-  (let ((vec (make-marray element-type :dimensions (list dimension))))
-    (loop for i from 0 below dimension
+  (let ((vec (make-marray element-type :dimensions (list (* stride dimension)))))
+    (loop for i from 0 below (* stride dimension) by stride
        do
        (setf (maref vec i) (complex (urand))))
     vec))
@@ -69,12 +69,14 @@
 	       (realpart (maref complex-vector i))))
     real-vector))
 
-(defun test-real-radix2 (element-type size)
+(defun test-real-radix2 (element-type size &key (stride 1))
   "Test for FFT; returns the DFT answer and the computed FFT answer.
    See test_real_radix2 in fft/test.mc."
-  (let ((random-vector (make-urand-vector (list 'complex element-type) size)))
+  (let ((random-vector (make-urand-vector (list 'complex element-type) size :stride stride)))
     (values
-     (forward-discrete-fourier-transform random-vector)
+     (forward-discrete-fourier-transform random-vector :stride stride)
      (unpack
-      (forward-fourier-transform (realpart-vector random-vector))
-      :unpack-type 'complex))))
+      (forward-fourier-transform (realpart-vector random-vector) :stride stride)
+      :unpack-type 'complex :stride stride))))
+
+;;(test-real-radix2 'double-float 10 :stride 5)

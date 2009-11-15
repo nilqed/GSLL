@@ -14,9 +14,9 @@
      &key (stride 1)
      (output
 	 (eltcase single-float
-		  (make-marray '(complex single-float) :dimensions (floor (size vector) stride))
+		  (make-marray '(complex single-float) :dimensions (size vector))
 		  t
-		  (make-marray '(complex double-float) :dimensions (floor (size vector) stride)))))
+		  (make-marray '(complex double-float) :dimensions (size vector)))))
   ("gsl_fft_real" :type "_unpack")
   (((c-pointer vector) :pointer)
    ((c-pointer output) :pointer)
@@ -38,9 +38,9 @@
      &key (stride 1)
      (output
 	 (eltcase single-float
-		  (make-marray '(complex single-float) :dimensions (floor (size vector) stride))
+		  (make-marray '(complex single-float) :dimensions (size vector))
 		  t
-		  (make-marray '(complex double-float) :dimensions (floor (size vector) stride)))))
+		  (make-marray '(complex double-float) :dimensions (size vector)))))
   ("gsl_fft_halfcomplex" :type "_radix2_unpack")
   (((c-pointer vector) :pointer)
    ((c-pointer output) :pointer)
@@ -61,9 +61,9 @@
      &key (stride 1)
      (output
 	 (eltcase single-float
-		  (make-marray '(complex single-float) :dimensions (floor (size vector) stride))
+		  (make-marray '(complex single-float) :dimensions (size vector))
 		  t
-		  (make-marray '(complex double-float) :dimensions (floor (size vector) stride)))))
+		  (make-marray '(complex double-float) :dimensions (size vector)))))
   ("gsl_fft_halfcomplex" :type "_unpack")
   (((c-pointer vector) :pointer)
    ((c-pointer output) :pointer)
