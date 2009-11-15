@@ -1,7 +1,6 @@
 ;; Macros to interface GSL functions, including definitions necessary for defmfun.
 ;; Liam Healy 
-;; Time-stamp: <2009-04-25 23:31:38EDT interface.lisp>
-;; $Id$
+;; Time-stamp: <2009-11-12 18:11:41EST interface.lisp>
 
 (in-package :gsl)
 
@@ -78,7 +77,7 @@
   (member value (list +success+ +continue+)))
 
 (defun success-continue (value)
-  "If status is +success+, return T, othewise return NIL."
+  "If status is +success+, return T, otherwise return NIL."
   (eql value +success+))
 
 (defun check-gsl-status (status-code context)

@@ -1,6 +1,6 @@
 ;; Define examples.
 ;; Liam Healy 2008-09-07 21:00:48EDT generate-tests.lisp
-;; Time-stamp: <2009-02-11 22:44:32EST generate-examples.lisp>
+;; Time-stamp: <2009-11-14 10:22:05EST generate-examples.lisp>
 ;; $Id: $
 
 ;;; Define examples that can be displayed by users with the function
@@ -74,15 +74,6 @@
     125 -15 -53 -17 -114 24 -60 32 106 -3 37 -1 97 -96 -12 -20 -61 18 108 61
     -82 75 -30 -71 44 48 88 121 106)
   "A sequence of random integers ranging between -255 and 255.")
-
-(defun make-vector-from-pool (type length &optional (starting 0))
-  "Make a vector of the specified element type and length using the
-   pool data for the type and starting at the specified point in the pool."
-  (make-marray
-   type
-   :dimensions length
-   :initial-contents
-   (make-list-from-pool type length starting)))
 
 (defun make-list-from-pool (type length &optional (starting 0))
   "Make a list for :initial-contents of the specified element type and

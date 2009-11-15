@@ -1,6 +1,6 @@
 ;; Permutations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2009-06-06 09:49:18EDT permutation.lisp>
+;; Time-stamp: <2009-11-14 10:52:43EST permutation.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -106,6 +106,7 @@
   "A pointer to the array of elements in the
    permutation p.")
 
+(export 'validp)
 (defgeneric validp (object)
   (:documentation			; FDL
    "Check that the object p is valid."))
