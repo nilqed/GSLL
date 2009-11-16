@@ -1,7 +1,6 @@
 ;; Complex number types
 ;; Liam Healy 2009-01-13 21:24:05EST complex-types.lisp
-;; Time-stamp: <2009-06-04 22:53:39EDT complex-types.lisp>
-;; $Id: $
+;; Time-stamp: <2009-11-16 12:35:49EST complex-types.lisp>
 
 (in-package :gsl)
 
@@ -9,24 +8,6 @@
 ;;;; Complex types
 ;;;;****************************************************************************
 
-;;; GSL represents complex variables as a struct of two reals and
-;;; passes them by value (not a pointer) to functions.  Few FFIs have
-;;; the capability of handling that.  However, it does seem to work
-;;; (SBCL and CCL at least) that we can treat each complex argument as
-;;; a succession of two double-float arguments, or two single-floats
-;;; packed into a double float.  Here we probe that the first is true;
-;;; if so, functions will automatically be converted.
-(defparameter *pass-complex-scalar-as-two-reals*
-  (eql 5.0d0
-   (ignore-errors
-     (cffi:foreign-funcall "gsl_complex_abs" :double 3.0d0 :double 4.0d0 :double)))
-  "A complex number can be passed as two adjacent reals.")
-
-;;; GSL defines complex numbers in a struct, and passes the struct by
-;;; value.  CFFI does not support call by value for structs, so we
-;;; cannot use functions that call or return complex scalars.
-
-;;; See /usr/include/gsl/gsl_complex.h
 #+fsbv
 (fsbv:defcstruct
     (complex-float-c :constructor complex :deconstructor (realpart imagpart))
