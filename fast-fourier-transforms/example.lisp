@@ -88,7 +88,7 @@
 	 (forward
 	  (forward-fourier-transform
 	   (if (subtypep element-type 'complex)
-	       random-vector
+               (copy-making-destination random-vector)
 	       (realpart-vector random-vector))
 	   :stride stride)))
     (values
@@ -98,3 +98,4 @@
 	 (unpack forward :unpack-type 'complex :stride stride)))))
 
 ;;(test-fft-noise 'double-float 10 :stride 5)
+;;(test-fft-noise '(complex double-float) 10 :stride 5)
