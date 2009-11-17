@@ -1,6 +1,6 @@
 ;; Example FFT: transform a pulse (using the "clean" fft interface)
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 00:24
-;; Time-stamp: <2009-11-15 23:22:45EST example.lisp>
+;; Time-stamp: <2009-11-16 23:10:53EST example.lisp>
 
 (in-package :gsl)
 
@@ -33,7 +33,7 @@
     (forward-fourier-transform pulse)))
 
 (save-test
-  fft
+  fft-pulse
   (fft-pulse-test '(complex single-float) 128)
   (fft-pulse-test '(complex single-float) 630)
   (fft-pulse-test '(complex double-float) 128)
@@ -81,21 +81,27 @@
 	       (realpart (maref complex-vector i))))
     real-vector))
 
+(defun forward-fft-rc (vector complexp &key (stride 1))
+  "Return the forward FFT of the vector."
+  (let ((forward
+	 (forward-fourier-transform
+	  (if complexp
+	      (copy vector)
+	      (realpart-vector vector))
+	  :stride stride)))
+    (if complexp
+	forward
+	(unpack forward :unpack-type 'complex :stride stride))))
+
 (defun test-fft-noise (element-type size &key (stride 1))
   "Test for FFT with random data (noise); returns the DFT answer and the computed FFT answer.
    See test_real_radix2 etc. in fft/test.mc."
-  (let* ((random-vector (make-urand-vector element-type size :stride stride))
-	 (forward
-	  (forward-fourier-transform
-	   (if (subtypep element-type 'complex)
-               (copy-making-destination random-vector)
-	       (realpart-vector random-vector))
-	   :stride stride)))
+  (let ((random-vector (make-urand-vector element-type size :stride stride)))
     (values
-     (forward-discrete-fourier-transform random-vector :stride stride)
-     (if (subtypep element-type 'complex)
-	 forward
-	 (unpack forward :unpack-type 'complex :stride stride)))))
+     (forward-fft-rc
+      random-vector (subtypep element-type 'complex) :stride stride)
+     (forward-discrete-fourier-transform random-vector :stride stride))))
 
 ;;(test-fft-noise 'double-float 10 :stride 5)
 ;;(test-fft-noise '(complex double-float) 10 :stride 5)
+

@@ -1,7 +1,6 @@
 ;; Make tests from examples.
 ;; Liam Healy 2008-09-07 21:00:48EDT generate-tests.lisp
-;; Time-stamp: <2009-04-15 23:33:26EDT generate-tests.lisp>
-;; $Id: $
+;; Time-stamp: <2009-11-16 23:09:01EST generate-tests.lisp>
 
 ;;; Througout the GSLL interface definition files are #'save-test
 ;;; forms.  These serve to define both examples and tests.  Getting an
@@ -31,9 +30,11 @@
 	  form)))
 
 ;;; (make-test '(legendre-conicalP-half 3.5d0 10.0d0))
-(defun make-test (form)
-  "Make a test for lisp-unit."
-  (let ((vals (multiple-value-list (ignore-errors (eval form)))))
+(defun make-test (form &optional answer)
+  "Make a test for lisp-unit.  If the answer is known separately from
+   evaluation of the form, it may be supplied in 'answer; note that
+   this only accommodates a single value at present."
+  (let ((vals (multiple-value-list (or answer (ignore-errors (eval form))))))
     (if (typep (second vals) 'condition)
 	`(lisp-unit::assert-error
 	  ',(type-of (second vals))
@@ -42,13 +43,15 @@
 	  ,(numerical-serialize vals)
 	  (multiple-value-list ,form)))))
 
-(defun create-test (test-name)
+(defun create-test (test-name &optional answers)
   "Find the saved test by name and create it, with the generated results."
   (append
    `(lisp-unit:define-test ,test-name)
-   (mapcar #'make-test (getf *all-generated-tests* test-name))))
+   (let ((test-set (getf *all-generated-tests* test-name)))
+     (mapcar #'make-test test-set
+	     (or answers (make-list (length test-set) :initial-element nil))))))
 
-(defun write-test-to-file (test path)
+(defun write-test-to-file (test path &optional answers)
   "Write the test to a file with the same name under path.
    Use this function with caution; it will replace an existing
    test file and thus the opportunity for regression test will be lost."
@@ -61,7 +64,7 @@
        ";; Regression test ~a for GSLL, automatically generated~%~%" test)
       (format stream "(in-package :gsl)~%~%")
       (format t "Writing test ~a to file ~a~&" test pathname)
-      (format stream "~s~%~%" (create-test test)))))
+      (format stream "~s~%~%" (create-test test answers)))))
 
 
 ;;; This is commented out because it shouldn't normally be run.  It
