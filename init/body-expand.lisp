@@ -1,7 +1,6 @@
 ;; Expand the body of a defmfun
 ;; Liam Healy 2009-04-13 22:07:13EDT body-expand.lisp
-;; Time-stamp: <2009-11-14 10:19:46EST body-expand.lisp>
-;; $Id: $
+;; Time-stamp: <2009-11-18 09:56:18EST body-expand.lisp>
 
 (in-package :gsl)
 
@@ -123,7 +122,7 @@
 					 (t (st-type arg)))
 				       (st-symbol arg)))
 			       (mapcar 'st-pointer-generic-pointer c-arguments))
-			      (list(st-type creturn-st))))))
+			      (list (st-type creturn-st))))))
 	     ,@(case c-return
 		     (:void `((declare (ignore ,(st-symbol creturn-st)))))
 		     (:error-code	; fill in arguments

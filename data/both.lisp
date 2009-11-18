@@ -1,7 +1,6 @@
 ;; Functions for both vectors and matrices.
 ;; Liam Healy 2008-04-26 20:48:44EDT both.lisp
-;; Time-stamp: <2009-05-25 15:19:49EDT both.lisp>
-;; $Id$
+;; Time-stamp: <2009-11-18 10:46:49EST both.lisp>
 
 (in-package :gsl)
 
@@ -141,12 +140,25 @@
   ("gsl_" :category :type "_add_constant")
   (((mpointer a) :pointer) (x :double))
   :definition :methods
-  :element-types #.(if (have-at-least-gsl-version '(1 12)) t :no-complex)
+  :element-types :no-complex
   :inputs (a)
   :outputs (a)
   :return (a)
   :documentation			; FDL
   "Add the scalar double-float x to all the elements of array a.")
+
+#+fsbv
+(defmfun elt+ ((a both) (x complex))
+  ("gsl_" :category :type "_add_constant")
+  (((mpointer a) :pointer) (x :element-c-type))
+  :definition :methods
+  :element-types :complex
+  :inputs (a)
+  :outputs (a)
+  :return (a)
+  :gsl-version (1 12)
+  :documentation			; FDL
+  "Add the scalar complex x to all the elements of array a.")
 
 (defmethod elt+ ((x float) (a marray))
   (elt+ a x))
@@ -208,19 +220,32 @@
   :outputs (a)
   :return (a))
 
-(defmethod elt/ ((a marray) (x float))
+(defmethod elt/ ((a marray) (x number))
   (elt* a (/ x)))
 
 (defmfun elt* ((a both) (x float))
   ("gsl_" :category :type "_scale")
   (((mpointer a) :pointer) (x :double))
   :definition :methods
-  :element-types #.(if (have-at-least-gsl-version '(1 12)) t :no-complex)
+  :element-types :no-complex
   :inputs (a)
   :outputs (a)
   :return (a)
   :documentation			; FDL
   "Multiply the elements of a by the scalar double-float factor x.")
+
+#+fsbv
+(defmfun elt* ((a both) (x complex))
+  ("gsl_" :category :type "_scale")
+  (((mpointer a) :pointer) (x :element-c-type))
+  :definition :methods
+  :element-types :complex
+  :inputs (a)
+  :outputs (a)
+  :return (a)
+  :gsl-version (1 12)
+  :documentation			; FDL
+  "Multiply the elements of a by the scalar complex factor x.")
 
 (defmethod elt* ((x float) (a marray))
   (elt* a x))

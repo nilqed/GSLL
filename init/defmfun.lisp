@@ -1,7 +1,6 @@
 ;; Macro for defining GSL functions.
 ;; Liam Healy 2008-04-16 20:49:50EDT defmfun.lisp
-;; Time-stamp: <2009-05-24 16:54:33EDT defmfun.lisp>
-;; $Id$
+;; Time-stamp: <2009-11-18 09:14:07EST defmfun.lisp>
 
 (in-package :gsl)
 
@@ -10,7 +9,7 @@
 ;;;;****************************************************************************
 
 ;;; Demfun is the main macro for defining functions (ordinary
-;;; functions, generic functions, and methods) tthat call GSL
+;;; functions, generic functions, and methods) that call GSL
 ;;; functions.  It takes care of mapping the data from CL to C and
 ;;; then back out from C to CL.  Where the GSL function returns a
 ;;; condition code, it will insert a check that turns that result into
