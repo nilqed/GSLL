@@ -1,6 +1,6 @@
 ;; Example FFT: transform a pulse (using the "clean" fft interface)
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 00:24
-;; Time-stamp: <2009-11-16 23:10:53EST example.lisp>
+;; Time-stamp: <2009-11-18 23:05:19EST example.lisp>
 
 (in-package :gsl)
 
@@ -70,21 +70,12 @@
 		 (complex (coerce (urand) element-type)))))
     vec))
 
-;; (reset-urand)
-;; (fft-signal-real-noise '(complex double-float) 10)
-(defun fft-signal-real-noise (element-type dimension &key (stride 1))
-  (let ((random-vector
-          (make-urand-vector element-type dimension :stride stride)))
-    (values
-      random-vector
-      (forward-discrete-fourier-transform random-vector :stride stride))))
-
 (defun realpart-vector (complex-vector)
   "The real vector consisting of the real part of the complex vector."
   (let ((real-vector
 	 (make-marray
 	  (component-float-type (element-type complex-vector))
-	  :dimensions (dimensions complex-vector))))
+  :dimensions (dimensions complex-vector))))
     (loop for i below (total-size complex-vector) do
 	 (setf (maref real-vector i)
 	       (realpart (maref complex-vector i))))
@@ -92,71 +83,55 @@
 
 (defun size-vector-real (vector &key (stride 1))
   "Return the size of a vector while taking the stride into account."
-  (coerce (floor (size vector) stride)
-          (component-float-type (element-type vector))))
+  (coerce (floor (size vector) stride) (element-type vector)))
 
-(defun forward-fft-rc (vector complexp &key (stride 1))
-  "Return the forward FFT of the vector."
-  (let ((forward
-	 (forward-fourier-transform
-	  (if complexp
-	      (copy vector)
-	      (realpart-vector vector))
-	  :stride stride)))
-    (if complexp
-	forward
-	(unpack forward :unpack-type 'complex :stride stride))))
-
-;(defun test-fft-noise (element-type size &key (stride 1))
-;  "Test for FFT with random data (noise); returns the DFT answer and the computed FFT answer.
-;   See test_real_radix2 etc. in fft/test.mc."
-;  (let ((random-vector (make-urand-vector element-type size :stride stride)))
-;    (values
-;     (forward-fft-rc
-;      random-vector (subtypep element-type 'complex) :stride stride)
-;     (forward-discrete-fourier-transform random-vector :stride stride))))
-
-(defun test-fft-noise-r (vector &key (stride 1))
+(defun test-real-fft-noise (vector &key (stride 1))
   "Test forward and inverse FFT for a real vector, and return both results in unpacked form."
   (let* ((forward
-           (forward-fourier-transform (realpart-vector vector) :stride stride))
+	  (forward-fourier-transform (realpart-vector vector) :stride stride))
          (inverse
-           (forward-fourier-transform (copy forward) :half-complex t :stride stride)))
+	  (forward-fourier-transform (copy forward) :half-complex t :stride stride)))
     (values (unpack forward :unpack-type 'complex :stride stride)
             (unpack (elt/ inverse (size-vector-real inverse :stride stride)) :stride stride))))
 
-(defun test-fft-noise-c (vector &key (stride 1))
+(defun test-complex-fft-noise (vector &key (stride 1))
   "Test forward, inverse and backward FFT for a complex vector and return all three results."
-  (let* ((forward
-           (forward-fourier-transform (copy vector) :stride stride))
-         (inverse
-           (inverse-fourier-transform (copy forward) :stride stride))
-         (backward
-           (backward-fourier-transform (copy forward) :stride stride)))
+  (let ((forward (forward-fourier-transform (copy vector) :stride stride)))
     (values forward
-            inverse
-            backward)))
+	    (inverse-fourier-transform (copy forward) :stride stride)
+	    (backward-fourier-transform (copy forward) :stride stride))))
 
 (defun test-fft-noise (element-type size &key (stride 1))
-  (multiple-value-bind
-      (c-data fft-c-data)
-      (fft-signal-real-noise element-type size :stride stride)
+  "A test of real forward and complex forward, revese, and inverse FFT
+   on random noise.  Returns the result of the DFT forward Fourier transformation
+   and the forward FFT, which should be the same, and the original vector and the
+   inverse FFT, which should also be the same.  In addition,
+   the backward Fourier transform is returned for complex vectors, which
+   should be the same as the last two."
+  (let* ((random-vector (make-urand-vector element-type size :stride stride))
+	 (dft-random-vector
+	  (forward-discrete-fourier-transform random-vector :stride stride)))
     (if (subtypep element-type 'complex)
-      (multiple-value-bind
-        (forward inverse backward)
-        (test-fft-noise-c c-data :stride stride)
-        (values
-          fft-c-data
-          forward
-          c-data
-          inverse
-          backward ;; just returning this one to see that it is still correct
-          (elt/ (copy backward) (size-vector-real backward :stride stride))))
-      (multiple-value-bind
-        (forward inverse)
-        (test-fft-noise-r c-data :stride stride)
-        (values fft-c-data forward c-data inverse)))))
+	(multiple-value-bind (forward inverse backward)
+	    (test-complex-fft-noise random-vector :stride stride)
+	  (values
+	   dft-random-vector
+	   forward
+	   random-vector
+	   inverse
+	   (if (and (have-at-least-gsl-version '(1 12)) #+fsbv t #-fsbv nil)
+	       (elt/ (copy backward) (size-vector-real backward :stride stride))
+	       ;; Hack for old GSL version without complex vector math
+	       (make-marray
+		(element-type backward)
+		:dimensions (dimensions backward)
+		:initial-contents
+		(map 'list
+		     (lambda (x) (/ x (floor (size backward) stride)))
+		     (copy backward 'array))))))
+	(multiple-value-bind (forward inverse)
+	    (test-real-fft-noise random-vector :stride stride)
+	  (values dft-random-vector forward random-vector inverse)))))
 
-;; (require :gsll)
 ;; (test-fft-noise 'double-float 10 :stride 1)
 ;; (test-fft-noise '(complex double-float) 10 :stride 1)
