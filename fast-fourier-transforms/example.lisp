@@ -1,6 +1,6 @@
 ;; Example FFT: transform a pulse (using the "clean" fft interface)
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 00:24
-;; Time-stamp: <2009-11-18 23:05:19EST example.lisp>
+;; Time-stamp: <2009-11-19 23:18:31EST example.lisp>
 
 (in-package :gsl)
 
@@ -75,7 +75,7 @@
   (let ((real-vector
 	 (make-marray
 	  (component-float-type (element-type complex-vector))
-  :dimensions (dimensions complex-vector))))
+	  :dimensions (dimensions complex-vector))))
     (loop for i below (total-size complex-vector) do
 	 (setf (maref real-vector i)
 	       (realpart (maref complex-vector i))))
@@ -85,6 +85,9 @@
   "Return the size of a vector while taking the stride into account."
   (coerce (floor (size vector) stride) (element-type vector)))
 
+(defun vector/length (vector stride)
+  (elt/ vector (size-vector-real vector :stride stride)))
+
 (defun test-real-fft-noise (vector &key (stride 1))
   "Test forward and inverse FFT for a real vector, and return both results in unpacked form."
   (let* ((forward
@@ -92,7 +95,7 @@
          (inverse
 	  (forward-fourier-transform (copy forward) :half-complex t :stride stride)))
     (values (unpack forward :unpack-type 'complex :stride stride)
-            (unpack (elt/ inverse (size-vector-real inverse :stride stride)) :stride stride))))
+            (unpack (vector/length inverse stride) :stride stride))))
 
 (defun test-complex-fft-noise (vector &key (stride 1))
   "Test forward, inverse and backward FFT for a complex vector and return all three results."
@@ -135,3 +138,42 @@
 
 ;; (test-fft-noise 'double-float 10 :stride 1)
 ;; (test-fft-noise '(complex double-float) 10 :stride 1)
+
+;;;;****************************************************************************
+;;;; Constructing tests
+;;;;****************************************************************************
+
+#+(or)
+(defun make-real-noise-fft-test (size stride)
+  "Make a test of a random real-vector FFT." 
+  (reset-urand)
+  (let* ((randvec (make-urand-vector 'double-float size :stride stride))
+	 (dft (forward-discrete-fourier-transform (copy randvec) :stride stride)))
+    (list
+     ;; Forward
+     (make-test
+      `(unpack (forward-fourier-transform ; computed FFT
+		,(make-load-form (realpart-vector (copy randvec)))
+		:stride ,stride)
+	       :unpack-type 'complex :stride ,stride)
+      dft)
+     ;; Inverse
+     (make-test
+      `(unpack
+	(vector/length
+	 (forward-fourier-transform
+	  ,(make-load-form (realpart-vector dft))
+	  :half-complex t :stride ,stride)
+	 ,stride)
+	:stride ,stride)
+      randvec))))
+
+;; loop size from 1 to 99, stride from 1, 2, 3
+#+(or)
+(defun generate-fft-tests (&optional (size-max 99) (stride-max 3))
+  (append
+   '(lisp-unit:define-test fft-noise)
+   (loop for size from 1 to size-max
+      append
+      (loop for stride from 1 to stride-max
+	 append (make-real-noise-fft-test size stride)))))
