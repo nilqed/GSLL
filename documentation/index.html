@@ -407,6 +407,19 @@ GSL doesn't have them.
   <li><code>invert-matrix</code> finds the inverse of a matrix and uses
   GSL's LU decomposition functions.</li>
   <li>IEEE floating point number analysis.</li>
+  <li><code>fft-frequency-vector</code> returns a vector where the sample
+  frequencies are contained. If you perform an FFT on a vector of a given size
+  and :sample-size, this vector will contain the sample frequencies in order.
+  If the :shifted keyword is T, then the frequencies are ordered in ascending
+  order.</li>
+  <li><code>fft-shift</code> returns a copy of a vector where the zero
+  frequency has been shifted to the center; the frequency components will be
+  sorted according to their frequency, in ascending order. Optionally, a
+  :stride can be provided.</li>
+  <li><code>fft-inverse-shift</code> performs the inverse action of fft-shift;
+  the zero and positive frequency components are shifted to the beginning,
+  so that the resulting vector is suitable for an inverse FFT. Optionally, a
+  :stride can be provided.</li>
 </ul>
 
 <h2>Status</h2>

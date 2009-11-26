@@ -143,6 +143,7 @@
              (:file "select-direction")
              (:file "unpack")
              (:file "discrete")
+             (:file "extras")
 	     (:file "example")))
    (:module random
 	    :depends-on (init data)
