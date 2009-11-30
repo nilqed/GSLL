@@ -1,6 +1,6 @@
 ;; Helpers for defining GSL functions on arrays
 ;; Liam Healy 2009-01-07 22:01:16EST defmfun-array.lisp
-;; Time-stamp: <2009-10-18 19:35:15EDT defmfun-array.lisp>
+;; Time-stamp: <2009-11-30 16:13:13EST defmfun-array.lisp>
 ;; $Id: $
 
 (in-package :gsl)
@@ -132,13 +132,6 @@
 			(string-downcase (symbol-name category)) :category
 			base-name))))))))))
 
-(defun number-class-from-type (type)
-  "Find a class name that contains this type."
-  ;; Not exhaustive; just trying to separate reals and complex.
-  (cond ((subtypep type 'complex) 'complex)
-	((subtypep type 'float) 'float)
-	(t (error "Can't pass type ~a." type))))
-
 (defun actual-class-arglist
     (arglist element-type c-arguments &optional replace-both)
   "Replace the prototype arglist with an actual arglist."
@@ -152,9 +145,9 @@
      (if (and replacing (listp arg))
 	 (list (first arg)
 	       (case (second arg)
-		 (:element-type (number-class-from-type element-type))
+		 (:element-type (number-class element-type))
 		 (:component-float-type
-		  (number-class-from-type (component-float-type element-type)))
+		  (number-class (component-float-type element-type)))
 		 (otherwise
 		  (data-class-name
 		   (if (and (eq (second arg) 'both) replace-both)

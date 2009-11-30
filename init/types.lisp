@@ -1,6 +1,6 @@
 ;; Number types used by GSL functions, and specification conversion
 ;; Liam Healy 2008-12-31 21:06:34EST types.lisp
-;; Time-stamp: <2009-11-14 10:54:53EST types.lisp>
+;; Time-stamp: <2009-11-30 16:13:18EST types.lisp>
 ;; $Id: $
 
 (in-package :gsl)
@@ -207,3 +207,9 @@
   "The CL type from the CFFI element type."
   (unless (eq cffi-type :pointer)
     (lookup-type cffi-type *cstd-cl-type-mapping*)))
+
+;;; For future use
+(defparameter *cl-numeric-classes* '(ratio integer rational float real complex number))
+(defun number-class (type)
+  "Find the class corresponding to the numeric type."
+  (find-if (lambda (class) (subtypep type class)) *cl-numeric-classes*))
