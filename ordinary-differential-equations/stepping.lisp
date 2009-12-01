@@ -1,7 +1,6 @@
 ;; Stepping functions for ODE systems.
 ;; Liam Healy, Mon Sep 24 2007 - 21:33
-;; Time-stamp: <2009-06-06 16:44:42EDT stepping.lisp>
-;; $Id$
+;; Time-stamp: <2009-11-30 19:01:31EST stepping.lisp>
 
 ;; /usr/include/gsl/gsl_odeiv.h
 
@@ -91,10 +90,10 @@ values):
   (((mpointer stepper) :pointer)
    (time :double)
    (step-size :double)
-   (y :pointer)
-   (yerr :pointer)
-   (dydt-in :pointer)
-   (dydt-out :pointer)
+   ((c-pointer y) :pointer)
+   ((c-pointer yerr) :pointer)
+   ((c-pointer dydt-in) :pointer)
+   ((c-pointer dydt-out) :pointer)
    ((callback-struct stepper) :pointer))
   :documentation			; FDL
   "Apply the stepping function stepper to the system of equations
