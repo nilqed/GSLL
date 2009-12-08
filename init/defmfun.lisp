@@ -1,6 +1,6 @@
 ;; Macro for defining GSL functions.
 ;; Liam Healy 2008-04-16 20:49:50EDT defmfun.lisp
-;; Time-stamp: <2009-11-18 09:14:07EST defmfun.lisp>
+;; Time-stamp: <2009-12-07 22:53:35EST defmfun.lisp>
 
 (in-package :gsl)
 
@@ -41,7 +41,7 @@
 ;;; qualifier  A method qualifier such as :after or :before.
 ;;; element-types
 ;;;            Permissible types for elements of arrays.  May be
-;;;            NIL meaning all of *array-element-types*, :no-complex
+;;;            NIL meaning all of c-array:*array-element-types*, :no-complex
 ;;;            meaning that list without the complex types, 
 ;;;	       :float meaning only the float types, :complex only
 ;;;	       the complex types, :float-complex both float and complex,

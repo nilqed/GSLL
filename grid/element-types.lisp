@@ -1,16 +1,19 @@
 ;; Mapping of element type names
 ;; Liam Healy 2008-04-13 11:22:46EDT element-types.lisp
-;; Time-stamp: <2009-12-06 19:50:12EST element-types.lisp>
+;; Time-stamp: <2009-12-07 22:51:13EST element-types.lisp>
 ;; $Id$
 
-(in-package :gsl)
+(in-package :c-array)
 
+(export '(*array-element-types* *array-element-types-no-complex*
+	  *float-complex-types* *float-types* *complex-types*
+	  *double-types* element-types))
 ;;;;****************************************************************************
 ;;;; Common element type groups for generic functions
 ;;;;****************************************************************************
 
 (defparameter *array-element-types*
-  (remove-duplicates (c-array:all-types c-array:*cstd-cl-type-mapping* t) :test 'equal)
+  (remove-duplicates (all-types *cstd-cl-type-mapping* t) :test 'equal)
   "All the array element types supported.")
 
 (defparameter *array-element-types-no-complex*

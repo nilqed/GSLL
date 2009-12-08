@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2009-12-06 22:14:49EST gsll.asd>
+;; Time-stamp: <2009-12-07 22:58:36EST gsll.asd>
 
 (when (asdf:find-system :fsbv nil)
   (pushnew :fsbv *features*))
@@ -20,7 +20,8 @@
 	    :components
 	    ((:file "pkgdcl")
 	     (:file "types" :depends-on ("pkgdcl"))
-	     (:file "complex-types" :depends-on ("types"))))
+	     (:file "complex-types" :depends-on ("pkgdcl" "types"))
+	     (:file "element-types" :depends-on ("pkgdcl"))))
    (:module init
 	    :depends-on (grid)
 	    :components
@@ -41,12 +42,9 @@
 	     (cffi-grovel:grovel-file "callback-struct"
 				      :depends-on ("types" "libgsl"))
 	     (:file "funcallable" :depends-on ("utility"))
-	     (:file "element-types" :depends-on ("init"))
 	     (:file "interface"
-		    :depends-on ("init" "conditions" "element-types"
-					"number-conversion"))
-	     (:file "defmfun"
-		    :depends-on ("init" "forms" "element-types" "interface"))
+		    :depends-on ("init" "conditions" "number-conversion"))
+	     (:file "defmfun" :depends-on ("init" "forms" "interface"))
 	     (:file "defmfun-array"
 		    :depends-on ("defmfun" "callback-included"))
 	     (:file "defmfun-single"

@@ -1,6 +1,6 @@
 ;; A "marray" is an array in both GSL and CL
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2009-12-06 19:50:09EST marray.lisp>
+;; Time-stamp: <2009-12-07 22:46:41EST marray.lisp>
 
 (in-package :gsl)
 
@@ -107,7 +107,7 @@
 	       (pushnew ',(cons class-name element-type-cl)
 			*class-element-type* :test #'equal)
 	       (export ',class-name))))
-	 *array-element-types*)))
+	 c-array:*array-element-types*)))
 
 ;;;;****************************************************************************
 ;;;; Make data from either the dimensions provided or from the initial values

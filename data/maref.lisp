@@ -1,6 +1,6 @@
 ;; Get/set array or elements: cl-array, maref
 ;; Liam Healy 2008-08-27 22:43:10EDT maref.lisp
-;; Time-stamp: <2009-12-06 19:51:39EST maref.lisp>
+;; Time-stamp: <2009-12-07 22:51:18EST maref.lisp>
 ;; $Id: $
 
 (in-package :gsl)
@@ -103,7 +103,7 @@
 		     ,@(if value-symbol
 			   (list (c-array:cl-cffi tp) value-symbol)
 			   (list (c-array:cl-cffi tp))))))
-		*array-element-types*)))
+		c-array:*array-element-types*)))
 
 (defmethod maref
     ((pointer #.+foreign-pointer-class+) index &optional index2
@@ -125,14 +125,14 @@
 		     ,(actual-gsl-function-name
 		       `("gsl_" :category :type ,"_get")
 		       'vector tp)))
-		 *array-element-types*)
+		 c-array:*array-element-types*)
 	 (mapcar (lambda (tp)
 		   `(map-name
 		     'maref
 		     ,(actual-gsl-function-name
 		       `("gsl_" :category :type ,"_get")
 		       'matrix tp)))
-		 *array-element-types*)))
+		 c-array:*array-element-types*)))
 
 (defmethod (setf maref)
     (value (pointer #.+foreign-pointer-class+) index &optional index2
@@ -154,14 +154,14 @@
 		     ,(actual-gsl-function-name
 		       `("gsl_" :category :type ,"_set")
 		       'vector tp)))
-		 *array-element-types*)
+		 c-array:*array-element-types*)
 	 (mapcar (lambda (tp)
 		   `(map-name
 		     '(setf maref)
 		     ,(actual-gsl-function-name
 		       `("gsl_" :category :type ,"_set")
 		       'matrix tp)))
-		 *array-element-types*)))
+		 c-array:*array-element-types*)))
 
 
 

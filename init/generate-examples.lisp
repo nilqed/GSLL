@@ -1,6 +1,6 @@
 ;; Define examples.
 ;; Liam Healy 2008-09-07 21:00:48EDT generate-tests.lisp
-;; Time-stamp: <2009-12-06 22:05:00EST generate-examples.lisp>
+;; Time-stamp: <2009-12-07 23:01:41EST generate-examples.lisp>
 ;; $Id: $
 
 ;;; Define examples that can be displayed by users with the function
@@ -148,7 +148,7 @@
 		  form))))
 
 (defun generate-all-array-tests-body (element-types test)
-  (loop for det in (element-types element-types)
+  (loop for det in (c-array:element-types element-types)
      collect
      (let ((default-element-type det))
        (declare (special default-element-type starting-element))

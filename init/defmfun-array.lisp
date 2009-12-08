@@ -1,6 +1,6 @@
 ;; Helpers for defining GSL functions on arrays
 ;; Liam Healy 2009-01-07 22:01:16EST defmfun-array.lisp
-;; Time-stamp: <2009-12-06 22:05:00EST defmfun-array.lisp>
+;; Time-stamp: <2009-12-07 22:55:39EST defmfun-array.lisp>
 ;; $Id: $
 
 (in-package :gsl)
@@ -104,7 +104,7 @@
 		     (actual-gfn gsl-name)
 		     (actual-element-c-type eltype c-arguments)
 		     key-args))))
-	    (element-types element-types))))
+	    (c-array:element-types element-types))))
 
 (defun actual-gsl-function-name (base-name category type)
   "Create the GSL or BLAS function name for data from the base name
