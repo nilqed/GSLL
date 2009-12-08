@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2009-11-09 16:04:42EST gsll.asd>
+;; Time-stamp: <2009-12-06 22:14:49EST gsll.asd>
 
 (when (asdf:find-system :fsbv nil)
   (pushnew :fsbv *features*))
@@ -16,7 +16,13 @@
   :licence "LLGPL v3, FDL"
   :depends-on (cffi cffi-grovel trivial-garbage cl-utilities #+fsbv fsbv)
   :components
-  ((:module init
+  ((:module grid			; temporary
+	    :components
+	    ((:file "pkgdcl")
+	     (:file "types" :depends-on ("pkgdcl"))
+	     (:file "complex-types" :depends-on ("types"))))
+   (:module init
+	    :depends-on (grid)
 	    :components
 	    ((:file "init")
 	     (cffi-grovel:grovel-file "libgsl" :pathname #+unix "libgsl-unix")
@@ -35,8 +41,7 @@
 	     (cffi-grovel:grovel-file "callback-struct"
 				      :depends-on ("types" "libgsl"))
 	     (:file "funcallable" :depends-on ("utility"))
-	     (:file "complex-types" :depends-on ("types"))
-	     (:file "element-types" :depends-on ("init" "complex-types"))
+	     (:file "element-types" :depends-on ("init"))
 	     (:file "interface"
 		    :depends-on ("init" "conditions" "element-types"
 					"number-conversion"))
@@ -74,7 +79,7 @@
 	     (:file "array-tests" :depends-on ("both"))
 	     (:file "permutation" :depends-on ("marray" "array-structs"))
 	     (:file "combination" :depends-on ("marray" "array-structs"))))
-   (:file "polynomial" :depends-on (init data))
+   (:file "polynomial" :depends-on (grid init data))
    (:module special-functions
 	    :depends-on (init)
 	    :components

@@ -1,6 +1,6 @@
 ;; Polynomials
 ;; Liam Healy, Tue Mar 21 2006 - 18:33
-;; Time-stamp: <2009-05-25 12:42:18EDT polynomial.lisp>
+;; Time-stamp: <2009-12-06 22:16:07EST polynomial.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -32,11 +32,11 @@
      &key)
   "gsl_poly_complex_eval"
   (((c-pointer coefficients) :pointer) ((dim0 coefficients) sizet)
-   (x complex-double-c))
+   (x c-array:complex-double-c))
   :definition :method
   :gsl-version (1 11)
   :inputs (coefficients)
-  :c-return complex-double-c
+  :c-return c-array:complex-double-c
   :documentation			; FDL
   "Evaluate the polyonomial with coefficients at the complex value x.")
 
@@ -46,11 +46,11 @@
      &key)
   "gsl_complex_poly_complex_eval"
   (((c-pointer coefficients) :pointer) ((dim0 coefficients) sizet)
-   (x complex-double-c))
+   (x c-array:complex-double-c))
   :definition :method
   :gsl-version (1 11)
   :inputs (coefficients)
-  :c-return complex-double-c
+  :c-return c-array:complex-double-c
   :documentation			; FDL
   "Evaluate the polyonomial with coefficients at the complex value x.")
 
@@ -113,7 +113,7 @@
 (defmfun solve-quadratic-complex (a b c)
   "gsl_poly_complex_solve_quadratic"
   ((a :double) (b :double) (c :double)
-   (root1 (:pointer complex-double-c)) (root2 (:pointer complex-double-c)))
+   (root1 (:pointer c-array:complex-double-c)) (root2 (:pointer c-array:complex-double-c)))
   :c-return :number-of-answers
   :documentation			; FDL
   "The complex roots of the quadratic equation a x^2 + b x + c = 0.
@@ -139,8 +139,8 @@
 (defmfun solve-cubic-complex (a b c)
   "gsl_poly_complex_solve_cubic"
   ((a :double) (b :double) (c :double)
-   (root1 (:pointer complex-double-c)) (root2 (:pointer complex-double-c))
-   (root3 (:pointer complex-double-c)))
+   (root1 (:pointer c-array:complex-double-c)) (root2 (:pointer c-array:complex-double-c))
+   (root3 (:pointer c-array:complex-double-c)))
   :c-return :number-of-answers
   :documentation			; FDL
   "Find the complex roots of the cubic equation, x^3 + a x^2 + b x + c = 0

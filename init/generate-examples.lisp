@@ -1,6 +1,6 @@
 ;; Define examples.
 ;; Liam Healy 2008-09-07 21:00:48EDT generate-tests.lisp
-;; Time-stamp: <2009-11-14 10:22:05EST generate-examples.lisp>
+;; Time-stamp: <2009-12-06 22:05:00EST generate-examples.lisp>
 ;; $Id: $
 
 ;;; Define examples that can be displayed by users with the function
@@ -80,7 +80,7 @@
    length using the pool data for the type and starting at the
    specified point in the pool."
   (mapcar
-   (lambda (num) (coerce num (component-float-type type)))
+   (lambda (num) (coerce num (c-array:component-float-type type)))
    (subseq
     (cond ((subtypep type 'unsigned-byte) *unsigned-byte-pool*)
 	  ((subtypep type 'signed-byte) *signed-byte-pool*)
@@ -127,7 +127,7 @@
 	  (if float-type
 	      (first
 	       (make-list-from-pool
-		(component-float-type default-element-type) 1 starting-element))
+		(c-array:component-float-type default-element-type) 1 starting-element))
 	      (apply
 	       #'complex
 	       (make-list-from-pool default-element-type 1 starting-element)))

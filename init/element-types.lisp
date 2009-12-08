@@ -1,6 +1,6 @@
 ;; Mapping of element type names
 ;; Liam Healy 2008-04-13 11:22:46EDT element-types.lisp
-;; Time-stamp: <2009-01-13 21:31:12EST element-types.lisp>
+;; Time-stamp: <2009-12-06 19:50:12EST element-types.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -10,7 +10,7 @@
 ;;;;****************************************************************************
 
 (defparameter *array-element-types*
-  (remove-duplicates (all-types *cstd-cl-type-mapping* t) :test 'equal)
+  (remove-duplicates (c-array:all-types c-array:*cstd-cl-type-mapping* t) :test 'equal)
   "All the array element types supported.")
 
 (defparameter *array-element-types-no-complex*

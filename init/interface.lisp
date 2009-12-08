@@ -1,6 +1,6 @@
 ;; Macros to interface GSL functions, including definitions necessary for defmfun.
 ;; Liam Healy 
-;; Time-stamp: <2009-11-12 18:11:41EST interface.lisp>
+;; Time-stamp: <2009-12-06 19:52:33EST interface.lisp>
 
 (in-package :gsl)
 
@@ -102,7 +102,7 @@
 (defun cl-argument-types (cl-arguments c-arguments-types)
   "Create CL argument and types from the C arguments."
   (loop for sd in c-arguments-types
-	for cl-type = (cffi-cl (st-type sd))
+	for cl-type = (c-array:cffi-cl (st-type sd))
 	append
 	(when (and cl-type (member (st-symbol sd) (cl-symbols cl-arguments)))
 	  (list (list (st-symbol sd) cl-type)))))

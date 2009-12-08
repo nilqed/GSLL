@@ -1,21 +1,13 @@
 ;; Number types used by GSL functions, and specification conversion
 ;; Liam Healy 2008-12-31 21:06:34EST types.lisp
-;; Time-stamp: <2009-12-06 10:55:10EST types.lisp>
+;; Time-stamp: <2009-12-07 22:26:05EST types.lisp>
 ;; $Id: $
 
-(in-package :gsl)
+(in-package :c-array)
 
-;;;;****************************************************************************
-;;;; Unsigned address types size_t
-;;;;****************************************************************************
-
-(case (cffi:foreign-type-size :long)
-  (8
-   (push :int64 *features*)
-   #+fsbv (fsbv:defsynonym sizet :uint64))
-  (4
-   (push :int32 *features*)
-   #+fsbv (fsbv:defsynonym sizet :uint32)))
+(export '(*cstd-integer-types*
+	  *cstd-cl-type-mapping* floating-point-association all-types
+	  lookup-type cl-single cl-cffi cffi-cl number-class))
 
 ;;;;****************************************************************************
 ;;;; Type specification conversion
@@ -106,20 +98,6 @@
    (mapcar #'first *fp-type-mapping*)
    (subseq ,splice-list 0 (length *fp-type-mapping*))))
 
-(defparameter *blas-splice-fp-types*
-  ;; Ordered by: real shortest to longest, then complex shortest to longest.
-  ;; Must match *fp-type-mapping*.
-  '("s" "d" #+long-double nil
-    "c" "z" #+long-double nil)
-  "The list of floating point types that can be spliced into BLAS function names.")
-
-(defparameter *cstd-blas-mapping*
-  ;; The floating types are associated by order, so it is important that
-  ;; order of *fp-type-mapping* and *blas-splice-fp-types* match,
-  ;; though the latter may be longer.
-  (floating-point-association *blas-splice-fp-types*)
-  "Mapping the C standard types to the BLAS splice name.")
-
 ;;;;****************************************************************************
 ;;;; Conversions
 ;;;;****************************************************************************
@@ -137,6 +115,15 @@
    ;;(error "Did not find ~a in ~a" symbol (mapcar #'first alist))
    ))
 
+;;; (cl-single '(unsigned-byte 8))
+;;; UNSIGNED-BYTE-8
+(defun cl-single (cl-type)
+  "The element type name as a single symbol."
+  (intern (if (atom cl-type)
+	      (princ-to-string cl-type)
+	      (format nil "~{~a~^-~}" cl-type))
+	  :gsl))
+
 (defun cl-cffi (cl-type)
   "The CFFI element type from the CL type."
   (lookup-type (clean-type cl-type) *cstd-cl-type-mapping* t))
@@ -151,3 +138,4 @@
 (defun number-class (type)
   "Find the class corresponding to the numeric type."
   (find-if (lambda (class) (subtypep type class)) *cl-numeric-classes*))
+

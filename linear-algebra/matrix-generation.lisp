@@ -1,6 +1,6 @@
 ;; Generate matrices used in tests of linear algebra functions
 ;; Liam Healy 2009-09-19 18:28:31EDT matrix-generation.lisp
-;; Time-stamp: <2009-10-15 22:51:23EDT matrix-generation.lisp>
+;; Time-stamp: <2009-12-06 19:50:10EST matrix-generation.lisp>
 
 (in-package :gsl)
 
@@ -62,7 +62,7 @@
   "Make a matrix of the specified dimensions, with contents
    based on a function of the element indices i, j."
   (set-matrix
-   (make-marray (cl-single element-type) :dimensions (list dim0 dim1))
+   (make-marray (c-array:cl-single element-type) :dimensions (list dim0 dim1))
    function
    pass-element))
 
@@ -71,7 +71,7 @@
   "Make a vector of the specified dimension, with contents
    based on a function of the element index."
   (let ((vector
-	 (make-marray (cl-single element-type) :dimensions dim)))
+	 (make-marray (c-array:cl-single element-type) :dimensions dim)))
     (dotimes (i dim vector)
       (setf (maref vector i)
 	    (coerce (funcall function i) element-type)))))

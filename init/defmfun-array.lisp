@@ -1,6 +1,6 @@
 ;; Helpers for defining GSL functions on arrays
 ;; Liam Healy 2009-01-07 22:01:16EST defmfun-array.lisp
-;; Time-stamp: <2009-11-30 16:13:13EST defmfun-array.lisp>
+;; Time-stamp: <2009-12-06 22:05:00EST defmfun-array.lisp>
 ;; $Id: $
 
 (in-package :gsl)
@@ -80,9 +80,9 @@
 			 gsl-function-name)))
 		(remf key-args :documentation)
 		(when (eq c-return :element-c-type)
-		  (setf (getf key-args :c-return) (cl-cffi eltype)))
+		  (setf (getf key-args :c-return) (c-array:cl-cffi eltype)))
 		(when (eq c-return :component-float-type)
-		  (setf (getf key-args :c-return) (component-type eltype)))
+		  (setf (getf key-args :c-return) (c-array:component-type eltype)))
 		(if (optional-args-to-switch-gsl-functions arglist gsl-name)
 		    ;; The methods have optional argument(s) and
 		    ;; multiple GSL functions for presence/absence of
@@ -115,7 +115,7 @@
   (if (listp base-name)
       (if (symbolp (first base-name))
 	  ;; An explicit listing of types with function names
-	  (getf base-name (cl-single type))
+	  (getf base-name (c-array:cl-single type))
 	  (let ((blas (search "blas" (first base-name) :test 'string-equal)))
 	    (apply #'concatenate 'string
 		   (substitute
@@ -126,7 +126,7 @@
 		      (cl-gsl type (not blas) blas) :type
 		      (substitute
 		       (if (subtypep type 'complex)
-			   (cl-gsl (component-float-type type) nil blas)
+			   (cl-gsl (c-array:component-float-type type) nil blas)
 			   "") :component-float-type
 		       (substitute
 			(string-downcase (symbol-name category)) :category
@@ -145,9 +145,9 @@
      (if (and replacing (listp arg))
 	 (list (first arg)
 	       (case (second arg)
-		 (:element-type (number-class element-type))
+		 (:element-type (c-array:number-class element-type))
 		 (:component-float-type
-		  (number-class (component-float-type element-type)))
+		  (c-array:number-class (c-array:component-float-type element-type)))
 		 (otherwise
 		  (data-class-name
 		   (if (and (eq (second arg) 'both) replace-both)
@@ -158,7 +158,7 @@
 	 ;; specially for array methods.
 	 (if (and (listp arg) (numberp (second arg)))
 	     (let ((actual-type
-		    (cffi-cl
+		    (c-array:cffi-cl
 		     (st-type (find (first arg) carg-actual :key 'st-symbol)))))
 	       (list (first arg) ; Optional arg default numerical value
 		     (if actual-type
@@ -198,6 +198,6 @@
    actual element type."
   (mapcar 
    (lambda (v)
-     (subst (cl-cffi element-type) :element-c-type
-	    (subst (component-type element-type) :component-float-type v)))
+     (subst (c-array:cl-cffi element-type) :element-c-type
+	    (subst (c-array:component-type element-type) :component-float-type v)))
    c-arguments))

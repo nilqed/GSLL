@@ -1,6 +1,6 @@
 ;; A "marray" is an array in both GSL and CL
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2009-06-06 09:58:56EDT marray.lisp>
+;; Time-stamp: <2009-12-06 19:50:09EST marray.lisp>
 
 (in-package :gsl)
 
@@ -88,7 +88,7 @@
   ;; e.g. (data-class-name 'vector '(unsigned-byte 8))
   ;; -> VECTOR-UNSIGNED-BYTE-8
   (if (member category '(vector matrix))
-      (intern (format nil "~a-~a" category (cl-single element-type))
+      (intern (format nil "~a-~a" category (c-array:cl-single element-type))
 	      :gsl)
       category))
 
@@ -216,7 +216,7 @@
     (contents-from-pointer
      pointer
      (if (subtypep class-name 'matrix) 'gsl-matrix-c 'gsl-vector-c)
-     (lookup-type class-name *class-element-type*)))))
+     (c-array:lookup-type class-name *class-element-type*)))))
 
 ;; Some functions in solve-minimize-fit return a pointer to a GSL
 ;; vector of double-floats.  This function turns that into a

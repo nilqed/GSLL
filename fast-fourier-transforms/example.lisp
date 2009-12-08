@@ -1,6 +1,6 @@
 ;; Example FFT: transform a pulse (using the "clean" fft interface)
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 00:24
-;; Time-stamp: <2009-11-19 23:18:31EST example.lisp>
+;; Time-stamp: <2009-12-06 22:05:01EST example.lisp>
 
 (in-package :gsl)
 
@@ -60,7 +60,7 @@
 ;; (make-urand-vector '(complex double-float) 5)
 (defun make-urand-vector (element-type dimension &key (stride 1))
   "Make a vector with random elements."
-  (let ((vec (make-marray `(complex ,(component-float-type element-type))
+  (let ((vec (make-marray `(complex ,(c-array:component-float-type element-type))
 			  :dimensions (list (* stride dimension)))))
     (loop for i from 0 below (* stride dimension) by stride
        do
@@ -74,7 +74,7 @@
   "The real vector consisting of the real part of the complex vector."
   (let ((real-vector
 	 (make-marray
-	  (component-float-type (element-type complex-vector))
+	  (c-array:component-float-type (element-type complex-vector))
 	  :dimensions (dimensions complex-vector))))
     (loop for i below (total-size complex-vector) do
 	 (setf (maref real-vector i)

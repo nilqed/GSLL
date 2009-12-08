@@ -1,6 +1,6 @@
 ;; Conversion of numbers C->CL
 ;; Liam Healy, Sun May 28 2006 - 22:04
-;; Time-stamp: <2009-04-27 21:24:36EDT number-conversion.lisp>
+;; Time-stamp: <2009-12-07 22:30:23EST number-conversion.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -25,14 +25,14 @@
 
 ;;; GSL complex struct is defined in init/complex-types.lisp.
 (defun complex-to-cl
-    (gsl-complex &optional (index 0) (complex-type 'complex-double-c))
+    (gsl-complex &optional (index 0) (complex-type 'c-array:complex-double-c))
   "Make a CL complex number from the GSL pointer to a complex struct or
    an array of complex structs and an index into the array." 
   (let ((carr (cffi:foreign-slot-value
 	       (cffi:inc-pointer
 		gsl-complex
 		(* index (cffi:foreign-type-size complex-type)))
-	       complex-type 'dat)))
+	       complex-type 'c-array::dat)))
     (complex (dcref carr 0)
 	     (dcref carr 1))))
 
@@ -50,8 +50,8 @@
      `((val ,(st-symbol decl) 'sf-result-e10)
        (e10 ,(st-symbol decl))
        (err ,(st-symbol decl) 'sf-result-e10)))
-    (complex-double-c
-     `((complex-to-cl ,(st-symbol decl) 0 'complex-double-c)))
-    (complex-float-c
-     `((complex-to-cl ,(st-symbol decl) 0 'complex-float-c)))
+    (c-array:complex-double-c
+     `((complex-to-cl ,(st-symbol decl) 0 'c-array:complex-double-c)))
+    (c-array:complex-float-c
+     `((complex-to-cl ,(st-symbol decl) 0 'c-array:complex-float-c)))
     (t `((cffi:mem-aref ,(st-symbol decl) ',(st-actual-type decl))))))	

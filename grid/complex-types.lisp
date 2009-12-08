@@ -1,8 +1,10 @@
 ;; Complex number types
 ;; Liam Healy 2009-01-13 21:24:05EST complex-types.lisp
-;; Time-stamp: <2009-11-16 12:35:49EST complex-types.lisp>
+;; Time-stamp: <2009-12-06 22:05:59EST complex-types.lisp>
 
-(in-package :gsl)
+(in-package :c-array)
+
+(export '(complex-double-c complex-float-c component-float-type component-type))
 
 ;;;;****************************************************************************
 ;;;; Complex types
@@ -48,3 +50,4 @@
 
 (defun component-type (eltype)
   (cl-cffi (component-float-type eltype)))
+
