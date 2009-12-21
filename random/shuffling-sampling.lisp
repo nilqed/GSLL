@@ -1,6 +1,6 @@
 ;; Shuffling and sampling
 ;; Liam Healy, Sat Dec  2 2006 - 18:40
-;; Time-stamp: <2009-05-24 23:13:40EDT shuffling-sampling.lisp>
+;; Time-stamp: <2009-12-21 09:04:36EST shuffling-sampling.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -12,7 +12,7 @@
      &key base)
   "gsl_ran_shuffle"
   (((mpointer generator) :pointer)
-   ((c-pointer base) :pointer) ((dim0 base) sizet) ((element-size base) sizet))
+   ((c-pointer base) :pointer) ((dim0 base) sizet) ((c-array:element-size base) sizet))
   :definition :method
   :inputs (base)
   :outputs (base)
@@ -36,7 +36,7 @@
   "gsl_ran_choose"
   (((mpointer generator) :pointer)
    ((c-pointer destarr) :pointer) ((dim0 destarr) sizet)
-   ((c-pointer src) :pointer) ((dim0 src) sizet) ((element-size src) sizet))
+   ((c-pointer src) :pointer) ((dim0 src) sizet) ((c-array:element-size src) sizet))
   :definition :method
   :inputs (destarr src)
   :outputs (destarr)
@@ -64,7 +64,7 @@
   "gsl_ran_sample"
   (((mpointer generator) :pointer)
    ((c-pointer destarr) :pointer) ((dim0 destarr) sizet)
-   ((c-pointer src) :pointer) ((dim0 src) sizet) ((element-size src) sizet))
+   ((c-pointer src) :pointer) ((dim0 src) sizet) ((c-array:element-size src) sizet))
   :definition :method
   :inputs (destarr src)
   :outputs (destarr)

@@ -1,6 +1,6 @@
 ;; Helpers that define a single GSL function interface
 ;; Liam Healy 2009-01-07 22:02:20EST defmfun-single.lisp
-;; Time-stamp: <2009-12-20 22:34:33EST defmfun-single.lisp>
+;; Time-stamp: <2009-12-21 08:35:23EST defmfun-single.lisp>
 ;; $Id: $
 
 (in-package :gsl)
@@ -39,7 +39,7 @@
    and protects it during execution of the body."
   (if array-symbols
       ;; http://www.sbcl.org/manual/Calling-Lisp-From-C.html
-      (native-pointer-protect array-symbols body)
+      (c-array:native-pointer-protect array-symbols body)
       body))
 
 (define-condition obsolete-gsl-version (error)

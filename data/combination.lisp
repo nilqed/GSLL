@@ -1,6 +1,6 @@
 ;; Combinations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2009-06-06 09:53:02EDT combination.lisp>
+;; Time-stamp: <2009-12-21 08:24:35EST combination.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -11,7 +11,7 @@
 ;;;; Combination structure and CL object
 ;;;;****************************************************************************
 
-(defclass combination (mobject foreign-array)
+(defclass combination (mobject c-array:foreign-array)
   ((element-type
     :initform
     #+int64 '(unsigned-byte 64)

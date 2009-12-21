@@ -1,6 +1,6 @@
 ;; Permutations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2009-11-14 10:52:43EST permutation.lisp>
+;; Time-stamp: <2009-12-21 08:17:05EST permutation.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -11,7 +11,7 @@
 ;;;; Permutation structure and CL object
 ;;;;****************************************************************************
    
-(defclass permutation (mobject foreign-array)
+(defclass permutation (mobject c-array:foreign-array)
   ((element-type
     :initform
     #+int64 '(unsigned-byte 64)

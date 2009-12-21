@@ -1,11 +1,15 @@
 ;; Load GSL
 ;; Liam Healy Sat Mar  4 2006 - 18:53
-;; Time-stamp: <2009-08-23 10:15:53EDT init.lisp>
+;; Time-stamp: <2009-12-21 08:59:29EST init.lisp>
 ;; $Id$
 
 (defpackage gsll
   (:nicknames :gsl)
-  (:use :common-lisp :cffi))
+  (:use :common-lisp :cffi)
+  (:import-from
+   :c-array
+   #:cl-array #:dimensions #:total-size #:element-type #:dim0 #:dim1
+   #:c-pointer))
 
 (cffi:define-foreign-library libgslcblas
     (:darwin
@@ -35,6 +39,3 @@
    
 (cffi:use-foreign-library libgsl)
 
-#+sbcl
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (pushnew :native *features*))

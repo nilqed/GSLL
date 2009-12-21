@@ -1,6 +1,6 @@
 ;; Copy marrays to/from CL arrays
 ;; Liam Healy 2009-02-11 19:28:44EST copy-cl.lisp
-;; Time-stamp: <2009-02-11 23:00:07EST copy-cl.lisp>
+;; Time-stamp: <2009-12-21 08:14:31EST copy-cl.lisp>
 ;; $Id: $
 
 ;;; The function #'copy can be used to copy the contents to or from a
@@ -65,7 +65,7 @@
 
 (defmethod copy-to-destination ((source marray) (destclass (eql 'array)))
   (let ((destination
-	 (make-ffa (element-type source) :dimensions (dimensions source))))
+	 (c-array:make-ffa (element-type source) :dimensions (dimensions source))))
     (copy-to-destination source destination)))
 
 ;;; Copy to a named marray element-type, where the type is a symbol

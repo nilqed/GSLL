@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2009-12-20 22:50:14EST gsll.asd>
+;; Time-stamp: <2009-12-21 08:45:28EST gsll.asd>
 
 (when (asdf:find-system :fsbv nil)
   (pushnew :fsbv *features*))
@@ -24,7 +24,9 @@
 	     (:file "element-types" :depends-on ("pkgdcl"))
 	     (:file "symbol-type" :depends-on ("pkgdcl"))
 	     (:file "number-conversion"
-		    :depends-on ("pkgdcl" "complex-types" "symbol-type"))))
+		    :depends-on ("pkgdcl" "complex-types" "symbol-type"))
+	     (:file "foreign-friendly" :depends-on ("pkgdcl"))
+	     (:file "foreign-array" :depends-on ("pkgdcl" "foreign-friendly"))))
    (:module init
 	    :depends-on (grid)
 	    :components
@@ -67,10 +69,8 @@
    (:module data
 	    :depends-on (init grid)
 	    :components
-	    ((:file "foreign-friendly")
-	     (:file "foreign-array" :depends-on ("foreign-friendly"))
-	     (cffi-grovel:grovel-file "array-structs")
-	     (:file "marray" :depends-on ("foreign-array" "array-structs"))
+	    ((cffi-grovel:grovel-file "array-structs")
+	     (:file "marray" :depends-on ("array-structs"))
 	     (:file "vector" :depends-on ("marray" "array-structs"))
 	     (:file "matrix" :depends-on ("marray" "vector" "array-structs"))
 	     (:file "maref" :depends-on ("marray" "vector" "matrix"))

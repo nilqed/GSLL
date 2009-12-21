@@ -1,6 +1,6 @@
 ;; Get/set array or elements: cl-array, maref
 ;; Liam Healy 2008-08-27 22:43:10EDT maref.lisp
-;; Time-stamp: <2009-12-07 22:51:18EST maref.lisp>
+;; Time-stamp: <2009-12-21 08:17:03EST maref.lisp>
 ;; $Id: $
 
 (in-package :gsl)
@@ -18,7 +18,7 @@
 
 ;;; Both these functions take one of the following class arguments for
 ;;; the array:
-;;; - a foreign-array
+;;; - a c-array:foreign-array
 ;;; - a Common Lisp array
 ;;; - a pointer to a GSL vector or matrix structure
 
@@ -28,11 +28,11 @@
 
 (defgeneric cl-array (object &optional array-rank element-type)
   (:documentation
-   "The array as a CL native array.  The object may be a foreign-array object,
+   "The array as a CL native array.  The object may be a c-array:foreign-array object,
     a pointer to a GSL vector or matrix, or an ordinary CL array of one
     or two dimensions.  Optional arguments array-rank and element-type
     are used only for pointers.")
-  (:method ((object foreign-array) &optional array-rank element-type)
+  (:method ((object c-array:foreign-array) &optional array-rank element-type)
     (declare (ignore array-rank element-type))
     #-native (copy-c-to-cl object)
     (slot-value object 'cl-array))
@@ -47,9 +47,9 @@
 
 (defgeneric maref (object index &optional index2 type)
   (:documentation
-   "An element of the data.  The object may be a foreign-array object, a pointer to
+   "An element of the data.  The object may be a c-array:foreign-array object, a pointer to
     a GSL vector or matrix, or an ordinary CL array of one or two dimensions.")
-  (:method ((object foreign-array) index &optional index2 type)
+  (:method ((object c-array:foreign-array) index &optional index2 type)
     (declare (ignore type))
     #-native (copy-c-to-cl object)
     (if index2
@@ -67,10 +67,10 @@
 
 (defgeneric (setf maref) (value object index &optional index2 type)
   (:documentation
-   "Set an element of the data.  The object may be a foreign-array object,
+   "Set an element of the data.  The object may be a c-array:foreign-array object,
     a pointer to a GSL vector or matrix, or an ordinary CL array
     of one or two dimensions.")
-  (:method (value (object foreign-array) index &optional index2 type)
+  (:method (value (object c-array:foreign-array) index &optional index2 type)
     (declare (ignore type))
     (if index2
 	(setf (aref (slot-value object 'cl-array) index index2) value)

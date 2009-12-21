@@ -1,6 +1,6 @@
 ;; A "marray" is an array in both GSL and CL
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2009-12-07 22:46:41EST marray.lisp>
+;; Time-stamp: <2009-12-21 08:32:09EST marray.lisp>
 
 (in-package :gsl)
 
@@ -8,21 +8,21 @@
 ;;;; The class marray and its construction
 ;;;;****************************************************************************
 
-(defclass marray (mobject foreign-array)
+(defclass marray (mobject c-array:foreign-array)
   ((block-pointer :initarg :block-pointer :reader block-pointer)
    (total-size :reader size))
   (:documentation
    "A superclass for arrays represented in GSL and CL."))
 
 ;;; We don't allocate or free the C array data, because that is
-;;; handled by foreign-array.  We can use the GSL functions
+;;; handled by c-array:foreign-array.  We can use the GSL functions
 ;;; *_alloc_from_block because they will allocate only the structure,
 ;;; but we must use CFFI to allocate the block structure; otherwise
 ;;; GSL would try to allocate the C array.  We do not use any of the
 ;;; GSL free functions because they would free the C array data.
 
 (defmethod initialize-instance :after ((object marray) &rest initargs)
-  (declare (ignore initargs)) ; required by &rest arg for foreign-array?
+  (declare (ignore initargs)) ; required by &rest arg for c-array:foreign-array?
   ;; Need to check that all allocations succeeded.
   ;; Don't do anything if mpointer has been assigned (shouldn't happen)
   ;; or this is a permutation or combination (they have their own methods).

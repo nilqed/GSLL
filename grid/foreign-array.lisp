@@ -1,15 +1,15 @@
-;; Foreign arrays (usually in C)
+;; Foreign (C or C-compatible) arrays
 ;; Liam Healy 2008-12-28 10:44:22EST foreign-array.lisp
-;; Time-stamp: <2009-12-06 21:56:58EST foreign-array.lisp>
-;; $Id: $
+;; Time-stamp: <2009-12-21 09:04:05EST foreign-array.lisp>
 
-(in-package :gsl)
+(in-package :c-array)
 
 ;;;;****************************************************************************
 ;;;; Object and methods
 ;;;;****************************************************************************
 
-(export '(dimensions total-size element-type))
+(export
+ '(foreign-array cl-array dimensions total-size element-type element-size))
 
 #-native
 (defgeneric (setf cl-invalid) (value object) ; do nothing 

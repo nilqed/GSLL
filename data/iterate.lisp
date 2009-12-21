@@ -1,6 +1,6 @@
 ;; Iterate
 ;; Norman Werner 2009-05-26 22:23:40EDT iterate.lisp
-;; Time-stamp: <2009-06-05 09:00:48EDT iterate.lisp>
+;; Time-stamp: <2009-12-21 09:04:18EST iterate.lisp>
 
 (in-package :iter)
 
@@ -23,7 +23,7 @@ As an example try:
   :size-fn
   (lambda (marray)
     (check-type marray gsl:matrix)
-    (gsll:dim0 marray))
+    (c-array:dim0 marray))
   :element-type t :sequence-type t
   :element-doc-string "(copied) rows of a matrix"
   :index-doc-string "index of the rows in a matrix")
@@ -36,7 +36,7 @@ As an example try:
   :size-fn
   (lambda (marray)
     (check-type marray gsl:matrix)
-    (gsll:dim1 marray))
+    (c-array:dim1 marray))
   :element-type t :sequence-type t
   :element-doc-string "(copied) columns of a matrix"
   :index-doc-string "index of the columns in a matrix")
@@ -49,7 +49,7 @@ As an example try:
   :size-fn
   (lambda (vector)
     (check-type vector gsl:mvector)
-    (gsll:dim0 vector))
+    (c-array:dim0 vector))
   :element-type t :sequence-type t
   :element-doc-string "(copied) elements of a vector"
   :index-doc-string "index of elements in a vector")
@@ -63,8 +63,8 @@ As an example try:
 	 (with ,m = ,matrix)
 	 (with ,row-index = 0)
 	 (with ,col-index = 0)
-	 (with ,row-size = (gsl:dim0 ,m))
-	 (with ,col-size = (gsl:dim1 ,m))
+	 (with ,row-size = (c-array:dim0 ,m))
+	 (with ,col-size = (c-array:dim1 ,m))
 	 (for ,element
 	      :next
 	      (if (>= ,row-index ,row-size)
@@ -91,8 +91,8 @@ As an example try:
        (with ,m = ,matrix)
        (with ,row-index = 0)
        (with ,col-index = 0)
-       (with ,row-size =  (gsll:dim0 ,m))
-       (with ,col-size =  (gsll:dim1 ,m))
+       (with ,row-size =  (c-array:dim0 ,m))
+       (with ,col-size =  (c-array:dim1 ,m))
        (for ,indexes next (if (>= ,row-index ,row-size)
 			      (terminate)
 			      (if (>= ,col-index ,col-size)

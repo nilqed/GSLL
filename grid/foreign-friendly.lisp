@@ -1,20 +1,20 @@
 ;; Use the foreign-friendly arrays package.
 ;; Liam Healy 2008-03-22 15:40:08EDT
-;; Time-stamp: <2009-12-07 22:51:17EST foreign-friendly.lisp>
-;; $Id$
+;; Time-stamp: <2009-12-21 08:34:21EST foreign-friendly.lisp>
 
 ;;; Foreign-friendly arrays (original implementation by Tamas Papp)
 ;;; http://www.princeton.edu/~tpapp/software.html
 ;;; The replacements here don't do coercions or checks
 ;;; on type as they are unnecessary, and handle complex types.
 
-(in-package :gsl)
+(in-package :c-array)
+
+(export '(make-ffa native-pointer-protect c-pointer))
 
 ;;;;****************************************************************************
 ;;;; Make arrays for possible foreign use 
 ;;;;****************************************************************************
 
-(export 'make-ffa)
 (defun make-ffa
     (element-type
      &key dimensions (initial-element nil initial-element-p)
@@ -23,9 +23,9 @@
   "Make an array of one or two dimensions for possible use in foreign code.
    Syntax is similar to make-array, but note that element-type
    is mandatory and limited to certain types."
-  (assert (member element-type c-array:*array-element-types* :test 'equal)
+  (assert (member element-type *array-element-types* :test 'equal)
 	  (element-type)
-	  "Specified element-type must be one of c-array:*array-element-types*.")
+	  "Specified element-type must be one of *array-element-types*.")
   (let* ((initial-matrix (listp (first initial-contents)))
 	 (complex-initial-real
 	  (and initial-contents-p
