@@ -1,6 +1,6 @@
 ;; Coulumb functions
 ;; Liam Healy, Sat Mar 18 2006 - 23:23
-;; Time-stamp: <2009-04-26 22:57:18EDT coulomb.lisp>
+;; Time-stamp: <2009-12-20 23:16:02EST coulomb.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -38,7 +38,7 @@
    (exp-F (:pointer :double)) (exp-G (:pointer :double)))
   :return
   ((val F) (val Fp) (val G) (val Gp)
-   (dcref exp-F) (dcref exp-G)
+   (c-array:dcref exp-F) (c-array:dcref exp-G)
    (err F) (err Fp) (err G) (err Gp))
   :documentation			; FDL
   "The Coulomb wave functions F_L(\eta,x),
@@ -57,7 +57,7 @@
   ((L-min :double) ((1- (dim0 fc-array)) :int) (eta :double) (x :double)
    ((c-pointer fc-array) :pointer) (F-exponent (:pointer :double)))
   :outputs (fc-array)
-  :return (fc-array (dcref F-exponent))
+  :return (fc-array (c-array:dcref F-exponent))
   :documentation			; FDL
   "The Coulomb wave function F_L(\eta,x) for
   L = Lmin ... Lmin + kmax, storing the results in fc-array.
@@ -74,7 +74,7 @@
    ((c-pointer fc-array) :pointer) ((c-pointer gc-array) :pointer)
    (F-exponent (:pointer :double)) (G-exponent (:pointer :double)))
   :outputs (fc-array gc-array)
-  :return (fc-array gc-array (dcref F-exponent) (dcref G-exponent))
+  :return (fc-array gc-array (c-array:dcref F-exponent) (c-array:dcref G-exponent))
   :documentation			; FDL
   "The functions F_L(\eta,x),
   G_L(\eta,x) for L = Lmin ... Lmin + kmax storing the
@@ -99,7 +99,7 @@
   :outputs (fc-array fcp-array gc-array gcp-array)
   :return
   (fc-array fcp-array gc-array gcp-array
-	    (dcref F-exponent) (dcref G-exponent))
+	    (c-array:dcref F-exponent) (c-array:dcref G-exponent))
   :documentation			; FDL
   "The functions F_L(\eta,x),
   G_L(\eta,x) and their derivatives F'_L(\eta,x),
@@ -115,7 +115,7 @@
   ((L-min :double) ((1- (dim0 fc-array)) :int) (eta :double) (x :double)
    ((c-pointer fc-array) :pointer) (F-exponent (:pointer :double)))
   :outputs (fc-array)
-  :return (fc-array (dcref F-exponent))
+  :return (fc-array (c-array:dcref F-exponent))
   :documentation			; FDL
   "The Coulomb wave function divided by the argument
    F_L(\eta, x)/x for L = Lmin ... Lmin + kmax, storing the

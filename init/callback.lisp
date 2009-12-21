@@ -1,6 +1,6 @@
 ;; Foreign callback functions.               
 ;; Liam Healy 
-;; Time-stamp: <2009-05-04 21:44:08EDT callback.lisp>
+;; Time-stamp: <2009-12-20 22:34:34EST callback.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -221,4 +221,4 @@
        ;; CL specials to do the same job.
        (declare ,@(when (member :slug args) `((ignore ,slug)))
 		(special ,dynamic-variable))
-       (funcall ,dynamic-variable ,@(mapcar 'st-symbol (remove :slug args))))))
+       (funcall ,dynamic-variable ,@(mapcar 'c-array:st-symbol (remove :slug args))))))

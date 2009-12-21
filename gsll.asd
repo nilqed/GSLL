@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2009-12-07 22:58:36EST gsll.asd>
+;; Time-stamp: <2009-12-20 22:50:14EST gsll.asd>
 
 (when (asdf:find-system :fsbv nil)
   (pushnew :fsbv *features*))
@@ -21,7 +21,10 @@
 	    ((:file "pkgdcl")
 	     (:file "types" :depends-on ("pkgdcl"))
 	     (:file "complex-types" :depends-on ("pkgdcl" "types"))
-	     (:file "element-types" :depends-on ("pkgdcl"))))
+	     (:file "element-types" :depends-on ("pkgdcl"))
+	     (:file "symbol-type" :depends-on ("pkgdcl"))
+	     (:file "number-conversion"
+		    :depends-on ("pkgdcl" "complex-types" "symbol-type"))))
    (:module init
 	    :depends-on (grid)
 	    :components
@@ -30,20 +33,19 @@
 	     (:file "utility")
 	     (:file "forms")
 	     (:file "conditions" :depends-on ("init" "libgsl"))
-	     (:file "number-conversion" :depends-on ("init" "libgsl"))
 	     (:file "callback-compile-defs" :depends-on ("init"))
 	     (:file "mobject" :depends-on ("init" "callback-compile-defs"))
 	     (:file "callback-included" :depends-on ("mobject"))
 	     (:file "callback"
 		    :depends-on
-		    ("init" "utility" "forms" "number-conversion"
+		    ("init" "utility" "forms"
 			    "callback-included"))
 	     (:file "types" :depends-on ("init" "libgsl"))
 	     (cffi-grovel:grovel-file "callback-struct"
 				      :depends-on ("types" "libgsl"))
 	     (:file "funcallable" :depends-on ("utility"))
 	     (:file "interface"
-		    :depends-on ("init" "conditions" "number-conversion"))
+		    :depends-on ("init" "conditions"))
 	     (:file "defmfun" :depends-on ("init" "forms" "interface"))
 	     (:file "defmfun-array"
 		    :depends-on ("defmfun" "callback-included"))
@@ -63,7 +65,7 @@
 	     #+fsbv
 	     (:file "complex")))
    (:module data
-	    :depends-on (init)
+	    :depends-on (init grid)
 	    :components
 	    ((:file "foreign-friendly")
 	     (:file "foreign-array" :depends-on ("foreign-friendly"))

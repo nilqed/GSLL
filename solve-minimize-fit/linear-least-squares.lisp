@@ -1,6 +1,6 @@
 ;; Linear least squares, or linear regression
 ;; Liam Healy <2008-01-21 12:41:46EST linear-least-squares.lisp>
-;; Time-stamp: <2009-05-24 22:56:00EDT linear-least-squares.lisp>
+;; Time-stamp: <2009-12-20 23:03:01EST linear-least-squares.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -187,7 +187,7 @@
   :inputs (model weight observations)
   :outputs (parameters covariance)
   :switch (weight)
-  :return (parameters covariance (dcref chisq))
+  :return (parameters covariance (c-array:dcref chisq))
   :export nil
   :index linear-mfit
   :documentation			; FDL
@@ -232,7 +232,7 @@
   :inputs (model weight observations)
   :outputs (parameters covariance)
   :switch (weight)
-  :return ((dcref chisq) (scref rank))
+  :return ((c-array:dcref chisq) (scref rank))
   :export nil
   :index linear-mfit
   :documentation			; FDL

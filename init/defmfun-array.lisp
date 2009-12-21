@@ -1,6 +1,6 @@
 ;; Helpers for defining GSL functions on arrays
 ;; Liam Healy 2009-01-07 22:01:16EST defmfun-array.lisp
-;; Time-stamp: <2009-12-07 22:55:39EST defmfun-array.lisp>
+;; Time-stamp: <2009-12-20 22:35:57EST defmfun-array.lisp>
 ;; $Id: $
 
 (in-package :gsl)
@@ -159,7 +159,7 @@
 	 (if (and (listp arg) (numberp (second arg)))
 	     (let ((actual-type
 		    (c-array:cffi-cl
-		     (st-type (find (first arg) carg-actual :key 'st-symbol)))))
+		     (c-array:st-type (find (first arg) carg-actual :key 'c-array:st-symbol)))))
 	       (list (first arg) ; Optional arg default numerical value
 		     (if actual-type
 		     ;; coerce to the right type

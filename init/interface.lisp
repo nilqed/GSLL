@@ -1,6 +1,6 @@
 ;; Macros to interface GSL functions, including definitions necessary for defmfun.
 ;; Liam Healy 
-;; Time-stamp: <2009-12-06 19:52:33EST interface.lisp>
+;; Time-stamp: <2009-12-20 23:03:02EST interface.lisp>
 
 (in-package :gsl)
 
@@ -22,50 +22,19 @@
   (gethash (string-downcase string) *gsl-symbol-equivalence*))
 
 ;;;;****************************************************************************
-;;;; Symbol-type declaration
+;;;; Declare foreign objects
 ;;;;****************************************************************************
 
-;;; An "st" or symbol-type is a list (symbol type) where
-;;; type could be (element-type array-dim).  These are examples of lists
-;;; of sts: 
- ;; ((#:RET3500 SF-RESULT))
- ;; ((#:RET3501 (:DOUBLE (- NMAX NMIN)))) 
- ;; ((#:RET3502 (:DOUBLE (1+ KMAX))) (#:RET3503 (:DOUBLE (1+ KMAX)))
- ;;  (#:RET3504 (:DOUBLE (1+ KMAX))) (#:RET3505 (:DOUBLE (1+ KMAX)))
- ;;  (#:RET3506 :DOUBLE) (#:RET3507 :DOUBLE))
-
-(defun make-st (symbol type)
-  (list symbol type))
-
-(defun st-symbol (decl)
-  (first decl))
-
-(defun st-type (decl)
-  (second decl))
-
-(defun st-pointerp (decl)
-  "If this st represents a pointer, return the type of the object."
-  (if
-   (eq (st-type decl) :pointer)
-   t				   ; return T for type if unknown type
-   (if (and (listp (st-type decl))
-	    (eq (first (st-type decl)) :pointer))
-       (second (st-type decl)))))
-
-(defun st-actual-type (decl)
-  (or (st-pointerp decl) (st-type decl)))
-
-(defun st-pointer-generic-pointer (decl)
-  (if (st-pointerp decl)
-      (make-st (st-symbol decl) :pointer)
-      decl))
+(defmacro scref (size &optional (index 0))
+  "Reference C size(s)."
+  `(cffi:mem-aref ,size 'sizet ,index))
 
 (defun wfo-declare (d cbinfo)
-  `(,(st-symbol d)
-     ,@(if (eq (st-symbol d)
+  `(,(c-array:st-symbol d)
+     ,@(if (eq (c-array:st-symbol d)
 	       (parse-callback-static cbinfo 'foreign-argument))
 	   `(',(parse-callback-static cbinfo 'callback-fnstruct))
-	   `(',(st-actual-type d)))))
+	   `(',(c-array:st-actual-type d)))))
 
 ;;;;****************************************************************************
 ;;;; Checking results from GSL functions
@@ -102,10 +71,10 @@
 (defun cl-argument-types (cl-arguments c-arguments-types)
   "Create CL argument and types from the C arguments."
   (loop for sd in c-arguments-types
-	for cl-type = (c-array:cffi-cl (st-type sd))
+	for cl-type = (c-array:cffi-cl (c-array:st-type sd))
 	append
-	(when (and cl-type (member (st-symbol sd) (cl-symbols cl-arguments)))
-	  (list (list (st-symbol sd) cl-type)))))
+	(when (and cl-type (member (c-array:st-symbol sd) (cl-symbols cl-arguments)))
+	  (list (list (c-array:st-symbol sd) cl-type)))))
 
 (defun declaration-form (cl-argument-types &optional ignores specials)
   (cons 'declare

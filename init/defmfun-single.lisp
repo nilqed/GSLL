@@ -1,6 +1,6 @@
 ;; Helpers that define a single GSL function interface
 ;; Liam Healy 2009-01-07 22:02:20EST defmfun-single.lisp
-;; Time-stamp: <2009-11-01 14:20:53EST defmfun-single.lisp>
+;; Time-stamp: <2009-12-20 22:34:33EST defmfun-single.lisp>
 ;; $Id: $
 
 (in-package :gsl)
@@ -29,7 +29,7 @@
   quality code walker, but is sufficient for actual usage of defmfun."
   (remove-duplicates
    (mappend (lambda (carg)
-	     (stupid-code-walk-find-variables (st-symbol carg)))
+	     (stupid-code-walk-find-variables (c-array:st-symbol carg)))
 	   c-arguments)
    :from-end t))
 
