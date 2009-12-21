@@ -1,6 +1,6 @@
 ;; Copy marrays to/from CL arrays
 ;; Liam Healy 2009-02-11 19:28:44EST copy-cl.lisp
-;; Time-stamp: <2009-12-21 08:14:31EST copy-cl.lisp>
+;; Time-stamp: <2009-12-21 10:27:07EST copy-cl.lisp>
 ;; $Id: $
 
 ;;; The function #'copy can be used to copy the contents to or from a
@@ -20,65 +20,55 @@
 
 (in-package :gsl)
 
-(define-condition array-mismatch (error)
-  ()
-  (:report
-   (lambda (condition stream)
-     (declare (ignore condition))
-     (format stream "Arrays must be of equal size for copying.")))
-  (:documentation
-   "An error indicating that the two arrays do not have 
-   the same dimensions."))
+;;; These make destination but are methods of copy-to-destination so
+;;; that the class argument may be supplied.
 
-(defmethod copy-to-destination ((source mvector) (destination array))
+(defmethod c-array:copy-to-destination ((source mvector) (destination array))
   (unless (equal (dimensions source) (array-dimensions destination))
-    (error 'array-mismatch))
+    (error 'c-array:array-mismatch))
   (loop for i below (dim0 source)
        do (setf (aref destination i) (maref source i)))
   destination)
 
-(defmethod copy-to-destination ((source matrix) (destination array))
+(defmethod c-array:copy-to-destination ((source matrix) (destination array))
   (unless (equal (dimensions source) (array-dimensions destination))
-    (error 'array-mismatch))
+    (error 'c-array:array-mismatch))
   (loop for i below (dim0 source) do
        (loop for j below (dim1 source) do
 	    (setf (aref destination i j) (maref source i j))))
   destination)
 
-(defmethod copy-to-destination ((source array) (destination mvector))
+(defmethod c-array:copy-to-destination ((source array) (destination mvector))
   (unless (equal (array-dimensions source) (dimensions destination))
-    (error 'array-mismatch))
+    (error 'c-array:array-mismatch))
   (loop for i below (length source)
        do (setf (maref destination i) (aref source i)))
   destination)
 
-(defmethod copy-to-destination ((source array) (destination matrix))
+(defmethod c-array:copy-to-destination ((source array) (destination matrix))
   (unless (equal (array-dimensions source) (dimensions destination))
-    (error 'array-mismatch))
+    (error 'c-array:array-mismatch))
   (loop for i below (array-dimension source 0) do
        (loop for j below (array-dimension source 1) do
 	    (setf (maref destination i j) (aref source i j))))
   destination)
 
-;;; These make destination but are methods of copy-to-destination so
-;;; that the class argument may be supplied.
-
-(defmethod copy-to-destination ((source marray) (destclass (eql 'array)))
+(defmethod c-array:copy-to-destination ((source marray) (destclass (eql 'array)))
   (let ((destination
 	 (c-array:make-ffa (element-type source) :dimensions (dimensions source))))
-    (copy-to-destination source destination)))
+    (c-array:copy-to-destination source destination)))
 
 ;;; Copy to a named marray element-type, where the type is a symbol
-(defmethod copy-to-destination ((source array) (destclass symbol))
+(defmethod c-array:copy-to-destination ((source array) (destclass symbol))
   (let ((destination
 	 (make-marray destclass :dimensions (array-dimensions source))))
-    (copy-to-destination source destination)))
+    (c-array:copy-to-destination source destination)))
 
 ;;; Copy to a named marray element-type, where the type is a list
-(defmethod copy-to-destination ((source array) (destclass list))
+(defmethod c-array:copy-to-destination ((source array) (destclass list))
   (let ((destination
 	 (make-marray destclass :dimensions (array-dimensions source))))
-    (copy-to-destination source destination)))
+    (c-array:copy-to-destination source destination)))
 
 ;;; Examples and tests
 

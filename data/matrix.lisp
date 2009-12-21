@@ -1,6 +1,6 @@
 ;; Matrices
 ;; Liam Healy 2008-04-15 21:57:52EDT matrix.lisp
-;; Time-stamp: <2009-06-06 10:07:26EDT matrix.lisp>
+;; Time-stamp: <2009-12-21 10:21:29EST matrix.lisp>
 
 (in-package :gsl)
 
@@ -28,7 +28,7 @@
        collect (loop for j below dim1
 		  collect (maref pointer i j element-type)))))
 
-(defmethod copy-to-destination
+(defmethod c-array:copy-to-destination
     ((object matrix) (pointer #.+foreign-pointer-class+))
   (foreign-pointer-method
    pointer

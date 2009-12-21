@@ -1,6 +1,6 @@
 ;; Combinations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2009-12-21 08:24:35EST combination.lisp>
+;; Time-stamp: <2009-12-21 10:21:30EST combination.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -76,7 +76,7 @@
   "Initialize the combination c to the lexicographically
    last combination, i.e. (n-k,n-k+1,...,n-1).")
 
-(defmfun copy-to-destination ((source combination) (destination combination))
+(defmfun c-array:copy-to-destination ((source combination) (destination combination))
   "gsl_combination_memcpy"
   (((mpointer destination) :pointer)
    ((mpointer source) :pointer))

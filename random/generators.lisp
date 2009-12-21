@@ -1,6 +1,6 @@
 ;; Generators of random numbers.
 ;; Liam Healy, Sat Jul 15 2006 - 14:43
-;; Time-stamp: <2009-08-25 19:38:06EDT generators.lisp>
+;; Time-stamp: <2009-12-21 10:21:25EST generators.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -161,7 +161,7 @@
 ;;;; Copying state
 ;;;;****************************************************************************
 
-(defmfun copy-to-destination
+(defmfun c-array:copy-to-destination
     ((source random-number-generator) (destination random-number-generator))
   "gsl_rng_memcpy"
   (((mpointer destination) :pointer) ((mpointer source) :pointer))

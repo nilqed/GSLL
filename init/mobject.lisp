@@ -1,6 +1,6 @@
 ;; Definition of GSL objects and ways to use them.
 ;; Liam Healy, Sun Dec  3 2006 - 10:21
-;; Time-stamp: <2009-11-07 11:21:10EST mobject.lisp>
+;; Time-stamp: <2009-12-21 10:21:27EST mobject.lisp>
 
 ;;; GSL objects are represented in GSLL as and instance of a 'mobject.
 ;;; The macro demobject takes care of defining the appropriate
@@ -341,16 +341,8 @@
 (defun copy (object &optional destination)
   "Create a duplicate object."
   (if destination
-      (copy-to-destination object destination)
+      (c-array:copy-to-destination object destination)
       (copy-making-destination object)))
-
-(defgeneric copy-to-destination (object destination)
-  ;; This copies values into an existing object.  Methods are defined
-  ;; for non-array GSL objects that have _memcpy functions defined.
-  ;; Defined for
-  ;; random-number-generator, quasi-random-number-generator,
-  ;; histogram, histogram2d, permutation, combination.
-  (:documentation "Copy contents into existing object."))
 
 (defgeneric copy-making-destination (object)
   (:documentation "Create new duplicate object.")

@@ -1,6 +1,6 @@
 ;; Quasi-random sequences in arbitrary dimensions.
 ;; Liam Healy, Sun Jul 16 2006 - 15:54
-;; Time-stamp: <2009-08-25 19:38:06EDT quasi.lisp>
+;; Time-stamp: <2009-12-21 10:21:25EST quasi.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -49,7 +49,7 @@
   :export nil
   :index gsl-random-state)
 
-(defmfun copy-to-destination
+(defmfun c-array:copy-to-destination
     ((source quasi-random-number-generator)
      (destination quasi-random-number-generator))
   "gsl_qrng_memcpy"

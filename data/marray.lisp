@@ -1,6 +1,6 @@
 ;; A "marray" is an array in both GSL and CL
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2009-12-21 08:32:09EST marray.lisp>
+;; Time-stamp: <2009-12-21 10:21:31EST marray.lisp>
 
 (in-package :gsl)
 
@@ -204,9 +204,9 @@
    pointer
    ;; Default assumption when destination isn't given in #'copy is
    ;; that this should make a vector-double-float.
-   (copy-to-destination pointer 'vector-double-float)))
+   (c-array:copy-to-destination pointer 'vector-double-float)))
 
-(defmethod copy-to-destination
+(defmethod c-array:copy-to-destination
     ((pointer #.+foreign-pointer-class+) (class-name symbol))
   (foreign-pointer-method
    pointer
