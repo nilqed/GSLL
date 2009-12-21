@@ -1,6 +1,6 @@
 ;; Get/set array or elements: cl-array, maref
 ;; Liam Healy 2009-12-21 09:40:27EST element-reference.lisp
-;; Time-stamp: <2009-12-21 13:46:59EST element-reference.lisp>
+;; Time-stamp: <2009-12-21 15:55:44EST element-reference.lisp>
 
 (in-package :c-array)
 
@@ -33,7 +33,7 @@
   (:method ((object foreign-array) &optional array-rank element-type)
     (declare (ignore array-rank element-type))
     #-native (copy-c-to-cl object)
-    (slot-value object 'cl-array))
+    (slot-value object 'grid:data))
   (:method ((object array) &optional array-rank element-type)
     ;; For compatibility, work on CL arrays as well.
     (declare (ignore array-rank element-type))
@@ -45,11 +45,11 @@
 
 (defmethod grid:gref ((object foreign-array) &rest indices)
   #-native (copy-c-to-cl object)
-  (apply 'aref (cl-array object) indices))
+  (apply 'aref (grid:grid-data object) indices))
 
 ;;; Alternative to complete copy is to mark which elements have
 ;;; changed and just copy them.  Is it worth it?
 
 (defmethod (setf grid:gref) (value  (object foreign-array) &rest indices)
-  (apply '(setf aref) value (cl-array object) indices)
+  (apply '(setf aref) value (grid:grid-data object) indices)
   #-native (setf (c-invalid object) t))

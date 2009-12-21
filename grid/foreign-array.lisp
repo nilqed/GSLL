@@ -1,6 +1,6 @@
 ;; Foreign (C or C-compatible) arrays
 ;; Liam Healy 2008-12-28 10:44:22EST foreign-array.lisp
-;; Time-stamp: <2009-12-21 14:02:16EST foreign-array.lisp>
+;; Time-stamp: <2009-12-21 19:04:46EST foreign-array.lisp>
 
 (in-package :c-array)
 
@@ -8,8 +8,8 @@
 ;;;; Object and methods
 ;;;;****************************************************************************
 
-(export
- '(foreign-array cl-array dimensions total-size element-type element-size))
+(export '(foreign-array dimensions total-size element-type element-size
+	  *print-contents*))
 
 #-native
 (defgeneric (setf cl-invalid) (value object) ; do nothing 
@@ -20,8 +20,7 @@
   (:method (value (object t)) value))
 
 (defclass foreign-array (grid:grid)
-  ((cl-array :initarg :cl-array :documentation "The Lisp array.")
-   #-native
+  (#-native
    (c-pointer :accessor c-pointer :documentation "A pointer to the C array.")
    (dimensions :reader dimensions)
    (total-size :reader total-size)
@@ -53,11 +52,17 @@
     ((object foreign-array) &rest initargs
      &key dimensions initial-contents initial-element)
   (declare (ignore dimensions #+native initial-contents #+native initial-element))
-  (with-slots (cl-array dimensions original-array offset total-size) object
-    (unless (and (slot-boundp object 'cl-array) cl-array)
-      (setf cl-array (apply #'make-ffa (element-type object) initargs)))
-    (setf dimensions (array-dimensions cl-array)
-	  total-size (array-total-size cl-array))
+  (with-slots (grid:rank grid:affi grid:specification grid:data
+			 dimensions original-array offset total-size)
+      object
+    (unless (and (slot-boundp object 'grid:data) grid:data)
+      (setf grid:data (apply #'make-ffa (element-type object) initargs)))
+    (setf dimensions (array-dimensions grid:data)
+	  total-size (array-total-size grid:data)
+	  grid:rank (length dimensions)
+	  grid:specification
+	  (list (cons (class-of object) dimensions) (element-type object))
+	  grid:affi (ignore-errors (affi:make-affi dimensions)))
     #-native
     (let ((cptr (cffi:foreign-alloc
 		 (cl-cffi (element-type object))
@@ -67,7 +72,7 @@
     #-native
     (setf (cl-invalid object) (not (or initial-contents initial-element)))
     (multiple-value-bind  (oa index-offset)
-	(find-original-array (cl-array object))
+	(find-original-array grid:data)
       (setf original-array oa
 	    offset
 	    (* index-offset
@@ -81,7 +86,7 @@
     (if *print-contents*
 	(progn
 	  #-native (copy-c-to-cl object)
-	  (princ (cl-array object) stream))
+	  (princ (grid:grid-data object) stream))
 	(format stream "dimensions ~a" (dimensions object)))))
 
 (export '(dim0 dim1))
@@ -113,7 +118,7 @@
   "Copy the CL array to the C array."
   (when (and (typep object 'mobject) (c-invalid object))
     (copy-array-to-pointer
-     (slot-value object 'cl-array)
+     (slot-value object 'grid:data)
      (c-pointer object)
      (element-type object)
      0
@@ -126,7 +131,7 @@
   "Copy the C array to the CL array."
   (when (and (typep object 'mobject) (cl-invalid object))
     (copy-array-from-pointer
-     (slot-value object 'cl-array)
+     (slot-value object 'grid:data)
      (c-pointer object)
      (element-type object)
      0
