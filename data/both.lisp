@@ -1,6 +1,6 @@
 ;; Functions for both vectors and matrices.
 ;; Liam Healy 2008-04-26 20:48:44EDT both.lisp
-;; Time-stamp: <2009-12-21 10:21:28EST both.lisp>
+;; Time-stamp: <2009-12-21 10:47:55EST both.lisp>
 
 (in-package :gsl)
 
@@ -61,7 +61,7 @@
   :inputs (source)
   :outputs (destination))
 
-(defmfun copy-making-destination
+(defmfun c-array:copy-making-destination
     ((source both) &aux 
      (destination
       (make-marray element-type :dimensions (dimensions source))))

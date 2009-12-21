@@ -1,6 +1,6 @@
 ;; Generators of random numbers.
 ;; Liam Healy, Sat Jul 15 2006 - 14:43
-;; Time-stamp: <2009-12-21 10:21:25EST generators.lisp>
+;; Time-stamp: <2009-12-21 10:47:53EST generators.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -173,7 +173,7 @@
    making destination into an exact copy
    of source.  The two generators must be of the same type.")
 
-(defmfun copy-making-destination ((instance random-number-generator))
+(defmfun c-array:copy-making-destination ((instance random-number-generator))
   "gsl_rng_clone" (((mpointer instance) :pointer))
   :definition :method
   :c-return :pointer

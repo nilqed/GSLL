@@ -1,6 +1,6 @@
 ;; A "marray" is an array in both GSL and CL
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2009-12-21 10:21:31EST marray.lisp>
+;; Time-stamp: <2009-12-21 10:47:55EST marray.lisp>
 
 (in-package :gsl)
 
@@ -199,7 +199,7 @@
    "Create a contents list from the GSL object of type struct-type
     referenced by pointer."))
 
-(defmethod copy-making-destination ((pointer #.+foreign-pointer-class+))
+(defmethod c-array:copy-making-destination ((pointer #.+foreign-pointer-class+))
   (foreign-pointer-method
    pointer
    ;; Default assumption when destination isn't given in #'copy is

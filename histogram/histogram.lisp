@@ -1,6 +1,6 @@
 ;; The histogram structure
 ;; Liam Healy, Mon Jan  1 2007 - 11:32
-;; Time-stamp: <2009-12-21 10:21:26EST histogram.lisp>
+;; Time-stamp: <2009-12-21 10:47:54EST histogram.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -88,14 +88,14 @@
    an exact copy of the former.
    The two histograms must be of the same size.")
 
-(defmfun copy-making-destination ((source histogram))
+(defmfun c-array:copy-making-destination ((source histogram))
   "gsl_histogram_clone"
   (((mpointer source) :pointer))
   :definition :method
   :c-return :pointer
   :index copy)
 
-(defmfun copy-making-destination ((source histogram2d))
+(defmfun c-array:copy-making-destination ((source histogram2d))
   "gsl_histogram2d_clone"
   (((mpointer source) :pointer))
   :definition :method

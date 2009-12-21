@@ -1,6 +1,6 @@
 ;; Quasi-random sequences in arbitrary dimensions.
 ;; Liam Healy, Sun Jul 16 2006 - 15:54
-;; Time-stamp: <2009-12-21 10:21:25EST quasi.lisp>
+;; Time-stamp: <2009-12-21 10:47:54EST quasi.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -61,7 +61,7 @@
    pre-existing generator dest, making dest into an exact copy
    of src.  The two generators must be of the same type.")
 
-(defmfun copy-making-destination ((instance quasi-random-number-generator))
+(defmfun c-array:copy-making-destination ((instance quasi-random-number-generator))
   "gsl_qrng_clone" (((mpointer instance) :pointer))
   :definition :method
   :c-return :pointer

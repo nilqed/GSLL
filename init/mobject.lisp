@@ -1,6 +1,6 @@
 ;; Definition of GSL objects and ways to use them.
 ;; Liam Healy, Sun Dec  3 2006 - 10:21
-;; Time-stamp: <2009-12-21 10:21:27EST mobject.lisp>
+;; Time-stamp: <2009-12-21 10:44:01EST mobject.lisp>
 
 ;;; GSL objects are represented in GSLL as and instance of a 'mobject.
 ;;; The macro demobject takes care of defining the appropriate
@@ -337,42 +337,22 @@
 ;;;; Making objects from existing objects
 ;;;;****************************************************************************
 
-(export 'copy)
-(defun copy (object &optional destination)
-  "Create a duplicate object."
-  (if destination
-      (c-array:copy-to-destination object destination)
-      (copy-making-destination object)))
+(defmethod c-array:copy-making-destination :around ((object mobject))
+  (if (next-method-p)
+      ;; The subclass method should only return the malloced
+      ;; mpointer (as from a "_clone" function); it will be put into
+      ;; the CL object here.  The initial-instance method for these
+      ;; objects must be written to do nothing if the mpointer is
+      ;; already defined.
+      ;; Defined for
+      ;; histogram, histogram2d, 
+      ;; random-number-generator, quasi-random-number-generator,
+      (if (typep object 'marray)
+	  (call-next-method)
+	  (make-instance (class-of object) :mpointer (call-next-method)))
+      ;; The subclass does not supply a method, so this will be called
+      ;; by default.  We can only try to make something from the load form.
+      (eval (make-load-form object))))
 
-(defgeneric copy-making-destination (object)
-  (:documentation "Create new duplicate object.")
-  (:method :around ((object mobject))
-      (if (next-method-p)
-	  ;; The subclass method should only return the malloced
-	  ;; mpointer (as from a "_clone" function); it will be put into
-	  ;; the CL object here.  The initial-instance method for these
-	  ;; objects must be written to do nothing if the mpointer is
-	  ;; already defined.
-	  ;; Defined for
-	  ;; histogram, histogram2d, 
-	  ;; random-number-generator, quasi-random-number-generator,
-	  (if (typep object 'marray)
-	      (call-next-method)
-	      (make-instance (class-of object) :mpointer (call-next-method)))
-	  ;; The subclass does not supply a method, so this will be called
-	  ;; by default.  We can only try to make something from the load form.
-	  (eval (make-load-form object)))))
-
-;;; Could be part of copy when the second argument is optional?
-(export 'clone)
-(defgeneric clone (object)
-  (:documentation "Create a duplicate object.")
-  (:method :around ((object mobject))
-	   (make-instance (class-of object) :mpointer (call-next-method))))
-
-
-;;; To make-load-form
-;;; (make-basis-spline (bspline-order bspline) (number-of-breakpoints bspline))
-;;; Then initialize by making a vector from (breakpoint i bspline)
-;;; and calling knots.
-
+(defmethod c-array:clone :around ((object mobject))
+  (make-instance (class-of object) :mpointer (call-next-method)))
