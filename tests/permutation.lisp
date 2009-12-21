@@ -8,7 +8,7 @@
                                                            (LET ((PERM-1
                                                                   (MAKE-PERMUTATION
                                                                    4 T)))
-                                                             (MAREF PERM-1
+                                                             (grid:gref PERM-1
                                                                     2))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(0 1 2 3))
                                                           (MULTIPLE-VALUE-LIST

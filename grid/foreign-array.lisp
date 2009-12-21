@@ -1,6 +1,6 @@
 ;; Foreign (C or C-compatible) arrays
 ;; Liam Healy 2008-12-28 10:44:22EST foreign-array.lisp
-;; Time-stamp: <2009-12-21 09:04:05EST foreign-array.lisp>
+;; Time-stamp: <2009-12-21 14:02:16EST foreign-array.lisp>
 
 (in-package :c-array)
 
@@ -19,7 +19,7 @@
 (defgeneric (setf c-invalid) (value object) ; do nothing 
   (:method (value (object t)) value))
 
-(defclass foreign-array ()
+(defclass foreign-array (grid:grid)
   ((cl-array :initarg :cl-array :documentation "The Lisp array.")
    #-native
    (c-pointer :accessor c-pointer :documentation "A pointer to the C array.")
@@ -60,7 +60,7 @@
 	  total-size (array-total-size cl-array))
     #-native
     (let ((cptr (cffi:foreign-alloc
-		 (c-array:cl-cffi (element-type object))
+		 (cl-cffi (element-type object))
 		 :count (total-size object))))
       (setf (c-pointer object) cptr)
       (tg:finalize object (lambda () (cffi:foreign-free cptr))))
@@ -71,7 +71,7 @@
       (setf original-array oa
 	    offset
 	    (* index-offset
-	       (cffi:foreign-type-size (c-array:cl-cffi (element-type object))))))))
+	       (cffi:foreign-type-size (cl-cffi (element-type object))))))))
 
 (defparameter *print-contents* t
   "Print the contents of the foreign-array.")
@@ -96,7 +96,7 @@
 
 (defun element-size (object)
   "The size of each element as stored in C."
-  (cffi:foreign-type-size (c-array:cl-cffi (element-type object))))
+  (cffi:foreign-type-size (cl-cffi (element-type object))))
 
 ;;;;****************************************************************************
 ;;;; Syncronize C and CL
@@ -120,7 +120,7 @@
      (total-size object))
     (setf (c-invalid object) nil)))
 
-;;; Called right before maref
+;;; Called right before gref
 #-native
 (defun copy-c-to-cl (object)
   "Copy the C array to the CL array."
@@ -138,7 +138,7 @@
   "Copy length elements from array (starting at index-offset) of type
    lisp-type to the memory area that starts at pointer, coercing the
    elements if necessary."
-  (let ((cffi-type (c-array:component-type lisp-type)))
+  (let ((cffi-type (component-type lisp-type)))
     (loop :repeat length
        for array-index :from index-offset
        for pointer-index :from 0 :by (if (subtypep lisp-type 'complex) 2 1)
@@ -156,7 +156,7 @@
   "Copy length elements from array (starting at index-offset) of type
    lisp-type from the memory area that starts at pointer, coercing the
    elements if necessary."
-  (let ((cffi-type (c-array:component-type lisp-type)))
+  (let ((cffi-type (component-type lisp-type)))
     (loop :repeat length
        for pointer-index :from 0 :by (if (subtypep lisp-type 'complex) 2 1)
        for array-index :from index-offset

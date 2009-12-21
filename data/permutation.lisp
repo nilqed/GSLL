@@ -1,6 +1,6 @@
 ;; Permutations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2009-12-21 10:21:32EST permutation.lisp>
+;; Time-stamp: <2009-12-21 14:13:53EST permutation.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -314,7 +314,7 @@
 
 (save-test permutation
  (let ((perm-1 (make-permutation 4 t)))	;maref
-   (maref perm-1 2))
+   (grid:gref perm-1 2))
  (let ((perm-1 (make-permutation 4 t)))	;cl-array
    (cl-array perm-1))
  (let ((perm-1 (make-permutation 4 t)))	;permutation-reverse

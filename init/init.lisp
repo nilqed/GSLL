@@ -1,6 +1,6 @@
 ;; Load GSL
 ;; Liam Healy Sat Mar  4 2006 - 18:53
-;; Time-stamp: <2009-12-21 10:45:40EST init.lisp>
+;; Time-stamp: <2009-12-21 13:58:51EST init.lisp>
 ;; $Id$
 
 (defpackage gsll
@@ -9,10 +9,10 @@
   (:import-from
    :c-array
    #:cl-array #:dimensions #:total-size #:element-type #:dim0 #:dim1
-   #:c-pointer #:maref #:copy #:clone)
+   #:c-pointer #:copy #:clone)
   (:export
    #:cl-array #:dimensions #:total-size #:element-type #:dim0 #:dim1
-   #:maref #:copy #:clone))
+   #:copy #:clone))
 
 (cffi:define-foreign-library libgslcblas
     (:darwin

@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2009-12-21 10:22:26EST gsll.asd>
+;; Time-stamp: <2009-12-21 14:16:54EST gsll.asd>
 
 (when (asdf:find-system :fsbv nil)
   (pushnew :fsbv *features*))
@@ -14,7 +14,7 @@
   :version "0"
   :author "Liam M. Healy"
   :licence "LLGPL v3, FDL"
-  :depends-on (cffi cffi-grovel trivial-garbage cl-utilities #+fsbv fsbv)
+  :depends-on (grid cffi cffi-grovel trivial-garbage cl-utilities #+fsbv fsbv)
   :components
   ((:module grid			; temporary
 	    :components
@@ -27,6 +27,7 @@
 		    :depends-on ("pkgdcl" "complex-types" "symbol-type"))
 	     (:file "foreign-friendly" :depends-on ("pkgdcl"))
 	     (:file "foreign-array" :depends-on ("pkgdcl" "foreign-friendly"))
+	     (:file "methods" :depends-on ("pkgdcl"))
 	     (:file "element-reference" :depends-on ("pkgdcl"))
 	     (:file "copy" :depends-on ("pkgdcl"))))
    (:module init

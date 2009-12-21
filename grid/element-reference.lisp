@@ -1,10 +1,10 @@
 ;; Get/set array or elements: cl-array, maref
 ;; Liam Healy 2009-12-21 09:40:27EST element-reference.lisp
-;; Time-stamp: <2009-12-21 09:47:31EST element-reference.lisp>
+;; Time-stamp: <2009-12-21 13:46:59EST element-reference.lisp>
 
 (in-package :c-array)
 
-(export '(cl-array maref))
+(export '(cl-array))
 
 ;;; These functions handle the details of converting between the C
 ;;; representation of arrays and Common Lisp arrays.  The function
@@ -40,44 +40,16 @@
     object))
 
 ;;;;****************************************************************************
-;;;; Get or set elements of the array:  maref, (setf maref)
+;;;; Get or set elements of the array:  gref, (setf gref)
 ;;;;****************************************************************************
 
-(defgeneric maref (object index &optional index2 type)
-  (:documentation
-   "An element of the data.  The object may be a foreign-array
-   object or an ordinary CL array of one or two dimensions.")
-  (:method ((object foreign-array) index &optional index2 type)
-    (declare (ignore type))
-    #-native (copy-c-to-cl object)
-    (if index2
-	(aref (cl-array object) index index2)
-	(aref (cl-array object) index)))
-  (:method ((object array) index &optional index2 type)
-    ;; For compatibility, work on CL arrays as well.
-    (declare (ignore type))
-    (if index2
-	(aref object index index2)
-	(aref object index))))
+(defmethod grid:gref ((object foreign-array) &rest indices)
+  #-native (copy-c-to-cl object)
+  (apply 'aref (cl-array object) indices))
 
 ;;; Alternative to complete copy is to mark which elements have
 ;;; changed and just copy them.  Is it worth it?
 
-(defgeneric (setf maref) (value object index &optional index2 type)
-  (:documentation
-   "Set an element of the data.  The object may be a
-    foreign-array object or an ordinary CL array of one or two
-    dimensions.")
-  (:method (value (object foreign-array) index &optional index2 type)
-    (declare (ignore type))
-    (if index2
-	(setf (aref (slot-value object 'cl-array) index index2) value)
-	(setf (aref (slot-value object 'cl-array) index) value))
-    #-native (setf (c-invalid object) t))
-  (:method (value (object array) index &optional index2 type)
-    ;; For compatibility, work on CL arrays as well.
-    (declare (ignore type))
-    (if index2
-	(setf (aref object index index2) value)
-	(setf (aref object index) value))))
-
+(defmethod (setf grid:gref) (value  (object foreign-array) &rest indices)
+  (apply '(setf aref) value (cl-array object) indices)
+  #-native (setf (c-invalid object) t))
