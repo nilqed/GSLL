@@ -1,6 +1,6 @@
 ;; Foreign (C or C-compatible) arrays
 ;; Liam Healy 2008-12-28 10:44:22EST foreign-array.lisp
-;; Time-stamp: <2009-12-21 19:04:46EST foreign-array.lisp>
+;; Time-stamp: <2009-12-21 22:27:03EST foreign-array.lisp>
 
 (in-package :c-array)
 
@@ -47,6 +47,16 @@
   (:documentation
    "A superclass for arrays represented in C and CL."))
 
+(defun foreign-array-specification (object dimensions)
+  "Create the grid specification for the object, with a possibly
+   different set of dimensions."
+  (let ((class
+	 (or 
+	  (find-if (lambda (cl) (typep object cl))
+		   grid:*grid-data-superclasses*)
+	  (class-name (class-of object)))))
+    (list (cons class dimensions) (element-type object))))
+
 ;;; Allowable keys: :dimensions, :initial-contents, :initial-element.
 (defmethod initialize-instance :after
     ((object foreign-array) &rest initargs
@@ -61,7 +71,7 @@
 	  total-size (array-total-size grid:data)
 	  grid:rank (length dimensions)
 	  grid:specification
-	  (list (cons (class-of object) dimensions) (element-type object))
+	  (foreign-array-specification object dimensions)
 	  grid:affi (ignore-errors (affi:make-affi dimensions)))
     #-native
     (let ((cptr (cffi:foreign-alloc

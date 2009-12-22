@@ -1,6 +1,6 @@
 ;; Methods for grid functions
 ;; Liam Healy 2009-12-21 11:19:00EST methods.lisp
-;; Time-stamp: <2009-12-21 13:48:59EST methods.lisp>
+;; Time-stamp: <2009-12-21 21:56:38EST methods.lisp>
 
 (in-package :c-array)
 
@@ -13,7 +13,7 @@
 (defmethod grid:make-grid-data
     ((type (eql 'foreign-array)) dimensions rest-spec
      &key (initial-element nil initial-element-p))
-  ;; Nothing to do here, because the data is inserted in
-  ;; initialize-instance :after for foreign-array.
-  nil)
-
+  (make-instance 'foreign-array
+		 :dimensions dimensions
+		 :element-type rest-spec
+		 :initial-element initial-element))
