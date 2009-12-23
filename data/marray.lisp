@@ -1,6 +1,6 @@
 ;; A "marray" is an array in both GSL and CL
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2009-12-21 22:26:21EST marray.lisp>
+;; Time-stamp: <2009-12-22 23:17:22EST marray.lisp>
 
 (in-package :gsl)
 
@@ -138,8 +138,8 @@
 
 (defmethod grid:make-grid-data
     ((type (eql 'marray)) dimensions rest-spec
-     &key (initial-element nil initial-element-p))
-  (make-marray rest-spec
+     &key initial-element)
+  (make-marray (grid:spec-scalar-p rest-spec)
 	       :dimensions dimensions
 	       :initial-element initial-element))
 

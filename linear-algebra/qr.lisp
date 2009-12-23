@@ -1,6 +1,6 @@
 ;; QR decomposition
 ;; Liam Healy 2008-02-17 11:05:20EST qr.lisp
-;; Time-stamp: <2009-09-20 22:26:14EDT qr.lisp>
+;; Time-stamp: <2009-12-22 22:34:28EST qr.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -243,10 +243,10 @@
   "Test QR rank-1 update; this should return a matrix with all
    elements near zero."
   (let* ((dim0 (dim0 matrix)) (dim1 (dim1 matrix))
-	 (u (create-vector (lambda (i) (sin (1+ i))) dim0))
-	 (v (create-vector
+	 (u (create-matrix (lambda (i) (sin (1+ i))) dim0 nil))
+	 (v (create-matrix
 	     (lambda (i) (+ (cos (+ 2 i)) (sin (+ 3 (expt i 2)))))
-	     dim1))
+	     dim1 nil))
 	 (qr1
 	  (create-matrix
 	   (lambda (i j) (+ (maref matrix i j) (* (maref u i) (maref v j))))

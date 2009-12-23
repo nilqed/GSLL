@@ -1,6 +1,6 @@
 ;; Generate matrices used in tests of linear algebra functions
 ;; Liam Healy 2009-09-19 18:28:31EDT matrix-generation.lisp
-;; Time-stamp: <2009-12-06 19:50:10EST matrix-generation.lisp>
+;; Time-stamp: <2009-12-22 22:37:22EST matrix-generation.lisp>
 
 (in-package :gsl)
 
@@ -16,77 +16,20 @@
 ;;;; General array creation from indices
 ;;;;****************************************************************************
 
-(defun set-matrix
-    (matrix function
-     &optional pass-element
-     (row-index-min 0) (row-index-max t) (col-index-min 0) (col-index-max t))
-  "Set the matrix elements to the values defined by the function.
-   The function will be called with two arguments if pass-element is nil:
-    the row index, the column index,
-   or three arguments if it is non-nil:
-    the row index, the column index, and the current value of the element.
-   The range of the indices for rows and columns are defined by the
-   optional arguments 
-     row-index-min, row-index-max, col-index-min, col-index-max;
-   if the -max values are T, then the maximum row or column index possible
-   will be substituted.  Either col-index-min or col-index-max or both
-   can be functions, they will be called with the current row index."
-  (loop for i
-     from row-index-min
-     to (if (eq row-index-max t)
-	    (1- (dim0 matrix))
-	    row-index-max)
-     do
-     (loop for j
-	from (max 0
-		  (typecase col-index-min
-		    (function (funcall col-index-min i))
-		    (integer col-index-min)
-		    (t 0)))
-	to (min (1- (dim1 matrix))
-		(typecase col-index-max
-		  (function (funcall col-index-max i))
-		  (integer col-index-max)
-		  (t array-dimension-limit)))
-	do
-	(setf (maref matrix i j)
-	      (coerce (if pass-element
-			  (funcall function i j (maref matrix i j))
-			  (funcall function i j))
-		      (element-type matrix)))))
-  matrix)
-
 (defun create-matrix
-    (function dim0
-     &optional (dim1 dim0) pass-element (element-type 'double-float))
-  "Make a matrix of the specified dimensions, with contents
+    (function dim0 &optional (dim1 dim0) (element-type 'double-float))
+  "Make a matrix or vector of the specified dimensions, with contents
    based on a function of the element indices i, j."
-  (set-matrix
-   (make-marray (c-array:cl-single element-type) :dimensions (list dim0 dim1))
-   function
-   pass-element))
-
-(defun create-vector
-    (function dim &optional (element-type 'double-float))
-  "Make a vector of the specified dimension, with contents
-   based on a function of the element index."
-  (let ((vector
-	 (make-marray (c-array:cl-single element-type) :dimensions dim)))
-    (dotimes (i dim vector)
-      (setf (maref vector i)
-	    (coerce (funcall function i) element-type)))))
-
-(defun create-diagonal-matrix (vector)
-  "Place the vector along the diagonal of square matrix."
-  (create-matrix
-   (lambda (i j) (if (= i j) (maref vector i) 0))
-   (dim0 vector)))
+  (grid:map-grid
+   :source function
+   :destination-gtype `((marray ,(if dim1 2 1)) ,element-type)
+   :source-dims (if dim1 (list dim0 dim1) (list dim0))))
 
 (defun constant-matrix
     (constant dim0 &optional (dim1 dim0) (element-type 'double-float))
-  (let ((cst (coerce constant element-type)))
-    (create-matrix (lambda (i j) (declare (ignore i j)) cst)
-		   dim0 dim1 nil element-type)))
+  (grid:make-grid
+   `((marray ,dim0 ,dim1) ,element-type)
+   :initial-element constant))
 
 ;;;;****************************************************************************
 ;;;; Specific arrays used in linear algebra tests
@@ -127,13 +70,13 @@
   (create-matrix
    (lambda (i j)
      (complex (/ (+ 1 i j)) (+ 1/2 (expt i 2) (expt j 2))))
-   dim dim nil '(complex double-float)))
+   dim dim '(complex double-float)))
 
 (defun create-rhs-vector (dim &optional (element-type 'double-float))
   (if (subtypep element-type 'complex)
-      (create-vector
-       (lambda (i) (complex (1+ (* 2 i)) (+ 2 (* 2 i)))) 7 element-type)
-      (create-vector '1+ dim element-type)))
+      (create-matrix
+       (lambda (i) (complex (1+ (* 2 i)) (+ 2 (* 2 i)))) 7 nil element-type)
+      (create-matrix '1+ dim nil element-type)))
 
 (defparameter *hilb2* (create-hilbert-matrix 2))
 (defparameter *hilb3* (create-hilbert-matrix 3))
