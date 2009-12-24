@@ -1,6 +1,6 @@
 ;; Helpers for defining GSL functions on arrays
 ;; Liam Healy 2009-01-07 22:01:16EST defmfun-array.lisp
-;; Time-stamp: <2009-12-20 22:35:57EST defmfun-array.lisp>
+;; Time-stamp: <2009-12-23 23:03:19EST defmfun-array.lisp>
 ;; $Id: $
 
 (in-package :gsl)
@@ -115,7 +115,7 @@
   (if (listp base-name)
       (if (symbolp (first base-name))
 	  ;; An explicit listing of types with function names
-	  (getf base-name (c-array:cl-single type))
+	  (getf base-name (c-array:cl-single type :gsl))
 	  (let ((blas (search "blas" (first base-name) :test 'string-equal)))
 	    (apply #'concatenate 'string
 		   (substitute

@@ -1,6 +1,6 @@
 ;; A "marray" is an array in both GSL and CL
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2009-12-22 23:17:22EST marray.lisp>
+;; Time-stamp: <2009-12-23 23:03:10EST marray.lisp>
 
 (in-package :gsl)
 
@@ -88,8 +88,9 @@
   ;; e.g. (data-class-name 'vector '(unsigned-byte 8))
   ;; -> VECTOR-UNSIGNED-BYTE-8
   (if (member category '(vector matrix))
-      (intern (format nil "~a-~a" category (c-array:cl-single element-type))
-	      :gsl)
+      (intern
+       (format nil "~a-~a" category (c-array:cl-single element-type :gsl))
+       :gsl)
       category))
 
 (defun data-defclass (category superclass)

@@ -1,6 +1,6 @@
 ;; Number types used by GSL functions, and specification conversion
 ;; Liam Healy 2008-12-31 21:06:34EST types.lisp
-;; Time-stamp: <2009-12-07 22:53:34EST types.lisp>
+;; Time-stamp: <2009-12-23 23:00:53EST types.lisp>
 ;; $Id: $
 
 (in-package :gsl)
@@ -93,6 +93,7 @@
 ;;;; Conversions
 ;;;;****************************************************************************
 
+;;; GSL splice name             "uchar"
 ;;; (cl-gsl '(unsigned-byte 8))
 ;;; "uchar"
 (defun cl-gsl (cl-type &optional prepend-underscore blas)
