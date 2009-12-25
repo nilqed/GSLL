@@ -1,6 +1,6 @@
 ;; A "marray" is an array in both GSL and CL
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2009-12-23 23:03:10EST marray.lisp>
+;; Time-stamp: <2009-12-25 15:25:11EST marray.lisp>
 
 (in-package :gsl)
 
@@ -8,6 +8,7 @@
 ;;;; The class marray and its construction
 ;;;;****************************************************************************
 
+(export 'marray)
 (defclass marray (mobject c-array:foreign-array)
   ((block-pointer :initarg :block-pointer :reader block-pointer)
    (total-size :reader size))

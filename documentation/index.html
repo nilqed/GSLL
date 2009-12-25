@@ -114,11 +114,11 @@ combination for which the following are supported:</p>
   must be supported.
 </li>
 <li><a href="http://www.cliki.net/trivial-garbage">trivial-garbage</a>
+<li><a href="http://repo.or.cz/w/gsd.git">GSD</a>, the <i>Grid Structured Data</i>; in particular,
+  the <code>c-array</code> and <code>grid</code> systems</li>
 <li><a href="http://common-lisp.net/project/cl-utilities/">cl-utilities</a>
 </li>
 <li><a href="http://www.cliki.net/asdf">ASDF</a></li>
-<li><a>GSD</a>, the <i>Grid Structured Data</i>; in particular,
-  the <code>c-array</code> system</li>
 <li><a href="http://repo.or.cz/w/lisp-unit.git">lisp-unit</a>, <i>(Optional)</i> necessary 
    to run <code>gsll-tests</code>
 </li>
@@ -152,16 +152,21 @@ combination for which the following are supported:</p>
   <ul>
     <li><code>git clone git://repo.or.cz/gsll.git</code></li>
     <li><code>git clone git://repo.or.cz/fsbv.git</code></li>
+    <li><code>git clone git://repo.or.cz/gsd.git</code></li>
     <li><code>darcs get http://common-lisp.net/~loliveira/darcs/trivial-garbage</code></li>
     <li><code>git pull</code> in the <code>gsll</code> and
-      <code>fsbv</code> directories
+      <code>fsbv</code>, and <code>gsd</code> directories
     afterwards to update</li> 
   </ul>
 <p>The <a href="http://repo.or.cz/w/gsll.git"> repository web page</a>
 can be used to browse or retrieve a compressed tarball (click the most
 recent "snapshot" link).
-You will need to make a link of <code>gsll.asd</code> and
-optionally <code>gsll-tests.asd</code> to some directory known to ASDF.
+You will need to make a link
+  of <code>gsll.asd</code>, <code>grid.asd</code>,
+  <code>c-array.asd</code>, and
+  optionally <code>gsll-tests.asd</code> and
+  <code>fsbv.asd</code>
+  to some directory known to ASDF.
 Then in Lisp, load the system:
   <ul>
     <li><code>(asdf:operate 'asdf:load-op :gsll)</code></li>
@@ -188,11 +193,12 @@ Then in Lisp, load the system:
   <ul>
     <li><code>gsll get_git git://repo.or.cz/gsll.git</code></li>
     <li><code>fsbv get_git git://repo.or.cz/fsbv.git</code></li>
+    <li><code>gsd get_git git://repo.or.cz/gsd.git</code></li>
     <li><code>lisp-unit get_git git://repo.or.cz/lisp-unit.git</code></li>
   </ul>
 <p>and add
   <ul>
-    <li><code>gsll cffi trivial-garbage cl-utilities lisp-unit fsbv iterate asdf-system-connections</code></li>
+    <li><code>gsll c-array grid cffi trivial-garbage cl-utilities lisp-unit fsbv iterate asdf-system-connections</code></li>
   </ul>
 <p>
 to <code>dependencies</code> and execute
@@ -283,6 +289,22 @@ variable <code>c-array:*array-element-types*</code>.  On implementations that
 support it (currently only SBCL), the contents are directly available
 to the GSL functions without copying between the Lisp area and the C
 area of memory.</p>
+<p>
+  The <a href="http://repo.or.cz/w/gsd.git">GSD</a> suite provides
+  many functions for construction, transformation, and composition of
+  GSL marrays.  When using grid functions for this purpose,
+  the <code>grid:specification</code> will
+  contain <code>gsl:marray</code> as the type; for example,
+</p>
+<pre>
+(grid:make-grid '((gsl:marray 3 3) double-float) :initial-element 0)
+</pre>
+<p>
+  will make a 3x3 <code>matrix-double-float</code>.
+  The functions that the <code>grid</code> system provides such
+  as <code>transpose</code> as <code>subgrid</code>, are documented
+  in that collection.
+  </p>
 <p>
  Common Lisp arrays should be created with <code>make-marray</code> or
  <code>#m</code>:
@@ -452,7 +474,7 @@ and arrays used internally or for function return.
 <!-- Created: Feb 25 2005 -->
 <!-- hhmts start -->
 <small>
-Time-stamp: <2009-12-23 23:10:30EST index.html>
+Time-stamp: <2009-12-25 15:38:38EST index.html>
 </small>
 <!-- hhmts end -->
  </div>
