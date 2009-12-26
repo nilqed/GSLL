@@ -1,6 +1,6 @@
 ;; Expand the body of a defmfun
 ;; Liam Healy 2009-04-13 22:07:13EDT body-expand.lisp
-;; Time-stamp: <2009-12-20 23:13:49EST body-expand.lisp>
+;; Time-stamp: <2009-12-25 22:48:01EST body-expand.lisp>
 
 (in-package :gsl)
 
@@ -134,10 +134,13 @@
 			      (mappend
 			       (lambda (arg)
 				 (list (cond
-					 ((member (c-array:st-symbol arg) allocated-return) :pointer)
+					 ((member (c-array:st-symbol arg)
+						  allocated-return)
+					  :pointer)
 					 (t (c-array:st-type arg)))
 				       (c-array:st-symbol arg)))
-			       (mapcar 'c-array:st-pointer-generic-pointer c-arguments))
+			       (mapcar 'c-array:st-pointer-generic-pointer
+				       c-arguments))
 			      (list (c-array:st-type creturn-st))))))
 	     ,@(case c-return
 		     (:void `((declare (ignore ,(c-array:st-symbol creturn-st)))))
@@ -147,7 +150,9 @@
 	     #-native
 	     ,@(when outputs
 		     (mapcar
-		      (lambda (x) `(setf (cl-invalid ,x) t (c-invalid ,x) nil))
+		      (lambda (x)
+			`(setf (c-array:cl-invalid ,x) t
+			       (c-array:c-invalid ,x) nil))
 		      outputs))
 	     ,@(when (eq (c-array:st-type creturn-st) :pointer)
 		     `((check-null-pointer

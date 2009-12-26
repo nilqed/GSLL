@@ -1,6 +1,6 @@
 ;; A "marray" is an array in both GSL and CL
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2009-12-25 15:25:11EST marray.lisp>
+;; Time-stamp: <2009-12-25 23:04:11EST marray.lisp>
 
 (in-package :gsl)
 
@@ -72,9 +72,9 @@
     ',(element-type object)
     :initial-contents
     ',(loop for elt across
-	   (subseq (original-array object)
-		   (offset object)
-		   (+ (offset object) (size object)))
+	   (subseq (c-array:original-array object)
+		   (c-array:offset object)
+		   (+ (c-array:offset object) (size object)))
 	   collect elt)))
 
 ;;;;****************************************************************************

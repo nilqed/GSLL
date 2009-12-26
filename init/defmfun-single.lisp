@@ -1,6 +1,6 @@
 ;; Helpers that define a single GSL function interface
 ;; Liam Healy 2009-01-07 22:02:20EST defmfun-single.lisp
-;; Time-stamp: <2009-12-21 08:35:23EST defmfun-single.lisp>
+;; Time-stamp: <2009-12-25 22:43:57EST defmfun-single.lisp>
 ;; $Id: $
 
 (in-package :gsl)
@@ -120,7 +120,7 @@
   #-native
   (destructuring-bind (&key inputs &allow-other-keys) key-args
     `(progn
-       ,@(mapcar (lambda (v) `(copy-cl-to-c ,v))
+       ,@(mapcar (lambda (v) `(c-array:copy-cl-to-c ,v))
 		 (intersection
 		  inputs (arglist-plain-and-categories arglist nil)))
        ,(body-expand name arglist gsl-name c-arguments key-args)))
