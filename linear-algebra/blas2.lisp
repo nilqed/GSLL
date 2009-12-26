@@ -1,6 +1,6 @@
 ;; BLAS level 2, Matrix-vector operations
 ;; Liam Healy, Wed Apr 26 2006 - 21:08
-;; Time-stamp: <2009-09-26 12:52:44EDT blas2.lisp>
+;; Time-stamp: <2009-12-26 11:54:21EST blas2.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -36,16 +36,15 @@
      y
      (alpha 1) (beta 1) (TransA :notrans) TransB
      &aux
-     (yarr (or y
-	       (make-marray
-		element-type :dimensions (matrix-product-dimensions A x)
-		:initial-element 0))))
+     (yarr
+      (make-marray-or-default
+       y (matrix-product-dimensions A x) nil element-type 0)))
   ("gsl_blas_" :type "gemv")
   ((transa cblas-transpose) (alpha :element-c-type) ((mpointer A) :pointer)
    ((mpointer x) :pointer) (beta :element-c-type) ((mpointer yarr) :pointer))
   :definition :generic
   :element-types #+fsbv :float-complex #-fsbv :float
-  :inputs (A x yarr)
+  :inputs (A x)
   :outputs (yarr)
   :documentation			; FDL
   "If the second and third arguments are vectors, compute

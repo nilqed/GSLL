@@ -1,6 +1,6 @@
 ;; Householder Transformations
 ;; Liam Healy, Wed May 10 2006 - 10:03
-;; Time-stamp: <2009-09-24 22:18:00EDT householder.lisp>
+;; Time-stamp: <2009-12-26 12:38:35EST householder.lisp>
 ;; $Id$
 
 ;;; For householder-transform, it would be nice to be able to pick the
@@ -72,9 +72,7 @@
 (defmfun householder-solve
     (A b &optional x-spec
        &aux
-       (x (if (eq x-spec t)
-	      (make-marray 'double-float :dimensions (dimensions b))
-	      x-spec)))
+       (x (make-marray-or-default x-spec (dimensions b) t)))
   ("gsl_linalg_HH_svx" "gsl_linalg_HH_solve")
   ((((mpointer A) :pointer) ((mpointer b) :pointer))
    (((mpointer A) :pointer) ((mpointer b) :pointer)

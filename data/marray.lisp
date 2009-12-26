@@ -1,6 +1,6 @@
 ;; A "marray" is an array in both GSL and CL
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2009-12-25 23:04:11EST marray.lisp>
+;; Time-stamp: <2009-12-26 12:11:01EST marray.lisp>
 
 (in-package :gsl)
 
@@ -234,3 +234,24 @@
 ;; foreign-friendly array.  There is no choice but to copy over the
 ;; data even on native implementations; because GSL is doing the
 ;; mallocing, the data are not CL-accessible.
+
+
+;;;;****************************************************************************
+;;;; Convenient defaulting of defmfun arguments 
+;;;;****************************************************************************
+
+(defun make-marray-or-default
+    (default dimensions
+     &optional dont-make-if-nil (element-type 'double-float) initial-element)
+  "If default is T or dont-make-if-nil, make a marray and
+   returned with the dimensions and element-type.  If default is a
+   marray, it is returned after being synced for non-native."
+  (if (member default (list t dont-make-if-nil))
+      (if initial-element
+	  (make-marray
+	   element-type :dimensions dimensions :initial-element initial-element)
+	  (make-marray element-type :dimensions dimensions))
+      (progn #-native
+	     (when (typep default 'marray)
+	       (c-array:copy-cl-to-c default))
+	     default)))

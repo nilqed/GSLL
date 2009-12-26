@@ -1,6 +1,6 @@
 ;; QR with column pivoting
 ;; Liam Healy, Fri Apr 28 2006 - 16:53
-;; Time-stamp: <2009-09-26 16:46:01EDT qrpt.lisp>
+;; Time-stamp: <2009-12-26 12:33:04EST qrpt.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -65,16 +65,14 @@
 (defmfun QRPT-solve
     (QR tau permutation b &optional x-spec
        &aux
-       (x (if (eq x-spec t)
-	      (make-marray 'double-float :dimensions (dimensions b))
-	      x-spec)))
+       (x (make-marray-or-default x-spec (dimensions b) t)))
   ("gsl_linalg_QRPT_svx" "gsl_linalg_QRPT_solve")
   ((((mpointer QR) :pointer) ((mpointer tau) :pointer)
     ((mpointer permutation) :pointer) ((mpointer b) :pointer))
    (((mpointer QR) :pointer) ((mpointer tau) :pointer)
     ((mpointer permutation) :pointer)
     ((mpointer b) :pointer) ((mpointer x) :pointer)))
-  :inputs (QR tau permutation b x)
+  :inputs (QR tau permutation b)
   :outputs (x)
   :return ((or x b))
   :documentation			; FDL
@@ -118,15 +116,13 @@
 (defmfun QRPT-Rsolve
     (QR permutation b &optional x-spec
        &aux
-       (x (if (eq x-spec t)
-	      (make-marray 'double-float :dimensions (dimensions b))
-	      x-spec)))
+       (x (make-marray-or-default x-spec (dimensions b) t)))
   ("gsl_linalg_QRPT_Rsvx" "gsl_linalg_QRPT_Rsolve")
   ((((mpointer QR) :pointer) ((mpointer permutation) :pointer)
     ((mpointer b) :pointer))
    (((mpointer QR) :pointer) ((mpointer permutation) :pointer)
     ((mpointer b) :pointer) ((mpointer x) :pointer)))
-  :inputs (QR permutation b x)
+  :inputs (QR permutation b)
   :outputs (x b)
   :return ((or x b))
   :documentation			; FDL
@@ -168,7 +164,12 @@
     (multiple-value-bind (Q R)
 	(QR-unpack QRPT tau)
       (let* ((qr (matrix-product Q R))
-	     (ans (make-marray 'double-float :dimensions (dimensions qr))))
+	     (ans (make-marray
+		   'double-float :dimensions (dimensions qr)
+		   ;; It shouldn't be necessary to initialize values
+		   ;; because we are going to setf every row,
+		   ;; but it is for #-native.  See Sat Dec 26 2009.
+		   :initial-element 0)))
 	(dotimes (i (dim0 qr) ans)
 	  (setf (row ans i) (permute-inverse permutation (row qr i))))))))
 

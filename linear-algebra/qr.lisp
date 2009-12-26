@@ -1,6 +1,6 @@
 ;; QR decomposition
 ;; Liam Healy 2008-02-17 11:05:20EST qr.lisp
-;; Time-stamp: <2009-12-22 22:34:28EST qr.lisp>
+;; Time-stamp: <2009-12-26 12:15:35EST qr.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -46,16 +46,14 @@
 
 (defmfun QR-solve
     (QR tau b &optional x-spec
-       &aux
-       (x (if (eq x-spec t)
-	      (make-marray 'double-float :dimensions (dimensions b))
-	      x-spec)))
+	&aux
+	(x (make-marray-or-default x-spec (dimensions b) t)))
   ("gsl_linalg_QR_svx" "gsl_linalg_QR_solve")
   ((((mpointer QR) :pointer) ((mpointer tau) :pointer)
     ((mpointer b) :pointer))
    (((mpointer QR) :pointer) ((mpointer tau) :pointer)
     ((mpointer b) :pointer) ((mpointer x) :pointer)))
-  :inputs (QR tau b x)
+  :inputs (QR tau b)
   :outputs (x)
   :return ((or x b))
   :documentation			; FDL
@@ -116,9 +114,7 @@
 (defmfun QR-Rsolve
     (QR b &optional x-spec
        &aux
-       (x (if (eq x-spec t)
-	      (make-marray 'double-float :dimensions (dimensions b))
-	      x-spec)))
+       (x (make-marray-or-default x-spec (dimensions b) t)))
   ("gsl_linalg_QR_Rsvx" "gsl_linalg_QR_Rsolve")
   ((((mpointer QR) :pointer) ((mpointer b) :pointer))
    (((mpointer QR) :pointer) ((mpointer b) :pointer) ((mpointer x) :pointer)))
@@ -178,9 +174,7 @@
 (defmfun R-solve
     (R b &optional x-spec
        &aux
-       (x (if (eq x-spec t)
-	      (make-marray 'double-float :dimensions (dimensions b))
-	      x-spec)))
+       (x (make-marray-or-default x-spec (dimensions b) t)))
   ("gsl_linalg_R_svx" "gsl_linalg_R_solve")
   ((((mpointer R) :pointer) ((mpointer b) :pointer))
    (((mpointer R) :pointer) ((mpointer b) :pointer) ((mpointer x) :pointer)))
@@ -252,7 +246,7 @@
 	   (lambda (i j) (+ (maref matrix i j) (* (maref u i) (maref v j))))
 	   dim0 dim1))
 	 (qr2 (copy matrix))
-	 (w (make-marray 'double-float :dimensions dim0)))
+	 (w (make-marray 'double-float :dimensions dim0 :initial-element 0)))
     (multiple-value-bind (QR2 tau)
 	(QR-decomposition qr2)
       (multiple-value-bind (Q2 R2)

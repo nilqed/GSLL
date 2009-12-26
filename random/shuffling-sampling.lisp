@@ -1,6 +1,6 @@
 ;; Shuffling and sampling
 ;; Liam Healy, Sat Dec  2 2006 - 18:40
-;; Time-stamp: <2009-12-21 09:04:36EST shuffling-sampling.lisp>
+;; Time-stamp: <2009-12-26 10:53:46EST shuffling-sampling.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -38,18 +38,18 @@
    ((c-pointer destarr) :pointer) ((dim0 destarr) sizet)
    ((c-pointer src) :pointer) ((dim0 src) sizet) ((c-array:element-size src) sizet))
   :definition :method
-  :inputs (destarr src)
+  :inputs (src)
   :outputs (destarr)
   :documentation			; FDL
-  "Fill the array dest[k] with k objects taken randomly from the n
+  "Fill the array destarr[k] with k objects taken randomly from the n
    elements of the array src[0...n-1].  The output of the random
    number generator r is used to make the selection.  The algorithm
    ensures all possible samples are equally likely, assuming a perfect
    source of randomness.
 
    The objects are sampled without replacement, thus each object can
-   only appear once in dest[k].  It is required that k be less
-   than or equal to n.  The objects in dest will be in the
+   only appear once in destarr[k].  It is required that k be less
+   than or equal to n.  The objects in destarr will be in the
    same relative order as those in src.  You will need to call
    with 'shuffle if you want to randomize the order.")
 
@@ -66,7 +66,7 @@
    ((c-pointer destarr) :pointer) ((dim0 destarr) sizet)
    ((c-pointer src) :pointer) ((dim0 src) sizet) ((c-array:element-size src) sizet))
   :definition :method
-  :inputs (destarr src)
+  :inputs (src)
   :outputs (destarr)
   :c-return :void
   :documentation

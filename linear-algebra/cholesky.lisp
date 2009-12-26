@@ -1,6 +1,6 @@
 ;; Cholesky Decomposition
 ;; Liam Healy, Wed May  3 2006 - 16:38
-;; Time-stamp: <2009-09-26 12:36:23EDT cholesky.lisp>
+;; Time-stamp: <2009-12-26 12:38:34EST cholesky.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -38,9 +38,7 @@
 (defmfun cholesky-solve
     ((A matrix) (b vector) &optional x-spec
      &aux
-     (x (if (eq x-spec t)
-	    (make-marray element-type :dimensions (dimensions b))
-	    x-spec)))
+     (x (make-marray-or-default x-spec (dimensions b) t)))
   (("gsl_linalg" :complex "_cholesky_svx")
    ("gsl_linalg" :complex "_cholesky_solve"))
   ((((mpointer A) :pointer) ((mpointer b) :pointer))

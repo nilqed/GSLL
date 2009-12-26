@@ -1,6 +1,6 @@
 ;; Combinations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2009-12-21 10:21:30EST combination.lisp>
+;; Time-stamp: <2009-12-26 10:38:37EST combination.lisp>
 ;; $Id$
 
 (in-package :gsl)
@@ -60,7 +60,6 @@
   "gsl_combination_init_first"
   (((mpointer combination) :pointer))
   :c-return :void
-  :inputs (combination)
   :outputs (combination)
   :documentation			; FDL
   "Initialize the combination c to the lexicographically
@@ -70,7 +69,6 @@
   "gsl_combination_init_last"
   (((mpointer combination) :pointer))
   :c-return :void
-  :inputs (combination)
   :outputs (combination)
   :documentation			; FDL
   "Initialize the combination c to the lexicographically
@@ -106,7 +104,6 @@
   (((mpointer c) :pointer))
   :definition :method
   :c-return sizet
-  :inputs (c)
   :documentation			; FDL
   "The number of elements (k) in the combination c.")
 
