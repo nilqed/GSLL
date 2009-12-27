@@ -1,6 +1,22 @@
 ;; Example FFT: transform a pulse (using the "clean" fft interface)
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 00:24
-;; Time-stamp: <2009-12-06 22:05:01EST example.lisp>
+;; Time-stamp: <2009-12-27 09:45:34EST example.lisp>
+;;
+;; Copyright 2009 Sumant Oemrawsingh, Liam M. Healy
+;; Distributed under the terms of the GNU General Public License
+;;
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 (in-package :gsl)
 

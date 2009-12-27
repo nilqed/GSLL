@@ -1,7 +1,22 @@
 ;; Comparison of floating point numbers using sequence integers
 ;; Liam Healy 2008-01-22 19:00:17EST floating-point.lisp
-;; Time-stamp: <2009-01-14 21:33:50EST floating-point.lisp>
-;; $Id$
+;; Time-stamp: <2009-12-27 09:46:10EST floating-point.lisp>
+;;
+;; Copyright 2008, 2009 Liam M. Healy
+;; Distributed under the terms of the GNU General Public License
+;;
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; All floats can be represented by integers.  There are two slightly
 ;;; different ways of doing this.  The sequence integer

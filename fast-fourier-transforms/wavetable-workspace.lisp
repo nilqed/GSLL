@@ -1,6 +1,22 @@
 ;; Wavetable and workspace object definitions.
 ;; Sumant Oemrawsingh, Sun Oct 25 2009 - 16:35
-;; Time-stamp: <2009-11-11 19:01:48EST wavetable-workspace.lisp>
+;; Time-stamp: <2009-12-27 09:45:32EST wavetable-workspace.lisp>
+;;
+;; Copyright 2009 Sumant Oemrawsingh, Liam M. Healy
+;; Distributed under the terms of the GNU General Public License
+;;
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 (in-package :gsl)
 

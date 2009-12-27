@@ -1,7 +1,22 @@
 ;; Analysis of interface status
 ;; Liam Healy 2008-11-16 16:17:14EST analysis.lisp
-;; Time-stamp: <2008-11-16 17:21:10EST analysis.lisp>
-;; $Id: $
+;; Time-stamp: <2009-12-27 09:50:35EST analysis.lisp>
+;;
+;; Copyright 2008, 2009 Liam M. Healy
+;; Distributed under the terms of the GNU General Public License
+;;
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; These definitions are to monitor the status of the GSLL interface
 ;;; with respect to the GSL library for the purpose of directing
