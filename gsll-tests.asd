@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2009-12-27 09:46:41EST gsll-tests.asd>
+;; Time-stamp: <2010-01-01 12:25:22EST gsll-tests.asd>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -23,7 +23,7 @@
   :description "Regression (unit) tests for GNU Scientific Library for Lisp."
   :version "0"
   :author "Liam M. Healy"
-  :licence "LLGPL v3, FDL"
+  :licence "GPL v3"
   :depends-on (gsll lisp-unit)
   :components
   ((:module test-unit

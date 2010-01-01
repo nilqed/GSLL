@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2009-12-27 09:46:43EST gsll.asd>
+;; Time-stamp: <2010-01-01 12:19:30EST gsll.asd>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -29,7 +29,7 @@
   :description "GNU Scientific Library for Lisp."
   :version "0"
   :author "Liam M. Healy"
-  :licence "LLGPL v3, FDL"
+  :licence "GPL v3"
   :depends-on (c-array grid cffi cffi-grovel trivial-garbage cl-utilities #+fsbv fsbv)
   :components
   ((:module init
