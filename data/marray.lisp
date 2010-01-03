@@ -1,6 +1,6 @@
 ;; A "marray" is an array in both GSL and CL
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2009-12-27 09:42:04EST marray.lisp>
+;; Time-stamp: <2010-01-02 22:45:49EST marray.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -152,7 +152,8 @@
 	      class-or-element-type))
 	 keys))
 
-(pushnew 'marray grid:*grid-data-superclasses*)
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (pushnew 'marray grid:*grid-data-superclasses*))
 
 (defmethod grid:make-grid-data
     ((type (eql 'marray)) dimensions rest-spec
