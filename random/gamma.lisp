@@ -23,6 +23,7 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
+(export 'gamma)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'gamma)) &key a b)
   "gsl_ran_gamma"
@@ -37,6 +38,7 @@
    is known as the Erlang distribution.  The variates are computed using
    the algorithms from Knuth (vol 2).")
 
+(export 'gamma-mt)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'gamma-mt)) &key a b)
   "gsl_ran_gamma_mt"

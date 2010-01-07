@@ -22,6 +22,7 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
+(export 'tdist)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'tdist)) &key nu)
   "gsl_ran_tdist"

@@ -23,6 +23,7 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
+(export 'poisson)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'poisson)) &key mu)
   "gsl_ran_poisson"

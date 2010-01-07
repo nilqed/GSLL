@@ -23,6 +23,7 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
+(export 'geometric)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'gumbel1)) &key a b)
   "gsl_ran_gumbel1"

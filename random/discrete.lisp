@@ -35,6 +35,7 @@
   generally as ``weights'')---the preprocessor will normalize appropriately.
   This return value is used as an argument to #'discrete.")
 
+(export 'discrete)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'discrete))
      &key table)

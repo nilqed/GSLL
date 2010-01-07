@@ -23,6 +23,7 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
+(export 'gaussian)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'gaussian))
      &key sigma)
@@ -48,6 +49,7 @@
   "Compute the probability density p(x) at x
    for a Gaussian distribution with standard deviation sigma.")
 
+(export 'gaussian-ziggurat)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'gaussian-ziggurat))
      &key sigma)
@@ -60,6 +62,7 @@
    Marsaglia-Tsang ziggurat method. The Ziggurat algorithm
    is the fastest available algorithm in most cases.")
 
+(export 'gaussian-ratio-method)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'gaussian-ratio-method))
      &key sigma)
@@ -71,6 +74,7 @@
   "Compute a Gaussian random variate using the Kinderman-Monahan-Leva
    ratio method.")
 
+(export 'ugaussian)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'ugaussian)) &key)
   "gsl_ran_ugaussian" (((mpointer generator) :pointer))
@@ -89,6 +93,7 @@
    equivalent to the #'gaussian-pdf with a standard deviation of one,
    sigma = 1.")
 
+(export 'ugaussian-ratio-method)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'ugaussian-ratio-method))
      &key)

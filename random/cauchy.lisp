@@ -23,6 +23,7 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
+(export 'cauchy)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'cauchy)) &key a)
   "gsl_ran_cauchy"

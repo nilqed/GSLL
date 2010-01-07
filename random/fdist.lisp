@@ -23,6 +23,7 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
+(export 'fdist)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'fdist)) &key nu1 nu2)
   "gsl_ran_fdist"

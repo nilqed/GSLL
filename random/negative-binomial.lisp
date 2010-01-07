@@ -26,6 +26,7 @@
 ;;;; Negative binomial
 ;;;;****************************************************************************
 
+(export 'negative-binomial)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'negative-binomial))
      &key probability n)
@@ -70,6 +71,7 @@
 ;;;; Pascal
 ;;;;****************************************************************************
 
+(export 'pascal)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'pascal))
      &key probability n)

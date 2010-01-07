@@ -22,6 +22,7 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
+(export 'multinomial)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'multinomial))
      &key sum probabilities

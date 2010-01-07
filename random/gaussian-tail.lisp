@@ -22,6 +22,7 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
+(export 'gaussian-tail)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'gaussian-tail))
      &key a sigma)
@@ -50,6 +51,7 @@
   for a Gaussian tail distribution with standard deviation sigma and
   lower limit a, using the formula given for gaussian-tail.")
 
+(export 'ugaussian-tail)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'ugaussian-tail))
      &key a)

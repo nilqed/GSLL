@@ -22,6 +22,7 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
+(export 'logarithmic)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'logarithmic))
      &key probability)

@@ -23,6 +23,7 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
+(export 'pareto)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'pareto)) &key a b)
   "gsl_ran_pareto"

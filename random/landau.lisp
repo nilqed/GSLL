@@ -22,6 +22,7 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
+(export 'landau)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'landau)) &key)
   "gsl_ran_landau"

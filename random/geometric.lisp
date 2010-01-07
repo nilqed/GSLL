@@ -22,6 +22,7 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
+(export 'geometric)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'geometric))
      &key probability)

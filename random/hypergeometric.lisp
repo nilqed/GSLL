@@ -23,6 +23,7 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
+(export 'hypergeometric)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'hypergeometric))
      &key n1 n2 tt)

@@ -22,6 +22,7 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
+(export 'exponential-power)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'exponential-power))
      &key a b)

@@ -20,6 +20,7 @@
 
 (in-package :gsl)
 
+(export 'beta)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'beta)) &key a b)
   "gsl_ran_beta"

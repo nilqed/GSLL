@@ -77,6 +77,7 @@
   (:documentation
    "Sample from the probability distribution."))
 
+(export 'uniform)
 (defmfun sample ((source random-number-generator) (type (eql 'uniform)) &key)
   "gsl_rng_uniform" (((mpointer source) :pointer))
   :definition :method
@@ -91,6 +92,7 @@
    (the maximum number of bits that can be portably represented in a single
    :ulong.")
 
+(export 'uniform>0)
 (defmfun sample ((source random-number-generator) (type (eql 'uniform>0)) &key)
   "gsl_rng_uniform_pos" (((mpointer source) :pointer))
   :definition :method
@@ -102,6 +104,7 @@
    type 'uniform until a non-zero value is obtained.  You can use this
    function if you need to avoid a singularity at 0.0.")
 
+(export 'uniform-fixnum)
 (defmfun sample
     ((source random-number-generator) (type (eql 'uniform-fixnum))
      &key upperbound)

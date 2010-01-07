@@ -20,6 +20,7 @@
 
 (in-package :gsl)
 
+(export 'bernoulli)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'bernoulli))
      &key probability)

@@ -23,6 +23,7 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
+(export 'chi-squared)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'chi-squared)) &key nu)
   "gsl_ran_chisq"

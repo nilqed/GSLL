@@ -23,6 +23,7 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
+(export 'gaussian-bivariate)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'gaussian-bivariate))
      &key sigma-x sigma-y rho)

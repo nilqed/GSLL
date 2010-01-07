@@ -22,6 +22,7 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
+(export 'levy)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'levy)) &key c alpha)
   "gsl_ran_levy"
@@ -40,6 +41,7 @@
    For \alpha < 1 the tails of the distribution become extremely wide.
    The algorithm only works for 0 < alpha <= 2.")
 
+(export 'levy-skew)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'levy-skew))
      &key c alpha beta)

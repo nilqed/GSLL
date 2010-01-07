@@ -22,6 +22,7 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
+(export 'rayleigh-tail)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'rayleigh-tail))
      &key a sigma)

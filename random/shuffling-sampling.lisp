@@ -22,6 +22,7 @@
 
 ;;; These are currently defined only for vectors.
 
+(export 'shuffle)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'shuffle))
      &key base)
@@ -40,6 +41,7 @@
    permutations with equal probability, assuming a perfect source of random
    numbers.")
 
+(export 'choose-random)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'choose-random))
      &key src (dest (dim0 src))
@@ -68,6 +70,7 @@
    same relative order as those in src.  You will need to call
    with 'shuffle if you want to randomize the order.")
 
+(export 'random-sample)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'random-sample))
      &key src (dest (dim0 src))

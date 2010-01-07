@@ -23,6 +23,7 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
+(export 'logistic)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'logistic)) &key a)
   "gsl_ran_logistic"

@@ -22,6 +22,7 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
+(export 'flat)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'flat)) &key a b)
   "gsl_ran_flat"

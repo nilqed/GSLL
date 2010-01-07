@@ -22,6 +22,7 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
+(export 'dirichlet)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'dirichlet))
      &key alpha (theta (vdf (dim0 alpha))))

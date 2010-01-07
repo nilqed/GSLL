@@ -20,6 +20,7 @@
 
 (in-package :gsl)
 
+(export 'lognormal)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'lognormal))
      &key zeta sigma)

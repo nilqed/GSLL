@@ -24,6 +24,7 @@
 
 ;;; No test for #'direction-Nd yet.
 
+(export 'direction-2d)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'direction-2d)) &key)
   "gsl_ran_dir_2d"
@@ -36,6 +37,7 @@
    two dimensions.  The vector is normalized such that
    |v|^2 = x^2 + y^2 = 1.")
 
+(export 'direction-2d-trig-method)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'direction-2d-trig-method)) &key)
   "gsl_ran_dir_2d_trig_method"
@@ -48,6 +50,7 @@
    two dimensions.  The vector is normalized such that
    |v|^2 = x^2 + y^2 = 1.  Uses trigonometric functions.")
 
+(export 'direction-3d)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'direction-3d)) &key)
   "gsl_ran_dir_3d"
@@ -64,6 +67,7 @@
   projected along any axis is actually uniform (this is only true for 3
   dimensions).")
 
+(export 'direction-Nd)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'direction-Nd)) &key vector)
   "gsl_ran_dir_nd"

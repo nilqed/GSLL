@@ -23,6 +23,7 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
+(export 'exponential)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'exponential))
      &key mu)

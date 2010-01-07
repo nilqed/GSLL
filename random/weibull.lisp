@@ -23,6 +23,7 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
+(export 'weibull)
 (defmfun sample
     ((generator random-number-generator) (type (eql 'weibull)) &key a b)
   "gsl_ran_weibull"
