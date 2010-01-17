@@ -1,6 +1,6 @@
 ;; Lognormal distribution
 ;; Liam Healy, Sat Sep 30 2006
-;; Time-stamp: <2009-12-27 10:03:52EST lognormal.lisp>
+;; Time-stamp: <2010-01-17 10:27:47EST lognormal.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -20,9 +20,8 @@
 
 (in-package :gsl)
 
-(export 'lognormal)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'lognormal))
+    ((generator random-number-generator) (type (eql :lognormal))
      &key zeta sigma)
   "gsl_ran_lognormal"
   (((mpointer generator) :pointer) (zeta :double) (sigma :double))
@@ -40,7 +39,7 @@
   :documentation			; FDL
   "The probability density p(x) at X
    for a lognormal distribution with parameters zeta and sigma,
-   using the formula given in #'lognormal.")
+   using the formula given in #'sample :lognormal.")
 
 (defmfun lognormal-P (x zeta sigma)
   "gsl_cdf_lognormal_P" ((x :double) (zeta :double) (sigma :double))
@@ -78,7 +77,7 @@
   (let ((rng (make-random-number-generator +mt19937+ 0)))
       (loop for i from 0 to 10
 	    collect
-	    (sample rng 'lognormal :zeta 1.0d0 :sigma 2.0d0)))
+	    (sample rng :lognormal :zeta 1.0d0 :sigma 2.0d0)))
   (lognormal-pdf 1.2d0 1.0d0 2.0d0)
   (lognormal-P 1.2d0 1.0d0 2.0d0)
   (lognormal-Q 1.2d0 1.0d0 2.0d0)

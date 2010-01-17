@@ -1,6 +1,6 @@
 ;; Fdist distribution
 ;; Liam Healy, Sat Sep 30 2006
-;; Time-stamp: <2009-12-27 10:00:01EST fdist.lisp>
+;; Time-stamp: <2010-01-17 10:12:32EST fdist.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -23,9 +23,8 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
-(export 'fdist)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'fdist)) &key nu1 nu2)
+    ((generator random-number-generator) (type (eql :fdist)) &key nu1 nu2)
   "gsl_ran_fdist"
   (((mpointer generator) :pointer) (nu1 :double) (nu2 :double))
   :definition :method
@@ -46,7 +45,7 @@
   :documentation			; FDL
   "The probability density p(x) at x
    for an F-distribution with nu1 and nu2 degrees of freedom,
-   using the formula given #'fdist.")
+   using the formula given #'sample :fdist.")
 
 (defmfun fdist-P (x nu1 nu2)
   "gsl_cdf_fdist_P" ((x :double) (nu1 :double) (nu2 :double))
@@ -85,7 +84,7 @@
   (let ((rng (make-random-number-generator +mt19937+ 0)))
       (loop for i from 0 to 10
 	    collect
-	    (sample rng 'fdist :nu1 1.0d0 :nu2 2.0d0)))
+	    (sample rng :fdist :nu1 1.0d0 :nu2 2.0d0)))
   (fdist-pdf 1.2d0 1.0d0 2.0d0)
   (fdist-P 1.2d0 1.0d0 2.0d0)
   (fdist-Q 1.2d0 1.0d0 2.0d0)

@@ -1,6 +1,6 @@
 ;; Generators of random numbers.
 ;; Liam Healy, Sat Jul 15 2006 - 14:43
-;; Time-stamp: <2009-12-27 10:01:42EST generators.lisp>
+;; Time-stamp: <2010-01-17 10:21:31EST generators.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -77,8 +77,7 @@
   (:documentation
    "Sample from the probability distribution."))
 
-(export 'uniform)
-(defmfun sample ((source random-number-generator) (type (eql 'uniform)) &key)
+(defmfun sample ((source random-number-generator) (type (eql :uniform)) &key)
   "gsl_rng_uniform" (((mpointer source) :pointer))
   :definition :method
   :c-return :double
@@ -92,8 +91,7 @@
    (the maximum number of bits that can be portably represented in a single
    :ulong.")
 
-(export 'uniform>0)
-(defmfun sample ((source random-number-generator) (type (eql 'uniform>0)) &key)
+(defmfun sample ((source random-number-generator) (type (eql :uniform>0)) &key)
   "gsl_rng_uniform_pos" (((mpointer source) :pointer))
   :definition :method
   :c-return :double
@@ -104,9 +102,8 @@
    type 'uniform until a non-zero value is obtained.  You can use this
    function if you need to avoid a singularity at 0.0.")
 
-(export 'uniform-fixnum)
 (defmfun sample
-    ((source random-number-generator) (type (eql 'uniform-fixnum))
+    ((source random-number-generator) (type (eql :uniform-fixnum))
      &key upperbound)
   "gsl_rng_uniform_int"
   (((mpointer source) :pointer) (upperbound :ulong))
@@ -205,6 +202,6 @@
  (let ((rng (make-random-number-generator +mt19937+ 0)))
    (loop for i from 0 to 10
 	 collect
-	 (sample rng 'uniform-fixnum :upperbound 1000)))
+	 (sample rng :uniform-fixnum :upperbound 1000)))
  (let ((rng (make-random-number-generator *cmrg* 0)))
    (loop for i from 0 to 10 collect (sample rng 'uniform))))

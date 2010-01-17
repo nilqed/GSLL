@@ -1,6 +1,6 @@
 ;; Tdist distribution
 ;; Liam Healy, Sat Oct  7 2006 - 16:13
-;; Time-stamp: <2009-12-27 10:03:49EST tdist.lisp>
+;; Time-stamp: <2010-01-17 10:36:02EST tdist.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -22,9 +22,8 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
-(export 'tdist)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'tdist)) &key nu)
+    ((generator random-number-generator) (type (eql :tdist)) &key nu)
   "gsl_ran_tdist"
   (((mpointer generator) :pointer) (nu :double))
   :definition :method
@@ -42,7 +41,7 @@
   :documentation			; FDL
   "The probability density p(x) at x
    for a t-distribution with nu degrees of freedom, using the formula
-   given in #'tdist.")
+   given in #'sample :tdist.")
 
 (defmfun tdist-P (x nu)
   "gsl_cdf_tdist_P" ((x :double) (nu :double))
@@ -77,7 +76,7 @@
   (let ((rng (make-random-number-generator +mt19937+ 0)))
       (loop for i from 0 to 10
 	    collect
-	    (sample rng 'tdist :nu 10.0d0)))
+	    (sample rng :tdist :nu 10.0d0)))
   (tdist-pdf 0.5d0 1.0d0)
   (tdist-P 0.5d0 1.0d0)
   (tdist-Q 0.5d0 1.0d0)

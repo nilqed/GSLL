@@ -25,7 +25,7 @@
    (MULTIPLE-VALUE-LIST
     (LET ((RNG (MAKE-RANDOM-NUMBER-GENERATOR +MT19937+ 0)))
       (LOOP FOR I FROM 0 TO 10 COLLECT
-	   (sample rng 'uniform-fixnum :upperbound 1000)))))
+	   (sample rng :uniform-fixnum :upperbound 1000)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST 0.11177622997750353d0 0.9591667949963206d0
@@ -36,4 +36,4 @@
 	  0.9311084621265104d0))
    (MULTIPLE-VALUE-LIST
     (LET ((RNG (MAKE-RANDOM-NUMBER-GENERATOR +CMRG+ 0)))
-      (LOOP FOR I FROM 0 TO 10 COLLECT (sample rng 'uniform))))))
+      (LOOP FOR I FROM 0 TO 10 COLLECT (sample rng :uniform))))))

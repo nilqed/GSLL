@@ -24,7 +24,7 @@
    (MULTIPLE-VALUE-LIST
     (LET ((RNG (MAKE-RANDOM-NUMBER-GENERATOR +MT19937+ 0)))
       (LOOP FOR I FROM 0 TO 10 COLLECT
-	   (sample rng 'logarithmic :probability 0.9d0)))))
+	   (sample rng :logarithmic :probability 0.9d0)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST 0.15660921511769743d0)
    (MULTIPLE-VALUE-LIST (LOGARITHMIC-PDF 2 0.4d0))))

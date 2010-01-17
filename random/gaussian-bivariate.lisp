@@ -1,6 +1,6 @@
 ;; Gaussian bivariate distribution
 ;; Liam Healy, Sat Sep  2 2006 - 16:32
-;; Time-stamp: <2009-12-27 10:00:00EST gaussian-bivariate.lisp>
+;; Time-stamp: <2010-01-17 10:15:54EST gaussian-bivariate.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -23,9 +23,8 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
-(export 'gaussian-bivariate)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'gaussian-bivariate))
+    ((generator random-number-generator) (type (eql :bivariate-gaussian))
      &key sigma-x sigma-y rho)
   "gsl_ran_bivariate_gaussian"
   (((mpointer generator) :pointer) (sigma-x :double) (sigma-y :double) (rho :double)
@@ -52,7 +51,7 @@
   "The probability density p(x,y) at
    (x,y) for a bivariate Gaussian distribution with standard
    deviations sigma_x, sigma_y and correlation coefficient
-   rho, using the formula given for bivariate-gaussian.")
+   rho, using the formula given for #'sample :bivariate-gaussian.")
 
 ;;; Examples and unit test
 (save-test gaussian-bivariate
@@ -60,7 +59,7 @@
       (loop for i from 0 to 10
 	    collect
 	    (sample
-	     rng 'gaussian-bivariate
+	     rng :bivariate-gaussian
 	     :sigma-x 1.0d0 :sigma-y 0.75d0 :rho 0.25d0)))
   (bivariate-gaussian-pdf 0.25d0 0.5d0 0.25d0
 			   0.4d0 0.2d0))

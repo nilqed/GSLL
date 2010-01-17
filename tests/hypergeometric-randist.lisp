@@ -24,7 +24,7 @@
    (MULTIPLE-VALUE-LIST
     (LET ((RNG (MAKE-RANDOM-NUMBER-GENERATOR +MT19937+ 0)))
       (LOOP FOR I FROM 0 TO 10 COLLECT
-	   (sample rng 'hypergeometric :n1 3 :n2 6 :tt 3)))))
+	   (sample rng :hypergeometric :n1 3 :n2 6 :tt 3)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST 0.35714285714285693d0)
    (MULTIPLE-VALUE-LIST (HYPERGEOMETRIC-PDF 0 2 6 3)))

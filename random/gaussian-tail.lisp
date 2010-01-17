@@ -1,6 +1,6 @@
 ;; Gaussian tail distribution
 ;; Liam Healy, Mon Aug 21 2006 - 21:52
-;; Time-stamp: <2009-12-27 10:01:43EST gaussian-tail.lisp>
+;; Time-stamp: <2010-01-17 10:17:01EST gaussian-tail.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -22,9 +22,8 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
-(export 'gaussian-tail)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'gaussian-tail))
+    ((generator random-number-generator) (type (eql :gaussian-tail))
      &key a sigma)
   "gsl_ran_gaussian_tail"
   (((mpointer generator) :pointer) (a :double) (sigma :double))
@@ -51,9 +50,8 @@
   for a Gaussian tail distribution with standard deviation sigma and
   lower limit a, using the formula given for gaussian-tail.")
 
-(export 'ugaussian-tail)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'ugaussian-tail))
+    ((generator random-number-generator) (type (eql :ugaussian-tail))
      &key a)
   "gsl_ran_ugaussian_tail"
   (((mpointer generator) :pointer) (a :double))
@@ -74,10 +72,10 @@
  (let ((rng (make-random-number-generator +mt19937+ 0)))
    (loop for i from 0 to 10
 	 collect
-	 (sample rng 'gaussian-tail :a 50.0d0 :sigma 10.0d0)))
+	 (sample rng :gaussian-tail :a 50.0d0 :sigma 10.0d0)))
  (gaussian-tail-pdf 52.0d0 50.0d0 10.0d0)
  (let ((rng (make-random-number-generator +mt19937+ 0)))
      (loop for i from 0 to 10
 	   collect
-	   (sample rng 'ugaussian-tail :a 5.0d0)))
+	   (sample rng :ugaussian-tail :a 5.0d0)))
  (ugaussian-tail-pdf 5.2d0 5.0d0))

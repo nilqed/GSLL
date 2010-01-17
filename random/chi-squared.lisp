@@ -1,6 +1,6 @@
 ;; Chi-squared distribution
 ;; Liam Healy, Sat Oct  7 2006 - 16:13
-;; Time-stamp: <2009-12-27 10:00:03EST chi-squared.lisp>
+;; Time-stamp: <2010-01-17 10:07:11EST chi-squared.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -23,9 +23,8 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
-(export 'chi-squared)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'chi-squared)) &key nu)
+    ((generator random-number-generator) (type (eql :chi-squared)) &key nu)
   "gsl_ran_chisq"
   (((mpointer generator) :pointer) (nu :double))
   :definition :method
@@ -42,7 +41,7 @@
   :documentation			; FDL
   "The probability density p(x) at x
    for a chi-squared distribution with nu degrees of freedom, using
-   the formula given in #'chi-squared.")
+   the formula given in #'sample :chi-squared.")
 
 (defmfun chi-squared-P (x nu)
   "gsl_cdf_chisq_P" ((x :double) (nu :double))
@@ -77,7 +76,7 @@
   (let ((rng (make-random-number-generator +mt19937+ 0)))
       (loop for i from 0 to 10
 	    collect
-	    (sample rng 'chi-squared :nu 10.0d0)))
+	    (sample rng :chi-squared :nu 10.0d0)))
   (chi-squared-pdf 0.5d0 1.0d0)
   (chi-squared-P 0.5d0 1.0d0)
   (chi-squared-Q 0.5d0 1.0d0)

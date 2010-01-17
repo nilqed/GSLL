@@ -1,6 +1,6 @@
 ;; Flat distribution
 ;; Liam Healy, Oct  7 2006
-;; Time-stamp: <2009-12-27 10:00:01EST flat.lisp>
+;; Time-stamp: <2010-01-17 10:13:12EST flat.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -22,9 +22,8 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
-(export 'flat)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'flat)) &key a b)
+    ((generator random-number-generator) (type (eql :flat)) &key a b)
   "gsl_ran_flat"
   (((mpointer generator) :pointer) (a :double) (b :double))
   :definition :method
@@ -41,7 +40,7 @@
   :documentation			; FDL
   "The probability density p(x) at x
    for a uniform distribution from a to b, using the formula
-   given for #'flat.")
+   given for #'sample :flat.")
 
 (defmfun flat-P (x a b)
   "gsl_cdf_flat_P" ((x :double) (a :double) (b :double))
@@ -76,7 +75,7 @@
   (let ((rng (make-random-number-generator +mt19937+ 0)))
       (loop for i from 0 to 10
 	    collect
-	    (sample rng 'flat :a 1.0d0 :b 2.0d0)))
+	    (sample rng :flat :a 1.0d0 :b 2.0d0)))
   (flat-pdf 1.2d0 1.0d0 2.0d0)
   (flat-P 1.2d0 1.0d0 2.0d0)
   (flat-Q 1.2d0 1.0d0 2.0d0)

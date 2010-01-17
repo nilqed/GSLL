@@ -1,6 +1,6 @@
 ;; The Gumbel type 2 random number distribution
 ;; Liam Healy, Sun Oct 29 2006
-;; Time-stamp: <2009-12-27 10:01:40EST gumbel2.lisp>
+;; Time-stamp: <2010-01-17 10:23:29EST gumbel2.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -23,9 +23,8 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
-(export 'gumbel2)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'gumbel2)) &key a b)
+    ((generator random-number-generator) (type (eql :gumbel2)) &key a b)
   "gsl_ran_gumbel2"
   (((mpointer generator) :pointer) (a :double) (b :double))
   :definition :method
@@ -41,7 +40,7 @@
   :documentation			; FDL
   "The probability density p(x) at x
    for a Type-2 Gumbel distribution with parameters a and b,
-   using the formula given in #'gumbel2.")
+   using the formula given in #'sample :gumbel2.")
 
 (defmfun gumbel2-P (x a b)
   "gsl_cdf_gumbel2_P" ((x :double) (a :double) (b :double))
@@ -79,7 +78,7 @@
   (let ((rng (make-random-number-generator +mt19937+ 0)))
       (loop for i from 0 to 10
 	    collect
-	    (sample rng 'gumbel2 :a 1.0d0 :b 2.0d0)))
+	    (sample rng :gumbel2 :a 1.0d0 :b 2.0d0)))
   (gumbel2-pdf 5.0d0 1.0d0 2.0d0)
   (gumbel2-P 10.0d0 1.0d0 2.0d0)
   (gumbel2-Q 10.0d0 1.0d0 2.0d0)

@@ -1,6 +1,6 @@
 ;; Negative binomial and Pascal distributions
 ;; Liam Healy, Sat Nov 25 2006 - 16:00
-;; Time-stamp: <2009-12-27 10:03:52EST negative-binomial.lisp>
+;; Time-stamp: <2010-01-17 10:29:42EST negative-binomial.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -26,9 +26,8 @@
 ;;;; Negative binomial
 ;;;;****************************************************************************
 
-(export 'negative-binomial)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'negative-binomial))
+    ((generator random-number-generator) (type (eql :negative-binomial))
      &key probability n)
   "gsl_ran_negative_binomial"
   (((mpointer generator) :pointer) (probability :double) (n :double))
@@ -49,7 +48,7 @@
   :documentation			; FDL
   "The probability p(k) of obtaining k
    from a negative binomial distribution with parameters p and
-   n, using the formula given in #'negative-binomial.")
+   n, using the formula given in #'sample :negative-binomial.")
 
 (defmfun negative-binomial-P (k p n)
   "gsl_cdf_negative_binomial_P" ((k :uint) (p :double) (n :double))
@@ -71,9 +70,8 @@
 ;;;; Pascal
 ;;;;****************************************************************************
 
-(export 'pascal)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'pascal))
+    ((generator random-number-generator) (type (eql :pascal))
      &key probability n)
   "gsl_ran_pascal"
   (((mpointer generator) :pointer) (probability :double) (n :uint))
@@ -92,7 +90,7 @@
   :documentation			; FDL
   "The probability p(k) of obtaining k
    from a Pascal distribution with parameters p and
-   n, using the formula given in #'pascal.")
+   n, using the formula given in #'sample :pascal.")
 
 (defmfun pascal-P (k p n)
   "gsl_cdf_pascal_P" ((k :uint) (p :double) (n :uint))
@@ -118,14 +116,14 @@
   (let ((rng (make-random-number-generator +mt19937+ 0)))
      (loop for i from 0 to 10
 	   collect
-	   (sample rng 'negative-binomial :probability 0.4d0 :n 12.0d0)))
+	   (sample rng :negative-binomial :probability 0.4d0 :n 12.0d0)))
   (negative-binomial-pdf 5 0.4d0 12.0d0)
   (negative-binomial-P 5 0.4d0 12.0d0)
   (negative-binomial-Q 5 0.4d0 12.0d0)
   (let ((rng (make-random-number-generator +mt19937+ 0)))
      (loop for i from 0 to 10
 	   collect
-	   (sample rng 'pascal :probability 0.4d0 :n 12)))
+	   (sample rng :pascal :probability 0.4d0 :n 12)))
   (pascal-pdf 5 0.4d0 12)
   (pascal-P 5 0.4d0 12)
   (pascal-Q 5 0.4d0 12))

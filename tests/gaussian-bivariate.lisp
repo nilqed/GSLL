@@ -31,7 +31,7 @@
     (LET ((RNG (MAKE-RANDOM-NUMBER-GENERATOR +MT19937+ 0)))
       (LOOP FOR I FROM 0 TO 10 COLLECT
 	   (sample
-	    rng 'gaussian-bivariate
+	    rng :bivariate-gaussian
 	    :sigma-x 1.0d0 :sigma-y 0.75d0 :rho 0.25d0)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST 0.5548265557970462d0)

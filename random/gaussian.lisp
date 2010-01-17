@@ -1,6 +1,6 @@
 ;; Gaussian distribution
 ;; Liam Healy, Sun Jul 16 2006 - 22:09
-;; Time-stamp: <2009-12-27 10:00:00EST gaussian.lisp>
+;; Time-stamp: <2010-01-17 10:19:46EST gaussian.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -23,9 +23,8 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
-(export 'gaussian)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'gaussian))
+    ((generator random-number-generator) (type (eql :gaussian))
      &key sigma)
   "gsl_ran_gaussian"
   (((mpointer generator) :pointer) (sigma :double))
@@ -38,7 +37,7 @@
   p(x) dx = {1 \over \sqrt{2 \pi \sigma^2}} \exp (-x^2 / 2\sigma^2) dx
   for x in the range -\infty to +\infty.  Use the
   transformation z = \mu + x on the numbers returned by
-  #'gaussian to obtain a Gaussian distribution with mean
+  this function to obtain a Gaussian distribution with mean
   mu.  This function uses the Box-Mueller algorithm which requires two
   calls to the random number generator r.")
 
@@ -49,9 +48,8 @@
   "Compute the probability density p(x) at x
    for a Gaussian distribution with standard deviation sigma.")
 
-(export 'gaussian-ziggurat)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'gaussian-ziggurat))
+    ((generator random-number-generator) (type (eql :gaussian-ziggurat))
      &key sigma)
   "gsl_ran_gaussian_ziggurat"
   (((mpointer generator) :pointer) (sigma :double))
@@ -62,9 +60,8 @@
    Marsaglia-Tsang ziggurat method. The Ziggurat algorithm
    is the fastest available algorithm in most cases.")
 
-(export 'gaussian-ratio-method)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'gaussian-ratio-method))
+    ((generator random-number-generator) (type (eql :gaussian-ratio-method))
      &key sigma)
   "gsl_ran_gaussian_ratio_method"
   (((mpointer generator) :pointer) (sigma :double))
@@ -74,16 +71,15 @@
   "Compute a Gaussian random variate using the Kinderman-Monahan-Leva
    ratio method.")
 
-(export 'ugaussian)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'ugaussian)) &key)
+    ((generator random-number-generator) (type (eql :ugaussian)) &key)
   "gsl_ran_ugaussian" (((mpointer generator) :pointer))
   :definition :method
   :c-return :double
   :documentation			; FDL
   "Compute results for the unit Gaussian distribution,
-   equivalent to the #'gaussian with a standard deviation of one,
-   sigma = 1.")
+   equivalent to the #'sample :gaussian with a standard deviation of
+   one, sigma = 1.")
 
 (defmfun ugaussian-pdf (x)
   "gsl_ran_ugaussian_pdf" ((x :double))
@@ -93,9 +89,8 @@
    equivalent to the #'gaussian-pdf with a standard deviation of one,
    sigma = 1.")
 
-(export 'ugaussian-ratio-method)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'ugaussian-ratio-method))
+    ((generator random-number-generator) (type (eql :ugaussian-ratio-method))
      &key)
   "gsl_ran_ugaussian_ratio_method"
   (((mpointer generator) :pointer))
@@ -103,8 +98,8 @@
   :c-return :double
   :documentation			; FDL
   "Compute results for the unit Gaussian distribution,
-   equivalent to the #'gaussian-ration-method with a
-   standard deviation of one, sigma = 1.")
+   equivalent to the #'sample :gaussian-ration-method with a standard
+   deviation of one, sigma = 1.")
 
 (defmfun gaussian-P (x sigma)
   "gsl_cdf_gaussian_P" ((x :double) (sigma :double))
@@ -168,12 +163,12 @@
  (let ((rng (make-random-number-generator +mt19937+ 0)))
    (loop for i from 0 to 10
 	 collect
-	 (sample rng 'gaussian :sigma 10.0d0)))
+	 (sample rng :gaussian :sigma 10.0d0)))
  (gaussian-pdf 0.0d0 10.0d0)
  (let ((rng (make-random-number-generator +mt19937+ 0)))
      (loop for i from 0 to 10
 	   collect
-	   (sample rng 'gaussian-ziggurat :sigma 10.0d0)))
+	   (sample rng :gaussian-ziggurat :sigma 10.0d0)))
  ;; Given in examples in GSL documentation
  (ugaussian-p 2.0d0)
  (ugaussian-q 2.0d0)

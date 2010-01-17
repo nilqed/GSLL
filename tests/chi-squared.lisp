@@ -30,7 +30,7 @@
    (MULTIPLE-VALUE-LIST
     (LET ((RNG (MAKE-RANDOM-NUMBER-GENERATOR +MT19937+ 0)))
       (LOOP FOR I FROM 0 TO 10 COLLECT
-	   (sample rng 'chi-squared :nu 10.0d0)))))
+	   (sample rng :chi-squared :nu 10.0d0)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST 0.43939128946772227d0)
    (MULTIPLE-VALUE-LIST (CHI-SQUARED-PDF 0.5d0 1.0d0)))

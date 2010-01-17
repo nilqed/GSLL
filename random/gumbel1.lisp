@@ -1,6 +1,6 @@
 ;; The Gumbel type 1 random number distribution
 ;; Liam Healy, Sun Oct 29 2006
-;; Time-stamp: <2009-12-27 10:01:41EST gumbel1.lisp>
+;; Time-stamp: <2010-01-17 10:22:56EST gumbel1.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -23,9 +23,8 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
-(export 'geometric)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'gumbel1)) &key a b)
+    ((generator random-number-generator) (type (eql :gumbel1)) &key a b)
   "gsl_ran_gumbel1"
   (((mpointer generator) :pointer) (a :double) (b :double))
   :definition :method
@@ -42,7 +41,7 @@
   :documentation			; FDL
   "The probability density p(x) at x
   for a Type-1 Gumbel distribution with parameters a and b,
-  using the formula given for #'gumbel1.")
+  using the formula given for #'sample :gumbel1.")
 
 (defmfun gumbel1-P (x a b)
   "gsl_cdf_gumbel1_P" ((x :double) (a :double) (b :double))
@@ -80,7 +79,7 @@
 (save-test gumbel1
   (let ((rng (make-random-number-generator +mt19937+ 0)))
       (loop for i from 0 to 10
-	    collect (sample rng 'gumbel1 :a 1.0d0 :b 2.0d0)))
+	    collect (sample rng :gumbel1 :a 1.0d0 :b 2.0d0)))
   (gumbel1-pdf 0.1d0 1.0d0 2.0d0)
   (gumbel1-P 0.1d0 1.0d0 2.0d0)
   (gumbel1-Q 0.1d0 1.0d0 2.0d0)

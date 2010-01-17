@@ -1,6 +1,6 @@
 ;; Exponential distribution
 ;; Liam Healy, Sat Sep  2 2006 - 19:04
-;; Time-stamp: <2009-12-27 10:00:02EST exponential.lisp>
+;; Time-stamp: <2010-01-17 10:12:00EST exponential.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -23,9 +23,8 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
-(export 'exponential)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'exponential))
+    ((generator random-number-generator) (type (eql :exponential))
      &key mu)
   "gsl_ran_exponential"
   (((mpointer generator) :pointer) (mu :double))
@@ -43,7 +42,7 @@
   :documentation			; FDL
   "The probability density p(x) at x
   for an exponential distribution with mean mu, using the formula
-  given for exponential.")
+  given for #'sample :exponential.")
 
 (defmfun exponential-P (x mu)
   "gsl_cdf_exponential_P" ((x :double) (mu :double))
@@ -78,7 +77,7 @@
   (let ((rng (make-random-number-generator +mt19937+ 0)))
       (loop for i from 0 to 10
 	    collect
-	    (sample rng 'exponential :mu 10.0d0)))
+	    (sample rng :exponential :mu 10.0d0)))
   (exponential-pdf 0.0d0 10.0d0)
   (exponential-p 1.0d0 2.0d0)
   (exponential-q 1.0d0 2.0d0)

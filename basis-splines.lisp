@@ -1,6 +1,6 @@
 ;; Basis splines.
 ;; Liam Healy 2008-02-18 14:43:20EST basis-splines.lisp
-;; Time-stamp: <2009-12-27 09:42:10EST basis-splines.lisp>
+;; Time-stamp: <2010-01-17 10:41:03EST basis-splines.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -124,7 +124,7 @@
     (dotimes (i ndata)
       (let* ((xi (coerce (* i (/ 15 (1- ndata))) 'double-float))
 	     (yi (+ (* (cos xi) (exp (* -0.1d0 xi)))
-		    (sample rng 'gaussian :sigma sigma))))
+		    (sample rng :gaussian :sigma sigma))))
 	(setf (maref x i) xi
 	      (maref y i) yi
 	      (maref w i) (/ (expt sigma 2)))))

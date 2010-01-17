@@ -29,7 +29,7 @@
 	   (RNG
 	    (MAKE-RANDOM-NUMBER-GENERATOR +MT19937+ 0)))
       (LOOP FOR I FROM 0 TO 10 COLLECT
-	   (sample rng 'discrete :table table)))))
+	   (sample rng :discrete :table table)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST 0.5d0)
    (MULTIPLE-VALUE-LIST

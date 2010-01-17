@@ -1,6 +1,6 @@
 ;; Exponential distribution
 ;; Liam Healy, Sun Sep 17 2006
-;; Time-stamp: <2009-12-27 10:03:53EST laplace.lisp>
+;; Time-stamp: <2010-01-17 10:25:36EST laplace.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -23,9 +23,8 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
-(export 'laplace)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'laplace)) &key a)
+    ((generator random-number-generator) (type (eql :laplace)) &key a)
   "gsl_ran_laplace"
   (((mpointer generator) :pointer) (a :double))
   :definition :method
@@ -42,7 +41,7 @@
   :documentation			; FDL
   "The probability density p(x) at x
    for a Laplace distribution with width a, using the formula
-   given for #'laplace.")
+   given for #'sample :laplace.")
 
 (defmfun laplace-P (x a)
   "gsl_cdf_laplace_P" ((x :double) (a :double))
@@ -77,7 +76,7 @@
   (let ((rng (make-random-number-generator +mt19937+ 0)))
       (loop for i from 0 to 10
 	    collect
-	    (sample rng 'laplace :a 10.0d0)))
+	    (sample rng :laplace :a 10.0d0)))
   (laplace-pdf 0.0d0 10.0d0)
   (laplace-p 1.0d0 2.0d0)
   (laplace-q 1.0d0 2.0d0)

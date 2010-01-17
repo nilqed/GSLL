@@ -30,7 +30,7 @@
    (MULTIPLE-VALUE-LIST
     (LET ((RNG (MAKE-RANDOM-NUMBER-GENERATOR +MT19937+ 0)))
       (LOOP FOR I FROM 0 TO 10 COLLECT
-	   (sample rng 'pareto :a 1.0d0 :b 2.0d0)))))
+	   (sample rng :pareto :a 1.0d0 :b 2.0d0)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST 0.5116034405707658d0)
    (MULTIPLE-VALUE-LIST (PARETO-PDF 1.5d0 1.3d0 1.0d0)))

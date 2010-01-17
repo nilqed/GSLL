@@ -1,6 +1,6 @@
 ;; Pareto distribution
 ;; Liam Healy, Sat Oct  8 2006 - 21:23
-;; Time-stamp: <2009-12-27 10:03:51EST pareto.lisp>
+;; Time-stamp: <2010-01-17 10:30:11EST pareto.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -23,9 +23,8 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
-(export 'pareto)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'pareto)) &key a b)
+    ((generator random-number-generator) (type (eql :pareto)) &key a b)
   "gsl_ran_pareto"
   (((mpointer generator) :pointer) (a :double) (b :double))
   :definition :method
@@ -42,7 +41,7 @@
   :documentation			; FDL
   "The probability density p(x) at x
    for a Pareto distribution with exponent a and scale b, using
-   the formula given in #'pareto.")
+   the formula given in #'sample :pareto.")
 
 (defmfun pareto-P (x a b)
   "gsl_cdf_pareto_P" ((x :double) (a :double) (b :double))
@@ -77,7 +76,7 @@
   (let ((rng (make-random-number-generator +mt19937+ 0)))
       (loop for i from 0 to 10
 	    collect
-	    (sample rng 'pareto :a 1.0d0 :b 2.0d0)))
+	    (sample rng :pareto :a 1.0d0 :b 2.0d0)))
   (pareto-pdf 1.5d0 1.3d0 1.0d0)
   (pareto-P 3.5d0 1.3d0 2.0d0)
   (pareto-Q 3.5d0 1.3d0 2.0d0)

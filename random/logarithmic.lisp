@@ -1,6 +1,6 @@
 ;; Logarithmic distribution
 ;; Liam Healy, Sat Nov 25 2006 - 16:00
-;; Time-stamp: <2009-12-27 10:03:53EST logarithmic.lisp>
+;; Time-stamp: <2010-01-17 10:26:45EST logarithmic.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -22,9 +22,8 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
-(export 'logarithmic)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'logarithmic))
+    ((generator random-number-generator) (type (eql :logarithmic))
      &key probability)
   "gsl_ran_logarithmic"
   (((mpointer generator) :pointer) (probability :double))
@@ -42,12 +41,12 @@
   :documentation
   "The probability p(k) of obtaining k
    from a logarithmic distribution with probability parameter p,
-   using the formula given in #'logarithmic.")
+   using the formula given in #'sample :logarithmic.")
 
 ;;; Examples and unit test
 (save-test logarithmic
   (let ((rng (make-random-number-generator +mt19937+ 0)))
      (loop for i from 0 to 10
 	   collect
-	   (sample rng 'logarithmic :probability 0.9d0)))
+	   (sample rng :logarithmic :probability 0.9d0)))
   (logarithmic-pdf 2 0.4d0))

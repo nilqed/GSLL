@@ -26,7 +26,7 @@
    (MULTIPLE-VALUE-LIST
     (let ((rng (make-random-number-generator +mt19937+ 0))
 	  (alpha #m(1.0d0 2.0d0 3.0d0 4.0d0)))
-      (cl-array (sample rng 'dirichlet :alpha alpha)))))
+      (cl-array (sample rng :dirichlet :alpha alpha)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST 1080.0000000000025d0)
    (MULTIPLE-VALUE-LIST

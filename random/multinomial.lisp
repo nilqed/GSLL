@@ -1,6 +1,6 @@
 ;; Multinomial distribution
 ;; Liam Healy, Sat Nov 25 2006 - 16:00
-;; Time-stamp: <2009-12-27 10:03:52EST multinomial.lisp>
+;; Time-stamp: <2010-01-17 10:28:22EST multinomial.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -22,9 +22,8 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
-(export 'multinomial)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'multinomial))
+    ((generator random-number-generator) (type (eql :multinomial))
      &key sum probabilities
      (n (make-marray
 	 '(signed-byte 32) :dimensions (dim0 probabilities))))
@@ -63,7 +62,7 @@
   :documentation			; FDL
   "Compute the probability P(n_1, n_2, ..., n_K)
    of sampling n[K] from a multinomial distribution 
-   with parameters p[K], using the formula given for #'multinomial.")
+   with parameters p[K], using the formula given for #'sample :multinomial.")
 
 (defmfun multinomial-log-pdf (p n)
   "gsl_ran_multinomial_lnpdf"
@@ -73,13 +72,13 @@
   :documentation			; FDL
   "Compute the natural logarithm of the probability P(n_1, n_2, ..., n_K)
    of sampling n[K] from a multinomial distribution 
-   with parameters p[K], using the formula given for #'multinomial.")
+   with parameters p[K], using the formula given for #'sample :multinomial.")
 
 ;;; Examples and unit test
 (save-test multinomial
  (let ((rng (make-random-number-generator +mt19937+ 0))
        (p #m(0.1d0 0.2d0 0.3d0 0.4d0)))
-   (cl-array (sample rng 'multinomial :sum 8 :probabilities p)))
+   (cl-array (sample rng :multinomial :sum 8 :probabilities p)))
  (let ((p #m(0.1d0 0.2d0 0.3d0 0.4d0))
        (n #31m(5 0 1 2)))
    (multinomial-pdf p N))

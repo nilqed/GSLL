@@ -30,7 +30,7 @@
    (MULTIPLE-VALUE-LIST
     (LET ((RNG (MAKE-RANDOM-NUMBER-GENERATOR +MT19937+ 0)))
       (LOOP FOR I FROM 0 TO 10 COLLECT
-	   (sample rng 'exponential-power :a 1.0d0 :b 2.0d0)))))
+	   (sample rng :exponential-power :a 1.0d0 :b 2.0d0)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST 0.5641895835477557d0)
    (MULTIPLE-VALUE-LIST

@@ -1,6 +1,6 @@
 ;; Linear least squares, or linear regression
 ;; Liam Healy <2008-01-21 12:41:46EST linear-least-squares.lisp>
-;; Time-stamp: <2009-12-27 10:05:33EST linear-least-squares.lisp>
+;; Time-stamp: <2010-01-17 10:40:22EST linear-least-squares.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -341,7 +341,7 @@
 	  for y0 = (exp xd)
 	  for sigma = (* 0.1d0 y0)
 	  collect
-	  (list xd (+ y0 (sample rng 'gaussian :sigma sigma)) sigma))))
+	  (list xd (+ y0 (sample rng :gaussian :sigma sigma)) sigma))))
 
 (defun linear-least-squares-multivariate-example (data &optional (print-details t))
   "Second example in Section 36.5 of the GSL manual.  Returns the

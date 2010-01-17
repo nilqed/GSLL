@@ -30,7 +30,7 @@
    (MULTIPLE-VALUE-LIST
     (LET ((RNG (MAKE-RANDOM-NUMBER-GENERATOR +MT19937+ 0)))
       (LOOP FOR I FROM 0 TO 10 COLLECT
-	   (sample rng 'lognormal :zeta 1.0d0 :sigma 2.0d0)))))
+	   (sample rng :lognormal :zeta 1.0d0 :sigma 2.0d0)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST 0.15289833965691607d0)
    (MULTIPLE-VALUE-LIST

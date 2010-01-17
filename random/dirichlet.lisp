@@ -1,6 +1,6 @@
 ;; Dirichlet distribution
 ;; Liam Healy, Sun Oct 29 2006
-;; Time-stamp: <2009-12-27 10:00:02EST dirichlet.lisp>
+;; Time-stamp: <2010-01-17 10:09:21EST dirichlet.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -22,9 +22,8 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
-(export 'dirichlet)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'dirichlet))
+    ((generator random-number-generator) (type (eql :dirichlet))
      &key alpha (theta (vdf (dim0 alpha))))
   "gsl_ran_dirichlet"
   (((mpointer generator) :pointer)
@@ -64,7 +63,7 @@
   :documentation			; FDL
   "The probability density p(\theta_1, ... , \theta_K)
    at theta[K] for a Dirichlet distribution with parameters 
-   alpha[K], using the formula given for #'dirichlet.")
+   alpha[K], using the formula given for #'sample :dirichlet.")
 
 (defmfun dirichlet-log-pdf (alpha theta)
   "gsl_ran_dirichlet_lnpdf"
@@ -84,7 +83,7 @@
 (save-test dirichlet
  (let ((rng (make-random-number-generator +mt19937+ 0))
        (alpha #m(1.0d0 2.0d0 3.0d0 4.0d0)))
-   (cl-array (sample rng 'dirichlet :alpha alpha)))
+   (cl-array (sample rng :dirichlet :alpha alpha)))
  (let ((alpha #m(1.0d0 2.0d0 3.0d0 4.0d0))
        (theta #m(1.0d0 2.0d0 3.0d0 4.0d0)))
    (dirichlet-pdf alpha theta))

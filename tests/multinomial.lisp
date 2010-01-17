@@ -24,7 +24,7 @@
    (MULTIPLE-VALUE-LIST
     (let ((rng (make-random-number-generator +mt19937+ 0))
 	  (p #m(0.1d0 0.2d0 0.3d0 0.4d0)))
-      (cl-array (sample rng 'multinomial :sum 8 :probabilities p)))))
+      (cl-array (sample rng :multinomial :sum 8 :probabilities p)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST 8.064000000000026d-5)
    (MULTIPLE-VALUE-LIST

@@ -1,6 +1,6 @@
 ;; Logistic distribution
 ;; Liam Healy, Sat Oct  7 2006 - 16:13
-;; Time-stamp: <2009-12-27 10:03:53EST logistic.lisp>
+;; Time-stamp: <2010-01-17 10:27:24EST logistic.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -23,9 +23,8 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
-(export 'logistic)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'logistic)) &key a)
+    ((generator random-number-generator) (type (eql :logistic)) &key a)
   "gsl_ran_logistic"
   (((mpointer generator) :pointer) (a :double))
   :definition :method
@@ -41,7 +40,7 @@
   :documentation			; FDL
   "The probability density p(x) at x
    for a logistic distribution with scale parameter a, using the
-   formula given in #'logistic.")
+   formula given in #'sample :logistic.")
 
 (defmfun logistic-P (x a)
   "gsl_cdf_logistic_P" ((x :double) (a :double))
@@ -76,7 +75,7 @@
   (let ((rng (make-random-number-generator +mt19937+ 0)))
       (loop for i from 0 to 10
 	    collect
-	    (sample rng 'logistic :a 10.0d0)))
+	    (sample rng :logistic :a 10.0d0)))
   (logistic-pdf 0.5d0 1.0d0)
   (logistic-P 0.5d0 1.0d0)
   (logistic-Q 0.5d0 1.0d0)

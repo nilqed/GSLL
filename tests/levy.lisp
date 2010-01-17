@@ -30,7 +30,7 @@
    (MULTIPLE-VALUE-LIST
     (LET ((RNG (MAKE-RANDOM-NUMBER-GENERATOR +MT19937+ 0)))
       (LOOP FOR I FROM 0 TO 10 COLLECT
-	   (sample rng 'levy :c 1.0d0 :alpha 2.0d0)))))
+	   (sample rng :levy :c 1.0d0 :alpha 2.0d0)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST 2.6941098332360465d0 -0.2939543864467665d0
@@ -42,5 +42,5 @@
    (MULTIPLE-VALUE-LIST
     (LET ((RNG (MAKE-RANDOM-NUMBER-GENERATOR +MT19937+ 0)))
       (LOOP FOR I FROM 0 TO 10 COLLECT
-	   (sample rng 'levy-skew :c 1.0d0 :alpha 2.0d0 :beta 1.0d0))))))
+	   (sample rng :levy-skew :c 1.0d0 :alpha 2.0d0 :beta 1.0d0))))))
 

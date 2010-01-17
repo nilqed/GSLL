@@ -1,6 +1,6 @@
 ;; Exponential power distribution
 ;; Liam Healy, Sat Sep 30 2006
-;; Time-stamp: <2009-12-27 10:00:02EST exponential-power.lisp>
+;; Time-stamp: <2010-01-17 10:11:03EST exponential-power.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -22,9 +22,8 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
-(export 'exponential-power)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'exponential-power))
+    ((generator random-number-generator) (type (eql :exponential-power))
      &key a b)
   "gsl_ran_exppow"
   (((mpointer generator) :pointer) (a :double) (b :double))
@@ -45,7 +44,7 @@
   :documentation			; FDL
   "The probability density p(x) at x
    for an exponential power distribution with scale parameter a
-   and exponent b, using the formula given for #'exponential-power.")
+   and exponent b, using the formula given for #'sample :exponential-power.")
 
 (defmfun exponential-power-P (x a b)
   "gsl_cdf_exppow_P" ((x :double) (a :double) (b :double))
@@ -68,7 +67,7 @@
   (let ((rng (make-random-number-generator +mt19937+ 0)))
       (loop for i from 0 to 10
 	    collect
-	    (sample rng 'exponential-power :a 1.0d0 :b 2.0d0)))
+	    (sample rng :exponential-power :a 1.0d0 :b 2.0d0)))
   (exponential-power-pdf 0.0d0 1.0d0 2.0d0)
   (exponential-power-P 1.0d0 1.0d0 2.0d0)
   (exponential-power-Q 1.0d0 1.0d0 2.0d0))

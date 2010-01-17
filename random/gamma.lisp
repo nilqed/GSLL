@@ -1,6 +1,6 @@
 ;; Gamma distribution
 ;; Liam Healy, Sat Sep 30 2006
-;; Time-stamp: <2009-12-27 10:00:00EST gamma.lisp>
+;; Time-stamp: <2010-01-17 10:14:35EST gamma.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -23,9 +23,8 @@
 ;;; /usr/include/gsl/gsl_randist.h
 ;;; /usr/include/gsl/gsl_cdf.h
 
-(export 'gamma)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'gamma)) &key a b)
+    ((generator random-number-generator) (type (eql :gamma)) &key a b)
   "gsl_ran_gamma"
   (((mpointer generator) :pointer) (a :double) (b :double))
   :definition :method
@@ -38,9 +37,8 @@
    is known as the Erlang distribution.  The variates are computed using
    the algorithms from Knuth (vol 2).")
 
-(export 'gamma-mt)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'gamma-mt)) &key a b)
+    ((generator random-number-generator) (type (eql :gamma-mt)) &key a b)
   "gsl_ran_gamma_mt"
   (((mpointer generator) :pointer) (a :double) (b :double))
   :definition :method
@@ -54,7 +52,7 @@
   :documentation			; FDL
   "The probability density p(x) at x
    for a gamma distribution with parameters a and b, using the
-   formula given in #'gamma.")
+   formula given in #'sample :gamma.")
 
 (defmfun gamma-P (x a b)
   "gsl_cdf_gamma_P" ((x :double) (a :double) (b :double))
@@ -89,11 +87,11 @@
  (let ((rng (make-random-number-generator +mt19937+ 0)))
    (loop for i from 0 to 10
 	 collect
-	 (sample rng 'gamma :a 1.0d0 :b 2.0d0)))
+	 (sample rng :gamma :a 1.0d0 :b 2.0d0)))
  (let ((rng (make-random-number-generator +mt19937+ 0)))
    (loop for i from 0 to 10
 	 collect
-	 (sample rng 'gamma-mt :a 1.0d0 :b 2.0d0)))
+	 (sample rng :gamma-mt :a 1.0d0 :b 2.0d0)))
  (gamma-pdf 0.1d0 1.0d0 2.0d0)
  (gamma-P 0.1d0 1.0d0 2.0d0)
  (gamma-Q 0.1d0 1.0d0 2.0d0)

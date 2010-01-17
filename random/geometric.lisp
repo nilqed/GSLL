@@ -1,6 +1,6 @@
 ;; Geometric distribution
 ;; Liam Healy, Sat Nov 25 2006 - 16:00
-;; Time-stamp: <2009-12-27 10:01:43EST geometric.lisp>
+;; Time-stamp: <2010-01-17 10:22:14EST geometric.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -22,9 +22,8 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
-(export 'geometric)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'geometric))
+    ((generator random-number-generator) (type (eql :geometric))
      &key probability)
   "gsl_ran_geometric"
   (((mpointer generator) :pointer) (probability :double))
@@ -45,7 +44,7 @@
   :documentation			; FDL
   "The probability p(k) of obtaining k
    from a geometric distribution with probability parameter p, using
-   the formula given in #'geometric.")
+   the formula given in #'sample :geometric.")
 
 (defmfun geometric-P (k p)
   "gsl_cdf_geometric_P" ((k :uint) (p :double))
@@ -66,7 +65,7 @@
   (let ((rng (make-random-number-generator +mt19937+ 0)))
      (loop for i from 0 to 10
 	   collect
-	   (sample rng 'geometric :probability 0.4d0)))
+	   (sample rng :geometric :probability 0.4d0)))
   (geometric-pdf 2 0.4d0)
   (geometric-P 2 0.4d0)
   (geometric-Q 2 0.4d0))

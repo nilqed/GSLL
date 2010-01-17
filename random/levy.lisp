@@ -1,6 +1,6 @@
 ;; Levy distribution
 ;; Liam Healy, Sat Sep 30 2006
-;; Time-stamp: <2009-12-27 10:03:53EST levy.lisp>
+;; Time-stamp: <2010-01-17 10:26:16EST levy.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -22,9 +22,8 @@
 
 ;;; /usr/include/gsl/gsl_randist.h
 
-(export 'levy)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'levy)) &key c alpha)
+    ((generator random-number-generator) (type (eql :levy)) &key c alpha)
   "gsl_ran_levy"
   (((mpointer generator) :pointer) (c :double) (alpha :double))
   :definition :method
@@ -41,9 +40,8 @@
    For \alpha < 1 the tails of the distribution become extremely wide.
    The algorithm only works for 0 < alpha <= 2.")
 
-(export 'levy-skew)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'levy-skew))
+    ((generator random-number-generator) (type (eql :levy-skew))
      &key c alpha beta)
   "gsl_ran_levy_skew"
   (((mpointer generator) :pointer) (c :double) (alpha :double) (beta :double))
@@ -71,8 +69,8 @@
   (let ((rng (make-random-number-generator +mt19937+ 0)))
       (loop for i from 0 to 10
 	    collect
-	    (sample rng 'levy :c 1.0d0 :alpha 2.0d0)))
+	    (sample rng :levy :c 1.0d0 :alpha 2.0d0)))
   (let ((rng (make-random-number-generator +mt19937+ 0)))
       (loop for i from 0 to 10
 	    collect
-	    (sample rng 'levy-skew :c 1.0d0 :alpha 2.0d0 :beta 1.0d0))))
+	    (sample rng :levy-skew :c 1.0d0 :alpha 2.0d0 :beta 1.0d0))))

@@ -1,6 +1,6 @@
 ;; Shuffling and sampling
 ;; Liam Healy, Sat Dec  2 2006 - 18:40
-;; Time-stamp: <2009-12-27 10:03:50EST shuffling-sampling.lisp>
+;; Time-stamp: <2010-01-17 10:33:13EST shuffling-sampling.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -22,9 +22,8 @@
 
 ;;; These are currently defined only for vectors.
 
-(export 'shuffle)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'shuffle))
+    ((generator random-number-generator) (type (eql :shuffle))
      &key base)
   "gsl_ran_shuffle"
   (((mpointer generator) :pointer)
@@ -41,9 +40,8 @@
    permutations with equal probability, assuming a perfect source of random
    numbers.")
 
-(export 'choose-random)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'choose-random))
+    ((generator random-number-generator) (type (eql :choose-random))
      &key src (dest (dim0 src))
      &aux
      (destarr
@@ -68,11 +66,10 @@
    only appear once in destarr[k].  It is required that k be less
    than or equal to n.  The objects in destarr will be in the
    same relative order as those in src.  You will need to call
-   with 'shuffle if you want to randomize the order.")
+   with :shuffle if you want to randomize the order.")
 
-(export 'random-sample)
 (defmfun sample
-    ((generator random-number-generator) (type (eql 'random-sample))
+    ((generator random-number-generator) (type (eql :random-sample))
      &key src (dest (dim0 src))
      &aux
      (destarr
@@ -88,20 +85,19 @@
   :outputs (destarr)
   :c-return :void
   :documentation
-  "Like #'choose-random, but samples k items
-   from the original array of n items src with replacement, so
-   the same object can appear more than once in the output sequence
-   dest.  There is no requirement that k be less than n
-   in this case.")
+  "Like :choose-random, but samples k items from the original array of
+   n items src with replacement, so the same object can appear more
+   than once in the output sequence dest.  There is no requirement
+   that k be less than n in this case.")
 
 ;;; Examples and unit test
 (save-test shuffling-sampling
  (let ((rng (make-random-number-generator +mt19937+ 0))
        (v1 #31m(1 2 3 4 5 6 7 8)))
-   (cl-array (sample rng 'shuffle :base v1)))
+   (cl-array (sample rng :shuffle :base v1)))
  (let ((rng (make-random-number-generator +mt19937+ 0))
        (v1 #31m(1 2 3 4 5 6 7 8)))
-   (cl-array (sample rng 'choose-random :src v1 :dest 4)))
+   (cl-array (sample rng :choose-random :src v1 :dest 4)))
  (let ((rng (make-random-number-generator +mt19937+ 0))
        (v1 #31m(1 2 3 4 5 6 7 8)))
-   (cl-array (sample rng 'random-sample :src v1 :dest 10))))
+   (cl-array (sample rng :random-sample :src v1 :dest 10))))
