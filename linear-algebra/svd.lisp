@@ -101,7 +101,7 @@
    references for details).")
 
 (defmfun SV-solve
-    (U S V b &optional (x (make-marray 'double-float :dimensions (dim0 U))))
+    (U S V b &optional (x (make-marray 'double-float :dimensions (dim0 V))))
   "gsl_linalg_SV_solve"
   (((mpointer U) :pointer) ((mpointer V) :pointer)
    ((mpointer S) :pointer)
