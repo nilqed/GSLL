@@ -1,6 +1,6 @@
 ;; Cholesky Decomposition
 ;; Liam Healy, Wed May  3 2006 - 16:38
-;; Time-stamp: <2009-12-27 09:55:00EST cholesky.lisp>
+;; Time-stamp: <2010-01-18 19:37:37EST cholesky.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -72,6 +72,17 @@
   solution returned in it.  If x-spec is a marray, the solution will
   be returned in it.")
 
+(defmfun cholesky-invert (cholesky)
+  "gsl_linalg_cholesky_invert"
+  (((mpointer cholesky) :pointer))
+  :inputs (cholesky)
+  :outputs (cholesky)
+  :gsl-version (1 12)
+  :documentation
+  "Compute the inverse of the matrix cholesky which must have been
+  previously computed by #'cholesky-decomposition. The inverse of the
+  original matrix is stored in cholesky on output.")
+
 ;;; Examples and unit test, from linalg/test.c
 
 (defun test-cholesky-solve-dim (matrix)
@@ -90,6 +101,10 @@
 	   (setf (maref decomp row col) 0.0d0)))
     (matrix-product decomp decomp nil 1.0d0 0.0d0 :notrans :trans)))
 
+(defun test-cholesky-invert-dim (matrix)
+  "Invert using Cholesky decomposition"
+  (cholesky-invert (cholesky-decomposition (copy matrix))))
+
 (save-test cholesky
  (test-cholesky-solve-dim *hilb2*)
  (test-cholesky-solve-dim *hilb3*)
@@ -98,4 +113,8 @@
  (test-cholesky-decomp-dim *hilb2*)
  (test-cholesky-decomp-dim *hilb3*)
  (test-cholesky-decomp-dim *hilb4*)
- (test-cholesky-decomp-dim *hilb12*))
+ (test-cholesky-decomp-dim *hilb12*)
+ (test-cholesky-invert-dim *hilb2*)
+ (test-cholesky-invert-dim *hilb3*)
+ (test-cholesky-invert-dim *hilb4*)
+ (test-cholesky-invert-dim *hilb12*))
