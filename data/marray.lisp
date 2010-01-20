@@ -1,6 +1,6 @@
 ;; A "marray" is an array in both GSL and CL
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2010-01-02 22:45:49EST marray.lisp>
+;; Time-stamp: <2010-01-20 15:31:57EST marray.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -86,6 +86,7 @@
   (declare (ignore env))
   `(make-marray
     ',(element-type object)
+    :dimensions ',(dimensions object)
     :initial-contents
     ',(loop for elt across
 	   (subseq (c-array:original-array object)
