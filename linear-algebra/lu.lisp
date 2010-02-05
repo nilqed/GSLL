@@ -1,6 +1,6 @@
 ;; LU decomposition
 ;; Liam Healy, Thu Apr 27 2006 - 12:42
-;; Time-stamp: <2009-12-27 09:54:59EST lu.lisp>
+;; Time-stamp: <2010-02-05 09:15:11EST lu.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -112,9 +112,9 @@
    the same result more efficiently and reliably (consult any
    introductory textbook on numerical linear algebra for details).")
 
-(defmfun LU-determinant ((LU matrix) signum)
+ (defmfun LU-determinant ((LU matrix) signum)
   ("gsl_linalg" :complex "_LU_det")
-  (((mpointer LU) :pointer) (signum (:pointer :int)))
+  (((mpointer LU) :pointer) (signum :int))
   :definition :generic
   :inputs (LU)
   :element-types :doubles
