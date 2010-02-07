@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2010-01-01 12:19:30EST gsll.asd>
+;; Time-stamp: <2010-02-07 16:58:10EST gsll.asd>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -266,11 +266,3 @@
 	    ((cffi-grovel:grovel-file "mksa")
 	     (cffi-grovel:grovel-file "cgsm")
 	     (:file export)))))
-
-#+asdf-system-connections 
-(asdf:defsystem-connection gsll-iterate-extension
-    :requires (gsll iterate)
-    :components ((:module
-		  "gsll-iterate"
-		  :pathname "data/"
-		  :components ((:file "iterate")))))
