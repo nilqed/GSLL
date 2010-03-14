@@ -1,6 +1,6 @@
 ;; A "marray" is an array in both GSL and CL
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2010-03-13 19:44:21EST marray.lisp>
+;; Time-stamp: <2010-03-13 21:35:46EST marray.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -157,11 +157,10 @@
   (pushnew 'marray grid:*grid-data-superclasses*))
 
 (defmethod grid:make-grid-data
-    ((type (eql 'marray)) dimensions rest-spec
-     &key initial-element)
-  (make-marray (grid:spec-scalar-p rest-spec)
-	       :dimensions dimensions
-	       :initial-element initial-element))
+    ((type (eql 'marray)) dimensions rest-spec &rest keys)
+  (apply #'make-marray (grid:spec-scalar-p rest-spec)
+	 :dimensions dimensions
+	 keys))
 
 ;;; The reader macro #m will read a list of arguments, evaluating the
 ;;; contents, and construct a marray from it.  If the symbol ^ occurs
