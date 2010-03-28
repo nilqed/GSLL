@@ -1,6 +1,6 @@
 ;; Evaluation of interpolation functions.
 ;; Liam Healy Sun Nov  4 2007 - 18:40
-;; Time-stamp: <2009-12-27 09:52:14EST evaluation.lisp>
+;; Time-stamp: <2010-03-28 16:40:16EDT evaluation.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -20,11 +20,16 @@
 
 (in-package :gsl)
 
+;;; /usr/include/gsl/gsl_interp.h
+
 (defmfun evaluate
     ((interpolation interpolation) x
      &key xa ya (acceleration (make-acceleration)))
   "gsl_interp_eval"
-  (((mpointer interpolation) :pointer) (xa :pointer) (ya :pointer) (x :double)
+  (((mpointer interpolation) :pointer)
+   ((c-pointer xa) :pointer)
+   ((c-pointer ya) :pointer)
+   (x :double)
    ((mpointer acceleration) :pointer))
   :definition :method
   :inputs (xa ya)
@@ -45,7 +50,10 @@
     ((interpolation interpolation) x
      &key xa ya (acceleration (make-acceleration)))
   "gsl_interp_eval_deriv"
-  (((mpointer interpolation) :pointer) (xa :pointer) (ya :pointer) (x :double)
+  (((mpointer interpolation) :pointer)
+   ((c-pointer xa) :pointer)
+   ((c-pointer ya) :pointer)
+   (x :double)
    ((mpointer acceleration) :pointer))
   :definition :method
   :inputs (xa ya)
@@ -61,7 +69,10 @@
 (defmfun evaluate-second-derivative
     ((interpolation interpolation) x &key xa ya (acceleration (make-acceleration)))
   "gsl_interp_eval_deriv2"
-  (((mpointer interpolation) :pointer) (xa :pointer) (ya :pointer) (x :double)
+  (((mpointer interpolation) :pointer)
+   ((c-pointer xa) :pointer)
+   ((c-pointer ya) :pointer)
+   (x :double)
    ((mpointer acceleration) :pointer))
   :definition :method
   :inputs (xa ya)
@@ -78,7 +89,9 @@
     ((interpolation interpolation) low high
      &key xa ya (acceleration (make-acceleration)))
   "gsl_interp_eval_integ"
-  (((mpointer interpolation) :pointer) (xa :pointer) (ya :pointer)
+  (((mpointer interpolation) :pointer)
+   ((c-pointer xa) :pointer)
+   ((c-pointer ya) :pointer)
    (low :double) (high :double) ((mpointer acceleration) :pointer))
   :definition :method
   :inputs (xa ya)
