@@ -90,7 +90,7 @@
 
 ;;; The user-step-function should take a rng pointer, a state pointer,
 ;;; and a double-float, and return nothing.  The rng pointer should be
-;;; used in call to one of the distribution functions like 'uniform.
+;;; used in call to one of the distribution functions like :uniform.
 ;;; typedef void (*gsl_siman_step_t) (const gsl_rng *r, void *xp, double step_size);
 (cffi:defcallback sa-step-function :void
     ((rng :pointer) (state :pointer) (step-size :double))
@@ -197,7 +197,7 @@
 (defun trivial-example-step (generator state step-size)
   (declare (type double-float step-size) (optimize (speed 3) (safety 1)))
   (symbol-macrolet ((x (maref state 0)))
-    (let ((rand (sample generator 'uniform)))
+    (let ((rand (sample generator :uniform)))
       (declare (type double-float rand))
       (setf x (+  (the double-float x) (- (* 2.0d0 rand step-size) step-size))))))
 
