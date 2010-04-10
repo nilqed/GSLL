@@ -1,6 +1,6 @@
 ;; Simulated Annealing
 ;; Liam Healy Sun Feb 11 2007 - 17:23
-;; Time-stamp: <2009-12-27 10:05:31EST simulated-annealing.lisp>
+;; Time-stamp: <2010-04-10 17:22:03EDT simulated-annealing.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -144,6 +144,7 @@
    simulated annealing routines require several user-specified
    functions to define the configuration space and energy function."
   (let ((sa-state-counter 0)
+	(cl-generator)
 	(user-state-maker-function state-maker-function)
 	(user-energy-function energy-function)
 	(user-step-function step-function)
@@ -151,10 +152,12 @@
 	(user-copy-function copy-function))
     (declare (special
 	      sa-state-counter
+	      cl-generator
 	      user-state-maker-function user-energy-function
 	      user-step-function user-metric-function
 	      user-copy-function))
     (make-sa-states 4)
+    (setf cl-generator generator)
     (let ((x0-p (make-new-sa-state state-values)))
       (simulated-annealing-int
        (list n-tries iterations-fixed-T step-size k t-initial mu-t t-min)
@@ -194,10 +197,16 @@
     (declare (type double-float x) (optimize (speed 3) (safety 1)))
     (* (exp (- (expt (1- x) 2))) (sin (* 8 x)))))
 
-(defun trivial-example-step (generator state step-size)
-  (declare (type double-float step-size) (optimize (speed 3) (safety 1)))
+(defun trivial-example-step (rng-mpointer state step-size)
+  (declare
+   (type double-float step-size) (optimize (speed 3) (safety 1))
+   ;; Ignore the RNG foreign pointer because it doesn't do us
+   ;; much good, we want the CL object which we'll get from
+   ;; the dynamical environment.
+   (ignore rng-mpointer)
+   (special cl-generator))
   (symbol-macrolet ((x (maref state 0)))
-    (let ((rand (sample generator :uniform)))
+    (let ((rand (sample cl-generator :uniform)))
       (declare (type double-float rand))
       (setf x (+  (the double-float x) (- (* 2.0d0 rand step-size) step-size))))))
 
