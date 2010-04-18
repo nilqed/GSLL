@@ -1,6 +1,6 @@
 ;; Mathematical functions
 ;; Liam Healy, Wed Mar  8 2006 - 22:09
-;; Time-stamp: <2009-12-27 09:55:41EST mathematical.lisp>
+;; Time-stamp: <2010-04-18 00:22:18EDT mathematical.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -75,7 +75,7 @@
   :return ((pmnil cr))
   :documentation			; FDL
   "Return +1 if x is positive infinity, -1 if negative infinity
-   nil if finite.")
+   nil if finite.  Some platforms will return only +1 for either sign.")
 
 (defmfun finitep (x)
   "gsl_finite" ((x :double))

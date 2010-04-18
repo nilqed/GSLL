@@ -1,6 +1,6 @@
 ;; Exponential distribution
 ;; Liam Healy, Sun Sep 17 2006
-;; Time-stamp: <2010-01-17 10:25:36EST laplace.lisp>
+;; Time-stamp: <2010-04-17 18:49:47EDT laplace.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -73,12 +73,8 @@
 
 ;;; Examples and unit test
 (save-test laplace
-  (let ((rng (make-random-number-generator +mt19937+ 0)))
-      (loop for i from 0 to 10
-	    collect
-	    (sample rng :laplace :a 10.0d0)))
-  (laplace-pdf 0.0d0 10.0d0)
-  (laplace-p 1.0d0 2.0d0)
-  (laplace-q 1.0d0 2.0d0)
-  (laplace-pinv 0.6967346701436833d0 2.0d0)
-  (laplace-qinv 0.3032653298563167d0 2.0d0))
+ (testpdf 'laplace-pdf :laplace :a 2.75d0)
+ (laplace-p 1.0d0 2.0d0)
+ (laplace-q 1.0d0 2.0d0)
+ (laplace-pinv 0.6967346701436833d0 2.0d0)
+ (laplace-qinv 0.3032653298563167d0 2.0d0))
