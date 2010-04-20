@@ -1,6 +1,6 @@
 ;; Helpers that define a single GSL function interface
 ;; Liam Healy 2009-01-07 22:02:20EST defmfun-single.lisp
-;; Time-stamp: <2009-12-27 09:50:31EST defmfun-single.lisp>
+;; Time-stamp: <2010-04-20 14:42:10EDT defmfun-single.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -65,7 +65,9 @@
    (lambda (condition stream)
      (apply 'format stream
 	    "Function ~a (~a) is not available in the ~
-               ~%currently loaded release ~a of GSL; it was introduced in release ~d.~d."
+             currently loaded release ~a of GSL; it was introduced ~
+             in release ~d.~d.  Once you have upgraded GSL, you will ~
+             need to delete fasl files for GSLL and recompile it."
 	    (name condition)
 	    (gsl-name condition)
 	    *gsl-version*
