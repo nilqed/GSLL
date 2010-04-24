@@ -141,6 +141,7 @@
   ;; Raw pointer, because we presume we're passing it on to another GSL function. 
   (cffi:foreign-slot-value (mpointer solver) 'gsl-fdffit-solver 'dx))
 
+(export 'jacobian)
 (defun jacobian (solver)
   ;; Raw pointer, because we presume we're passing it on to another GSL function. 
   (cffi:foreign-slot-value (mpointer solver) 'gsl-fdffit-solver 'jacobian))
@@ -150,9 +151,9 @@
 ;;;;****************************************************************************
 
 (defmfun fit-test-delta
-    (last-step current-position absolute-error relative-error)
+    (solver absolute-error relative-error)
   "gsl_multifit_test_delta"
-  ((last-step :pointer) (current-position :pointer)
+  (((last-step solver) :pointer) ((mpointer (solution solver)) :pointer)
    (absolute-error :double) (relative-error :double))
   :c-return :success-continue
   :documentation			; FDL
@@ -370,7 +371,7 @@
 	(loop for iter from 0 below 25
 	   until
 	   (and (plusp iter)
-		(fit-test-delta (last-step fit) (mpointer (solution fit)) 1.0d-4 1.0d-4))
+		(fit-test-delta fit 1.0d-4 1.0d-4))
 	   do
 	   (iterate fit)
 	   (ls-covariance (jacobian fit) 0.0d0 covariance)
