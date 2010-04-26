@@ -1,6 +1,6 @@
 ;; Nonlinear least squares fitting.
 ;; Liam Healy, 2008-02-09 12:59:16EST nonlinear-least-squares.lisp
-;; Time-stamp: <2010-01-17 10:41:47EST nonlinear-least-squares.lisp>
+;; Time-stamp: <2010-04-25 22:13:58EDT nonlinear-least-squares.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -141,7 +141,6 @@
   ;; Raw pointer, because we presume we're passing it on to another GSL function. 
   (cffi:foreign-slot-value (mpointer solver) 'gsl-fdffit-solver 'dx))
 
-(export 'jacobian)
 (defun jacobian (solver)
   ;; Raw pointer, because we presume we're passing it on to another GSL function. 
   (cffi:foreign-slot-value (mpointer solver) 'gsl-fdffit-solver 'jacobian))
@@ -243,10 +242,15 @@
 ;;;; Covariance
 ;;;;****************************************************************************
 
-(defmfun ls-covariance (jacobian relative-error covariance)
+(defmfun ls-covariance
+    (solver relative-error &optional covariance
+	    &aux (cov (or covariance
+			  (make-marray 'double-float
+				       :dimensions
+				       (list (dim1 solver) (dim1 solver))))))
   "gsl_multifit_covar"
-  ((jacobian :pointer) (relative-error :double) ((mpointer covariance) :pointer))
-  :return (covariance)
+  (((jacobian solver) :pointer) (relative-error :double) ((mpointer cov) :pointer))
+  :return (cov)
   :documentation 			; FDL
   "Compute the covariance matrix of the best-fit parameters
    using the Jacobian matrix J.  The relative error
@@ -352,10 +356,7 @@
   (let ((*nlls-example-data* (generate-nlls-data number-of-observations)))
     (let* ((init #m(1.0d0 0.0d0 0.0d0))
 	   (number-of-parameters 3)
-	   (covariance
-	    (make-marray 'double-float
-			 :dimensions
-			 (list number-of-parameters number-of-parameters)))
+	   covariance
 	   (fit (make-nonlinear-fdffit
 		 method
 		 (list number-of-observations number-of-parameters)
@@ -374,7 +375,7 @@
 		(fit-test-delta fit 1.0d-4 1.0d-4))
 	   do
 	   (iterate fit)
-	   (ls-covariance (jacobian fit) 0.0d0 covariance)
+	   (setf covariance (ls-covariance fit 0.0d0 covariance))
 	   (when print-steps
 	     (format t "iter: ~d x = ~15,8f ~15,8f ~15,8f |f(x)|=~7,6g~&"
 		     (1+ iter) (fitx 0) (fitx 1) (fitx 2)
