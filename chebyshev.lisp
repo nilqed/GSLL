@@ -1,6 +1,6 @@
 ;; Chebyshev Approximations
 ;; Liam Healy Sat Nov 17 2007 - 20:36
-;; Time-stamp: <2009-12-27 09:42:07EST chebyshev.lisp>
+;; Time-stamp: <2010-04-25 21:28:20EDT chebyshev.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -55,7 +55,8 @@
 (defmfun coefficients (chebyshev)
   "gsl_cheb_coeffs"
   (((mpointer chebyshev) :pointer))
-  :c-return sizet
+  :c-return (crtn :pointer)
+  :return ((c-array:copy-foreign-vector crtn (size chebyshev)))
   :gsl-version (1 12))
 
 ;;;;****************************************************************************
