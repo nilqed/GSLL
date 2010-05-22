@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2010-05-22 10:24:43EDT gsll-tests.asd>
+;; Time-stamp: <2010-05-22 18:08:01EDT gsll-tests.asd>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -51,6 +51,7 @@
 	     (:file "cauchy")
 	     (:file "cdot")
 	     (:file "chebyshev")
+	     (:file "chi-squared")
 	     (:file "cholesky")
 	     (:file "clausen")
 	     (:file "column")

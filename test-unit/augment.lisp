@@ -1,6 +1,6 @@
 ;; Additional methods for lisp-unit
 ;; Liam Healy 2009-04-15 23:23:30EDT augment.lisp
-;; Time-stamp: <2010-05-22 10:54:02EDT augment.lisp>
+;; Time-stamp: <2010-05-22 17:52:17EDT augment.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -42,3 +42,13 @@
      (lisp-unit::assert-numerical-equal
       ,expected-value
       ,form)))
+
+(defmacro assert-posinf (form)
+  `(lisp-unit::assert-true
+    (let ((val ,form))
+      (and (infinityp val) (plusp val)))))
+
+(defmacro assert-neginf (form)
+  `(lisp-unit::assert-true
+    (let ((val ,form))
+      (and (infinityp val) (minusp val)))))

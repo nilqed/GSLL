@@ -1,10 +1,15 @@
 ;; Convert the GSL tests
 ;; Liam Healy 2010-05-22 13:03:53EDT convert.lisp
-;; Time-stamp: <2010-05-22 16:43:04EDT convert.lisp>
+;; Time-stamp: <2010-05-22 18:26:00EDT convert.lisp>
 
 ;;; This file is not normally loaded; it is only used to convert the
 ;;; GSL tests in C to CL tests.  It requires cl-ppcre, lisp-util, and iterate.
 ;;; (convert-tests-in-file "/home/liam/mathematics/gsl/cdf/test.c")
+
+;;; Things it won't do yet:
+;;; Will not convert fixnum to double.
+;;; Will not recognize infinities and substitute the appropriate assert-posinf, assert-neginf test. 
+;;; Will not parse/convert C math specified as an argument, e.g. 100 * TEST_TOL6.
 
 (in-package :gsl)
 
@@ -17,7 +22,8 @@
   (cons 'assert-to-tolerance
 	(let ((ppcre-convert
 	       (read-from-string
-		(remove
+		(substitute
+		 #\space
 		 #\,			; Get rid of commas
 		 (cl-ppcre:regex-replace ; Replace function name
 		  "\\((\\w*)\\W*\\((.*\\))"

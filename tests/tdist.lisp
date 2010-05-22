@@ -283,10 +283,8 @@
   (assert-to-tolerance (tdist-Pinv 8.40941797784686861d-01 300.0d0) 1.0d0 +test-tol6+)
   (assert-to-tolerance (tdist-Pinv 9.32666983425369137d-01 300.0d0) 1.5d0 +test-tol6+)
   (assert-to-tolerance (tdist-Pinv 9.76799239508425455d-01 300.0d0) 2.0d0 +test-tol6+)
-  (lisp-unit::assert-true
-   (let ((val (tdist-Pinv 1.0d0 300.0d0)))
-     (and (infinityp val) (plusp val))))
-                               
+  (assert-posinf (tdist-Pinv 1.0d0 300.0d0))
+
   (assert-to-tolerance (tdist-Qinv 5.00000000000000000d-01 300.0d0) 0.0d0 +test-tol6+)
   (assert-to-tolerance (tdist-Qinv 4.99601390099057051d-1 300.0d0) 0.001d0 +test-tol6+)
   (assert-to-tolerance (tdist-Qinv 4.96013966979440912d-1 300.0d0) 0.01d0 +test-tol6+)
@@ -298,9 +296,7 @@
   (assert-to-tolerance (tdist-Qinv 8.279313677d-21 300.0d0) 10.0d0 +test-tol6+)
   (assert-to-tolerance (tdist-Qinv 1.93159812815803978d-57 300.0d0) 20.0d0 +test-tol6+)
   (assert-to-tolerance (tdist-Qinv 1.02557519997736154d-232 300.0d0) 100.0d0 +test-tol6+)
-  (lisp-unit::assert-true
-   (let ((val (tdist-Qinv 0.0d0 300.0d0)))
-     (and (infinityp val) (plusp val))))
+  (assert-posinf (tdist-Qinv 0.0d0 300.0d0))
 
   (assert-to-tolerance (tdist-Pinv 4.99601390099057051d-01 300.0d0) -0.001d0 +test-tol6+)
   (assert-to-tolerance (tdist-Pinv 4.96013966979440912d-01 300.0d0)  -0.01d0 +test-tol6+)
@@ -312,9 +308,7 @@
   (assert-to-tolerance (tdist-Pinv 8.279313675556272534d-21 300.0d0) -10.0d0 +test-tol6+)
   (assert-to-tolerance (tdist-Pinv 1.93159812815803978d-57 300.0d0) -20.0d0 +test-tol6+)
   (assert-to-tolerance (tdist-Pinv 1.02557519997736154d-232 300.0d0) -100.0d0 +test-tol6+)
-  (lisp-unit::assert-true
-   (let ((val (tdist-Pinv 0.0d0 300.0d0)))
-     (and (infinityp val) (minusp val))))
+  (assert-neginf (tdist-Pinv 0.0d0 300.0d0))
 
   (assert-to-tolerance (tdist-Qinv 5.00398609900942949d-1 300.0d0) -0.001d0 +test-tol6+)
   (assert-to-tolerance (tdist-Qinv 5.03986033020559088d-1 300.0d0) -0.01d0 +test-tol6+)
@@ -323,6 +317,4 @@
   (assert-to-tolerance (tdist-Qinv 8.40941797784686862d-1 300.0d0) -1.0d0 +test-tol6+)
   (assert-to-tolerance (tdist-Qinv 9.32666983425369137d-1 300.0d0) -1.5d0 +test-tol6+)
   (assert-to-tolerance (tdist-Qinv 9.76799239508425455d-1 300.0d0) -2.0d0 +test-tol6+)
-  (lisp-unit::assert-true
-   (let ((val (tdist-Qinv 1.0d0 300.0d0)))
-     (and (infinityp val) (minusp val)))))
+  (assert-neginf (tdist-Qinv 1.0d0 300.0d0)))

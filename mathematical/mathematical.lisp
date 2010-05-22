@@ -1,6 +1,6 @@
 ;; Mathematical functions
 ;; Liam Healy, Wed Mar  8 2006 - 22:09
-;; Time-stamp: <2010-04-18 00:22:18EDT mathematical.lisp>
+;; Time-stamp: <2010-05-22 16:48:47EDT mathematical.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -49,6 +49,9 @@
      sb-ext:double-float-positive-infinity)))
 
 (export '(+nan+ +positive-infinity+ +negative-infinity+))
+(map-name '+positive-infinity+ "gsl_posinf")
+(map-name '+negative-infinity+ "gsl_neginf")
+(map-name '+nan+ "gsl_nan")
 
 (defconstant +nan+
   (ignore-errors
