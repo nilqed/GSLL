@@ -1,6 +1,6 @@
 ;; Additional methods for lisp-unit
 ;; Liam Healy 2009-04-15 23:23:30EDT augment.lisp
-;; Time-stamp: <2009-12-27 10:12:13EST augment.lisp>
+;; Time-stamp: <2010-05-22 10:54:02EDT augment.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -26,3 +26,19 @@
   (when (equal (dimensions result1) (dimensions result2))
     (lisp-unit:numerical-equal (cl-array result1) (cl-array result2)
 			       :test test)))
+
+;;; See cdf/test.c
+(defconstant +test-tol0+ (* 2 +dbl-epsilon+))
+(defconstant +test-tol1+ (* 16 +dbl-epsilon+))
+(defconstant +test-tol2+ (* 256 +dbl-epsilon+))
+(defconstant +test-tol3+ (* 2048 +dbl-epsilon+))
+(defconstant +test-tol4+ (* 16384 +dbl-epsilon+))
+(defconstant +test-tol5+ (* 131072 +dbl-epsilon+))
+(defconstant +test-tol6+ (* 1048576 +dbl-epsilon+))
+
+;; (assert-to-tolerance (tdist-P 0.0d0 1.0d0) 0.5d0 +test-tol6+)
+(defmacro assert-to-tolerance (form expected-value tolerance)
+  `(let ((lisp-unit:*epsilon* ,tolerance))
+     (lisp-unit::assert-numerical-equal
+      ,expected-value
+      ,form)))

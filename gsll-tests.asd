@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2010-01-01 12:25:22EST gsll-tests.asd>
+;; Time-stamp: <2010-05-22 10:24:43EDT gsll-tests.asd>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -18,6 +18,9 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (asdf:oos 'asdf:load-op :cffi-grovel))
+
 (asdf:defsystem GSLL-TESTS
   :name "GSLL-tests"
   :description "Regression (unit) tests for GNU Scientific Library for Lisp."
@@ -28,8 +31,10 @@
   :components
   ((:module test-unit
 	    :components
-	    ((:file "augment")))
+	    ((cffi-grovel:grovel-file "machine")
+	     (:file "augment" :depends-on ("machine"))))
    (:module tests
+	    :depends-on (test-unit)
 	    :components
 	    ((:file "absolute-deviation")
 	     (:file "absolute-sum")
