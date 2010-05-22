@@ -1,9 +1,10 @@
 ;; Convert the GSL tests
 ;; Liam Healy 2010-05-22 13:03:53EDT convert.lisp
-;; Time-stamp: <2010-05-22 16:18:38EDT convert.lisp>
+;; Time-stamp: <2010-05-22 16:43:04EDT convert.lisp>
 
 ;;; This file is not normally loaded; it is only used to convert the
-;;; GSL tests in C to CL tests.  It requires cl-ppcre and iterate.
+;;; GSL tests in C to CL tests.  It requires cl-ppcre, lisp-util, and iterate.
+;;; (convert-tests-in-file "/home/liam/mathematics/gsl/cdf/test.c")
 
 (in-package :gsl)
 
@@ -14,29 +15,33 @@
    The first character of the string should be 
    open paren, and the last the close paren."
   (cons 'assert-to-tolerance
-	(read-from-string
-	 (remove
-	  #\,				; Get rid of commas
-	  (cl-ppcre:regex-replace	; Replace function name
-	   "\\((\\w*)\\W*\\((.*\\))"
-	   (cl-ppcre:regex-replace-all ; Floats without exponents become double-floats
-	    "(\\.\\d*)(,|\\))"
-	    (cl-ppcre:regex-replace-all ; Floats with "e" exponent become double-floats
-	     "(\\d|\\.)e(\\d|\\+|\\-)"
-	     (cl-ppcre:regex-replace	; Replace tolerance
-	      "TEST_(\\w*)"
-	      string
-	      "+TEST-\\{1}+")
-	     "\\{1}d\\{2}")
-	    "\\{1}d0\\{2}")
-	   (lambda (match &rest registers)
-	     (declare (ignore match))
-	     (format
-	      nil
-	      "((~a ~a"
-	      (symbol-name (gsl-lookup (first registers)))
-	      (second registers)))
-	   :simple-calls t)))))
+	(let ((ppcre-convert
+	       (read-from-string
+		(remove
+		 #\,			; Get rid of commas
+		 (cl-ppcre:regex-replace ; Replace function name
+		  "\\((\\w*)\\W*\\((.*\\))"
+		  (cl-ppcre:regex-replace-all ; Floats without exponents become double-floats
+		   "(\\.\\d*)(,|\\))"
+		   (cl-ppcre:regex-replace-all ; Floats with "e" exponent become double-floats
+		    "(\\d|\\.)e(\\d|\\+|\\-)"
+		    (cl-ppcre:regex-replace ; Replace tolerance
+		     "TEST_(\\w*)"
+		     string
+		     "+TEST-\\{1}+")
+		    "\\{1}d\\{2}")
+		   "\\{1}d0\\{2}")
+		  (lambda (match &rest registers)
+		    (declare (ignore match))
+		    (format
+		     nil
+		     "((~a ~a"
+		     (symbol-name (gsl-lookup (first registers)))
+		     (second registers)))
+		  :simple-calls t)))))
+	  (if (and (numberp (lu:last1 ppcre-convert)) (zerop (lu:last1 ppcre-convert)))
+	      (append (butlast ppcre-convert) (list '+dbl-epsilon+))
+	      ppcre-convert))))
 
 (defun GSL-test-form (string)
   "Replace the full C form with the TEST macro by just the argument."
