@@ -1,6 +1,6 @@
 ;; CFFI-Grovel definitions for unix systems.
 ;; Liam Healy 2009-05-25 13:10:50EDT libgsl-unix.lisp
-;; Time-stamp: <2009-12-27 09:50:29EST libgsl-unix.lisp>
+;; Time-stamp: <2010-05-23 11:24:56EDT libgsl-unix.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -26,7 +26,7 @@
 ;;; When installed through Mac Ports, GSL .h files will be found
 ;;; in /opt/local/include.
 #+darwin
-(cc-flags "-I/opt/local/include/")
+(cc-flags #.(gsl-config "--cflags"))
 
 (include "gsl/gsl_integration.h")
 

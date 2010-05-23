@@ -1,8 +1,8 @@
 ;; Physical constants in the MKSA system
 ;; Liam Healy 2009-05-25 17:01:32EDT mksa.lisp
-;; Time-stamp: <2009-12-27 10:00:04EST mksa.lisp>
+;; Time-stamp: <2010-05-23 11:35:28EDT mksa.lisp>
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@
 ;;; When installed through Mac Ports, GSL .h files will be found
 ;;; in /opt/local/include.
 #+darwin
-(cc-flags "-I/opt/local/include/")
+(cc-flags #.(gsl-config "--cflags"))
 
 (include "gsl/gsl_const_mksa.h")
 

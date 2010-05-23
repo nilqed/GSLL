@@ -1,8 +1,8 @@
 ;; Load GSL
 ;; Liam Healy Sat Mar  4 2006 - 18:53
-;; Time-stamp: <2009-12-27 09:50:30EST init.lisp>
+;; Time-stamp: <2010-05-23 11:37:01EDT init.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -29,13 +29,19 @@
    #:cl-array #:dimensions #:total-size #:element-type #:dim0 #:dim1
    #:copy #:clone))
 
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun gsl-config (arg)
+    "A wrapper for tool `gsl-config'."
+    (with-input-from-string
+        (s (with-output-to-string (asdf::*verbose-out*)
+             (asdf:run-shell-command "gsl-config ~s" arg)))
+      (read-line s)
+      (read-line s))))
+
 (cffi:define-foreign-library libgslcblas
-    (:darwin
-     (:or "/opt/local/lib/libgslcblas.dylib" "/sw/lib/libgslcblas.dylib"
-	  "/usr/local/lib/libgslcblas.dylib"))
-  (:cygwin (:or "/bin/cyggslcblas-0.dll"))
-  (:unix (:or "/usr/lib/libgslcblas.so.0" "/usr/lib/libgslcblas.so"
-	      "/usr/lib64/libgslcblas.so.0" "/usr/lib64/libgslcblas.so"))
+  (:unix (:or "libgslcblas.so.0" "libgslcblas.so"))
+  (:darwin "libgslcblas.dylib")
+  (:cygwin "cyggslcblas-0.dll")
   (t (:default "libgslcblas")))
    
 (cffi:use-foreign-library libgslcblas)
@@ -47,13 +53,9 @@
 (cffi:load-foreign-library "/lib/lapack/cygblas.dll")
 
 (cffi:define-foreign-library libgsl
-    (:darwin
-     (:or "/opt/local/lib/libgsl.dylib" "/sw/lib/libgsl.dylib"
-	  "/usr/local/lib/libgsl.dylib"))
-  (:cygwin (:or "/bin/cyggsl-0.dll"))
-  (:unix (:or "/usr/lib/libgsl.so.0" "/usr/lib/libgsl.so"
-	      "/usr/lib64/libgsl.so.0" "/usr/lib64/libgsl.so"))
+  (:unix "libgsl.so.0" "libgsl.so")
+  (:darwin "libgsl.dylib")
+  (:cygwin "cyggsl-0.dll")
   (t (:default "libgsl")))
    
 (cffi:use-foreign-library libgsl)
-
