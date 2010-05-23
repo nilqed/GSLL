@@ -1,6 +1,6 @@
 ;; A "marray" is an array in both GSL and CL
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2010-03-13 21:35:46EST marray.lisp>
+;; Time-stamp: <2010-05-22 22:53:23EDT marray.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -49,6 +49,8 @@
 	    (size object)
 	    (slot-value object 'block-pointer)
 	    blockptr)
+      (when (zerop (total-size object))
+	(error "Object ~a has zero total dimension." object))
       (let ((array-struct (alloc-from-block object blockptr)))
 	(setf (slot-value object 'mpointer) array-struct)
 	#-native (set-struct-array-pointer object)
