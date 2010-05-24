@@ -1,6 +1,6 @@
 ;; Convert the GSL tests
 ;; Liam Healy 2010-05-22 13:03:53EDT convert.lisp
-;; Time-stamp: <2010-05-22 18:26:00EDT convert.lisp>
+;; Time-stamp: <2010-05-23 21:17:59EDT convert.lisp>
 
 ;;; This file is not normally loaded; it is only used to convert the
 ;;; GSL tests in C to CL tests.  It requires cl-ppcre, lisp-util, and iterate.
@@ -65,7 +65,7 @@
 
 (defun find-tests-in-file (file)
   (let ((filestring (file-to-string file)))
-    (cl-ppcre:all-matches-as-strings " TEST .*;" filestring)))
+    (cl-ppcre:all-matches-as-strings " TEST\s?\\(.*;" filestring)))
 
 (defun convert-tests-in-file (file)
   "Convert all the tests in the file to CL."
