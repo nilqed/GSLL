@@ -1,6 +1,6 @@
 ;; Emulate the GSL tests for random distributions.
 ;; Liam Healy 2010-04-17 09:44:49EDT tests.lisp
-;; Time-stamp: <2010-04-17 18:44:57EDT tests.lisp>
+;; Time-stamp: <2010-05-24 20:38:47EDT tests.lisp>
 ;;
 ;; Copyright 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -77,27 +77,17 @@
       ;; (x (+ +gslt-lower-limit+ (* i +gslt-bin-size+)))
       (if retval (warn "observed vs. expected")))))
 
-(defun testpdf (pdf distribution &rest distribution-parameters)
+(defun testpdf (pdf-function &rest distribution)
   "Test the probability density function in the same way that GSL does.
    If everything is functioning correctly, this will return T."
   (let ((count (make-array +gslt-BINS+ :element-type 'fixnum :initial-element 0))
 	(edge (make-array +gslt-BINS+ :element-type 'fixnum :initial-element 0))
 	(number-of-samples +initial-number-of-samples+)
-	(cdf (distribution-bin-integral
-	      (lambda (x)
-		(apply pdf x
-		       ;; It is assumed that the arguments to the
-		       ;; sample function are the same as to the
-		       ;; distribution function except without
-		       ;; keywords.
-		       (loop for (nil value) on distribution-parameters by #'cddr
-			  collect value))))))
+	(cdf (distribution-bin-integral pdf-function)))
     (dotimes (i 50)
-      (let ((mean
-	     (apply 'bin-samples
-		    count edge number-of-samples
-		    distribution distribution-parameters)))
+      (let ((mean (apply 'bin-samples count edge number-of-samples distribution)))
 	(unless (finitep mean) (error "mean ~a is not finite" mean))
 	(if (limits-check count number-of-samples cdf (< (1+ i) 50))
 	    (if (plusp i) (setf number-of-samples (* 2 number-of-samples)))
 	    (return t))))))
+

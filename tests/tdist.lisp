@@ -19,8 +19,10 @@
 (in-package :gsl)
 
 (lisp-unit:define-test tdist
-  (lisp-unit::assert-true (testpdf 'tdist-pdf :tdist :nu 1.75d0))
-  (lisp-unit::assert-true (testpdf 'tdist-pdf :tdist :nu 12.75d0))
+  ;; From randist/test.c
+  (lisp-unit::assert-true (testpdf (lambda (r) (tdist-pdf r 1.75d0)) :tdist :nu 1.75d0))
+  (lisp-unit::assert-true (testpdf (lambda (r) (tdist-pdf r 12.75d0)) :tdist :nu 12.75d0))
+  ;; From cdf/test.c
   (assert-to-tolerance (tdist-P 0.0d0 1.0d0) 0.5d0 +test-tol6+)
   (assert-to-tolerance (tdist-P 1d-100 1.0d0) 0.5d0 +test-tol6+)
   (assert-to-tolerance (tdist-P 0.001d0 1.0d0) 5.00318309780080559d-1 +test-tol6+)

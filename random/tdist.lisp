@@ -1,6 +1,6 @@
 ;; Tdist distribution
 ;; Liam Healy, Sat Oct  7 2006 - 16:13
-;; Time-stamp: <2010-04-18 00:27:57EDT tdist.lisp>
+;; Time-stamp: <2010-05-24 20:01:35EDT tdist.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -73,8 +73,8 @@
 
 ;;; Examples and unit test
 (save-test tdist
-	   (testpdf 'tdist-pdf :tdist :nu 1.75d0)
-	   (testpdf 'tdist-pdf :tdist :nu 12.75d0)
+	   (testpdf (lambda (r) (tdist-pdf r 1.75d0)) :tdist :nu 1.75d0)
+	   (testpdf (lambda (r) (tdist-pdf r 12.75d0)) :tdist :nu 12.75d0)
 
 	   ;; From test_tdist in cdf/test.c 
 	   (tdist-P 0.0d0 1.0d0)

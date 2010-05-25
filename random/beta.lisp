@@ -1,6 +1,6 @@
 ;; Beta distribution
 ;; Liam Healy, Sat Sep 30 2006
-;; Time-stamp: <2010-01-17 10:05:21EST beta.lisp>
+;; Time-stamp: <2010-05-24 20:11:32EDT beta.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -68,16 +68,18 @@
    Q(x) for the beta distribution with parameters a and b.")
 
 ;;; Examples and unit test
-(save-test beta
-  (let ((rng (make-random-number-generator +mt19937+ 0)))
-      (loop for i from 0 to 10
-	    collect
-	    (sample rng :beta :a 1.0d0 :b 2.0d0)))
-  (beta-pdf 0.1d0 1.0d0 2.0d0)
-  (beta-P 0.1d0 1.0d0 2.0d0)
-  (beta-Q 0.1d0 1.0d0 2.0d0)
-  (beta-Pinv 0.19d0 1.0d0 2.0d0)
-  (beta-Qinv 0.81d0 1.0d0 2.0d0))
+(save-test
+ beta
+ ;;(testpdf (lambda (r) (beta-pdf r 2.0d0 3.0d0)) :beta :a 2.0d0 :b 3.0d0)
+ (let ((rng (make-random-number-generator +mt19937+ 0)))
+   (loop for i from 0 to 10
+      collect
+      (sample rng :beta :a 1.0d0 :b 2.0d0)))
+ (beta-pdf 0.1d0 1.0d0 2.0d0)
+ (beta-P 0.1d0 1.0d0 2.0d0)
+ (beta-Q 0.1d0 1.0d0 2.0d0)
+ (beta-Pinv 0.19d0 1.0d0 2.0d0)
+ (beta-Qinv 0.81d0 1.0d0 2.0d0))
 
 
 

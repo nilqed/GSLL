@@ -1,8 +1,8 @@
 ;; Levy distribution
 ;; Liam Healy, Sat Sep 30 2006
-;; Time-stamp: <2010-01-17 10:26:16EST levy.lisp>
+;; Time-stamp: <2010-05-24 21:06:37EDT levy.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -66,11 +66,23 @@
 
 ;;; Examples and unit test
 (save-test levy
-  (let ((rng (make-random-number-generator +mt19937+ 0)))
-      (loop for i from 0 to 10
-	    collect
-	    (sample rng :levy :c 1.0d0 :alpha 2.0d0)))
-  (let ((rng (make-random-number-generator +mt19937+ 0)))
-      (loop for i from 0 to 10
-	    collect
-	    (sample rng :levy-skew :c 1.0d0 :alpha 2.0d0 :beta 1.0d0))))
+ ;; From randist/test.c
+ (testpdf (lambda (r) (cauchy-pdf r 5.0d0)) :levy :c 5.0d0 :alpha 1.0d0) ; levy1
+ (testpdf (lambda (r) (cauchy-pdf r 5.0d0)) :levy :c 5.0d0 :alpha 1.01d0) ; levy1a
+ (testpdf (lambda (r) (gaussian-pdf r (* (sqrt 2.0d0) 5.0d0)))
+	  :levy :c 5.0d0 :alpha 2.0d0)	; levy2
+ (testpdf (lambda (r) (gaussian-pdf r (* (sqrt 2.0d0) 5.0d0)))
+	  :levy :c 5.0d0 :alpha 1.99d0) ; levy2a
+ (testpdf (lambda (r) (cauchy-pdf r 5.0d0))
+	  :levy-skew :c 5.0d0 :alpha 1.0d0 :beta 0.0d0) ; levy_skew1
+ (testpdf (lambda (r) (cauchy-pdf r 5.0d0))
+	  :levy-skew :c 5.0d0 :alpha 1.01d0 :beta 0.0d0) ; levy_skew1a
+ (testpdf (lambda (r) (gaussian-pdf r (* (sqrt 2.0d0) 5.0d0)))
+	  :levy-skew :c 5.0d0 :alpha 2.0d0 :beta 0.0d0) ; levy_skew2
+ (testpdf (lambda (r) (gaussian-pdf r (* (sqrt 2.0d0) 5.0d0)))
+	  :levy-skew :c 5.0d0 :alpha 1.99d0 :beta 0.0d0) ; levy_skew2a
+ (testpdf (lambda (r) (cauchy-pdf r 5.0d0))
+	  :levy-skew :c 5.0d0 :alpha 1.01d0 :beta 0.001d0) ; levy_skew1b
+ (testpdf (lambda (r) (gaussian-pdf r (* (sqrt 2.0d0) 5.0d0)))
+	  :levy-skew :c 5.0d0 :alpha 1.99d0 :beta 0.001d0)) ; levy_skew2b
+

@@ -1,6 +1,6 @@
 ;; Exponential distribution
 ;; Liam Healy, Sun Sep 17 2006
-;; Time-stamp: <2010-04-17 18:49:47EDT laplace.lisp>
+;; Time-stamp: <2010-05-24 19:58:32EDT laplace.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -73,7 +73,7 @@
 
 ;;; Examples and unit test
 (save-test laplace
- (testpdf 'laplace-pdf :laplace :a 2.75d0)
+ (testpdf (lambda (r) (laplace-pdf r 2.75d0)) :laplace :a 2.75d0)
  (laplace-p 1.0d0 2.0d0)
  (laplace-q 1.0d0 2.0d0)
  (laplace-pinv 0.6967346701436833d0 2.0d0)

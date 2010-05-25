@@ -1,6 +1,6 @@
 ;; Regression test LEVY for GSLL, automatically generated
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -19,28 +19,33 @@
 (in-package :gsl)
 
 (LISP-UNIT:DEFINE-TEST LEVY
-  (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-   (LIST
-    (LIST 2.6941098332360465d0 -0.29395438644676647d0
-	  -1.2703401352272083d0 1.0771538640113538d0
-	  0.13771218406916103d0 0.9419728438107844d0
-	  -0.5107134674789159d0 0.1648207853689268d0
-	  -0.14857899041035147d0 -1.9074885744364487d0
-	  -2.086195213997167d0))
-   (MULTIPLE-VALUE-LIST
-    (LET ((RNG (MAKE-RANDOM-NUMBER-GENERATOR +MT19937+ 0)))
-      (LOOP FOR I FROM 0 TO 10 COLLECT
-	   (sample rng :levy :c 1.0d0 :alpha 2.0d0)))))
-  (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-   (LIST
-    (LIST 2.6941098332360465d0 -0.2939543864467665d0
-	  -1.2703401352272083d0 1.0771538640113538d0
-	  0.13771218406916097d0 0.9419728438107844d0
-	  -0.510713467478916d0 0.1648207853689266d0
-	  -0.14857899041035158d0 -1.907488574436449d0
-	  -2.086195213997167d0))
-   (MULTIPLE-VALUE-LIST
-    (LET ((RNG (MAKE-RANDOM-NUMBER-GENERATOR +MT19937+ 0)))
-      (LOOP FOR I FROM 0 TO 10 COLLECT
-	   (sample rng :levy-skew :c 1.0d0 :alpha 2.0d0 :beta 1.0d0))))))
+  ;; From randist/test.c
+  (lisp-unit::assert-true
+   (testpdf (lambda (r) (cauchy-pdf r 5.0d0)) :levy :c 5.0d0 :alpha 1.0d0)) ; levy1
+  (lisp-unit::assert-true
+   (testpdf (lambda (r) (cauchy-pdf r 5.0d0)) :levy :c 5.0d0 :alpha 1.01d0)) ; levy1a
+  (lisp-unit::assert-true
+   (testpdf (lambda (r) (gaussian-pdf r (* (sqrt 2.0d0) 5.0d0)))
+	    :levy :c 5.0d0 :alpha 2.0d0)) ; levy2
+  (lisp-unit::assert-true
+   (testpdf (lambda (r) (gaussian-pdf r (* (sqrt 2.0d0) 5.0d0)))
+	    :levy :c 5.0d0 :alpha 1.99d0)) ; levy2a
+  (lisp-unit::assert-true
+   (testpdf (lambda (r) (cauchy-pdf r 5.0d0))
+	    :levy-skew :c 5.0d0 :alpha 1.0d0 :beta 0.0d0)) ; levy_skew1
+  (lisp-unit::assert-true
+   (testpdf (lambda (r) (cauchy-pdf r 5.0d0))
+	    :levy-skew :c 5.0d0 :alpha 1.01d0 :beta 0.0d0)) ; levy_skew1a
+  (lisp-unit::assert-true
+   (testpdf (lambda (r) (gaussian-pdf r (* (sqrt 2.0d0) 5.0d0)))
+	    :levy-skew :c 5.0d0 :alpha 2.0d0 :beta 0.0d0)) ; levy_skew2
+  (lisp-unit::assert-true
+   (testpdf (lambda (r) (gaussian-pdf r (* (sqrt 2.0d0) 5.0d0)))
+	    :levy-skew :c 5.0d0 :alpha 1.99d0 :beta 0.0d0)) ; levy_skew2a
+  (lisp-unit::assert-true
+   (testpdf (lambda (r) (cauchy-pdf r 5.0d0))
+	    :levy-skew :c 5.0d0 :alpha 1.01d0 :beta 0.001d0)) ; levy_skew1b
+  (lisp-unit::assert-true
+   (testpdf (lambda (r) (gaussian-pdf r (* (sqrt 2.0d0) 5.0d0)))
+	    :levy-skew :c 5.0d0 :alpha 1.99d0 :beta 0.001d0))) ; levy_skew2b
 

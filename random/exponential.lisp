@@ -1,6 +1,6 @@
 ;; Exponential distribution
 ;; Liam Healy, Sat Sep  2 2006 - 19:04
-;; Time-stamp: <2010-01-17 10:12:00EST exponential.lisp>
+;; Time-stamp: <2010-05-24 20:46:09EDT exponential.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -78,6 +78,8 @@
       (loop for i from 0 to 10
 	    collect
 	    (sample rng :exponential :mu 10.0d0)))
+  ;; From randist/test.c
+  ;;(testpdf (lambda (r) (exponential-pdf r 2.0d0)) :exponential :mu 2.0d0)
   (exponential-pdf 0.0d0 10.0d0)
   (exponential-p 1.0d0 2.0d0)
   (exponential-q 1.0d0 2.0d0)

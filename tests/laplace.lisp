@@ -19,7 +19,8 @@
 (in-package :gsl)
 
 (LISP-UNIT:DEFINE-TEST LAPLACE
-  (LISP-UNIT::ASSERT-true (testpdf 'laplace-pdf :laplace :a 2.75d0))
+  ;; From randist/test.c
+  (LISP-UNIT::ASSERT-true (testpdf (lambda (r) (laplace-pdf r 2.75d0)) :laplace :a 2.75d0))
   ;; Automatically converted from cdf/test_auto.c
   (ASSERT-TO-TOLERANCE (LAPLACE-P -1.d10 1.3d0) 0.0d0 +TEST-TOL6+)
   (ASSERT-TO-TOLERANCE (LAPLACE-P -1.d9 1.3d0) 0.0d0 +TEST-TOL6+)

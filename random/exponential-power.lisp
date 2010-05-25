@@ -1,6 +1,6 @@
 ;; Exponential power distribution
 ;; Liam Healy, Sat Sep 30 2006
-;; Time-stamp: <2010-01-17 10:11:03EST exponential-power.lisp>
+;; Time-stamp: <2010-05-24 20:53:28EDT exponential-power.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -63,11 +63,18 @@
   parameters a and b.")
 
 ;;; Examples and unit test
-(save-test exponential-power
-  (let ((rng (make-random-number-generator +mt19937+ 0)))
-      (loop for i from 0 to 10
-	    collect
-	    (sample rng :exponential-power :a 1.0d0 :b 2.0d0)))
-  (exponential-power-pdf 0.0d0 1.0d0 2.0d0)
-  (exponential-power-P 1.0d0 1.0d0 2.0d0)
-  (exponential-power-Q 1.0d0 1.0d0 2.0d0))
+(save-test
+ exponential-power
+ ;; From randist/test.c
+ (testpdf (lambda (r) (exponential-power-pdf r 3.7d0 0.3d0)) ; exppow0
+	  :exponential-power :a 3.7d0 :b 0.3d0)
+ (testpdf (lambda (r) (exponential-power-pdf r 3.7d0 1.0d0)) ; exppow1
+	  :exponential-power :a 3.7d0 :b 1.0d0)
+ (testpdf (lambda (r) (exponential-power-pdf r 3.7d0 1.9d0)) ; exppow1a
+	  :exponential-power :a 3.7d0 :b 1.9d0)
+ (testpdf (lambda (r) (exponential-power-pdf r 3.7d0 2.0d0)) ; exppow2
+	  :exponential-power :a 3.7d0 :b 2.0d0)
+ (testpdf (lambda (r) (exponential-power-pdf r 3.7d0 3.5d0)) ; exppow2a
+	  :exponential-power :a 3.7d0 :b 3.5d0)
+ (testpdf (lambda (r) (exponential-power-pdf r 3.7d0 7.5d0)) ; exppow2b
+	  :exponential-power :a 3.7d0 :b 7.5d0))

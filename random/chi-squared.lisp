@@ -1,6 +1,6 @@
 ;; Chi-squared distribution
 ;; Liam Healy, Sat Oct  7 2006 - 16:13
-;; Time-stamp: <2010-01-17 10:07:11EST chi-squared.lisp>
+;; Time-stamp: <2010-05-24 20:46:27EDT chi-squared.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -73,15 +73,17 @@
 
 ;;; Examples and unit test
 (save-test chi-squared
-  (let ((rng (make-random-number-generator +mt19937+ 0)))
-      (loop for i from 0 to 10
-	    collect
-	    (sample rng :chi-squared :nu 10.0d0)))
-  (chi-squared-pdf 0.5d0 1.0d0)
-  (chi-squared-P 0.5d0 1.0d0)
-  (chi-squared-Q 0.5d0 1.0d0)
-  (chi-squared-Pinv 0.5204998778130463d0 1.0d0)
-  (chi-squared-Qinv 0.4795001221869537d0 1.0d0))
+ (let ((rng (make-random-number-generator +mt19937+ 0)))
+   (loop for i from 0 to 10
+      collect
+      (sample rng :chi-squared :nu 10.0d0)))
+ ;; From randist/test.c
+ ;;(testpdf (lambda (r) (chi-squared-pdf r 13.0d0)) :chi-squared :nu 3.0d0)
+ (chi-squared-pdf 0.5d0 1.0d0)
+ (chi-squared-P 0.5d0 1.0d0)
+ (chi-squared-Q 0.5d0 1.0d0)
+ (chi-squared-Pinv 0.5204998778130463d0 1.0d0)
+ (chi-squared-Qinv 0.4795001221869537d0 1.0d0))
 
 
 

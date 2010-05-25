@@ -19,22 +19,26 @@
 (in-package :gsl)
 
 (LISP-UNIT:DEFINE-TEST EXPONENTIAL-POWER
-  (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-   (LIST
-    (LIST 0.09469475592777954d0 -0.06229680875327071d0
-	  1.183985538537803d0 0.5187626019237904d0
-	  0.7053564314063956d0 -0.9033303844569821d0
-	  -1.6947336289940842d0 -0.4803236108055401d0
-	  -0.027641736349912214d0 0.6318391856046153d0
-	  -0.012478875227423025d0))
-   (MULTIPLE-VALUE-LIST
-    (LET ((RNG (MAKE-RANDOM-NUMBER-GENERATOR +MT19937+ 0)))
-      (LOOP FOR I FROM 0 TO 10 COLLECT
-	   (sample rng :exponential-power :a 1.0d0 :b 2.0d0)))))
-  (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-   (LIST 0.5641895835477557d0)
-   (MULTIPLE-VALUE-LIST
-    (EXPONENTIAL-POWER-PDF 0.0d0 1.0d0 2.0d0)))
+  ;; From randist/test.c
+  (lisp-unit::assert-true
+   (testpdf (lambda (r) (exponential-power-pdf r 3.7d0 0.3d0)) ; exppow0
+	    :exponential-power :a 3.7d0 :b 0.3d0))
+  (lisp-unit::assert-true
+   (testpdf (lambda (r) (exponential-power-pdf r 3.7d0 1.0d0)) ; exppow1
+	    :exponential-power :a 3.7d0 :b 1.0d0))
+  (lisp-unit::assert-true
+   (testpdf (lambda (r) (exponential-power-pdf r 3.7d0 1.9d0)) ; exppow1a
+	    :exponential-power :a 3.7d0 :b 1.9d0))
+  (lisp-unit::assert-true
+   (testpdf (lambda (r) (exponential-power-pdf r 3.7d0 2.0d0)) ; exppow2
+	    :exponential-power :a 3.7d0 :b 2.0d0))
+  (lisp-unit::assert-true
+   (testpdf (lambda (r) (exponential-power-pdf r 3.7d0 3.5d0)) ; exppow2a
+	    :exponential-power :a 3.7d0 :b 3.5d0))
+  (lisp-unit::assert-true
+   (testpdf (lambda (r) (exponential-power-pdf r 3.7d0 7.5d0)) ; exppow2b
+	    :exponential-power :a 3.7d0 :b 7.5d0))
+  ;; Automatically converted from cdf/test.c
   (ASSERT-TO-TOLERANCE (EXPONENTIAL-POWER-P -1000.0d0 0.7d0 1.8d0) 0.0d0 +TEST-TOL6+)
   (ASSERT-TO-TOLERANCE (EXPONENTIAL-POWER-P -0.1d0 0.7d0 1.8d0) 0.42053490828675155d0 +TEST-TOL0+)
   (ASSERT-TO-TOLERANCE (EXPONENTIAL-POWER-P -1.d-32 0.7d0 1.8d0) 0.5d0 +TEST-TOL0+)
