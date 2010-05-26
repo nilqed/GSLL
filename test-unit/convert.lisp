@@ -1,6 +1,6 @@
 ;; Convert the GSL tests
 ;; Liam Healy 2010-05-22 13:03:53EDT convert.lisp
-;; Time-stamp: <2010-05-26 10:05:26EDT convert.lisp>
+;; Time-stamp: <2010-05-26 17:57:38EDT convert.lisp>
 
 ;;; This file is not normally loaded; it is only used to convert the
 ;;; GSL tests in C to CL tests.  It requires cl-ppcre, lisp-util, and iterate.
@@ -59,10 +59,15 @@
       (second registers)))
    :simple-calls t))
 
-(defvar *float-parse-regex*
+(defparameter *float-parse-regex*
   ;; Based on advice given in
   ;; http://www.regular-expressions.info/floatingpoint.html
-  (cl-ppcre:parse-string "([-+]?[0-9]*\\.?[0-9]+)([eE][-+]?[0-9]+)?")
+  ;; I'm not sure if decimal point should be mandatory; convert integers?
+  ;; How do I insist on at least one character for the mantissa,
+  ;; without requiring at least one of any specific component?
+  ;; ddd ddd. ddd.ddd .ddd 
+  ;; are all permitted, but no single part is required.
+  (cl-ppcre:parse-string "([-+]?[0-9]*\\.?[0-9]*)([eE][-+]?[0-9]+)?")
   "A ppcre regular expression that matches a C floating point number.")
 
 (defun translate-c-numbers (string)
@@ -71,9 +76,13 @@
    *float-parse-regex*
    string
    (lambda (match mant expon)
-     (declare (ignore match))
-     (format nil "~ad~:[0~;~a~]" mant expon (when expon (subseq expon 1))))
+     (if (plusp (length mant))
+	 (format nil "~ad~:[0~;~a~]" mant expon (when expon (subseq expon 1)))
+	 match))
    :simple-calls t))
+
+;; (translate-c-numbers "-5.00318309780080559e-1 5.003183097800 5.00e+13 -4.e-1 4. 4")
+;; "-5.00318309780080559d-1 5.003183097800d0 5.00d+13 -4.d-1 4.d0 4d0"
 
 (defun replace-tolerance (string)
   (cl-ppcre:regex-replace "TEST_(\\w*)" string "+TEST-\\{1}+"))
