@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2010-04-17 18:47:14EDT gsll.asd>
+;; Time-stamp: <2010-05-25 11:54:09EDT gsll.asd>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -160,7 +160,7 @@
 	    ((:file "rng-types")
 	     (:file "generators" :depends-on ("rng-types"))
 	     (:file "quasi" :depends-on ("rng-types" "generators"))
-	     (:file "tests")
+	     (:file "tests" :depends-on ("rng-types"))
 	     (:file "gaussian" :depends-on ("rng-types"))
 	     (:file "gaussian-tail" :depends-on ("rng-types"))
 	     (:file "gaussian-bivariate" :depends-on ("rng-types"))

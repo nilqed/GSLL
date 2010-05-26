@@ -1,6 +1,6 @@
 ;; Convert the GSL tests
 ;; Liam Healy 2010-05-22 13:03:53EDT convert.lisp
-;; Time-stamp: <2010-05-25 23:15:21EDT convert.lisp>
+;; Time-stamp: <2010-05-26 10:05:26EDT convert.lisp>
 
 ;;; This file is not normally loaded; it is only used to convert the
 ;;; GSL tests in C to CL tests.  It requires cl-ppcre, lisp-util, and iterate.
@@ -59,25 +59,21 @@
       (second registers)))
    :simple-calls t))
 
+(defvar *float-parse-regex*
+  ;; Based on advice given in
+  ;; http://www.regular-expressions.info/floatingpoint.html
+  (cl-ppcre:parse-string "([-+]?[0-9]*\\.?[0-9]+)([eE][-+]?[0-9]+)?")
+  "A ppcre regular expression that matches a C floating point number.")
+
 (defun translate-c-numbers (string)
   "Translate the literal numbers in the string to CL double-float."
-  (cl-ppcre:regex-replace-all ; Floats without exponents become double-floats
-   ;;"(\\.\\d*)\\s*(,|\\))"
-   "(\\+|\\-*\\d*\\.\\d*)($|[^0-9de.])"
-   (cl-ppcre:regex-replace-all ; Floats with "e" exponent become double-floats
-    "(\\+|\\-*\\d*\\.*\\d*)e(\\d*(\\+|\\-)*\\d*)"
-    string
-    "\"\\{1}d\\{2}\"")
-   "\"\\{1}d0\"\\{2}"))
-
-#|
-;; http://www.regular-expressions.info/floatingpoint.html
-;; need to exempt d from the first case 
-(cl-ppcre:regex-replace-all "([-+]?[0-9]*\\.?[0-9]+)" "-4.2134" "\\{1}d0")
-(cl-ppcre:regex-replace-all "([-+]?[0-9]*\\.?[0-9]+)[eE](([-+]?[0-9]+)?)"
-			    "1.213e4"
-			    "\\{1}d\\{2}")
-|#
+  (cl-ppcre:regex-replace-all
+   *float-parse-regex*
+   string
+   (lambda (match mant expon)
+     (declare (ignore match))
+     (format nil "~ad~:[0~;~a~]" mant expon (when expon (subseq expon 1))))
+   :simple-calls t))
 
 (defun replace-tolerance (string)
   (cl-ppcre:regex-replace "TEST_(\\w*)" string "+TEST-\\{1}+"))
