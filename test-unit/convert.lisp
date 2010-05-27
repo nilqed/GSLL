@@ -1,6 +1,6 @@
 ;; Convert the GSL tests
 ;; Liam Healy 2010-05-22 13:03:53EDT convert.lisp
-;; Time-stamp: <2010-05-26 17:57:38EDT convert.lisp>
+;; Time-stamp: <2010-05-26 19:40:22EDT convert.lisp>
 
 ;;; This file is not normally loaded; it is only used to convert the
 ;;; GSL tests in C to CL tests.  It requires cl-ppcre, lisp-util, and iterate.
@@ -18,7 +18,8 @@
 
 ;;; (princ (convert-gsl-test "(gsl_cdf_tdist_P, (0.001, 1.0), 5.00318309780080559e-1, TEST_TOL6)"))
 ;;; (ASSERT-TO-TOLERANCE (TDIST-P 0.001d0 1.0d0) 5.00318309780080559d-1 +TEST-TOL6+)
-;;; (convert-gsl-test "(s,  gsl_sf_lngamma_e, (-0.1, &r), 2.368961332728788655 , TEST_TOL0, GSL_SUCCESS)" *sf-select*)
+;;; (princ (convert-gsl-test "(s,  gsl_sf_lngamma_e, (-0.1, &r), 2.368961332728788655 , TEST_TOL0, GSL_SUCCESS)" *sf-select*))
+;;; (ASSERT-TO-TOLERANCE (LOG-GAMMA -0.1d0) 2.368961332728788655d0 +TEST-TOL0+)
 
 (defun convert-gsl-test (string &optional select-args)
   "Read the GSL test as a string and generate a test form.
@@ -67,7 +68,7 @@
   ;; without requiring at least one of any specific component?
   ;; ddd ddd. ddd.ddd .ddd 
   ;; are all permitted, but no single part is required.
-  (cl-ppcre:parse-string "([-+]?[0-9]*\\.?[0-9]*)([eE][-+]?[0-9]+)?")
+  (cl-ppcre::parse-string "([-+]?[0-9]*\\.[0-9]*)([eE][-+]?[0-9]+)?")
   "A ppcre regular expression that matches a C floating point number.")
 
 (defun translate-c-numbers (string)
@@ -77,7 +78,7 @@
    string
    (lambda (match mant expon)
      (if (plusp (length mant))
-	 (format nil "~ad~:[0~;~a~]" mant expon (when expon (subseq expon 1)))
+	 (format nil "\"~ad~:[0~;~a~]\"" mant expon (when expon (subseq expon 1)))
 	 match))
    :simple-calls t))
 
