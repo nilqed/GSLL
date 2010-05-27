@@ -1,6 +1,6 @@
 ;; Convert the GSL tests
 ;; Liam Healy 2010-05-22 13:03:53EDT convert.lisp
-;; Time-stamp: <2010-05-26 19:40:22EDT convert.lisp>
+;; Time-stamp: <2010-05-27 10:27:14EDT convert.lisp>
 
 ;;; This file is not normally loaded; it is only used to convert the
 ;;; GSL tests in C to CL tests.  It requires cl-ppcre, lisp-util, and iterate.
@@ -83,7 +83,7 @@
    :simple-calls t))
 
 ;; (translate-c-numbers "-5.00318309780080559e-1 5.003183097800 5.00e+13 -4.e-1 4. 4")
-;; "-5.00318309780080559d-1 5.003183097800d0 5.00d+13 -4.d-1 4.d0 4d0"
+;; "\"-5.00318309780080559d-1\" \"5.003183097800d0\" \"5.00d+13\" \"-4.d-1\" \"4.d0\" 4"
 
 (defun replace-tolerance (string)
   (cl-ppcre:regex-replace "TEST_(\\w*)" string "+TEST-\\{1}+"))
@@ -91,12 +91,15 @@
 (defun remove-return-value (string)
   (cl-ppcre:regex-replace "\&r" string ""))
 
+(defparameter *gsl-test-form-regex*
+  (cl-ppcre:parse-string "\\s*TEST(_SF|_SF_2)?\\s*\\((.*)\\)\\s*;"))
+
 (defun GSL-test-form (string)
   "Replace the full C form with the TEST macro by just the argument."
   (cl-ppcre:regex-replace
-   "\\s*TEST\\s*\\((.*)\\);"
+   *gsl-test-form-regex*
    (remove #\newline string)
-   "(\\{1})"))description
+   "(\\{2})"))
 
 (defun file-to-string (file)
   "Find the tests in the file and convert them to lisp."
@@ -107,13 +110,14 @@
 
 (defun find-tests-in-file (file)
   (let ((filestring (file-to-string file)))
-    (cl-ppcre:all-matches-as-strings " TEST\s?\\(.*;" filestring)))
+    (cl-ppcre:all-matches-as-strings *gsl-test-form-regex* filestring)))
 
 (defun convert-tests-in-file (file select-args)
   "Convert all the tests in the file to CL."
   ;; Only works for cdf/test.c at present.
   (let ((tests (find-tests-in-file file)))
-    (mapcar (lambda (test) (convert-gsl-test (gsl-test-form test))) tests select-args)))
+    (mapcar (lambda (test) (convert-gsl-test (gsl-test-form test) select-args))
+	    tests)))
 
 (defvar *sf-select* '(nil t t t nil)
   "The select arg list for special function tests.")
