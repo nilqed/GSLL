@@ -1,6 +1,6 @@
 ;; Additional methods for lisp-unit
 ;; Liam Healy 2009-04-15 23:23:30EDT augment.lisp
-;; Time-stamp: <2010-05-27 17:35:17EDT augment.lisp>
+;; Time-stamp: <2010-05-27 19:21:42EDT augment.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -40,7 +40,7 @@
 (defmacro assert-to-tolerance (form expected-value tolerance)
   `(let ((lisp-unit:*epsilon* ,tolerance))
      (lisp-unit::assert-numerical-equal
-      ',expected-value
+      ,expected-value
       ,(if (listp expected-value)
 	   `(subseq (multiple-value-list ,form)
 		    0 ,(length (eval expected-value)))
