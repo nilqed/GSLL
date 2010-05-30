@@ -1,6 +1,6 @@
 ;; Additional methods for lisp-unit
 ;; Liam Healy 2009-04-15 23:23:30EDT augment.lisp
-;; Time-stamp: <2010-05-27 19:21:42EDT augment.lisp>
+;; Time-stamp: <2010-05-29 20:58:09EDT augment.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -36,15 +36,56 @@
 (defconstant +test-tol5+ (* 131072 +dbl-epsilon+))
 (defconstant +test-tol6+ (* 1048576 +dbl-epsilon+))
 
+;;; These are 1.0 if not "RELEASED"
+(defconstant +test-sigma+ 1.5d0)
+(defconstant +test-factor+ 100.0d0)
+
+(defun sf-frac-diff (x1 x2)
+  ;; After test_sf_frac_diff in specfunc/test_sf.c.
+  (cond ((and (zerop x1) (zerop x2))
+	 (coerce 0 (type-of x1)))
+	((zerop x1)
+	 (abs x2))
+	((and (<= x1 most-positive-double-float)
+	      (<= x2 most-positive-double-float)
+	      (not (zerop (+ x1 x2))))
+	 (abs (/ (- x1 x2) (+ x1 x2))))
+	(t 1.0d0)))
+
+(defun sf-check-pair (result expected-value tolerance &optional error-estimate)
+  (or (eql result expected-value) ; catch expected inifinity/nan
+      (let ((diff (abs (- result expected-value))))
+	(and
+	 (<= (sf-frac-diff result expected-value) (* +test-factor+ tolerance))
+	 (if error-estimate
+	     (and (not (minusp error-estimate)) ; redundant but signalled as separate error in C
+		  (finitep error-estimate)
+		  (<= diff (* 2 +test-sigma+ error-estimate)))
+	     t)))))
+
+(defun sf-check-results (result-list expected-value tolerance)
+  ;; After test_sf_check_result in specfunc/test_sf.c.
+  (when (atom expected-value)
+    (setf expected-value (list expected-value)))
+  (when (= (length result-list) (* 2 (length expected-value)))
+    ;; Error information is returned
+    (loop for ind below (length expected-value)
+       always
+       (sf-check-pair
+	(elt result-list ind)
+	(elt expected-value ind)
+	tolerance
+	(elt result-list (+ ind (length expected-value)))))))
+
 ;; (assert-to-tolerance (tdist-P 0.0d0 1.0d0) 0.5d0 +test-tol6+)
 (defmacro assert-to-tolerance (form expected-value tolerance)
   `(let ((lisp-unit:*epsilon* ,tolerance))
-     (lisp-unit::assert-numerical-equal
+     (lisp-unit::assert-true
       ,expected-value
-      ,(if (listp expected-value)
-	   `(subseq (multiple-value-list ,form)
-		    0 ,(length (eval expected-value)))
-	   `(nth-value 0 ,form)))))
+      (sf-check-results
+       (multiple-value-list ,form) ,expected-value ,tolerance))))
+
+;; lisp-unit::assert-true
 
 (defmacro assert-posinf (form)
   `(lisp-unit::assert-true
