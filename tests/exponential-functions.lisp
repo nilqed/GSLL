@@ -1,6 +1,6 @@
-;; Regression test EXPONENTIAL-FUNCTIONS for GSLL, automatically generated
+;; Regression test EXPONENTIAL-FUNCTIONS for GSLL
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -18,37 +18,107 @@
 
 (in-package :gsl)
 
-(LISP-UNIT:DEFINE-TEST EXPONENTIAL-FUNCTIONS
-                       (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-                        (LIST 20.085536923187668d0 8.91977022163267d-15)
-                        (MULTIPLE-VALUE-LIST (GSL-EXP 3.0d0)))
-                       (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-                        (LIST 3.8811801942838993d0 868 3.448904081776264d-12)
-                        (MULTIPLE-VALUE-LIST (EXP-SCALED 2000.0d0)))
-                       (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-                        (LIST 3.6535299896840335d44 8.355840218353793d30)
-                        (MULTIPLE-VALUE-LIST (EXP-MULT 101.0d0 5.0d0)))
-                       (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-                        (LIST 1.0908344123363103d0 243 5.42628544911082d-13)
-                        (MULTIPLE-VALUE-LIST
-                         (EXP-MULT-SCALED 555.0d0 101.0d0)))
-                       (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-                        (LIST 1.0000500016667085d-4 4.441114150507224d-20)
-                        (MULTIPLE-VALUE-LIST (EXPM1 1.d-4)))
-                       (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-                        (LIST 1.0000500016667084d0 4.4411141505072235d-16)
-                        (MULTIPLE-VALUE-LIST (EXPREL 1.d-4)))
-                       (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-                        (LIST 1.0003334166833362d0 4.442372766015162d-16)
-                        (MULTIPLE-VALUE-LIST (EXPREL-2 0.001d0)))
-                       (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-                        (LIST 1.0002500500083344d0 2.665201526164121d-15)
-                        (MULTIPLE-VALUE-LIST (EXPREL-N 3 0.001d0)))
-                       (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-                        (LIST 20.085536923187668d0 0.04017108054156605d0)
-                        (MULTIPLE-VALUE-LIST (EXP-ERR 3.0d0 0.001d0)))
-                       (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-                        (LIST 461.9673492333164d0 0.4820528861567092d0)
-                        (MULTIPLE-VALUE-LIST
-                         (EXP-MULT-ERR 3.0d0 0.001d0 23.0d0 0.001d0))))
+(defconstant +exp-x+ (* 0.8d0 +log-dbl-max+))
+(defconstant +ln2+ 0.69314718055994530941723212146d0)
 
+(defmacro assert-sf-scale (form expected-value result-tol err-tol &optional scale)
+  `(lisp-unit::assert-true
+    (multiple-value-bind (val scale err)
+	,form
+      (and
+       (sf-check-pair val ,expected-value ,result-tol err)
+       (= scale ,scale)))))
+
+;; assert-to-tolerance probably not doing any good here
+(LISP-UNIT:DEFINE-TEST EXPONENTIAL-FUNCTIONS
+  ;; From specfunc/test_sf.c
+  (assert-to-tolerance (gsl-exp -10.0d0) (exp -10.0d0) +test-tol0+)
+  (assert-to-tolerance (gsl-exp 10.0d0) (exp 10.0d0) +test-tol0+)
+  (lisp-unit::assert-true
+   (multiple-value-bind (val scale err)
+       (exp-scaled 1.0d0)
+     (or 
+      (> (sf-frac-diff val (exp 1.0d0)) +test-tol0+)
+      (> err +test-tol1+)
+      (not (zerop scale)))))
+  (lisp-unit::assert-true
+   (multiple-value-bind (val scale err)
+       (exp-scaled 2000.0d0)
+     (or 
+      (> (sf-frac-diff val 3.88118019428363725d0) +test-tol3+)
+      (> err +test-tol5+)
+      (not (= scale 868)))))
+  (assert-to-tolerance (exp-err -10.0d0 +test-tol1+) (exp -10.0d0) +test-tol1+)
+  (assert-to-tolerance (exp-err 10.0d0 +test-tol1+) (exp 10.0d0) +test-tol1+)
+  (lisp-unit::assert-true
+   (multiple-value-bind (val scale err)
+       (exp-err-scaled 1.0d0 +test-sqrt-tol0+)
+     (or 
+      (> (sf-frac-diff val (exp 1.0d0)) +test-tol1+)
+      (> err (* 32 +test-tol0+))
+      (not (zerop scale)))))
+  (lisp-unit::assert-true
+   (multiple-value-bind (val scale err)
+       (exp-err-scaled 2000.0d0 1.0d-10)
+     (or 
+      (> (sf-frac-diff val 3.88118019428363725d0) +test-tol3+)
+      (> err 1.0d-7)
+      (not (= scale 868)))))
+  (assert-to-tolerance (exp-mult -10.0d0 1.0d-06) (* 1.0d-06 (exp -10.0d0)) +test-tol0+)
+  (assert-to-tolerance (exp-mult -10.0d0 2.0d) (* 2.0d0 (exp -10.0d0)) +test-tol0+)
+  (assert-to-tolerance (exp-mult -10.0d0 -2.0d) (* -2.0d0 (exp -10.0d0)) +test-tol0+)
+  (assert-to-tolerance (exp-mult 10.0d0 1.0d-06) (* 1.0d-06 (exp 10.0d0)) +test-tol0+)
+  (assert-to-tolerance (exp-mult 10.0d0 -2.0d0) (* -2.0d0 (exp 10.0d0)) +test-tol0+)
+  (assert-to-tolerance
+   (exp-mult +exp-x+ 1.00001d0) (* 1.00001d0 (exp +exp-x+)) +test-tol3+)
+  (assert-to-tolerance
+   (exp-mult +exp-x+ 1.000001d0) (* 1.000001d0 (exp +exp-x+)) +test-tol3+)
+  (assert-to-tolerance
+   (exp-mult +exp-x+ 1.0000001d0) (* 1.0000001d0 (exp +exp-x+)) +test-tol3+)
+  (assert-to-tolerance
+   (exp-mult +exp-x+ 100.0d0) (* 100.0d0 (exp +exp-x+)) +test-tol3+)
+  (assert-to-tolerance
+   (exp-mult +exp-x+ 1.0d20) (* 1.0d20 (exp +exp-x+)) +test-tol3+)
+  (assert-to-tolerance
+   (exp-mult +exp-x+ (* +exp-x+ (exp +ln2+))) 2.0d0 +test-tol4+)
+  (lisp-unit::assert-true
+   (multiple-value-bind (val scale err)
+       (exp-mult-scaled 1.0d0 1.0d0)
+     (or 
+      (> (sf-frac-diff val (exp 1.0d0)) +test-tol0+)
+      (> err +test-tol2+)
+      (not (zerop scale)))))
+  (lisp-unit::assert-true
+   (multiple-value-bind (val scale err)
+       (exp-mult-scaled 1000.0d0 1.0d200)
+     (or 
+      (> (sf-frac-diff val 1.970071114017046993888879352d0) +test-tol3+)
+      (> err 1.0d-11)
+      (not (= scale 634)))))
+  (lisp-unit::assert-true
+   (multiple-value-bind (val scale err)
+       (exp-mult-err-scaled 1.0d0 +test-tol0+ 1.0d0 +test-tol0+)
+     (or 
+      (> (sf-frac-diff val (exp 1.0d0)) +test-tol0+)
+      (> err +test-tol2+)
+      (not (zerop scale)))))
+  (lisp-unit::assert-true
+   (multiple-value-bind (val scale err)
+       (exp-mult-err-scaled 1000.0d0 1.0d-12 1.0d200 1.0d190)
+     (or 
+      (> (sf-frac-diff val 1.9700711140165661d0) +test-tol3+)
+      (> err 1.0d-9)
+      (not (= scale 634)))))
+  (lisp-unit::assert-true
+   (multiple-value-bind (val scale err)
+       (exp-mult-scaled 10000.0d0 1.0d0)
+     (and
+      (sf-check-pair val 8.806818225662921587261496007d0 +test-tol5+ err)
+      (= scale 4342))))
+  (lisp-unit::assert-true
+   (multiple-value-bind (val scale err)
+       (exp-mult-scaled 100.0d0 1.0d0)
+     (and
+      (sf-check-pair val 2.688117141816135448412625551d43 +test-tol2+ err)
+      (zerop scale)))))
+  

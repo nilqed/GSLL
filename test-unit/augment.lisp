@@ -1,6 +1,6 @@
 ;; Additional methods for lisp-unit
 ;; Liam Healy 2009-04-15 23:23:30EDT augment.lisp
-;; Time-stamp: <2010-05-29 20:58:09EDT augment.lisp>
+;; Time-stamp: <2010-05-30 12:42:11EDT augment.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -35,6 +35,7 @@
 (defconstant +test-tol4+ (* 16384 +dbl-epsilon+))
 (defconstant +test-tol5+ (* 131072 +dbl-epsilon+))
 (defconstant +test-tol6+ (* 1048576 +dbl-epsilon+))
+(defconstant +test-sqrt-tol0+ (* 2 +sqrt-dbl-epsilon+))
 
 ;;; These are 1.0 if not "RELEASED"
 (defconstant +test-sigma+ 1.5d0)
@@ -42,7 +43,7 @@
 
 (defun sf-frac-diff (x1 x2)
   ;; After test_sf_frac_diff in specfunc/test_sf.c.
-  (cond ((and (zerop x1) (zerop x2))
+  (cond ((and (zerop x1) (zerop x2))(exp-err-scaled 1.0d0 +test-sqrt-tol0+)
 	 (coerce 0 (type-of x1)))
 	((zerop x1)
 	 (abs x2))
@@ -78,6 +79,8 @@
 	(elt result-list (+ ind (length expected-value)))))))
 
 ;; (assert-to-tolerance (tdist-P 0.0d0 1.0d0) 0.5d0 +test-tol6+)
+;; Probably can remove the binding of lisp-unit:*epsilon*, it doesn't
+;; do anything anymore.
 (defmacro assert-to-tolerance (form expected-value tolerance)
   `(let ((lisp-unit:*epsilon* ,tolerance))
      (lisp-unit::assert-true

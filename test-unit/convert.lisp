@@ -1,6 +1,6 @@
 ;; Convert the GSL tests
 ;; Liam Healy 2010-05-22 13:03:53EDT convert.lisp
-;; Time-stamp: <2010-05-27 10:27:14EDT convert.lisp>
+;; Time-stamp: <2010-05-30 10:29:38EDT convert.lisp>
 
 ;;; This file is not normally loaded; it is only used to convert the
 ;;; GSL tests in C to CL tests.  It requires cl-ppcre, lisp-util, and iterate.
@@ -92,7 +92,7 @@
   (cl-ppcre:regex-replace "\&r" string ""))
 
 (defparameter *gsl-test-form-regex*
-  (cl-ppcre:parse-string "\\s*TEST(_SF|_SF_2)?\\s*\\((.*)\\)\\s*;"))
+  (cl-ppcre::parse-string "\\s*TEST(_SF|_SF_2)?\\s*\\((.*)\\)\\s*;"))
 
 (defun GSL-test-form (string)
   "Replace the full C form with the TEST macro by just the argument."

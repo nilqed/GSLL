@@ -1,6 +1,6 @@
 ;; Exponential functions
 ;; Liam Healy, Tue Mar 21 2006 - 17:05
-;; Time-stamp: <2009-12-27 10:10:04EST exponential-functions.lisp>
+;; Time-stamp: <2010-05-30 12:19:24EDT exponential-functions.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -98,8 +98,9 @@
   "The product y \exp(x) for the quantities x, y
    with associated absolute errors dx, dy.")
 
-(defmfun exp-mult-err-scaled (x y)
-  "gsl_sf_exp_mult_err_e10_e" ((x :double) (y :double) (ret sf-result-e10))
+(defmfun exp-mult-err-scaled (x dx y dy)
+  "gsl_sf_exp_mult_err_e10_e"
+  ((x :double) (dx :double) (y :double) (dy :double) (ret sf-result-e10))
   :documentation			; FDL
   "The product y \exp(x) for the quantities x, y
    with associated absolute errors dx, dy and with
