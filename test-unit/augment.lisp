@@ -1,6 +1,6 @@
 ;; Additional methods for lisp-unit
 ;; Liam Healy 2009-04-15 23:23:30EDT augment.lisp
-;; Time-stamp: <2010-05-30 12:42:11EDT augment.lisp>
+;; Time-stamp: <2010-05-31 23:29:58EDT augment.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -53,7 +53,8 @@
 	 (abs (/ (- x1 x2) (+ x1 x2))))
 	(t 1.0d0)))
 
-(defun sf-check-pair (result expected-value tolerance &optional error-estimate)
+(defun sf-check-single (result expected-value tolerance &optional error-estimate)
+  "Check the result of a single value as in test_sf_check_result in specfunc/test_sf.c." 
   (or (eql result expected-value) ; catch expected inifinity/nan
       (let ((diff (abs (- result expected-value))))
 	(and
@@ -72,7 +73,7 @@
     ;; Error information is returned
     (loop for ind below (length expected-value)
        always
-       (sf-check-pair
+       (sf-check-single
 	(elt result-list ind)
 	(elt expected-value ind)
 	tolerance
@@ -87,6 +88,19 @@
       ,expected-value
       (sf-check-results
        (multiple-value-list ,form) ,expected-value ,tolerance))))
+
+(defmacro assert-sf-scale (form expected-value scale result-tol &optional err-tol)
+  ;; Some of the tests in test_exp like gsl_sf_exp_mult_e10_e(1.0,
+  ;; 1.0, &re) do a check of test_sf_frac_diff, then of the err, then
+  ;; the scale (e10), then they (redundantly?) call test_sf_e10.
+  ;; Others just call test_sf_e10.  This attempts to cover both cases.
+  `(lisp-unit::assert-true
+    (multiple-value-bind (val scale err)
+	,form
+      (and
+       (sf-check-single val ,expected-value ,result-tol err)
+       (= scale ,scale)
+       ,(if err-tol `(<= err ,err-tol) t)))))
 
 ;; lisp-unit::assert-true
 
