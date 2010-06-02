@@ -1,6 +1,6 @@
 ;; Additional methods for lisp-unit
 ;; Liam Healy 2009-04-15 23:23:30EDT augment.lisp
-;; Time-stamp: <2010-06-01 11:49:45EDT augment.lisp>
+;; Time-stamp: <2010-06-01 22:02:57EDT augment.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -43,7 +43,7 @@
 
 (defun sf-frac-diff (x1 x2)
   ;; After test_sf_frac_diff in specfunc/test_sf.c.
-  (cond ((and (zerop x1) (zerop x2))(exp-err-scaled 1.0d0 +test-sqrt-tol0+)
+  (cond ((and (zerop x1) (zerop x2))
 	 (coerce 0 (type-of x1)))
 	((zerop x1)
 	 (abs x2))
@@ -58,7 +58,7 @@
   (or (eql result expected-value) ; catch expected inifinity/nan
       (let ((diff (abs (- result expected-value))))
 	(and
-	 (<= (sf-frac-diff result expected-value) (* +test-factor+ tolerance))
+	 (<= (sf-frac-diff expected-value result) (* +test-factor+ tolerance))
 	 (if error-estimate
 	     (and (not (minusp error-estimate)) ; redundant but signalled as separate error in C
 		  (finitep error-estimate)
@@ -83,15 +83,11 @@
 	  (elt result-list (+ ind (length expected-value))))))))
 
 ;; (assert-to-tolerance (tdist-P 0.0d0 1.0d0) 0.5d0 +test-tol6+)
-;; Probably can remove the binding of lisp-unit:*epsilon*, it doesn't
-;; do anything anymore.
 (defmacro assert-to-tolerance (form expected-value tolerance)
   ;; Equivalent of TEST_SF.
-  `(let ((lisp-unit:*epsilon* ,tolerance))
-     (lisp-unit::assert-true
-      ,expected-value
-      (sf-check-results
-       (multiple-value-list ,form) ,expected-value ,tolerance))))
+  `(lisp-unit::assert-true
+    (sf-check-results
+     (multiple-value-list ,form) ,expected-value ,tolerance)))
 
   ;; and TEST_SF becomes assert-to-tolerance.
 (defmacro assert-sf-scale (form expected-value scale result-tol &optional err-tol)
