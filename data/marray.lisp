@@ -1,6 +1,6 @@
 ;; A "marray" is an array in both GSL and CL
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2010-05-22 22:53:23EDT marray.lisp>
+;; Time-stamp: <2010-06-05 22:57:05EDT marray.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -136,11 +136,11 @@
 
 (export 'make-marray)
 (defun make-marray
-    (class-or-element-type &rest keys &key dimensions initial-contents cl-array
+    (class-or-element-type &rest keys &key dimensions initial-contents
      &allow-other-keys)
   "Make a GSLL array with the given element type,
-   :dimensions, and :initial-contents, :initial-element or :cl-array.
-   If the :cl-array is supplied, it should be a CL array generated
+   :dimensions, and :initial-contents, :initial-element or :data.  If
+   the :data argument is supplied, it should be a CL array generated
    with #'make-ffa."
   (apply #'make-instance
 	 (if (subtypep class-or-element-type 'marray)
@@ -149,8 +149,7 @@
 	      (if
 	       (or
 		(and dimensions (listp dimensions) (eql (length dimensions) 2))
-		(and initial-contents (listp (first initial-contents)))
-		(and cl-array (eql (length (array-dimensions cl-array)) 2)))
+		(and initial-contents (listp (first initial-contents))))
 	       'matrix 'vector)
 	      class-or-element-type))
 	 keys))
@@ -159,7 +158,9 @@
   (pushnew 'marray grid:*grid-data-superclasses*))
 
 (defmethod grid:make-grid-data
-    ((type (eql 'marray)) dimensions rest-spec &rest keys)
+    ((type (eql 'marray)) dimensions rest-spec &rest keys
+     &key initial-element initial-contents)
+  (declare (ignorable initial-element initial-contents))
   (apply #'make-marray (grid:spec-scalar-p rest-spec)
 	 :dimensions dimensions
 	 keys))
