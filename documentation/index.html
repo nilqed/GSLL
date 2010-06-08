@@ -95,8 +95,9 @@ complex conjugate scalar product</a> of two complex vectors of length 3:
 #C(-2940.2118d0 1861.9380999999998d0)
 </pre>
 <p>There are over 1500 examples available from within GSLL with the
-function <code>examples</code>.  These examples also serve
-as a test suite for GSLL.
+function <code>examples</code>.  There is also a suite of over
+4000 tests; many of the examples also serve as tests, and most others
+are ported from GSL's tests. 
 
 <h2>Requirements</h2>
 <a name="require"/>
@@ -195,7 +196,7 @@ Then in Lisp, load the system:
   </ul>
 <p>and add
   <ul>
-    <li><code>gsll c-array grid cffi trivial-garbage cl-utilities lisp-unit fsbv iterate asdf-system-connections</code></li>
+    <li><code>gsll gsd cffi trivial-garbage cl-utilities lisp-unit fsbv iterate asdf-system-connections</code></li>
   </ul>
 <p>
 to <code>dependencies</code> and execute
@@ -471,7 +472,7 @@ and arrays used internally or for function return.
 <!-- Created: Feb 25 2005 -->
 <!-- hhmts start -->
 <small>
-Time-stamp: <2010-04-17 14:00:08EDT index.html>
+Time-stamp: <2010-06-08 12:58:19EDT index.html>
 </small>
 <!-- hhmts end -->
  </div>
