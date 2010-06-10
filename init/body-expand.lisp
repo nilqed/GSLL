@@ -1,8 +1,8 @@
 ;; Expand the body of a defmfun
 ;; Liam Healy 2009-04-13 22:07:13EDT body-expand.lisp
-;; Time-stamp: <2009-12-27 09:50:35EST body-expand.lisp>
+;; Time-stamp: <2010-06-10 11:03:23EDT body-expand.lisp>
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -63,7 +63,7 @@
 	   (mapcar (lambda (st) (c-array:make-st (gensym "ARG") (c-array:st-type st)))
 		   args)))
       (values
-       `(fsbv:defcfun (,gsl-name-symbol gsl-name) ,return-type
+       `(fsbv:defcfun (,gsl-name-symbol ,gsl-name) ,return-type
 	  "Function definition generated for FSBV prepping; will actually
         be called by fsbv:foreign-funcall"
 	  ,@symbargs)
