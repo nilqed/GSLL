@@ -1,6 +1,6 @@
 ;; Load GSL
 ;; Liam Healy Sat Mar  4 2006 - 18:53
-;; Time-stamp: <2010-05-23 11:37:01EDT init.lisp>
+;; Time-stamp: <2010-06-24 09:57:20EDT init.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -53,7 +53,7 @@
 (cffi:load-foreign-library "/lib/lapack/cygblas.dll")
 
 (cffi:define-foreign-library libgsl
-  (:unix "libgsl.so.0" "libgsl.so")
+  (:unix (:or "libgsl.so.0" "libgsl.so"))
   (:darwin "libgsl.dylib")
   (:cygwin "cyggsl-0.dll")
   (t (:default "libgsl")))
