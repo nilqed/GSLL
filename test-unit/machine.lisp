@@ -1,8 +1,8 @@
 ;; Constants specifying limits of floating point calculations in hardware 
 ;; Liam Healy
-;; Time-stamp: <2010-05-31 23:21:42EDT machine.lisp>
+;; Time-stamp: <2010-06-24 09:54:03EDT machine.lisp>
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@
 ;;; When installed through Mac Ports, GSL .h files will be found
 ;;; in /opt/local/include.
 #+darwin
-(cc-flags "-I/opt/local/include/")
+(cc-flags #.(gsl-config "--cflags"))
 
 (include "gsl/gsl_machine.h")
 
