@@ -1,6 +1,6 @@
 ;; Matrices
 ;; Liam Healy 2008-04-15 21:57:52EDT matrix.lisp
-;; Time-stamp: <2009-12-27 09:42:04EST matrix.lisp>
+;; Time-stamp: <2010-06-26 19:16:41EDT matrix.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -25,14 +25,6 @@
 ;;;;****************************************************************************
 ;;;; Matrix structure and CL object
 ;;;;****************************************************************************
-
-(export 'matrix)
-(defclass matrix (marray)
-  ()
-  (:documentation "GSL matrices."))
-
-;;; Define all supported matrix subclasses
-#.(data-defclass 'matrix 'matrix)
 
 (defmethod contents-from-pointer
     (pointer (struct-type (eql 'gsl-matrix-c))

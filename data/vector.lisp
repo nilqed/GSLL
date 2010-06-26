@@ -1,6 +1,6 @@
 ;; Vectors
 ;; Liam Healy 2008-04-13 09:39:02EDT vector.lisp
-;; Time-stamp: <2009-12-27 09:42:03EST vector.lisp>
+;; Time-stamp: <2010-06-26 19:16:43EDT vector.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -25,14 +25,6 @@
 ;;;;****************************************************************************
 ;;;; Vector structure, CL object, and allocation
 ;;;;****************************************************************************
-
-(export 'mvector)
-(defclass mvector (marray)
-  ()
-  (:documentation "GSL vectors."))
-
-;;; Define all supported mvector subclasses
-#.(data-defclass 'vector 'mvector)
 
 (defmethod contents-from-pointer
     (pointer (struct-type (eql 'gsl-vector-c))
