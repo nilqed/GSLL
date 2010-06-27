@@ -1,6 +1,6 @@
 ;; Multivariate minimization.
 ;; Liam Healy  <Tue Jan  8 2008 - 21:28>
-;; Time-stamp: <2010-06-27 08:39:24EDT minimization-multi.lisp>
+;; Time-stamp: <2010-06-27 18:03:17EDT minimization-multi.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -422,7 +422,7 @@
 (defun paraboloid-and-derivative
     (arguments-gv-pointer value-pointer derivative-gv-pointer)
   (prog1
-      (setf (c-array:dcref value-pointer)
+      (setf (grid:dcref value-pointer)
 	    (paraboloid-vector arguments-gv-pointer))
     (paraboloid-derivative
      arguments-gv-pointer derivative-gv-pointer)))

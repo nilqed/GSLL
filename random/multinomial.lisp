@@ -1,6 +1,6 @@
 ;; Multinomial distribution
 ;; Liam Healy, Sat Nov 25 2006 - 16:00
-;; Time-stamp: <2010-01-17 10:28:22EST multinomial.lisp>
+;; Time-stamp: <2010-06-27 18:13:43EDT multinomial.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -31,9 +31,9 @@
   (((mpointer generator) :pointer) 
    ((dim0 probabilities) sizet)
    (sum sizet)
-   ((c-pointer probabilities) :pointer)
+   ((foreign-pointer probabilities) :pointer)
    ;; technically, n should be a uint array, but integers work
-   ((c-pointer n) :pointer))
+   ((foreign-pointer n) :pointer))
   :definition :method
   :inputs (p)
   :outputs (n)
@@ -56,7 +56,7 @@
 
 (defmfun multinomial-pdf (p n)
   "gsl_ran_multinomial_pdf"
-  (((dim0 p) sizet) ((c-pointer p) :pointer) ((c-pointer n) :pointer))
+  (((dim0 p) sizet) ((foreign-pointer p) :pointer) ((foreign-pointer n) :pointer))
   :inputs (p n)
   :c-return :double
   :documentation			; FDL
@@ -66,7 +66,7 @@
 
 (defmfun multinomial-log-pdf (p n)
   "gsl_ran_multinomial_lnpdf"
-  (((dim0 p) sizet) ((c-pointer p) :pointer) ((c-pointer n) :pointer))
+  (((dim0 p) sizet) ((foreign-pointer p) :pointer) ((foreign-pointer n) :pointer))
   :inputs (p n)
   :c-return :double
   :documentation			; FDL

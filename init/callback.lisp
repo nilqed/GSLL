@@ -1,6 +1,6 @@
 ;; Foreign callback functions.               
 ;; Liam Healy 
-;; Time-stamp: <2009-12-27 09:50:33EST callback.lisp>
+;; Time-stamp: <2010-06-27 18:03:22EDT callback.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -236,4 +236,4 @@
        ;; CL specials to do the same job.
        (declare ,@(when (member :slug args) `((ignore ,slug)))
 		(special ,dynamic-variable))
-       (funcall ,dynamic-variable ,@(mapcar 'c-array:st-symbol (remove :slug args))))))
+       (funcall ,dynamic-variable ,@(mapcar 'grid:st-symbol (remove :slug args))))))

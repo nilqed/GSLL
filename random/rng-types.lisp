@@ -1,6 +1,6 @@
 ;; Random number generation
 ;; Liam Healy, Tue Jul 11 2006 - 23:39
-;; Time-stamp: <2009-12-27 10:03:50EST rng-types.lisp>
+;; Time-stamp: <2010-06-27 18:13:40EDT rng-types.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License

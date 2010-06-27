@@ -1,6 +1,6 @@
 ;; Quasi-random sequences in arbitrary dimensions.
 ;; Liam Healy, Sun Jul 16 2006 - 15:54
-;; Time-stamp: <2009-12-27 10:03:51EST quasi.lisp>
+;; Time-stamp: <2010-06-27 18:13:45EDT quasi.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -36,7 +36,7 @@
 
 (defmfun qrng-get (generator return-vector)
   "gsl_qrng_get"
-  (((mpointer generator) :pointer) ((c-pointer return-vector) :pointer))
+  (((mpointer generator) :pointer) ((foreign-pointer return-vector) :pointer))
   :outputs (return-vector)
   :return (return-vector)
   :documentation			; FDL
@@ -64,7 +64,7 @@
   :export nil
   :index gsl-random-state)
 
-(defmfun c-array:copy-to-destination
+(defmfun grid:copy-to-destination
     ((source quasi-random-number-generator)
      (destination quasi-random-number-generator))
   "gsl_qrng_memcpy"
@@ -76,7 +76,7 @@
    pre-existing generator dest, making dest into an exact copy
    of src.  The two generators must be of the same type.")
 
-(defmfun c-array:copy-making-destination ((instance quasi-random-number-generator))
+(defmfun grid:copy-making-destination ((instance quasi-random-number-generator))
   "gsl_qrng_clone" (((mpointer instance) :pointer))
   :definition :method
   :c-return :pointer

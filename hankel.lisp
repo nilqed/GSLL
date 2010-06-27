@@ -1,6 +1,6 @@
 ;; Discrete Hankel Transforms.
 ;; Liam Healy, Sat Dec  8 2007 - 16:50
-;; Time-stamp: <2009-12-27 09:47:41EST hankel.lisp>
+;; Time-stamp: <2010-06-27 18:13:50EDT hankel.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -41,8 +41,8 @@
      &optional
      (array-out (make-marray 'double-float :dimensions (dimensions array-in))))
   "gsl_dht_apply"
-  (((mpointer hankel) :pointer) ((c-pointer array-in) :pointer)
-   ((c-pointer array-out) :pointer))
+  (((mpointer hankel) :pointer) ((foreign-pointer array-in) :pointer)
+   ((foreign-pointer array-out) :pointer))
   :inputs (array-in)
   :outputs (array-out)
   :return (array-out)

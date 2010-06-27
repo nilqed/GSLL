@@ -1,6 +1,6 @@
 ;; Median and percentile
 ;; Liam Healy, Sun Dec 31 2006 - 13:19
-;; Time-stamp: <2009-12-27 10:11:27EST median-percentile.lisp>
+;; Time-stamp: <2010-06-27 18:14:04EDT median-percentile.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -25,7 +25,7 @@
 
 (defmfun median ((sorted-data vector))
   ("gsl_stats" :type "_median_from_sorted_data")
-  (((c-pointer sorted-data) :pointer) (1 :int) ((dim0 sorted-data) sizet))
+  (((foreign-pointer sorted-data) :pointer) (1 :int) ((dim0 sorted-data) sizet))
   :definition :generic
   :element-types :no-complex
   :c-return :double
@@ -44,7 +44,7 @@
 
 (defmfun quantile ((sorted-data vector) fraction)
   ("gsl_stats" :type "_quantile_from_sorted_data")
-  (((c-pointer sorted-data) :pointer) (1 :int) ((dim0 sorted-data) sizet)
+  (((foreign-pointer sorted-data) :pointer) (1 :int) ((dim0 sorted-data) sizet)
    (fraction :double))
   :definition :generic
   :element-types :no-complex

@@ -1,6 +1,6 @@
 ;; A grid:foreign-array with added metadata for GSL.
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2010-06-27 08:48:58EDT foreign-array.lisp>
+;; Time-stamp: <2010-06-27 18:27:37EDT foreign-array.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -88,15 +88,26 @@
      `((grid:foreign-array ,@dimensions) element-type)
      keys)))
 
+(defun make-marray-or-default
+    (default dimensions
+     &optional dont-make-if-nil (element-type 'double-float) initial-element)
+  "If default is T or dont-make-if-nil, make a marray and
+   returned with the dimensions and element-type.  If default is a
+   marray, it is returned."
+  (if (member default (list t dont-make-if-nil))
+      (if initial-element
+	  (make-marray
+	   element-type :dimensions dimensions :initial-element initial-element)
+	  (make-marray element-type :dimensions dimensions))
+      default))
+
 ;;;;****************************************************************************
 ;;;; Make from GSL mpointers 
 ;;;;****************************************************************************
 
 ;; Some functions in solve-minimize-fit return a pointer to a GSL
-;; vector of double-floats.  This function turns that into a
-;; foreign-friendly array.  There is no choice but to copy over the
-;; data even on native implementations; because GSL is doing the
-;; mallocing, the data are not CL-accessible.
+;; vector of double-floats.  This function turns it into a
+;; foreign-array.  
 
 (defun make-foreign-array-from-mpointer
     (mpointer &optional (element-type 'double-float) (category :vector))
@@ -107,7 +118,7 @@
 	    (:vector 'gsl-vector-c)
 	    (:matrix 'gsl-matrix-c)
 	    (t (error "Unrecognized category ~a" category))))
-	 (c-pointer (cffi:foreign-slot-value mpointer cstruct 'data)))
+	 (foreign-pointer (cffi:foreign-slot-value mpointer cstruct 'data)))
     (grid:make-grid
      (case category
        (:vector
@@ -118,25 +129,5 @@
 	   ,(cffi:foreign-slot-value mpointer cstruct size0)
 	   ,(cffi:foreign-slot-value mpointer cstruct size1)))
 	,element-type))
-     :foreign-pointer c-pointer
+     :foreign-pointer foreign-pointer
      :foreign-metadata mpointer)))
-
-;;;;****************************************************************************
-;;;; Convenient defaulting of defmfun arguments 
-;;;;****************************************************************************
-
-(defun make-marray-or-default
-    (default dimensions
-     &optional dont-make-if-nil (element-type 'double-float) initial-element)
-  "If default is T or dont-make-if-nil, make a marray and
-   returned with the dimensions and element-type.  If default is a
-   marray, it is returned after being synced for non-native."
-  (if (member default (list t dont-make-if-nil))
-      (if initial-element
-	  (make-marray
-	   element-type :dimensions dimensions :initial-element initial-element)
-	  (make-marray element-type :dimensions dimensions))
-      (progn #-native
-	     (when (typep default 'marray)
-	       (c-array:copy-cl-to-c default))
-	     default)))

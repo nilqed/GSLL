@@ -1,6 +1,6 @@
 ;; Get/set array or elements: cl-array, maref
 ;; Liam Healy 2008-08-27 22:43:10EDT maref.lisp
-;; Time-stamp: <2009-12-27 09:42:05EST maref.lisp>
+;; Time-stamp: <2010-06-27 18:03:27EDT maref.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -43,9 +43,9 @@
 		       category tp)
 		     ,@ffrestargs
 		     ,@(if value-symbol
-			   (list (c-array:cl-cffi tp) value-symbol)
-			   (list (c-array:cl-cffi tp))))))
-		c-array:*array-element-types*)))
+			   (list (grid:cl-cffi tp) value-symbol)
+			   (list (grid:cl-cffi tp))))))
+		grid:*array-element-types*)))
 
 (defgeneric maref (object index &optional index2 type)
   (:documentation
@@ -75,14 +75,14 @@
 		     ,(actual-gsl-function-name
 		       `("gsl_" :category :type ,"_get")
 		       'vector tp)))
-		 c-array:*array-element-types*)
+		 grid:*array-element-types*)
 	 (mapcar (lambda (tp)
 		   `(map-name
 		     'maref
 		     ,(actual-gsl-function-name
 		       `("gsl_" :category :type ,"_get")
 		       'matrix tp)))
-		 c-array:*array-element-types*)))
+		 grid:*array-element-types*)))
 
 (defgeneric (setf maref) (value object index &optional index2 type)
   (:documentation
@@ -113,11 +113,11 @@
 		     ,(actual-gsl-function-name
 		       `("gsl_" :category :type ,"_set")
 		       'vector tp)))
-		 c-array:*array-element-types*)
+		 grid:*array-element-types*)
 	 (mapcar (lambda (tp)
 		   `(map-name
 		     '(setf maref)
 		     ,(actual-gsl-function-name
 		       `("gsl_" :category :type ,"_set")
 		       'matrix tp)))
-		 c-array:*array-element-types*)))
+		 grid:*array-element-types*)))

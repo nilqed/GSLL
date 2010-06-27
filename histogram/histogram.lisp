@@ -1,6 +1,6 @@
 ;; The histogram structure
 ;; Liam Healy, Mon Jan  1 2007 - 11:32
-;; Time-stamp: <2009-12-27 09:47:40EST histogram.lisp>
+;; Time-stamp: <2010-06-27 18:13:52EDT histogram.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -30,7 +30,7 @@
   ((number-of-bins sizet))
   "one-dimensional histogram, including bin boundaries and bin contents."
   :initialize-suffix "set_ranges"
-  :initialize-args (((c-pointer ranges) :pointer) ((dim0 ranges) sizet)))
+  :initialize-args (((foreign-pointer ranges) :pointer) ((dim0 ranges) sizet)))
 
 (defmobject histogram2d
     "gsl_histogram2d"
@@ -38,8 +38,8 @@
   "two-dimensional histogram, including bin boundaries and bin contents."
   :initialize-suffix "set_ranges"
   :initialize-args
-  (((c-pointer x-ranges) :pointer) ((dim0 x-ranges) sizet)
-   ((c-pointer y-ranges) :pointer) ((dim0 y-ranges) sizet)))
+  (((foreign-pointer x-ranges) :pointer) ((dim0 x-ranges) sizet)
+   ((foreign-pointer y-ranges) :pointer) ((dim0 y-ranges) sizet)))
 
 ;;; GSL documentation does not state what the return value for the
 ;;; C function for reinitialization means; assumed to be error code.
@@ -79,7 +79,7 @@
   :definition :method
   :return (histogram))
 
-(defmfun c-array:copy-to-destination ((source histogram) (destination histogram))
+(defmfun grid:copy-to-destination ((source histogram) (destination histogram))
   "gsl_histogram_memcpy"
   (((mpointer destination) :pointer) ((mpointer source) :pointer))
   :definition :method
@@ -91,7 +91,7 @@
    an exact copy of the former.
    The two histograms must be of the same size.")
 
-(defmfun c-array:copy-to-destination ((source histogram2d) (destination histogram2d))
+(defmfun grid:copy-to-destination ((source histogram2d) (destination histogram2d))
   "gsl_histogram2d_memcpy"
   (((mpointer destination) :pointer) ((mpointer source) :pointer))
   :definition :method
@@ -103,14 +103,14 @@
    an exact copy of the former.
    The two histograms must be of the same size.")
 
-(defmfun c-array:copy-making-destination ((source histogram))
+(defmfun grid:copy-making-destination ((source histogram))
   "gsl_histogram_clone"
   (((mpointer source) :pointer))
   :definition :method
   :c-return :pointer
   :index copy)
 
-(defmfun c-array:copy-making-destination ((source histogram2d))
+(defmfun grid:copy-making-destination ((source histogram2d))
   "gsl_histogram2d_clone"
   (((mpointer source) :pointer))
   :definition :method

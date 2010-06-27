@@ -1,6 +1,6 @@
 ;; Helpers that define a single GSL function interface
 ;; Liam Healy 2009-01-07 22:02:20EST defmfun-single.lisp
-;; Time-stamp: <2010-04-20 14:42:10EDT defmfun-single.lisp>
+;; Time-stamp: <2010-06-27 18:28:23EDT defmfun-single.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -44,18 +44,9 @@
   quality code walker, but is sufficient for actual usage of defmfun."
   (remove-duplicates
    (mappend (lambda (carg)
-	     (stupid-code-walk-find-variables (c-array:st-symbol carg)))
+	     (stupid-code-walk-find-variables (grid:st-symbol carg)))
 	   c-arguments)
    :from-end t))
-
-#+native
-(defun native-pointer (array-symbols body)
-  "Wrap the body with a form that obtains the native pointer
-   and protects it during execution of the body."
-  (if array-symbols
-      ;; http://www.sbcl.org/manual/Calling-Lisp-From-C.html
-      (c-array:native-pointer-protect array-symbols body)
-      body))
 
 (define-condition obsolete-gsl-version (error)
   ((name :initarg :name :reader name)
@@ -134,16 +125,5 @@
 (defun body-no-optional-arg (name arglist gsl-name c-arguments key-args)
   "Wrap necessary array-handling forms around the expanded unswitched
   body form."
-  #-native
-  (destructuring-bind (&key inputs &allow-other-keys) key-args
-    `(progn
-       ,@(mapcar (lambda (v) `(c-array:copy-cl-to-c ,v))
-		 (intersection
-		  inputs (arglist-plain-and-categories arglist nil)))
-       ,(body-expand name arglist gsl-name c-arguments key-args)))
-  #+native
-  (destructuring-bind (&key inputs outputs &allow-other-keys) key-args
-    (native-pointer
-     (intersection
-      (union inputs outputs) (arglist-plain-and-categories arglist nil))
-     (body-expand name arglist gsl-name c-arguments key-args))))
+  ;; With static-vectors, nothing is now necessary, so this just calls body-expand.
+  (body-expand name arglist gsl-name c-arguments key-args))

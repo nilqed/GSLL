@@ -1,6 +1,6 @@
 ;; Definition of GSL objects and ways to use them.
 ;; Liam Healy, Sun Dec  3 2006 - 10:21
-;; Time-stamp: <2009-12-27 09:50:29EST mobject.lisp>
+;; Time-stamp: <2010-06-27 18:26:32EDT mobject.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -335,12 +335,7 @@
   #-clisp
   form)
 
-;;; Some functions in solve-minimize-fit return a pointer to a GSL
-;;; vector with double-floats.  This function will return a contents
-;;; form suitable for make-marray.  There is no choice but to copy
-;;; over the data even on native implementations; because GSL is doing
-;;; the mallocing, the data are not CL-accessible.
-
+;;; Is this obsolete?  We no longer handle raw pointers.
 (defmethod mpointer ((object #.+foreign-pointer-class+))
   #+clisp (check-type object #.+foreign-pointer-type+)
   object)
@@ -353,7 +348,8 @@
 ;;;; Making objects from existing objects
 ;;;;****************************************************************************
 
-(defmethod c-array:copy-making-destination :around ((object mobject))
+#|
+(defmethod grid:copy-making-destination :around ((object mobject))
   (if (next-method-p)
       ;; The subclass method should only return the malloced
       ;; mpointer (as from a "_clone" function); it will be put into
@@ -370,5 +366,6 @@
       ;; by default.  We can only try to make something from the load form.
       (eval (make-load-form object))))
 
-(defmethod c-array:clone :around ((object mobject))
+(defmethod grid:clone :around ((object mobject))
   (make-instance (class-of object) :mpointer (call-next-method)))
+|#

@@ -1,6 +1,6 @@
 ;; Number types used by GSL functions, and specification conversion
 ;; Liam Healy 2008-12-31 21:06:34EST types.lisp
-;; Time-stamp: <2009-12-27 09:50:28EST types.lisp>
+;; Time-stamp: <2010-06-27 18:03:22EDT types.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -83,11 +83,11 @@
 			 "long-long"))
 		   (concatenate 'string (subseq ut 0 (- (length ut) 9)) "llong")
 		   ut))))
-     c-array:*cstd-integer-types*))
+     grid:*cstd-integer-types*))
    ;; The floating types are associated by order, so it is important that
    ;; order of *fp-type-mapping* and *gsl-splice-fp-types* match,
    ;; though the latter may be longer.
-   (c-array:floating-point-association *gsl-splice-fp-types*))
+   (grid:floating-point-association *gsl-splice-fp-types*))
   "Mapping the C standard types to the GSL splice name.")
 
 (defparameter *blas-splice-fp-types*
@@ -101,7 +101,7 @@
   ;; The floating types are associated by order, so it is important that
   ;; order of *fp-type-mapping* and *blas-splice-fp-types* match,
   ;; though the latter may be longer.
-  (c-array:floating-point-association *blas-splice-fp-types*)
+  (grid:floating-point-association *blas-splice-fp-types*)
   "Mapping the C standard types to the BLAS splice name.")
 
 ;;;;****************************************************************************
@@ -114,8 +114,8 @@
 (defun cl-gsl (cl-type &optional prepend-underscore blas)
   "The GSL splice string from the CL type."
   (let ((string
-	 (c-array:lookup-type
-	  (c-array:lookup-type cl-type c-array:*cstd-cl-type-mapping* t)
+	 (grid:lookup-type
+	  (grid:lookup-type cl-type grid:*cstd-cl-type-mapping* t)
 	  (if blas *cstd-blas-mapping* *cstd-gsl-mapping*))))
     (if (and prepend-underscore (plusp (length string)))
 	(concatenate 'string "_" string)

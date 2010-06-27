@@ -1,6 +1,6 @@
 ;; Linear least squares, or linear regression
 ;; Liam Healy <2008-01-21 12:41:46EST linear-least-squares.lisp>
-;; Time-stamp: <2010-01-17 10:40:22EST linear-least-squares.lisp>
+;; Time-stamp: <2010-06-27 18:13:53EDT linear-least-squares.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -36,15 +36,15 @@
 (defmfun linear-fit
     (x y &optional weight (x-stride 1) (y-stride 1) (weight-stride 1))
   ("gsl_fit_linear" "gsl_fit_wlinear")
-  ((((c-pointer x) :pointer) (x-stride sizet)
-    ((c-pointer y) :pointer) (y-stride sizet)
+  ((((foreign-pointer x) :pointer) (x-stride sizet)
+    ((foreign-pointer y) :pointer) (y-stride sizet)
     ((dim0 x) sizet)
     (c0 (:pointer :double)) (c1 (:pointer :double))
     (cov00 (:pointer :double)) (cov01 (:pointer :double))
     (cov11 (:pointer :double)) (sumsq (:pointer :double)))
-   (((c-pointer x) :pointer) (x-stride sizet)
-    ((c-pointer weight) :pointer) (weight-stride sizet)
-    ((c-pointer y) :pointer) (y-stride sizet)
+   (((foreign-pointer x) :pointer) (x-stride sizet)
+    ((foreign-pointer weight) :pointer) (weight-stride sizet)
+    ((foreign-pointer y) :pointer) (y-stride sizet)
     ((dim0 x) sizet)
     (c0 (:pointer :double)) (c1 (:pointer :double))
     (cov00 (:pointer :double)) (cov01 (:pointer :double))
@@ -85,14 +85,14 @@
 (defmfun multiplier-fit
     (x y &optional weight (x-stride 1) (y-stride 1) (weight-stride 1))
   ("gsl_fit_mul" "gsl_fit_wmul")
-  ((((c-pointer x) :pointer) (x-stride sizet)
-    ((c-pointer y) :pointer) (y-stride sizet)
+  ((((foreign-pointer x) :pointer) (x-stride sizet)
+    ((foreign-pointer y) :pointer) (y-stride sizet)
     ((dim0 x) sizet)
     (c1 (:pointer :double)) (cov11 (:pointer :double))
     (sumsq (:pointer :double)))
-   (((c-pointer x) :pointer) (x-stride sizet)
-    ((c-pointer weight) :pointer) (weight-stride sizet)
-    ((c-pointer y) :pointer) (y-stride sizet)
+   (((foreign-pointer x) :pointer) (x-stride sizet)
+    ((foreign-pointer weight) :pointer) (weight-stride sizet)
+    ((foreign-pointer y) :pointer) (y-stride sizet)
     ((dim0 x) sizet)
     (c1 (:pointer :double)) (cov11 (:pointer :double))
     (sumsq (:pointer :double))))
@@ -202,7 +202,7 @@
   :inputs (model weight observations)
   :outputs (parameters covariance)
   :switch (weight)
-  :return (parameters covariance (c-array:dcref chisq))
+  :return (parameters covariance (grid:dcref chisq))
   :export nil
   :index linear-mfit
   :documentation			; FDL
@@ -247,7 +247,7 @@
   :inputs (model weight observations)
   :outputs (parameters covariance)
   :switch (weight)
-  :return ((c-array:dcref chisq) (scref rank))
+  :return ((grid:dcref chisq) (scref rank))
   :export nil
   :index linear-mfit
   :documentation			; FDL

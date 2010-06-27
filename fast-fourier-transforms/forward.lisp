@@ -1,6 +1,6 @@
 ;; Forward FFT.
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 23:48
-;; Time-stamp: <2009-12-27 09:45:33EST forward.lisp>
+;; Time-stamp: <2010-06-27 18:13:58EDT forward.lisp>
 ;;
 ;; Copyright 2009 Sumant Oemrawsingh, Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -37,7 +37,7 @@
    single-float "gsl_fft_real_float_radix2_transform"
    complex-double-float "gsl_fft_complex_radix2_forward"
    complex-single-float "gsl_fft_complex_float_radix2_forward")
-  (((c-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet))
+  (((foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet))
   :definition :generic
   :element-types :float-complex
   :inputs (vector)
@@ -56,7 +56,7 @@
 		single-float "gsl_fft_real_float_transform"
 		complex-double-float "gsl_fft_complex_forward"
 		complex-single-float "gsl_fft_complex_float_forward")
-  (((c-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
+  (((foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
    ((mpointer wavetable) :pointer) ((mpointer workspace) :pointer))
   :definition :generic
   :element-types :float-complex
@@ -75,7 +75,7 @@
 (defmfun forward-fourier-transform-halfcomplex-radix2
     ((vector vector) &key (stride 1))
   ("gsl_fft_halfcomplex" :type "_radix2_transform")
-  (((c-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet))
+  (((foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet))
   :definition :generic
   :element-types :float
   :inputs (vector)
@@ -92,7 +92,7 @@
      (wavetable (make-fft-wavetable element-type (floor (size vector) stride) t))
      (workspace (make-fft-workspace element-type (floor (size vector) stride))))
   ("gsl_fft_halfcomplex" :type "_transform")
-  (((c-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
+  (((foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
    ((mpointer wavetable) :pointer) ((mpointer workspace) :pointer))
   :definition :generic
   :element-types :float
@@ -111,7 +111,7 @@
 
 (defmfun forward-fourier-transform-dif-radix2 ((vector vector) &key (stride 1))
   ("gsl_fft" :type "_radix2_dif_forward")
-  (((c-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet))
+  (((foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet))
   :definition :generic
   :element-types :complex
   :inputs (vector)

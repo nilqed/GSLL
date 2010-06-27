@@ -1,6 +1,6 @@
 ;; Stepping functions for ODE systems.
 ;; Liam Healy, Mon Sep 24 2007 - 21:33
-;; Time-stamp: <2009-12-27 09:56:54EST stepping.lisp>
+;; Time-stamp: <2010-06-27 18:13:51EDT stepping.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -106,10 +106,10 @@ values):
   (((mpointer stepper) :pointer)
    (time :double)
    (step-size :double)
-   ((c-pointer y) :pointer)
-   ((c-pointer yerr) :pointer)
-   ((c-pointer dydt-in) :pointer)
-   ((c-pointer dydt-out) :pointer)
+   ((foreign-pointer y) :pointer)
+   ((foreign-pointer yerr) :pointer)
+   ((foreign-pointer dydt-in) :pointer)
+   ((foreign-pointer dydt-out) :pointer)
    ((callback-struct stepper) :pointer))
   :documentation			; FDL
   "Apply the stepping function stepper to the system of equations

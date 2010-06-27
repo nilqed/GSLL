@@ -1,6 +1,6 @@
 ;; Macros to interface GSL functions, including definitions necessary for defmfun.
 ;; Liam Healy 
-;; Time-stamp: <2009-12-27 09:50:29EST interface.lisp>
+;; Time-stamp: <2010-06-27 18:03:21EDT interface.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -46,11 +46,11 @@
   `(cffi:mem-aref ,size 'sizet ,index))
 
 (defun wfo-declare (d cbinfo)
-  `(,(c-array:st-symbol d)
-     ,@(if (eq (c-array:st-symbol d)
+  `(,(grid:st-symbol d)
+     ,@(if (eq (grid:st-symbol d)
 	       (parse-callback-static cbinfo 'foreign-argument))
 	   `(',(parse-callback-static cbinfo 'callback-fnstruct))
-	   `(',(c-array:st-actual-type d)))))
+	   `(',(grid:st-actual-type d)))))
 
 ;;;;****************************************************************************
 ;;;; Checking results from GSL functions
@@ -87,10 +87,10 @@
 (defun cl-argument-types (cl-arguments c-arguments-types)
   "Create CL argument and types from the C arguments."
   (loop for sd in c-arguments-types
-	for cl-type = (c-array:cffi-cl (c-array:st-type sd))
+	for cl-type = (grid:cffi-cl (grid:st-type sd))
 	append
-	(when (and cl-type (member (c-array:st-symbol sd) (cl-symbols cl-arguments)))
-	  (list (list (c-array:st-symbol sd) cl-type)))))
+	(when (and cl-type (member (grid:st-symbol sd) (cl-symbols cl-arguments)))
+	  (list (list (grid:st-symbol sd) cl-type)))))
 
 (defun declaration-form (cl-argument-types &optional ignores specials)
   (cons 'declare

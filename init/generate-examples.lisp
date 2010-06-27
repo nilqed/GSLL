@@ -1,6 +1,6 @@
 ;; Define examples.
 ;; Liam Healy 2008-09-07 21:00:48EDT generate-tests.lisp
-;; Time-stamp: <2009-12-27 09:50:30EST generate-examples.lisp>
+;; Time-stamp: <2010-06-27 18:03:19EDT generate-examples.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -95,7 +95,7 @@
    length using the pool data for the type and starting at the
    specified point in the pool."
   (mapcar
-   (lambda (num) (coerce num (c-array:component-float-type type)))
+   (lambda (num) (coerce num (grid:component-float-type type)))
    (subseq
     (cond ((subtypep type 'unsigned-byte) *unsigned-byte-pool*)
 	  ((subtypep type 'signed-byte) *signed-byte-pool*)
@@ -142,7 +142,7 @@
 	  (if float-type
 	      (first
 	       (make-list-from-pool
-		(c-array:component-float-type default-element-type) 1 starting-element))
+		(grid:component-float-type default-element-type) 1 starting-element))
 	      (apply
 	       #'complex
 	       (make-list-from-pool default-element-type 1 starting-element)))
@@ -163,7 +163,7 @@
 		  form))))
 
 (defun generate-all-array-tests-body (element-types test)
-  (loop for det in (c-array:element-types element-types)
+  (loop for det in (grid:element-types element-types)
      collect
      (let ((default-element-type det))
        (declare (special default-element-type starting-element))

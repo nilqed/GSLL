@@ -1,6 +1,6 @@
 ;; Mathieu functions
 ;; Liam Healy 2009-02-16 16:30:59EST mathieu.lisp
-;; Time-stamp: <2009-12-27 10:10:01EST mathieu.lisp>
+;; Time-stamp: <2010-06-27 18:13:47EDT mathieu.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -59,7 +59,7 @@
        &aux (size (vdf-size size-or-array)) (result-array (vdf size)))
   "gsl_sf_mathieu_a_array"
   ((minimum-order :int) ((+ minimum-order size) :int) (q :double)
-   ((mpointer workspace) :pointer) ((c-pointer result-array) :pointer))
+   ((mpointer workspace) :pointer) ((foreign-pointer result-array) :pointer))
   :gsl-version (1 9)
   :outputs (result-array)
   :return (result-array)
@@ -78,7 +78,7 @@
        &aux (size (vdf-size size-or-array)) (result-array (vdf size)))
   "gsl_sf_mathieu_b_array"
   ((minimum-order :int) ((+ minimum-order size) :int) (q :double)
-   ((mpointer workspace) :pointer) ((c-pointer result-array) :pointer))
+   ((mpointer workspace) :pointer) ((foreign-pointer result-array) :pointer))
   :gsl-version (1 9)
   :outputs (result-array)
   :return (result-array)
@@ -116,7 +116,7 @@
   "gsl_sf_mathieu_ce_array"
   ((minimum-order :int) ((+ minimum-order size) :int)
    (q :double) (x :double)
-   ((mpointer workspace) :pointer) ((c-pointer result-array) :pointer))
+   ((mpointer workspace) :pointer) ((foreign-pointer result-array) :pointer))
   :gsl-version (1 9)
   :outputs (result-array)
   :return (result-array)
@@ -136,7 +136,7 @@
   "gsl_sf_mathieu_se_array"
   ((minimum-order :int) ((+ minimum-order size) :int)
    (q :double) (x :double)
-   ((mpointer workspace) :pointer) ((c-pointer result-array) :pointer))
+   ((mpointer workspace) :pointer) ((foreign-pointer result-array) :pointer))
   :gsl-version (1 9)
   :outputs (result-array)
   :return (result-array)
@@ -182,7 +182,7 @@
   "gsl_sf_mathieu_Mc_array"
   ((j :int) (minimum-order :int) ((+ minimum-order size) :int)
    (q :double) (x :double)
-   ((mpointer workspace) :pointer) ((c-pointer result-array) :pointer))
+   ((mpointer workspace) :pointer) ((foreign-pointer result-array) :pointer))
   :gsl-version (1 9)
   :outputs (result-array)
   :return (result-array)
@@ -202,7 +202,7 @@
   "gsl_sf_mathieu_Ms_array"
   ((j :int) (minimum-order :int) ((+ minimum-order size) :int)
    (q :double) (x :double)
-   ((mpointer workspace) :pointer) ((c-pointer result-array) :pointer))
+   ((mpointer workspace) :pointer) ((foreign-pointer result-array) :pointer))
   :gsl-version (1 9)
   :outputs (result-array)
   :return (result-array)

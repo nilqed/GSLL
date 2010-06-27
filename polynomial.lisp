@@ -1,6 +1,6 @@
 ;; Polynomials
 ;; Liam Healy, Tue Mar 21 2006 - 18:33
-;; Time-stamp: <2009-12-27 10:00:04EST polynomial.lisp>
+;; Time-stamp: <2010-06-27 18:14:53EDT polynomial.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -29,10 +29,10 @@
 (defmfun evaluate
     ((coefficients vector-double-float) (x float) &key divided-difference)
   ("gsl_poly_eval" "gsl_poly_dd_eval")
-  ((((c-pointer coefficients) :pointer) ((dim0 coefficients) sizet)
+  ((((foreign-pointer coefficients) :pointer) ((dim0 coefficients) sizet)
     (x :double))
-   (((c-pointer divided-difference) :pointer)
-    ((c-pointer coefficients) :pointer)
+   (((foreign-pointer divided-difference) :pointer)
+    ((foreign-pointer coefficients) :pointer)
     ((dim0 coefficients) sizet)
     (x :double)))
   :definition :method
@@ -46,12 +46,12 @@
     ((coefficients vector-double-float) (x complex)
      &key)
   "gsl_poly_complex_eval"
-  (((c-pointer coefficients) :pointer) ((dim0 coefficients) sizet)
-   (x c-array:complex-double-c))
+  (((foreign-pointer coefficients) :pointer) ((dim0 coefficients) sizet)
+   (x grid:complex-double-c))
   :definition :method
   :gsl-version (1 11)
   :inputs (coefficients)
-  :c-return c-array:complex-double-c
+  :c-return grid:complex-double-c
   :documentation			; FDL
   "Evaluate the polyonomial with coefficients at the complex value x.")
 
@@ -60,12 +60,12 @@
     ((coefficients vector-complex-double-float) (x complex)
      &key)
   "gsl_complex_poly_complex_eval"
-  (((c-pointer coefficients) :pointer) ((dim0 coefficients) sizet)
-   (x c-array:complex-double-c))
+  (((foreign-pointer coefficients) :pointer) ((dim0 coefficients) sizet)
+   (x grid:complex-double-c))
   :definition :method
   :gsl-version (1 11)
   :inputs (coefficients)
-  :c-return c-array:complex-double-c
+  :c-return grid:complex-double-c
   :documentation			; FDL
   "Evaluate the polyonomial with coefficients at the complex value x.")
 
@@ -76,8 +76,8 @@
 (defmfun divided-difference
     (xa ya &optional (dd (make-marray 'double-float :dimensions (dim0 xa))))
   "gsl_poly_dd_init"
-  (((c-pointer dd) :pointer)
-   ((c-pointer xa) :pointer) ((c-pointer ya) :pointer)
+  (((foreign-pointer dd) :pointer)
+   ((foreign-pointer xa) :pointer) ((foreign-pointer ya) :pointer)
    ((dim0 xa) sizet))
   :inputs (xa ya)
   :outputs (dd)
@@ -95,12 +95,12 @@
 	(coefficients (make-marray 'double-float :dimensions (dim0 xa)))
 	(workspace (make-marray 'double-float :dimensions (dim0 xa))))
   "gsl_poly_dd_taylor"
-  (((c-pointer coefficients) :pointer)
+  (((foreign-pointer coefficients) :pointer)
    (xp :double)
-   ((c-pointer dd) :pointer)
-   ((c-pointer xa) :pointer)
+   ((foreign-pointer dd) :pointer)
+   ((foreign-pointer xa) :pointer)
    ((dim0 xa) sizet)
-   ((c-pointer workspace) :pointer))
+   ((foreign-pointer workspace) :pointer))
   :inputs (dd xa)
   :outputs (coefficients)
   :documentation			; FDL
@@ -128,7 +128,7 @@
 (defmfun solve-quadratic-complex (a b c)
   "gsl_poly_complex_solve_quadratic"
   ((a :double) (b :double) (c :double)
-   (root1 (:pointer c-array:complex-double-c)) (root2 (:pointer c-array:complex-double-c)))
+   (root1 (:pointer grid:complex-double-c)) (root2 (:pointer grid:complex-double-c)))
   :c-return :number-of-answers
   :documentation			; FDL
   "The complex roots of the quadratic equation a x^2 + b x + c = 0.
@@ -154,8 +154,8 @@
 (defmfun solve-cubic-complex (a b c)
   "gsl_poly_complex_solve_cubic"
   ((a :double) (b :double) (c :double)
-   (root1 (:pointer c-array:complex-double-c)) (root2 (:pointer c-array:complex-double-c))
-   (root3 (:pointer c-array:complex-double-c)))
+   (root1 (:pointer grid:complex-double-c)) (root2 (:pointer grid:complex-double-c))
+   (root3 (:pointer grid:complex-double-c)))
   :c-return :number-of-answers
   :documentation			; FDL
   "Find the complex roots of the cubic equation, x^3 + a x^2 + b x + c = 0
@@ -177,8 +177,8 @@
 			  :dimensions (1- (size coefficients))))
      (workspace (make-polynomial-complex-workspace (size coefficients))))
   "gsl_poly_complex_solve"
-  (((c-pointer coefficients) :pointer) ((dim0 coefficients) sizet)
-   ((mpointer workspace) :pointer) ((c-pointer answer) :pointer))
+  (((foreign-pointer coefficients) :pointer) ((dim0 coefficients) sizet)
+   ((mpointer workspace) :pointer) ((foreign-pointer answer) :pointer))
   :inputs (coefficients)
   :outputs (answer)
   :return (answer)

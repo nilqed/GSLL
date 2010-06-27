@@ -113,7 +113,7 @@ combination for which the following are supported:</p>
 </li>
 <li><a href="http://www.cliki.net/trivial-garbage">trivial-garbage</a>
 <li><a href="http://repo.or.cz/w/gsd.git">GSD</a>, the <i>Grid Structured Data</i>; in particular,
-  the <code>c-array</code> and <code>grid</code> systems</li>
+  the <code>foreign-array</code> and <code>grid</code> systems</li>
 <li><a href="http://common-lisp.net/project/cl-utilities/">cl-utilities</a>
 </li>
 <li><a href="http://www.cliki.net/asdf">ASDF</a></li>
@@ -161,7 +161,7 @@ can be used to browse or retrieve a compressed tarball (click the most
 recent "snapshot" link).
 You will need to make a link
   of <code>gsll.asd</code>, <code>grid.asd</code>,
-  <code>c-array.asd</code>, and
+  <code>foreign-array.asd</code>, and
   optionally <code>gsll-tests.asd</code> and
   <code>fsbv.asd</code>
   to some directory known to ASDF.
@@ -283,7 +283,7 @@ GSLL has many functions that work on vectors (one-dimensional arrays)
 and matrices (two-dimensional arrays).  GSLL supports all array
 element types that are supported by CFFI, the CL implementation,
 GSL, and the platform.  This list is available in the
-variable <code>c-array:*array-element-types*</code>.  On implementations that
+variable <code>grid:*array-element-types*</code>.  On implementations that
 support it (currently only SBCL), the contents are directly available
 to the GSL functions without copying between the Lisp area and the C
 area of memory.</p>
@@ -472,7 +472,7 @@ and arrays used internally or for function return.
 <!-- Created: Feb 25 2005 -->
 <!-- hhmts start -->
 <small>
-Time-stamp: <2010-06-08 12:58:19EDT index.html>
+Time-stamp: <2010-06-27 18:05:50EDT index.html>
 </small>
 <!-- hhmts end -->
  </div>

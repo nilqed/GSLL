@@ -1,6 +1,6 @@
 ;; Vectors
 ;; Liam Healy 2008-04-13 09:39:02EDT vector.lisp
-;; Time-stamp: <2010-06-26 19:16:43EDT vector.lisp>
+;; Time-stamp: <2010-06-27 18:03:25EDT vector.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -32,7 +32,7 @@
   (loop for i below (cffi:foreign-slot-value pointer struct-type 'size)
      collect (maref pointer i nil element-type)))
 
-(defmethod c-array:copy-to-destination
+(defmethod grid:copy-to-destination
     ((object mvector) (pointer #.+foreign-pointer-class+))
   (foreign-pointer-method
    pointer

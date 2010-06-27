@@ -1,6 +1,6 @@
 ;; Permutations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2009-12-27 09:42:03EST permutation.lisp>
+;; Time-stamp: <2010-06-27 18:14:06EDT permutation.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -27,7 +27,7 @@
 ;;;; Permutation structure and CL object
 ;;;;****************************************************************************
    
-(defclass permutation (mobject c-array:foreign-array)
+(defclass permutation (mobject grid:foreign-array)
   ((element-type
     :initform
     #+int64 '(unsigned-byte 64)
@@ -41,7 +41,7 @@
     (setf (slot-value object 'mpointer)
 	  mptr
 	  (cffi:foreign-slot-value mptr 'gsl-permutation-c 'data)
-	  (c-pointer object)
+	  (foreign-pointer object)
 	  (cffi:foreign-slot-value mptr 'gsl-permutation-c 'size)
 	  dimensions)
     (tg:finalize object (lambda () (cffi:foreign-free mptr)))))
@@ -77,7 +77,7 @@
   "Initialize the permutation p to the identity, i.e.
    (0,1,2,...,n-1).")
 
-(defmfun c-array:copy-to-destination ((source permutation) (destination permutation))
+(defmfun grid:copy-to-destination ((source permutation) (destination permutation))
   "gsl_permutation_memcpy"
   (((mpointer destination) :pointer)
    ((mpointer source) :pointer))

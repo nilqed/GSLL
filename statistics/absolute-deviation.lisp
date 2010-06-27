@@ -1,6 +1,6 @@
 ;; Absolute deviation
 ;; Liam Healy, Sun Dec 31 2006 - 13:19
-;; Time-stamp: <2009-12-27 10:11:29EST absolute-deviation.lisp>
+;; Time-stamp: <2010-06-27 18:14:02EDT absolute-deviation.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -26,8 +26,8 @@
 (defmfun absolute-deviation ((data vector) &optional mean)
   (("gsl_stats" :type "_absdev")
    ("gsl_stats" :type "_absdev_m"))
-  ((((c-pointer data) :pointer) (1 :int) ((dim0 data) sizet))
-   (((c-pointer data) :pointer) (1 :int) ((dim0 data) sizet)
+  ((((foreign-pointer data) :pointer) (1 :int) ((dim0 data) sizet))
+   (((foreign-pointer data) :pointer) (1 :int) ((dim0 data) sizet)
     (mean :double)))
   :definition :generic
   :element-types :no-complex
@@ -48,11 +48,11 @@
 (defmfun weighted-absolute-deviation ((data vector) (weights vector) &optional mean)
   (("gsl_stats" :type "_wabsdev")
    ("gsl_stats" :type "_wabsdev_m"))
-  ((((c-pointer weights) :pointer) (1 :int)
-    ((c-pointer data) :pointer) (1 :int)
+  ((((foreign-pointer weights) :pointer) (1 :int)
+    ((foreign-pointer data) :pointer) (1 :int)
     ((dim0 data) sizet))
-   (((c-pointer weights) :pointer) (1 :int)
-    ((c-pointer data) :pointer) (1 :int)
+   (((foreign-pointer weights) :pointer) (1 :int)
+    ((foreign-pointer data) :pointer) (1 :int)
     ((dim0 data) sizet) (mean :double)))
   :definition :generic
   :element-types :float

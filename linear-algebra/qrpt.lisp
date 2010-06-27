@@ -1,6 +1,6 @@
 ;; QR with column pivoting
 ;; Liam Healy, Fri Apr 28 2006 - 16:53
-;; Time-stamp: <2009-12-27 09:54:58EST qrpt.lisp>
+;; Time-stamp: <2010-06-27 18:27:59EDT qrpt.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -183,7 +183,7 @@
 		   'double-float :dimensions (dimensions qr)
 		   ;; It shouldn't be necessary to initialize values
 		   ;; because we are going to setf every row,
-		   ;; but it is for #-native.  See Sat Dec 26 2009.
+		   ;; Sat Dec 26 2009.
 		   :initial-element 0)))
 	(dotimes (i (dim0 qr) ans)
 	  (setf (row ans i) (permute-inverse permutation (row qr i))))))))

@@ -1,6 +1,6 @@
 ;; Shuffling and sampling
 ;; Liam Healy, Sat Dec  2 2006 - 18:40
-;; Time-stamp: <2010-01-17 10:33:13EST shuffling-sampling.lisp>
+;; Time-stamp: <2010-06-27 18:13:45EDT shuffling-sampling.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -27,7 +27,7 @@
      &key base)
   "gsl_ran_shuffle"
   (((mpointer generator) :pointer)
-   ((c-pointer base) :pointer) ((dim0 base) sizet) ((c-array:element-size base) sizet))
+   ((foreign-pointer base) :pointer) ((dim0 base) sizet) ((grid:element-size base) sizet))
   :definition :method
   :inputs (base)
   :outputs (base)
@@ -50,8 +50,8 @@
 	  dest)))
   "gsl_ran_choose"
   (((mpointer generator) :pointer)
-   ((c-pointer destarr) :pointer) ((dim0 destarr) sizet)
-   ((c-pointer src) :pointer) ((dim0 src) sizet) ((c-array:element-size src) sizet))
+   ((foreign-pointer destarr) :pointer) ((dim0 destarr) sizet)
+   ((foreign-pointer src) :pointer) ((dim0 src) sizet) ((grid:element-size src) sizet))
   :definition :method
   :inputs (src)
   :outputs (destarr)
@@ -78,8 +78,8 @@
 	  dest)))
   "gsl_ran_sample"
   (((mpointer generator) :pointer)
-   ((c-pointer destarr) :pointer) ((dim0 destarr) sizet)
-   ((c-pointer src) :pointer) ((dim0 src) sizet) ((c-array:element-size src) sizet))
+   ((foreign-pointer destarr) :pointer) ((dim0 destarr) sizet)
+   ((foreign-pointer src) :pointer) ((dim0 src) sizet) ((grid:element-size src) sizet))
   :definition :method
   :inputs (src)
   :outputs (destarr)

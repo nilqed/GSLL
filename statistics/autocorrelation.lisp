@@ -1,6 +1,6 @@
 ;; Autocorrelation
 ;; Liam Healy, Sun Dec 31 2006 - 13:19
-;; Time-stamp: <2009-12-27 10:11:28EST autocorrelation.lisp>
+;; Time-stamp: <2010-06-27 18:14:03EDT autocorrelation.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -26,8 +26,8 @@
 (defmfun autocorrelation ((data vector) &optional mean)
   (("gsl_stats" :type "_lag1_autocorrelation")
    ("gsl_stats" :type "_lag1_autocorrelation_m"))
-  ((((c-pointer data) :pointer) (1 :int) ((dim0 data) sizet))
-   (((c-pointer data) :pointer) (1 :int) ((dim0 data) sizet)
+  ((((foreign-pointer data) :pointer) (1 :int) ((dim0 data) sizet))
+   (((foreign-pointer data) :pointer) (1 :int) ((dim0 data) sizet)
     (mean :double)))
   :definition :generic
   :element-types :no-complex

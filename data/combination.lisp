@@ -1,6 +1,6 @@
 ;; Combinations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2009-12-27 09:42:06EST combination.lisp>
+;; Time-stamp: <2010-06-27 18:14:05EDT combination.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -26,7 +26,7 @@
 ;;;; Combination structure and CL object
 ;;;;****************************************************************************
 
-(defclass combination (mobject c-array:foreign-array)
+(defclass combination (mobject grid:foreign-array)
   ((element-type
     :initform
     #+int64 '(unsigned-byte 64)
@@ -42,7 +42,7 @@
     (setf (slot-value object 'mpointer)
 	  mptr
 	  (cffi:foreign-slot-value mptr 'gsl-combination-c 'data)
-	  (c-pointer object)
+	  (foreign-pointer object)
 	  (cffi:foreign-slot-value mptr 'gsl-combination-c 'choice-of)
 	  choice-of
 	  (cffi:foreign-slot-value mptr 'gsl-combination-c 'size)
@@ -89,7 +89,7 @@
   "Initialize the combination c to the lexicographically
    last combination, i.e. (n-k,n-k+1,...,n-1).")
 
-(defmfun c-array:copy-to-destination ((source combination) (destination combination))
+(defmfun grid:copy-to-destination ((source combination) (destination combination))
   "gsl_combination_memcpy"
   (((mpointer destination) :pointer)
    ((mpointer source) :pointer))
