@@ -1,6 +1,6 @@
-;; A "marray" is an array in both GSL and CL
+;; A grid:foreign-array with added metadata for GSL.
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2010-06-26 23:04:25EDT marray.lisp>
+;; Time-stamp: <2010-06-27 08:48:58EDT foreign-array.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -21,10 +21,8 @@
 (in-package :gsl)
 
 ;;;;****************************************************************************
-;;;; The class marray and its construction
+;;;; Make the mpointer, block-pointer, total-size metadata
 ;;;;****************************************************************************
-
-;;; Slots were mpointer, block-pointer, total-size
 
 ;;; We don't allocate or free the C array data, because that is
 ;;; handled by grid:foreign-array.  We can use the GSL functions
@@ -37,13 +35,16 @@
   `(getf (foreign-metadata ,object) ,name))
 
 (defun make-gsl-metadata (object)
-  ;; Need to check that all allocations succeeded.
-  ;; Don't do anything if mpointer has been assigned,
-  ;; or this is a permutation or combination (they have their own methods).
+  "Make the necessary GSL metadata (mpointer and block-pointer)
+   for the given foreign array, and return the mpointer.
+   This should only be called by #'mpointer the first time
+   it is called on a particular foreign-array."
+  ;; Don't do anything if mpointer has already been assigned.
   (unless (metadata-slot object 'mpointer)
     (when (zerop (total-size object))
       (error "Object ~a has zero total dimension." object))
-    (let* ((blockptr (cffi:foreign-alloc 'gsl-block-c))
+    (let* ((blockptr (cffi:foreign-alloc 'gsl-block-c)) ; check this result
+	   ;; it is not clear what foreign-alloc does if the alloc fails.
 	   (array-struct (alloc-from-block object blockptr)))
       (setf (cffi:foreign-slot-value blockptr 'gsl-block-c 'size)
 	    (grid:total-size object)
@@ -60,11 +61,13 @@
       (tg:finalize object
 		   (lambda ()
 		     (cffi:foreign-free blockptr)
-		     (cffi:foreign-free array-struct))))))
+		     (cffi:foreign-free array-struct))))
+    (metadata-slot object 'mpointer)))
 
 (defmethod mpointer ((object grid:foreign-array))
-  (metadata-slot object 'mpointer)
-  (make-gsl-metadata object))
+  (or 
+   (metadata-slot object 'mpointer)
+   (make-gsl-metadata object)))
 
 ;;;;****************************************************************************
 ;;;; Make data from either the dimensions provided or from the initial values
@@ -86,7 +89,7 @@
      keys)))
 
 ;;;;****************************************************************************
-;;;; Copy to and from bare mpointers 
+;;;; Make from GSL mpointers 
 ;;;;****************************************************************************
 
 ;; Some functions in solve-minimize-fit return a pointer to a GSL
@@ -95,6 +98,28 @@
 ;; data even on native implementations; because GSL is doing the
 ;; mallocing, the data are not CL-accessible.
 
+(defun make-foreign-array-from-mpointer
+    (mpointer &optional (element-type 'double-float) (category :vector))
+  "Make the foreign array when a GSL pointer to a
+   gsl-vector-c or gsl-matrix-c is given."
+  (let* ((cstruct
+	  (case category
+	    (:vector 'gsl-vector-c)
+	    (:matrix 'gsl-matrix-c)
+	    (t (error "Unrecognized category ~a" category))))
+	 (c-pointer (cffi:foreign-slot-value mpointer cstruct 'data)))
+    (grid:make-grid
+     (case category
+       (:vector
+	`((foreign-array ,(cffi:foreign-slot-value mpointer cstruct size))
+	  ,element-type))
+       (:matrix
+	`((foreign-array
+	   ,(cffi:foreign-slot-value mpointer cstruct size0)
+	   ,(cffi:foreign-slot-value mpointer cstruct size1)))
+	,element-type))
+     :foreign-pointer c-pointer
+     :foreign-metadata mpointer)))
 
 ;;;;****************************************************************************
 ;;;; Convenient defaulting of defmfun arguments 

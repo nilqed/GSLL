@@ -1,6 +1,6 @@
 ;; Multivariate minimization.
 ;; Liam Healy  <Tue Jan  8 2008 - 21:28>
-;; Time-stamp: <2009-12-27 10:05:32EST minimization-multi.lisp>
+;; Time-stamp: <2010-06-27 08:39:24EDT minimization-multi.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -138,7 +138,7 @@
   :definition :method
   :callback-object minimizer
   :c-return (crtn :pointer)
-  :return ((copy crtn))
+  :return ((make-foreign-array-from-mpointer crtn))
   :documentation			; FDL
   "The current best estimate of the location of the minimum.")
 
@@ -148,7 +148,7 @@
   :definition :method
   :callback-object minimizer
   :c-return (crtn :pointer)
-  :return ((copy crtn))
+  :return ((make-foreign-array-from-mpointer crtn))
   :documentation			; FDL
   "The current best estimate of the location of the minimum.")
 
@@ -180,7 +180,7 @@
   "gsl_multimin_fdfminimizer_gradient"
   (((mpointer minimizer) :pointer))
   :c-return (crtn :pointer)
-  :return ((copy crtn))
+  :return ((make-foreign-array-from-mpointer crtn))
   :documentation			; FDL
   "The current best estimate of the gradient for the minimizer.")
 

@@ -1,6 +1,6 @@
 ;;; Multivariate roots.                
 ;;; Liam Healy 2008-01-12 12:49:08
-;;; Time-stamp: <2009-12-27 10:05:32EST roots-multi.lisp>
+;;; Time-stamp: <2010-06-27 08:44:26EDT roots-multi.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -147,7 +147,7 @@
   :definition :method
   :callback-object solver
   :c-return (crtn :pointer)
-  :return ((copy crtn))
+  :return ((make-foreign-array-from-mpointer crtn))
   :documentation			; FDL
   "The current estimate of the root for the solver.")
 
@@ -157,7 +157,7 @@
   :definition :method
   :callback-object solver
   :c-return (crtn :pointer)
-  :return ((copy crtn))
+  :return ((make-foreign-array-from-mpointer crtn))
   :documentation
   "The current estimate of the root for the solver.")
 
@@ -166,7 +166,7 @@
   (((mpointer solver) :pointer))
   :definition :method
   :c-return (crtn :pointer)
-  :return ((copy crtn))
+  :return ((make-foreign-array-from-mpointer crtn))
   :documentation			; FDL
   "The function value f(x) at the current estimate x of the root for the solver.")
 
@@ -175,7 +175,7 @@
   (((mpointer solver) :pointer))
   :definition :method
   :c-return (crtn :pointer)
-  :return ((copy crtn))
+  :return ((make-foreign-array-from-mpointer crtn))
   :documentation			; FDL
   "The function value f(x) at the current estimate x of the root for the solver.")
 
@@ -184,7 +184,7 @@
   (((mpointer solver) :pointer))
   :definition :method
   :c-return (crtn :pointer)
-  :return ((copy crtn))
+  :return ((make-foreign-array-from-mpointer crtn))
   :documentation			; FDL
   "The last step dx taken by the solver.")
 
@@ -193,7 +193,7 @@
   (((mpointer solver) :pointer))
   :definition :method
   :c-return (crtn :pointer)
-  :return ((copy crtn))
+  :return ((make-foreign-array-from-mpointer crtn))
   :documentation			; FDL
   "The last step dx taken by the solver.")
 
