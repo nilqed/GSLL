@@ -1,6 +1,6 @@
 ;; A "marray" is an array in both GSL and CL
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2010-06-26 19:11:23EDT marray.lisp>
+;; Time-stamp: <2010-06-26 23:04:25EDT marray.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -24,128 +24,70 @@
 ;;;; The class marray and its construction
 ;;;;****************************************************************************
 
-(export 'marray)
-(defclass marray (mobject c-array:foreign-array)
-  ((block-pointer :initarg :block-pointer :reader block-pointer)
-   (total-size :reader size))
-  (:documentation
-   "A superclass for arrays represented in GSL and CL."))
+;;; Slots were mpointer, block-pointer, total-size
 
 ;;; We don't allocate or free the C array data, because that is
-;;; handled by c-array:foreign-array.  We can use the GSL functions
+;;; handled by grid:foreign-array.  We can use the GSL functions
 ;;; *_alloc_from_block because they will allocate only the structure,
 ;;; but we must use CFFI to allocate the block structure; otherwise
 ;;; GSL would try to allocate the C array.  We do not use any of the
 ;;; GSL free functions because they would free the C array data.
 
-(defmethod initialize-instance :after ((object marray) &rest initargs)
-  (declare (ignore initargs)) ; required by &rest arg for c-array:foreign-array?
+(defmacro metadata-slot (object name)
+  `(getf (foreign-metadata ,object) ,name))
+
+(defun make-gsl-metadata (object)
   ;; Need to check that all allocations succeeded.
-  ;; Don't do anything if mpointer has been assigned (shouldn't happen)
+  ;; Don't do anything if mpointer has been assigned,
   ;; or this is a permutation or combination (they have their own methods).
-  (unless (and (slot-boundp object 'mpointer) (mpointer object))
-    (let ((blockptr (cffi:foreign-alloc 'gsl-block-c)))
+  (unless (metadata-slot object 'mpointer)
+    (when (zerop (total-size object))
+      (error "Object ~a has zero total dimension." object))
+    (let* ((blockptr (cffi:foreign-alloc 'gsl-block-c))
+	   (array-struct (alloc-from-block object blockptr)))
       (setf (cffi:foreign-slot-value blockptr 'gsl-block-c 'size)
-	    (size object)
-	    (slot-value object 'block-pointer)
-	    blockptr)
-      (when (zerop (total-size object))
-	(error "Object ~a has zero total dimension." object))
-      (let ((array-struct (alloc-from-block object blockptr)))
-	(setf (slot-value object 'mpointer) array-struct)
-	#-native (set-struct-array-pointer object)
-	(tg:finalize object
-		     (lambda ()
-		       (cffi:foreign-free blockptr)
-		       (cffi:foreign-free array-struct)))))))
+	    (grid:total-size object)
+	    (cffi:foreign-slot-value blockptr 'gsl-block-c 'data)
+	    (foreign-pointer object)
+	    (metadata-slot object 'block-pointer) blockptr
+	    (metadata-slot object 'mpointer) array-struct
+	    ;; alloc-from-block automatically copies over the data pointer
+	    ;; from the block to the vector/matrix; we must do that manually here
+	    (cffi:foreign-slot-value
+	     array-struct
+	     (if (typep object 'matrix) 'gsl-matrix-c 'gsl-vector-c) 'data)
+	    (foreign-pointer object))
+      (tg:finalize object
+		   (lambda ()
+		     (cffi:foreign-free blockptr)
+		     (cffi:foreign-free array-struct))))))
 
-(defun set-struct-array-pointer (object)
-  "Set the pointer in the 'data slot of the foreign structs to be the
-   current c-pointer value.  In non-native implementations this need
-   be called only once when the marray is made.  In native implementations
-   it is called whenever mpointer is requested because of the possibility
-   that a GC moved the pointer."
-  (setf (cffi:foreign-slot-value (block-pointer object) 'gsl-block-c 'data)
-	(c-pointer object)
-	;; alloc-from-block automatically copies over the data pointer
-	;; from the block to the vector/matrix; we must do that manually here
-	(cffi:foreign-slot-value
-	 (slot-value object 'mpointer)
-	 (if (typep object 'matrix) 'gsl-matrix-c 'gsl-vector-c)
-	 'data)
-	(c-pointer object)))
-
-#+native
-(defmethod mpointer ((object marray))
-  "Compute the c-pointer of the array and place it in the GSL struct
-   because the stored version is untrustworthy unless it was computed
-   within the same native-pointer-protect form as this mpointer
-   extraction."
-  (set-struct-array-pointer object)
-  (call-next-method))
+(defmethod mpointer ((object grid:foreign-array))
+  (metadata-slot object 'mpointer)
+  (make-gsl-metadata object))
 
 ;;;;****************************************************************************
 ;;;; Make data from either the dimensions provided or from the initial values
 ;;;;****************************************************************************
 
+;;;;;;; There are >1400 calls to make-marray, write an emulation?
+;;; This should probably be moved/renamed grid:make-foreign-array.
 (export 'make-marray)
 (defun make-marray
-    (class-or-element-type &rest keys &key dimensions initial-contents
+    (element-type &rest keys &key dimensions initial-contents
      &allow-other-keys)
   "Make a GSLL array with the given element type,
-   :dimensions, and :initial-contents, :initial-element or :data.  If
-   the :data argument is supplied, it should be a CL array generated
-   with #'make-ffa."
-  (apply #'make-instance
-	 (if (subtypep class-or-element-type 'marray)
-	     class-or-element-type
-	     (data-class-name
-	      (if
-	       (or
-		(and dimensions (listp dimensions) (eql (length dimensions) 2))
-		(and initial-contents (listp (first initial-contents))))
-	       'matrix 'vector)
-	      class-or-element-type))
-	 keys))
-
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (pushnew 'marray grid:*grid-data-superclasses*))
-
-(defmethod grid:make-grid-data
-    ((type (eql 'marray)) dimensions rest-spec &rest keys
-     &key initial-element initial-contents)
-  (declare (ignorable initial-element initial-contents))
-  (apply #'make-marray (grid:spec-scalar-p rest-spec)
-	 :dimensions dimensions
-	 keys))
+   :dimensions, and :initial-contents, :initial-element or :data."
+  (when (subtypep element-type 'grid:foreign-array)
+    (error "Can't take a class name here anymore, sorry.")
+    (apply
+     'grid:make-grid
+     `((grid:foreign-array ,@dimensions) element-type)
+     keys)))
 
 ;;;;****************************************************************************
 ;;;; Copy to and from bare mpointers 
 ;;;;****************************************************************************
-
-(defgeneric contents-from-pointer (pointer struct-type &optional element-type)
-  (:documentation
-   "Create a contents list from the GSL object of type struct-type
-    referenced by pointer."))
-
-(defmethod c-array:copy-making-destination ((pointer #.+foreign-pointer-class+))
-  (foreign-pointer-method
-   pointer
-   ;; Default assumption when destination isn't given in #'copy is
-   ;; that this should make a vector-double-float.
-   (c-array:copy-to-destination pointer 'vector-double-float)))
-
-(defmethod c-array:copy-to-destination
-    ((pointer #.+foreign-pointer-class+) (class-name symbol))
-  (foreign-pointer-method
-   pointer
-   (make-marray
-    class-name
-    :initial-contents
-    (contents-from-pointer
-     pointer
-     (if (subtypep class-name 'matrix) 'gsl-matrix-c 'gsl-vector-c)
-     (c-array:lookup-type class-name *class-element-type*)))))
 
 ;; Some functions in solve-minimize-fit return a pointer to a GSL
 ;; vector of double-floats.  This function turns that into a
