@@ -1,6 +1,6 @@
 ;; A grid:foreign-array with added metadata for GSL.
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2010-06-27 21:49:36EDT foreign-array.lisp>
+;; Time-stamp: <2010-06-27 22:21:12EDT foreign-array.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -83,7 +83,7 @@
     (error "Can't take a class name here anymore, sorry."))
   (apply
    'grid:make-grid
-   `((grid:foreign-array ,@dimensions) element-type)
+   `((grid:foreign-array ,@dimensions) ,element-type)
    keys))
 
 (defun make-marray-or-default
