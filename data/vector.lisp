@@ -1,6 +1,6 @@
 ;; Vectors
 ;; Liam Healy 2008-04-13 09:39:02EDT vector.lisp
-;; Time-stamp: <2010-06-27 21:09:42EDT vector.lisp>
+;; Time-stamp: <2010-06-28 11:03:32EDT vector.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -21,16 +21,6 @@
 (in-package :gsl)
 
 ;;; /usr/include/gsl/gsl_vector_double.h
-
-;;;;****************************************************************************
-;;;; Vector structure, CL object, and allocation
-;;;;****************************************************************************
-
-(defmethod contents-from-pointer
-    (pointer (struct-type (eql 'gsl-vector-c))
-     &optional (element-type 'double-float))
-  (loop for i below (cffi:foreign-slot-value pointer struct-type 'size)
-     collect (maref pointer i nil element-type)))
 
 ;;;;****************************************************************************
 ;;;; Function definitions

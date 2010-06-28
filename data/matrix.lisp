@@ -1,6 +1,6 @@
 ;; Matrices
 ;; Liam Healy 2008-04-15 21:57:52EDT matrix.lisp
-;; Time-stamp: <2010-06-27 21:27:22EDT matrix.lisp>
+;; Time-stamp: <2010-06-28 11:03:21EDT matrix.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -21,20 +21,6 @@
 (in-package :gsl)
 
 ;;; /usr/include/gsl/gsl_matrix_double.h
-
-;;;;****************************************************************************
-;;;; Matrix structure and CL object
-;;;;****************************************************************************
-
-(defmethod contents-from-pointer
-    (pointer (struct-type (eql 'gsl-matrix-c))
-     &optional (element-type 'double-float))
-  (let ((dim0 (cffi:foreign-slot-value pointer struct-type 'size0))
-	(dim1 (cffi:foreign-slot-value pointer struct-type 'size1)))
-    ;; Copy over from the C side
-    (loop for i below dim0
-       collect (loop for j below dim1
-		  collect (maref pointer i j element-type)))))
 
 ;;;;****************************************************************************
 ;;;; Mathematical
