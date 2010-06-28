@@ -1,6 +1,6 @@
 ;; Matrices
 ;; Liam Healy 2008-04-15 21:57:52EDT matrix.lisp
-;; Time-stamp: <2010-06-27 18:03:26EDT matrix.lisp>
+;; Time-stamp: <2010-06-27 21:27:22EDT matrix.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -35,16 +35,6 @@
     (loop for i below dim0
        collect (loop for j below dim1
 		  collect (maref pointer i j element-type)))))
-
-(defmethod grid:copy-to-destination
-    ((object matrix) (pointer #.+foreign-pointer-class+))
-  (foreign-pointer-method
-   pointer
-   (loop for i below (dim0 object)
-      do (loop for j below (dim1 object)
-	    do
-	    (setf (maref pointer i j (element-type object))
-		  (maref object i j))))))
 
 ;;;;****************************************************************************
 ;;;; Mathematical

@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2010-06-27 17:57:19EDT gsll.asd>
+;; Time-stamp: <2010-06-27 21:22:11EDT gsll.asd>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -70,20 +70,20 @@
 	    ((:file "mathematical")
 	     #+fsbv
 	     (:file "complex")))
-   #+(or)
    (:module data
 	    :depends-on (init)
 	    :components
 	    ((cffi-grovel:grovel-file "array-structs")
-	     (:file "marray" :depends-on ("array-structs"))
-	     (:file "vector" :depends-on ("marray" "array-structs"))
-	     (:file "matrix" :depends-on ("marray" "vector" "array-structs"))
-	     (:file "maref" :depends-on ("marray" "vector" "matrix"))
-	     (:file "both" :depends-on ("marray" "vector" "matrix"))
-	     (:file "copy-cl")
-	     (:file "array-tests" :depends-on ("both"))
-	     (:file "permutation" :depends-on ("marray" "array-structs"))
-	     (:file "combination" :depends-on ("marray" "array-structs"))))
+	     (:file "foreign-array" :depends-on ("array-structs"))
+	     (:file "vector" :depends-on ("foreign-array" "array-structs"))
+	     (:file "matrix" :depends-on ("foreign-array" "vector" "array-structs"))
+	     ;(:file "maref" :depends-on ("foreign-array" "vector" "matrix"))
+	     (:file "both" :depends-on ("foreign-array" "vector" "matrix"))
+	     ;(:file "copy-cl")
+	     ;(:file "array-tests" :depends-on ("both"))
+	     ;(:file "permutation" :depends-on ("foreign-array" "array-structs"))
+	     ;(:file "combination" :depends-on ("foreign-array" "array-structs"))
+	     ))
    #+(or)
    (:file "polynomial" :depends-on (init data))
    #+(or)

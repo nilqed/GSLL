@@ -1,6 +1,6 @@
 ;; Helpers for defining GSL functions on arrays
 ;; Liam Healy 2009-01-07 22:01:16EST defmfun-array.lisp
-;; Time-stamp: <2010-06-27 18:03:21EDT defmfun-array.lisp>
+;; Time-stamp: <2010-06-27 21:11:54EDT defmfun-array.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -164,7 +164,7 @@
 		 (:component-float-type
 		  (grid:number-class (grid:component-float-type element-type)))
 		 (otherwise
-		  (data-class-name
+		  (grid:data-class-name
 		   (if (and (eq (second arg) 'both) replace-both)
 		       replace-both
 		       (second arg))

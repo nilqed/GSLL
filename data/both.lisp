@@ -1,6 +1,6 @@
 ;; Functions for both vectors and matrices.
 ;; Liam Healy 2008-04-26 20:48:44EDT both.lisp
-;; Time-stamp: <2010-06-27 18:03:26EDT both.lisp>
+;; Time-stamp: <2010-06-27 21:31:00EDT both.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -28,7 +28,7 @@
   ("gsl_" :category :type "_alloc_from_block")
   ((blockptr :pointer)
    (0 sizet)				; offset
-   ((size object) sizet)			; number of elements
+   ((total-size object) sizet)		; number of elements
    (1 sizet))				; stride
   :definition :generic
   :c-return :pointer
@@ -68,6 +68,8 @@
   :c-return :void
   :documentation "Set all elements to 0.")
 
+#|
+;;; These will be handled by grid functions/CFFI; do we need to use GSL's routines? 
 (defmfun grid:copy-to-destination
     ((source both) (destination both))
   ("gsl_" :category :type "_memcpy")
@@ -86,6 +88,7 @@
   :inputs (source)
   :outputs (destination)
   :return (destination))
+|#
 
 (defmfun swap ((a both) (b both))
   ("gsl_" :category :type "_swap")
@@ -175,7 +178,7 @@
   :documentation			; FDL
   "Add the scalar complex x to all the elements of array a.")
 
-(defmethod elt+ ((x float) (a marray))
+(defmethod elt+ ((x float) (a foreign-array))
   (elt+ a x))
   
 (defmfun elt- ((a both) (b both))
@@ -190,7 +193,7 @@
   "Subtract the elements of b from the elements of a.
    The two must have the same dimensions.")
 
-(defmethod elt- ((a marray) (x float))
+(defmethod elt- ((a foreign-array) (x float))
   (elt+ a (- x)))
 
 (defmfun elt* ((a vector) (b vector))
@@ -235,7 +238,7 @@
   :outputs (a)
   :return (a))
 
-(defmethod elt/ ((a marray) (x number))
+(defmethod elt/ ((a foreign-array) (x number))
   (elt* a (/ x)))
 
 (defmfun elt* ((a both) (x float))
@@ -262,7 +265,7 @@
   :documentation			; FDL
   "Multiply the elements of a by the scalar complex factor x.")
 
-(defmethod elt* ((x float) (a marray))
+(defmethod elt* ((x float) (a foreign-array))
   (elt* a x))
 
 ;;;;****************************************************************************

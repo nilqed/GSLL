@@ -1,6 +1,6 @@
 ;; A grid:foreign-array with added metadata for GSL.
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2010-06-27 18:27:37EDT foreign-array.lisp>
+;; Time-stamp: <2010-06-27 21:49:36EDT foreign-array.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -32,7 +32,7 @@
 ;;; GSL free functions because they would free the C array data.
 
 (defmacro metadata-slot (object name)
-  `(getf (foreign-metadata ,object) ,name))
+  `(getf (slot-value ,object 'grid:foreign-metadata) ,name))
 
 (defun make-gsl-metadata (object)
   "Make the necessary GSL metadata (mpointer and block-pointer)
@@ -43,26 +43,26 @@
   (unless (metadata-slot object 'mpointer)
     (when (zerop (total-size object))
       (error "Object ~a has zero total dimension." object))
-    (let* ((blockptr (cffi:foreign-alloc 'gsl-block-c)) ; check this result
-	   ;; it is not clear what foreign-alloc does if the alloc fails.
-	   (array-struct (alloc-from-block object blockptr)))
+    (let ((blockptr (cffi:foreign-alloc 'gsl-block-c)))
       (setf (cffi:foreign-slot-value blockptr 'gsl-block-c 'size)
 	    (grid:total-size object)
 	    (cffi:foreign-slot-value blockptr 'gsl-block-c 'data)
 	    (foreign-pointer object)
-	    (metadata-slot object 'block-pointer) blockptr
-	    (metadata-slot object 'mpointer) array-struct
-	    ;; alloc-from-block automatically copies over the data pointer
-	    ;; from the block to the vector/matrix; we must do that manually here
-	    (cffi:foreign-slot-value
-	     array-struct
-	     (if (typep object 'matrix) 'gsl-matrix-c 'gsl-vector-c) 'data)
-	    (foreign-pointer object))
-      (tg:finalize object
-		   (lambda ()
-		     (cffi:foreign-free blockptr)
-		     (cffi:foreign-free array-struct))))
-    (metadata-slot object 'mpointer)))
+	    (metadata-slot object 'block-pointer) blockptr)
+      (let ((array-struct (alloc-from-block object blockptr)))
+	(setf
+	 (metadata-slot object 'mpointer) array-struct
+	 ;; alloc-from-block automatically copies over the data pointer
+	 ;; from the block to the vector/matrix; we must do that manually here
+	 (cffi:foreign-slot-value
+	  array-struct
+	  (if (typep object 'matrix) 'gsl-matrix-c 'gsl-vector-c) 'data)
+	 (foreign-pointer object))
+	(tg:finalize object
+		     (lambda ()
+		       (cffi:foreign-free blockptr)
+		       (cffi:foreign-free array-struct))))
+      (metadata-slot object 'mpointer))))
 
 (defmethod mpointer ((object grid:foreign-array))
   (or 
@@ -76,17 +76,15 @@
 ;;;;;;; There are >1400 calls to make-marray, write an emulation?
 ;;; This should probably be moved/renamed grid:make-foreign-array.
 (export 'make-marray)
-(defun make-marray
-    (element-type &rest keys &key dimensions initial-contents
-     &allow-other-keys)
+(defun make-marray (element-type &rest keys &key dimensions &allow-other-keys)
   "Make a GSLL array with the given element type,
    :dimensions, and :initial-contents, :initial-element or :data."
   (when (subtypep element-type 'grid:foreign-array)
-    (error "Can't take a class name here anymore, sorry.")
-    (apply
-     'grid:make-grid
-     `((grid:foreign-array ,@dimensions) element-type)
-     keys)))
+    (error "Can't take a class name here anymore, sorry."))
+  (apply
+   'grid:make-grid
+   `((grid:foreign-array ,@dimensions) element-type)
+   keys))
 
 (defun make-marray-or-default
     (default dimensions
@@ -122,12 +120,12 @@
     (grid:make-grid
      (case category
        (:vector
-	`((foreign-array ,(cffi:foreign-slot-value mpointer cstruct size))
+	`((foreign-array ,(cffi:foreign-slot-value mpointer cstruct 'size))
 	  ,element-type))
        (:matrix
 	`((foreign-array
-	   ,(cffi:foreign-slot-value mpointer cstruct size0)
-	   ,(cffi:foreign-slot-value mpointer cstruct size1)))
-	,element-type))
+	   ,(cffi:foreign-slot-value mpointer cstruct 'size0)
+	   ,(cffi:foreign-slot-value mpointer cstruct 'size1))
+	  ,element-type)))
      :foreign-pointer foreign-pointer
      :foreign-metadata mpointer)))
