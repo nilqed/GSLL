@@ -1,6 +1,6 @@
 ;; Combinations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2010-06-28 22:39:51EDT combination.lisp>
+;; Time-stamp: <2010-06-29 08:55:43EDT combination.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -62,7 +62,6 @@
 	      'combination
 	      :element-type '(unsigned-byte #+int64 64 #+int32 32)
 	      :choice-of n :dimensions (list k)))))
-    (change-class comb 'combination)
     (when initialize
       (if (typep n 'combination)
 	  (error "not available yet")	; (copy comb n)

@@ -1,6 +1,6 @@
 ;; Permutations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2010-06-28 21:56:26EDT permutation.lisp>
+;; Time-stamp: <2010-06-29 08:53:06EDT permutation.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -54,9 +54,6 @@
 	  'permutation
 	  :element-type '(unsigned-byte #+int64 64 #+int32 32)
 	  :dimensions (if (typep n 'permutation) (dimensions n) (list n)))))
-    ;; It is necessary to change class because the initialize-instance
-    ;; :after method for grid:foreign-array changes to the vector class.
-    (change-class perm 'permutation)
     (when initialize
       (if (typep n 'permutation)
 	  (error "not available yet")	; (copy perm n)
