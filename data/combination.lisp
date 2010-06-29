@@ -1,6 +1,6 @@
 ;; Combinations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2010-06-27 18:14:05EDT combination.lisp>
+;; Time-stamp: <2010-06-28 22:39:51EDT combination.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -26,27 +26,23 @@
 ;;;; Combination structure and CL object
 ;;;;****************************************************************************
 
-(defclass combination (mobject grid:foreign-array)
-  ((element-type
-    :initform
-    #+int64 '(unsigned-byte 64)
-    #+int32 '(unsigned-byte 32)
-    :reader element-type :allocation :class)
-   (choice-of :initarg :choice-of :reader choice-of :type (integer 0)
+(defclass combination 
+    (#+int64 grid:vector-unsigned-byte-64 #+int32 grid:vector-unsigned-byte-32)
+  ((choice-of :initarg :choice-of :reader choice-of :type (integer 0)
 	      :documentation "Maximum possible value; n in the (n k) notation."))
   (:documentation "GSL combinations."))
 
 (defmethod initialize-instance :after
     ((object combination) &key choice-of dimensions &allow-other-keys)
   (let ((mptr (cffi:foreign-alloc 'gsl-combination-c)))
-    (setf (slot-value object 'mpointer)
+    (setf (metadata-slot object 'mpointer)
 	  mptr
 	  (cffi:foreign-slot-value mptr 'gsl-combination-c 'data)
 	  (foreign-pointer object)
 	  (cffi:foreign-slot-value mptr 'gsl-combination-c 'choice-of)
 	  choice-of
 	  (cffi:foreign-slot-value mptr 'gsl-combination-c 'size)
-	  dimensions)
+	  (first dimensions))
     (tg:finalize object (lambda () (cffi:foreign-free mptr)))))
 
 (export 'make-combination)
@@ -59,13 +55,24 @@
   (let ((comb
 	 (if (typep n 'combination)
 	     (make-instance
-	      'combination :choice-of (choice-of n) :dimensions (dimensions k))
-	     (make-instance 'combination :choice-of n :dimensions k))))
+	      'combination
+	      :element-type '(unsigned-byte #+int64 64 #+int32 32)
+	      :choice-of (choice-of n) :dimensions (dimensions k))
+	     (make-instance
+	      'combination
+	      :element-type '(unsigned-byte #+int64 64 #+int32 32)
+	      :choice-of n :dimensions (list k)))))
+    (change-class comb 'combination)
     (when initialize
       (if (typep n 'combination)
-	  (copy comb n)
+	  (error "not available yet")	; (copy comb n)
 	  (init-first comb)))
     comb))
+
+(defmethod print-object ((object combination) stream)
+  (print-unreadable-object (object stream :type t)
+    ;(format stream " choice of ~d " (choice-of object))
+    (princ (grid:contents object) stream)))
 
 ;;;;****************************************************************************
 ;;;; Setting values
