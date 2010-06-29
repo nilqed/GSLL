@@ -1,6 +1,6 @@
 ;; Combinations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2010-06-29 08:55:43EDT combination.lisp>
+;; Time-stamp: <2010-06-29 19:48:55EDT combination.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -95,6 +95,7 @@
   "Initialize the combination c to the lexicographically
    last combination, i.e. (n-k,n-k+1,...,n-1).")
 
+#|
 (defmfun grid:copy-to-destination ((source combination) (destination combination))
   "gsl_combination_memcpy"
   (((mpointer destination) :pointer)
@@ -107,6 +108,7 @@
   :documentation			; FDL
   "Copy the elements of the combination source into the
   combination destination.  The two combinations must have the same size.")
+|#
 
 ;;;;****************************************************************************
 ;;;; Combination properties
@@ -154,28 +156,28 @@
 
 (defmfun combination-next (c)
   "gsl_combination_next" (((mpointer c) :pointer))
-  :c-return :success-failure
+  :c-return (crtn :int)
   :inputs (c)
   :outputs (c)
+  :return ((when (success-failure crtn) c))
   :documentation			; FDL
-  "Advance the combination c to the next combination
-   in lexicographic order and return T and c.  If no further
-   combinations are available it return NIL and c with
-   c unmodified.  Starting with the first combination and
-   repeatedly applying this function will iterate through all possible
+  "Advance the combination c to the next combination in lexicographic
+   order and return c.  If no further combinations are available
+   it returns NIL.  Starting with the first combination and repeatedly
+   applying this function will iterate through all possible
    combinations of a given order.")
 
 (defmfun combination-previous (c)
   "gsl_combination_prev"
   (((mpointer c) :pointer))
-  :c-return :success-failure
+  :c-return (crtn :int)
   :inputs (c)
   :outputs (c)
+  :return ((when (success-failure crtn) c))
   :documentation			; FDL
-  "Step backwards from the combination c to the
-   previous combination in lexicographic order, returning
-   T and c.  If no previous combination is available it returns
-   NIL and c with c unmodified.")
+  "Step backwards from the combination c to the previous combination
+   in lexicographic order, returning c.  If no previous combination is
+   available it returns NIL with c unmodified.")
 
 ;;;;****************************************************************************
 ;;;; Examples and unit test
@@ -188,15 +190,15 @@
    (size comb))
  (let ((comb (make-combination 4 2)))	; init-first, combination-next
    (init-first comb)
-   (loop collect (copy-seq (cl-array comb))
+   (loop collect (grid:contents comb)
 	 while (combination-next comb)))
  (let ((comb (make-combination 4 2)))  ; init-last, combination-previous
    (init-last comb)
-   (loop collect (copy-seq (cl-array comb))
+   (loop collect (grid:contents comb)
 	 while (combination-previous comb)))
  (loop for i from 0 to 4		; combination-next
        append
        (let ((comb (make-combination 4 i)))
 	 (init-first comb)
-	 (loop collect (copy-seq (cl-array comb))
+	 (loop collect (grid:contents comb)
 	       while (combination-next comb)))))

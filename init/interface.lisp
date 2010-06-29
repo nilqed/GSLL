@@ -1,6 +1,6 @@
 ;; Macros to interface GSL functions, including definitions necessary for defmfun.
 ;; Liam Healy 
-;; Time-stamp: <2010-06-27 18:03:21EDT interface.lisp>
+;; Time-stamp: <2010-06-29 19:42:14EDT interface.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -59,7 +59,8 @@
 (defun success-failure (value)
   "If status is either +success+ or +continue+, return T;
    otherwise, return NIL."
-  (member value (list +success+ +continue+)))
+  (when (member value (list +success+ +continue+))
+    t))
 
 (defun success-continue (value)
   "If status is +success+, return T, otherwise return NIL."
