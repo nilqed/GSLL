@@ -1,8 +1,8 @@
 ;; A grid:foreign-array with added metadata for GSL.
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2010-06-27 22:21:12EDT foreign-array.lisp>
+;; Time-stamp: <2010-06-29 21:41:40EDT foreign-array.lisp>
 ;;
-;; Copyright 2008, 2009 Liam M. Healy
+;; Copyright 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -83,7 +83,7 @@
     (error "Can't take a class name here anymore, sorry."))
   (apply
    'grid:make-grid
-   `((grid:foreign-array ,@dimensions) ,element-type)
+   `((grid:foreign-array ,@(alexandria:ensure-list dimensions)) ,element-type)
    keys))
 
 (defun make-marray-or-default
@@ -129,3 +129,5 @@
 	  ,element-type)))
      :foreign-pointer foreign-pointer
      :foreign-metadata mpointer)))
+
+(defun make-foreign-array-from-pointer ())

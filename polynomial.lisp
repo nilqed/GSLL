@@ -1,6 +1,6 @@
 ;; Polynomials
 ;; Liam Healy, Tue Mar 21 2006 - 18:33
-;; Time-stamp: <2010-06-27 18:14:53EDT polynomial.lisp>
+;; Time-stamp: <2010-06-29 20:56:39EDT polynomial.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -27,7 +27,7 @@
 ;;;;****************************************************************************
 
 (defmfun evaluate
-    ((coefficients vector-double-float) (x float) &key divided-difference)
+    ((coefficients grid:vector-double-float) (x float) &key divided-difference)
   ("gsl_poly_eval" "gsl_poly_dd_eval")
   ((((foreign-pointer coefficients) :pointer) ((dim0 coefficients) sizet)
     (x :double))
@@ -43,7 +43,7 @@
 
 #+fsbv
 (defmfun evaluate
-    ((coefficients vector-double-float) (x complex)
+    ((coefficients grid:vector-double-float) (x complex)
      &key)
   "gsl_poly_complex_eval"
   (((foreign-pointer coefficients) :pointer) ((dim0 coefficients) sizet)
@@ -57,7 +57,7 @@
 
 #+fsbv
 (defmfun evaluate
-    ((coefficients vector-complex-double-float) (x complex)
+    ((coefficients grid:vector-complex-double-float) (x complex)
      &key)
   "gsl_complex_poly_complex_eval"
   (((foreign-pointer coefficients) :pointer) ((dim0 coefficients) sizet)

@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2010-06-29 19:26:27EDT gsll.asd>
+;; Time-stamp: <2010-06-29 21:42:42EDT gsll.asd>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -81,11 +81,8 @@
 	     ;(:file "copy-cl")
 	     (:file "array-tests" :depends-on ("both"))
 	     (:file "permutation" :depends-on ("foreign-array" "array-structs"))
-	     (:file "combination" :depends-on ("foreign-array" "array-structs"))
-	     ))
-   #+(or)
+	     (:file "combination" :depends-on ("foreign-array" "array-structs"))))
    (:file "polynomial" :depends-on (init data))
-   #+(or)
    (:module special-functions
 	    :depends-on (init)
 	    :components
@@ -120,9 +117,7 @@
 	     (:file "transport" :depends-on ("return-structures"))
 	     (:file "trigonometry" :depends-on ("return-structures"))
 	     (:file "zeta" :depends-on ("return-structures"))))
-   #+(or)
    (:file "sorting" :depends-on (init data))
-   #+(or)
    (:module linear-algebra
 	    :depends-on (init data special-functions)
 	    :components
@@ -138,7 +133,6 @@
 	     (:file "cholesky")
 	     (:file "diagonal")
 	     (:file "householder")))
-   #+(or)
    (:module eigensystems
 	    :depends-on (init data)
 	    :components
@@ -147,7 +141,6 @@
 	     (:file "nonsymmetric" :depends-on ("eigen-struct"))
 	     (:file "generalized")
 	     (:file "nonsymmetric-generalized")))
-   #+(or)
    (:module fast-fourier-transforms
             :depends-on (init data)
             :components
@@ -160,7 +153,6 @@
              (:file "discrete")
              (:file "extras")
 	     (:file "example")))
-   #+(or)
    (:module random
 	    :depends-on (init data)
 	    :components
@@ -203,7 +195,6 @@
 	     (:file "hypergeometric" :depends-on ("rng-types"))
 	     (:file "logarithmic" :depends-on ("rng-types"))
 	     (:file "shuffling-sampling" :depends-on ("rng-types"))))
-   #+(or)
    (:module statistics
 	    :depends-on (init data)
 	    :components
@@ -214,7 +205,6 @@
 	     (:file "covariance")
 	     ;; minimum and maximum values provided in vector.lisp
 	     (:file "median-percentile")))
-   #+(or)
    (:module histogram
 	    :depends-on (init linear-algebra random)
 	    :components
@@ -224,7 +214,6 @@
 	     (:file "operations" :depends-on ("histogram"))
 	     (:file "probability-distribution" :depends-on ("histogram"))
 	     (:file "ntuple")))
-   #+(or)
    (:module calculus
 	    :depends-on (init data random)
 	    :components
@@ -234,7 +223,6 @@
 	     (cffi-grovel:grovel-file "monte-carlo-structs")
 	     (:file "monte-carlo")
 	     (:file "numerical-differentiation")))
-   #+(or)
    (:module ordinary-differential-equations
 	    :depends-on (init)
 	    :components
@@ -244,7 +232,6 @@
 	     (:file "control")
 	     (:file "evolution")
 	     (:file "ode-example" :depends-on ("ode-system" "stepping"))))
-   #+(or)
    (:module interpolation
 	    :depends-on (init)
 	    :components
@@ -253,17 +240,11 @@
 	     (:file "lookup")
 	     (:file "evaluation")
 	     (:file "spline-example" :depends-on ("types"))))
-   #+(or)
    (:file "chebyshev" :depends-on (init))
-   #+(or)
    (cffi-grovel:grovel-file "series-struct")
-   #+(or)
    (:file "series-acceleration" :depends-on (init "series-struct"))
-   #+(or)
    (:file "wavelet" :depends-on (init data))
-   #+(or)
    (:file "hankel" :depends-on (init data))
-   #+(or)
    (:module solve-minimize-fit
 	    :depends-on (init data random)
 	    :components
@@ -278,7 +259,6 @@
 		    :depends-on ("generic" "solver-struct"))
 	     #+fsbv
 	     (:file "simulated-annealing")))
-   #+(or)
    (:file "basis-splines" :depends-on (init data random))
    (:module physical-constants
 	    :depends-on (init)

@@ -1,8 +1,8 @@
 ;; Generate matrices used in tests of linear algebra functions
 ;; Liam Healy 2009-09-19 18:28:31EDT matrix-generation.lisp
-;; Time-stamp: <2009-12-27 09:54:58EST matrix-generation.lisp>
+;; Time-stamp: <2010-06-29 21:48:06EDT matrix-generation.lisp>
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -38,13 +38,13 @@
    based on a function of the element indices i, j."
   (grid:map-grid
    :source function
-   :destination-gtype `((marray ,(if dim1 2 1)) ,element-type)
+   :destination-gtype `((foreign-array ,(if dim1 2 1)) ,element-type)
    :source-dims (if dim1 (list dim0 dim1) (list dim0))))
 
 (defun constant-matrix
     (constant dim0 &optional (dim1 dim0) (element-type 'double-float))
   (grid:make-grid
-   `((marray ,dim0 ,dim1) ,element-type)
+   `((foreign-array ,dim0 ,dim1) ,element-type)
    :initial-element constant))
 
 ;;;;****************************************************************************
