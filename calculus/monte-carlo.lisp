@@ -1,6 +1,6 @@
 ;; Monte Carlo Integration
 ;; Liam Healy Sat Feb  3 2007 - 17:42
-;; Time-stamp: <2010-06-27 18:13:57EDT monte-carlo.lisp>
+;; Time-stamp: <2010-06-29 22:15:24EDT monte-carlo.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -211,7 +211,7 @@
 (defparameter *mc-lower* #m(0.0d0 0.0d0 0.0d0))
 
 (defparameter *mc-upper*
-  (make-marray 'double-float :initial-contents (list pi pi pi)))
+  (grid:make-foreign-array 'double-float :initial-contents (list pi pi pi)))
 
 (defun random-walk-plain-example (&optional (nsamples 500000))
   (monte-carlo-integrate-plain 'mcrw *mc-lower* *mc-upper* nsamples))

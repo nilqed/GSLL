@@ -1,6 +1,6 @@
-;; Copy marrays to/from CL arrays
+;; Copy grid:foreign-arrays to/from CL arrays
 ;; Liam Healy 2009-02-11 19:28:44EST copy-cl.lisp
-;; Time-stamp: <2010-06-27 18:03:25EDT copy-cl.lisp>
+;; Time-stamp: <2010-06-29 22:51:21EDT copy-cl.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -20,17 +20,17 @@
 
 ;;; The function #'copy can be used to copy the contents to or from a
 ;;; CL array.  If the destination isn't literally supplied, it can be
-;;; a symbol 'array indicating that the marray is to be copied to a CL
+;;; a symbol 'array indicating that the grid:foreign-array is to be copied to a CL
 ;;; array, or an element type like 'double-float, indicating the
-;;; contents of the CL array is to be copied to a new marray with the
+;;; contents of the CL array is to be copied to a new grid:foreign-array with the
 ;;; given element type.
 
 ;;; Contrast this with the function #'cl-array or the initarg
-;;; :cl-array to #'make-marray.  The function returns the cl-array
+;;; :cl-array to #'grid:make-foreign-array.  The function returns the cl-array
 ;;; without copying, and so might be faster but also makes the
-;;; original marray object vulnerable if an element is changed, which
+;;; original grid:foreign-array object vulnerable if an element is changed, which
 ;;; officially has unpredictable results.  Likewise, the initarg will
-;;; use the given CL array directly in the created marray without
+;;; use the given CL array directly in the created grid:foreign-array without
 ;;; copying.
 
 (in-package :gsl)
@@ -68,21 +68,21 @@
 	    (setf (maref destination i j) (aref source i j))))
   destination)
 
-(defmethod grid:copy-to-destination ((source marray) (destclass (eql 'array)))
+(defmethod grid:copy-to-destination ((source grid:foreign-array) (destclass (eql 'array)))
   (let ((destination
 	 (grid:make-ffa (element-type source) :dimensions (dimensions source))))
     (grid:copy-to-destination source destination)))
 
-;;; Copy to a named marray element-type, where the type is a symbol
+;;; Copy to a named grid:foreign-array element-type, where the type is a symbol
 (defmethod grid:copy-to-destination ((source array) (destclass symbol))
   (let ((destination
-	 (make-marray destclass :dimensions (array-dimensions source))))
+	 (grid:make-foreign-array destclass :dimensions (array-dimensions source))))
     (grid:copy-to-destination source destination)))
 
-;;; Copy to a named marray element-type, where the type is a list
+;;; Copy to a named grid:foreign-array element-type, where the type is a list
 (defmethod grid:copy-to-destination ((source array) (destclass list))
   (let ((destination
-	 (make-marray destclass :dimensions (array-dimensions source))))
+	 (grid:make-foreign-array destclass :dimensions (array-dimensions source))))
     (grid:copy-to-destination source destination)))
 
 ;;; Examples and tests

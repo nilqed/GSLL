@@ -1,6 +1,6 @@
 ;; Legendre functions
 ;; Liam Healy, Sat Apr 29 2006 - 19:16
-;; Time-stamp: <2010-06-27 18:13:46EDT legendre.lisp>
+;; Time-stamp: <2010-06-29 22:15:19EDT legendre.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -287,26 +287,26 @@
   (legendre-Pl -4 0.3d0)
   (legendre-Pl 4 3.0d0)
   (legendre-Pl 4 0.3d0)
-  (let ((arr (make-marray 'double-float :dimensions 4)))
+  (let ((arr (grid:make-foreign-array 'double-float :dimensions 4)))
       (legendre-Pl-array 0.5d0 arr)
       (cl-array arr))
   (legendre-Q0 3.3d0)
   (legendre-Q1 3.3d0)
   (legendre-Ql 2 3.3d0)
   (legendre-Plm 4 3 0.5d0)
-  (let ((arr (make-marray 'double-float :dimensions 4)))
+  (let ((arr (grid:make-foreign-array 'double-float :dimensions 4)))
       (legendre-Plm-array 2 0.5d0 arr)
       (cl-array arr))
-  (let ((val (make-marray 'double-float :dimensions 4))
-	(deriv (make-marray 'double-float :dimensions 4)))
+  (let ((val (grid:make-foreign-array 'double-float :dimensions 4))
+	(deriv (grid:make-foreign-array 'double-float :dimensions 4)))
       (legendre-Plm-deriv-array 2 0.5d0 val deriv)
       (cl-array deriv))
   (legendre-sphplm 1200 1100 0.3d0)
-  (let ((arr (make-marray 'double-float :dimensions 4)))
+  (let ((arr (grid:make-foreign-array 'double-float :dimensions 4)))
       (legendre-sphPlm-array 4 0.5d0 arr)
       (cl-array arr))
-  (let ((val (make-marray 'double-float :dimensions 4))
-	   (deriv (make-marray 'double-float :dimensions 4)))
+  (let ((val (grid:make-foreign-array 'double-float :dimensions 4))
+	   (deriv (grid:make-foreign-array 'double-float :dimensions 4)))
 	(legendre-sphPlm-deriv-array 4 0.5d0 val deriv)
 	(cl-array deriv))
   (legendre-conicalp-half 3.5d0 10.0d0)
@@ -318,6 +318,6 @@
   (legendre-h3d-0 1.0d0 0.5d0)
   (legendre-h3d-1 1.0d0 0.5d0)
   (legendre-h3d 4 1.0d0 0.5d0)
-  (let ((arr (make-marray 'double-float :dimensions 4)))
+  (let ((arr (grid:make-foreign-array 'double-float :dimensions 4)))
       (legendre-h3d-array 1.0d0 0.5d0 arr)
       (cl-array arr)))

@@ -26,7 +26,7 @@
                         (MULTIPLE-VALUE-LIST
                          (COPY
                           (APPLY-HANKEL (MAKE-HANKEL 3 1.0d0 1.0d0)
-                                        (MAKE-MARRAY 'DOUBLE-FLOAT
+                                        (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT
                                                      :INITIAL-CONTENTS
                                                      '(1.0d0 2.0d0 3.0d0)))
                           'ARRAY)))
@@ -40,7 +40,7 @@
                             (ELT* (EXPT (BESSEL-ZERO-J1 4) 2)
                                   (APPLY-HANKEL HANK
                                                 (APPLY-HANKEL HANK
-                                                              (MAKE-MARRAY
+                                                              (GRID:MAKE-FOREIGN-ARRAY
                                                                'DOUBLE-FLOAT
                                                                :INITIAL-CONTENTS
                                                                '(1.0d0 2.0d0
@@ -114,7 +114,7 @@
                            0.0013372849617528388d0 6.61923918047693d-4))
                         (MULTIPLE-VALUE-LIST
                          (LET ((HANK (MAKE-HANKEL 128 0.0d0 100.0d0))
-                               (IN (MAKE-MARRAY 'DOUBLE-FLOAT :DIMENSIONS 128)))
+                               (IN (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 128)))
                            (LOOP FOR N FROM 0 BELOW 128 DO
                                  (SETF (MAREF IN N)
                                          (/
@@ -190,7 +190,7 @@
                            1.3342557428046146d-4 6.643887021579182d-5))
                         (MULTIPLE-VALUE-LIST
                          (LET ((HANK (MAKE-HANKEL 128 1.0d0 20.0d0))
-                               (IN (MAKE-MARRAY 'DOUBLE-FLOAT :DIMENSIONS 128)))
+                               (IN (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 128)))
                            (LOOP FOR N FROM 0 BELOW 128 DO
                                  (SETF (MAREF IN N)
                                          (EXP (- (SAMPLE-X-HANKEL HANK N)))))
@@ -263,7 +263,7 @@
                            4.4958390074262106d-10 -2.2378156576350344d-10))
                         (MULTIPLE-VALUE-LIST
                          (LET ((HANK (MAKE-HANKEL 128 1.0d0 1.0d0))
-                               (IN (MAKE-MARRAY 'DOUBLE-FLOAT :DIMENSIONS 128)))
+                               (IN (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 128)))
                            (LOOP FOR N FROM 0 BELOW 128 DO
                                  (SETF (MAREF IN N)
                                          (LET ((X (SAMPLE-X-HANKEL HANK N)))

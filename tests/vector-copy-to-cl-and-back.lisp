@@ -25,7 +25,7 @@
       (CL-ARRAY
        (COPY
 	(COPY
-	 (MAKE-MARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
+	 (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
 		      '(-34.5 8.24 3.29))
 	 'ARRAY)
 	'SINGLE-FLOAT))))
@@ -35,7 +35,7 @@
     (CL-ARRAY
      (COPY
       (COPY
-       (MAKE-MARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
+       (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
 		    '(-34.5d0 8.24d0 3.29d0))
        'ARRAY)
       'DOUBLE-FLOAT))))
@@ -45,7 +45,7 @@
     (CL-ARRAY
      (COPY
       (COPY
-       (MAKE-MARRAY '(COMPLEX SINGLE-FLOAT)
+       (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX SINGLE-FLOAT)
 		    :INITIAL-CONTENTS
 		    '(-34.5 8.24 3.29 -8.93 34.12 -6.15))
        'ARRAY)
@@ -58,7 +58,7 @@
     (CL-ARRAY
      (COPY
       (COPY
-       (MAKE-MARRAY '(COMPLEX DOUBLE-FLOAT)
+       (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX DOUBLE-FLOAT)
 		    :INITIAL-CONTENTS
 		    '(-34.5d0 8.24d0 3.29d0 -8.93d0
 		      34.12d0 -6.15d0))
@@ -69,7 +69,7 @@
 				      (CL-ARRAY
 				       (COPY
 					(COPY
-					 (MAKE-MARRAY
+					 (GRID:MAKE-FOREIGN-ARRAY
 					  '(SIGNED-BYTE 8)
 					  :INITIAL-CONTENTS
 					  '(-64 -68 71))
@@ -81,7 +81,7 @@
 				      (CL-ARRAY
 				       (COPY
 					(COPY
-					 (MAKE-MARRAY
+					 (GRID:MAKE-FOREIGN-ARRAY
 					  '(UNSIGNED-BYTE
 					    8)
 					  :INITIAL-CONTENTS
@@ -94,7 +94,7 @@
 				      (CL-ARRAY
 				       (COPY
 					(COPY
-					 (MAKE-MARRAY
+					 (GRID:MAKE-FOREIGN-ARRAY
 					  '(SIGNED-BYTE
 					    16)
 					  :INITIAL-CONTENTS
@@ -107,7 +107,7 @@
 				      (CL-ARRAY
 				       (COPY
 					(COPY
-					 (MAKE-MARRAY
+					 (GRID:MAKE-FOREIGN-ARRAY
 					  '(UNSIGNED-BYTE
 					    16)
 					  :INITIAL-CONTENTS
@@ -120,7 +120,7 @@
 				      (CL-ARRAY
 				       (COPY
 					(COPY
-					 (MAKE-MARRAY
+					 (GRID:MAKE-FOREIGN-ARRAY
 					  '(SIGNED-BYTE
 					    32)
 					  :INITIAL-CONTENTS
@@ -133,7 +133,7 @@
 				      (CL-ARRAY
 				       (COPY
 					(COPY
-					 (MAKE-MARRAY
+					 (GRID:MAKE-FOREIGN-ARRAY
 					  '(UNSIGNED-BYTE
 					    32)
 					  :INITIAL-CONTENTS
@@ -147,7 +147,7 @@
 				      (CL-ARRAY
 				       (COPY
 					(COPY
-					 (MAKE-MARRAY
+					 (GRID:MAKE-FOREIGN-ARRAY
 					  '(SIGNED-BYTE
 					    64)
 					  :INITIAL-CONTENTS
@@ -161,7 +161,7 @@
 				      (CL-ARRAY
 				       (COPY
 					(COPY
-					 (MAKE-MARRAY
+					 (GRID:MAKE-FOREIGN-ARRAY
 					  '(UNSIGNED-BYTE
 					    64)
 					  :INITIAL-CONTENTS

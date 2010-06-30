@@ -290,12 +290,12 @@ area of memory.</p>
 <p>
   The <a href="http://repo.or.cz/w/gsd.git">GSD</a> suite provides
   many functions for construction, transformation, and composition of
-  GSL marrays.  When using grid functions for this purpose,
+  GSL grid:foreign-arrays.  When using grid functions for this purpose,
   the <code>grid:specification</code> will
-  contain <code>gsl:marray</code> as the type; for example,
+  contain <code>grid:foreign-array</code> as the type; for example,
 </p>
 <pre>
-(grid:make-grid '((gsl:marray 3 3) double-float) :initial-element 0)
+(grid:make-grid '((grid:foreign-array 3 3) double-float) :initial-element 0)
 </pre>
 <p>
   will make a 3x3 <code>matrix-double-float</code>.
@@ -304,7 +304,7 @@ area of memory.</p>
   in that collection.
   </p>
 <p>
- Common Lisp arrays should be created with <code>make-marray</code> or
+ Common Lisp arrays should be created with <code>grid:make-foreign-array</code> or
  <code>#m</code>:
  The #m reader macro in the default form creates a vector or matrix of
  element type double-float, which is the most common type needed for
@@ -348,8 +348,8 @@ area of memory.</p>
  with <code>setf maref</code>.  A complete CL array may
  be extracted with the function <code>#'cl-array</code>.
 </p>
-<p>Copying marrays is performed with the function <code>copy</code>.
-  This works between marrays, pointers, and CL arrays.  It is useful
+<p>Copying grid:foreign-arrays is performed with the function <code>copy</code>.
+  This works between grid:foreign-arrays, pointers, and CL arrays.  It is useful
   for functions intended to be passed to GSL functions (for
   e.g. solving, minimizing or fitting) that need to set a GSL vector
   or matrix, because one can simply copy into the passed-in pointer.
@@ -361,7 +361,7 @@ area of memory.</p>
 <p>If you
   use <a href="http://common-lisp.net/project/iterate/">iterate</a>,
   there are extensions defined that make it easier to iterate over
-  marrays.  These are:
+  grid:foreign-arrays.  These are:
   <ul>
     <li><code>matrix-row</code>, <code>matrix-row-index</code></li>
     <li><code>matrix-column</code>, <code>matrix-column-index</code></li>
@@ -472,7 +472,7 @@ and arrays used internally or for function return.
 <!-- Created: Feb 25 2005 -->
 <!-- hhmts start -->
 <small>
-Time-stamp: <2010-06-27 18:05:50EDT index.html>
+Time-stamp: <2010-06-29 22:51:17EDT index.html>
 </small>
 <!-- hhmts end -->
  </div>

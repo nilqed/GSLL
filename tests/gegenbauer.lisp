@@ -34,7 +34,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST #(1.0d0 6.0d0 35.0d0 204.0d0))
                         (MULTIPLE-VALUE-LIST
-                         (LET ((ARR (MAKE-MARRAY 'DOUBLE-FLOAT :DIMENSIONS 4)))
+                         (LET ((ARR (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 4)))
                            (GEGENBAUER-ARRAY 1.0d0 3.0d0 ARR)
                            (CL-ARRAY ARR)))))
 

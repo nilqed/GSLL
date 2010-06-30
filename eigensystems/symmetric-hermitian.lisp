@@ -1,6 +1,6 @@
 ;; Eigenvectors and eigenvalues
 ;; Liam Healy, Sun May 21 2006 - 19:52
-;; Time-stamp: <2009-12-27 09:43:47EST symmetric-hermitian.lisp>
+;; Time-stamp: <2010-06-29 22:15:24EDT symmetric-hermitian.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -69,7 +69,7 @@
 (defmfun eigenvalues
     ((A matrix)
      &optional
-     (eigenvalues (make-marray element-type :dimensions (dim0 A)))
+     (eigenvalues (grid:make-foreign-array element-type :dimensions (dim0 A)))
      (ws (eltcase complex (make-eigen-herm (dim0 A))
 		  t (make-eigen-symm (dim0 A)))))
   (double-float "gsl_eigen_symm"
@@ -94,8 +94,8 @@
 (defmfun eigenvalues-eigenvectors
     ((A matrix)
      &optional
-     (eigenvalues (make-marray element-type :dimensions (dim0 A)))
-     (eigenvectors (make-marray element-type :dimensions (dimensions A)))
+     (eigenvalues (grid:make-foreign-array element-type :dimensions (dim0 A)))
+     (eigenvectors (grid:make-foreign-array element-type :dimensions (dimensions A)))
      (ws (eltcase complex (make-eigen-hermv (dim0 A))
 		  t (make-eigen-symmv (dim0 A)))))
   (double-float "gsl_eigen_symmv"
@@ -159,8 +159,8 @@
 |#
 
 (defun eigenvalue-eigenvectors-example ()
-  (let ((evecs (make-marray 'double-float :dimensions '(3 3)))
-	(evals (make-marray 'double-float :dimensions 3))
+  (let ((evecs (grid:make-foreign-array 'double-float :dimensions '(3 3)))
+	(evals (grid:make-foreign-array 'double-float :dimensions 3))
 	(mat #m(20.0d0 -10.0d0 0.0d0 ^
 		-10.0d0 30.0d0 0.0d0 ^
 		0.0d0 0.0d0 40.0d0)))

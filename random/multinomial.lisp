@@ -1,6 +1,6 @@
 ;; Multinomial distribution
 ;; Liam Healy, Sat Nov 25 2006 - 16:00
-;; Time-stamp: <2010-06-27 18:13:43EDT multinomial.lisp>
+;; Time-stamp: <2010-06-29 22:15:17EDT multinomial.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -25,7 +25,7 @@
 (defmfun sample
     ((generator random-number-generator) (type (eql :multinomial))
      &key sum probabilities
-     (n (make-marray
+     (n (grid:make-foreign-array
 	 '(signed-byte 32) :dimensions (dim0 probabilities))))
   "gsl_ran_multinomial"
   (((mpointer generator) :pointer) 

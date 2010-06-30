@@ -1,6 +1,6 @@
 ;; Multivariate minimization.
 ;; Liam Healy  <Tue Jan  8 2008 - 21:28>
-;; Time-stamp: <2010-06-27 18:03:17EDT minimization-multi.lisp>
+;; Time-stamp: <2010-06-29 22:49:05EDT minimization-multi.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -54,7 +54,7 @@
    meaning of this parameter depends on the method used."
   :callbacks
   (callback fnstruct-dimension (dimension)
-	    (function :double (:input :double :marray dim0) :slug))
+	    (function :double (:input :double :foreign-array dim0) :slug))
   :initialize-suffix "set"
   :initialize-args ;; Could have one fewer argument: dimension=(dim0 initial)
   ((callback :pointer) ((mpointer initial) :pointer)
@@ -78,14 +78,14 @@
    tol |p| |g|."
   :callbacks
   (callback fnstruct-dimension-fdf (dimension)
-	    (function :double (:input :double :marray dim0) :slug)
+	    (function :double (:input :double :foreign-array dim0) :slug)
 	    (df :void
-		(:input :double :marray dim0) :slug
-		(:output :double :marray dim0))
+		(:input :double :foreign-array dim0) :slug
+		(:output :double :foreign-array dim0))
 	    (fdf :void
-		 (:input :double :marray dim0) :slug
+		 (:input :double :foreign-array dim0) :slug
 		 (:output :double :cvector 1)
-		 (:output :double :marray dim0)))
+		 (:output :double :foreign-array dim0)))
   :initialize-suffix "set"
   :initialize-args
   ((callback :pointer) ((mpointer initial) :pointer)
@@ -367,7 +367,7 @@
 
 (defun multimin-example-no-derivative
     (&optional (method +simplex-nelder-mead-on2+) (print-steps t))
-  (let ((step-size (make-marray 'double-float :dimensions 2)))
+  (let ((step-size (grid:make-foreign-array 'double-float :dimensions 2)))
     (set-all step-size 1.0d0)
     (let ((minimizer
 	   (make-multi-dimensional-minimizer-f

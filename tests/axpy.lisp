@@ -25,11 +25,11 @@
                            235.659 -1932.6083 485.93335))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
+                                (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
                                              '(-34.5 8.24 3.29 -8.93 34.12
                                                -6.15 49.27 -13.49)))
                                (V2
-                                (MAKE-MARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
+                                (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
                                              '(32.5 42.73 -17.24 43.31 -16.12
                                                -8.25 21.44 -49.08)))
                                (SCALAR -39.66))
@@ -41,12 +41,12 @@
                            -1932.6082d0 485.93339999999995d0))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
+                                (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
                                              '(-34.5d0 8.24d0 3.29d0 -8.93d0
                                                34.12d0 -6.15d0 49.27d0
                                                -13.49d0)))
                                (V2
-                                (MAKE-MARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
+                                (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
                                              '(32.5d0 42.73d0 -17.24d0 43.31d0
                                                -16.12d0 -8.25d0 21.44d0
                                                -49.08d0)))
@@ -61,14 +61,14 @@
                            #C(222.45422 1149.8602) #C(-3308.3872 917.76044)))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(COMPLEX SINGLE-FLOAT)
+                                (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX SINGLE-FLOAT)
                                              :INITIAL-CONTENTS
                                              '(-34.5 8.24 3.29 -8.93 34.12
                                                -6.15 49.27 -13.49 32.5 42.73
                                                -17.24 43.31 -16.12 -8.25 21.44
                                                -49.08)))
                                (V2
-                                (MAKE-MARRAY '(COMPLEX SINGLE-FLOAT)
+                                (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX SINGLE-FLOAT)
                                              :INITIAL-CONTENTS
                                              '(32.5 42.73 -17.24 43.31 -16.12
                                                -8.25 21.44 -49.08 -39.66 -49.46
@@ -89,7 +89,7 @@
                            #C(-3308.3871999999997d0 917.7603999999995d0)))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(COMPLEX DOUBLE-FLOAT)
+                                (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX DOUBLE-FLOAT)
                                              :INITIAL-CONTENTS
                                              '(-34.5d0 8.24d0 3.29d0 -8.93d0
                                                34.12d0 -6.15d0 49.27d0 -13.49d0
@@ -97,7 +97,7 @@
                                                -16.12d0 -8.25d0 21.44d0
                                                -49.08d0)))
                                (V2
-                                (MAKE-MARRAY '(COMPLEX DOUBLE-FLOAT)
+                                (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX DOUBLE-FLOAT)
                                              :INITIAL-CONTENTS
                                              '(32.5d0 42.73d0 -17.24d0 43.31d0
                                                -16.12d0 -8.25d0 21.44d0

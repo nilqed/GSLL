@@ -22,7 +22,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST -34.5 49.27)
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((M1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    'SINGLE-FLOAT
                                                                    :INITIAL-CONTENTS
                                                                    '((-34.5
@@ -39,7 +39,7 @@
                         (LIST -34.5d0 49.27d0)
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
-                                (MAKE-MARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
+                                (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
                                              '((-34.5d0 8.24d0 3.29d0)
                                                (-8.93d0 34.12d0 -6.15d0)
                                                (49.27d0 -13.49d0 32.5d0)))))
@@ -47,7 +47,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST -91 123)
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((M1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(SIGNED-BYTE
                                                                      8)
                                                                    :INITIAL-CONTENTS
@@ -61,7 +61,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST 44 215)
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((M1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(UNSIGNED-BYTE
                                                                      8)
                                                                    :INITIAL-CONTENTS
@@ -75,7 +75,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST -91 123)
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((M1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(SIGNED-BYTE
                                                                      16)
                                                                    :INITIAL-CONTENTS
@@ -89,7 +89,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST 44 215)
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((M1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(UNSIGNED-BYTE
                                                                      16)
                                                                    :INITIAL-CONTENTS
@@ -103,7 +103,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST -91 123)
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((M1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(SIGNED-BYTE
                                                                      32)
                                                                    :INITIAL-CONTENTS
@@ -117,7 +117,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST 44 215)
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((M1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(UNSIGNED-BYTE
                                                                      32)
                                                                    :INITIAL-CONTENTS
@@ -132,7 +132,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST -91 123)
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((M1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(SIGNED-BYTE
                                                                      64)
                                                                    :INITIAL-CONTENTS
@@ -147,7 +147,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST 44 215)
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((M1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(UNSIGNED-BYTE
                                                                      64)
                                                                    :INITIAL-CONTENTS

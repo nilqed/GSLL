@@ -23,20 +23,20 @@
                         (LIST #(-47.955 11.4536 4.5731))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
+                                (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
                                              '(-34.5 8.24 3.29))))
                            (CL-ARRAY (ELT* V1 1.39d0)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST #(-47.955d0 11.4536d0 4.5731d0))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
+                                (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
                                              '(-34.5d0 8.24d0 3.29d0))))
                            (CL-ARRAY (ELT* V1 1.39d0)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(-88 -94 98))
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(SIGNED-BYTE
                                                                      8)
                                                                    :INITIAL-CONTENTS
@@ -48,7 +48,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(93 61 6))
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(UNSIGNED-BYTE
                                                                      8)
                                                                    :INITIAL-CONTENTS
@@ -60,7 +60,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(-88 -94 98))
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(SIGNED-BYTE
                                                                      16)
                                                                    :INITIAL-CONTENTS
@@ -72,7 +72,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(93 61 262))
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(UNSIGNED-BYTE
                                                                      16)
                                                                    :INITIAL-CONTENTS
@@ -84,7 +84,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(-88 -94 98))
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(SIGNED-BYTE
                                                                      32)
                                                                    :INITIAL-CONTENTS
@@ -96,7 +96,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(93 61 262))
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(UNSIGNED-BYTE
                                                                      32)
                                                                    :INITIAL-CONTENTS
@@ -108,7 +108,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(-88 -94 98))
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(SIGNED-BYTE
                                                                      64)
                                                                    :INITIAL-CONTENTS
@@ -120,7 +120,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(93 61 262))
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(UNSIGNED-BYTE
                                                                      64)
                                                                    :INITIAL-CONTENTS

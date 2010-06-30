@@ -1,6 +1,6 @@
 ;; Wavelet transforms.
 ;; Liam Healy, Mon Nov 26 2007 - 20:43
-;; Time-stamp: <2010-06-27 18:13:46EDT wavelet.lisp>
+;; Time-stamp: <2010-06-29 22:15:19EDT wavelet.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -385,7 +385,7 @@
 	 (wavelet (make-wavelet +daubechies-wavelet+ 4))
 	 (workspace (make-wavelet-workspace n)))
     (wavelet-transform-forward wavelet vector 1 workspace)
-    (let ((absvector (make-marray 'double-float :dimensions n))
+    (let ((absvector (grid:make-foreign-array 'double-float :dimensions n))
 	  (permutation (make-permutation n)))
       (dotimes (i n)
 	(setf (maref absvector i) (abs (maref vector i))))

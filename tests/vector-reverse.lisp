@@ -24,7 +24,7 @@
                          #(-13.49 49.27 -6.15 34.12 -8.93 3.29 8.24 -34.5))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
+                                (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
                                              '(-34.5 8.24 3.29 -8.93 34.12
                                                -6.15 49.27 -13.49))))
                            (CL-ARRAY (VECTOR-REVERSE V1)))))
@@ -34,7 +34,7 @@
                            8.24d0 -34.5d0))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
+                                (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
                                              '(-34.5d0 8.24d0 3.29d0 -8.93d0
                                                34.12d0 -6.15d0 49.27d0
                                                -13.49d0))))
@@ -46,7 +46,7 @@
                            #C(3.29 -8.93) #C(-34.5 8.24)))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(COMPLEX SINGLE-FLOAT)
+                                (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX SINGLE-FLOAT)
                                              :INITIAL-CONTENTS
                                              '(-34.5 8.24 3.29 -8.93 34.12
                                                -6.15 49.27 -13.49 32.5 42.73
@@ -61,7 +61,7 @@
                            #C(3.29d0 -8.93d0) #C(-34.5d0 8.24d0)))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(COMPLEX DOUBLE-FLOAT)
+                                (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX DOUBLE-FLOAT)
                                              :INITIAL-CONTENTS
                                              '(-34.5d0 8.24d0 3.29d0 -8.93d0
                                                34.12d0 -6.15d0 49.27d0 -13.49d0
@@ -73,14 +73,14 @@
                         (LIST #(-5 73 -10 52 -91 71 -68 -64))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(SIGNED-BYTE 8) :INITIAL-CONTENTS
+                                (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 8) :INITIAL-CONTENTS
                                              '(-64 -68 71 -91 52 -10 73 -5))))
                            (CL-ARRAY (VECTOR-REVERSE V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST #(215 161 140 163 116 189 44 67))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(UNSIGNED-BYTE 8)
+                                (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 8)
                                              :INITIAL-CONTENTS
                                              '(67 44 189 116 163 140 161 215))))
                            (CL-ARRAY (VECTOR-REVERSE V1)))))
@@ -88,7 +88,7 @@
                         (LIST #(-5 73 -10 52 -91 71 -68 -64))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(SIGNED-BYTE 16)
+                                (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 16)
                                              :INITIAL-CONTENTS
                                              '(-64 -68 71 -91 52 -10 73 -5))))
                            (CL-ARRAY (VECTOR-REVERSE V1)))))
@@ -96,7 +96,7 @@
                         (LIST #(215 161 140 163 116 189 44 67))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(UNSIGNED-BYTE 16)
+                                (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 16)
                                              :INITIAL-CONTENTS
                                              '(67 44 189 116 163 140 161 215))))
                            (CL-ARRAY (VECTOR-REVERSE V1)))))
@@ -104,7 +104,7 @@
                         (LIST #(-5 73 -10 52 -91 71 -68 -64))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(SIGNED-BYTE 32)
+                                (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 32)
                                              :INITIAL-CONTENTS
                                              '(-64 -68 71 -91 52 -10 73 -5))))
                            (CL-ARRAY (VECTOR-REVERSE V1)))))
@@ -112,7 +112,7 @@
                         (LIST #(215 161 140 163 116 189 44 67))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(UNSIGNED-BYTE 32)
+                                (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 32)
                                              :INITIAL-CONTENTS
                                              '(67 44 189 116 163 140 161 215))))
                            (CL-ARRAY (VECTOR-REVERSE V1)))))
@@ -121,7 +121,7 @@
                         (LIST #(-5 73 -10 52 -91 71 -68 -64))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(SIGNED-BYTE 64)
+                                (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 64)
                                              :INITIAL-CONTENTS
                                              '(-64 -68 71 -91 52 -10 73 -5))))
                            (CL-ARRAY (VECTOR-REVERSE V1)))))
@@ -130,7 +130,7 @@
                         (LIST #(215 161 140 163 116 189 44 67))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(UNSIGNED-BYTE 64)
+                                (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 64)
                                              :INITIAL-CONTENTS
                                              '(67 44 189 116 163 140 161 215))))
                            (CL-ARRAY (VECTOR-REVERSE V1))))))

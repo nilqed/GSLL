@@ -1,6 +1,6 @@
 ;; Polynomials
 ;; Liam Healy, Tue Mar 21 2006 - 18:33
-;; Time-stamp: <2010-06-29 20:56:39EDT polynomial.lisp>
+;; Time-stamp: <2010-06-29 22:15:17EDT polynomial.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -74,7 +74,7 @@
 ;;;;****************************************************************************
 
 (defmfun divided-difference
-    (xa ya &optional (dd (make-marray 'double-float :dimensions (dim0 xa))))
+    (xa ya &optional (dd (grid:make-foreign-array 'double-float :dimensions (dim0 xa))))
   "gsl_poly_dd_init"
   (((foreign-pointer dd) :pointer)
    ((foreign-pointer xa) :pointer) ((foreign-pointer ya) :pointer)
@@ -92,8 +92,8 @@
 (defmfun taylor-divided-difference
     (xp dd xa
 	&optional
-	(coefficients (make-marray 'double-float :dimensions (dim0 xa)))
-	(workspace (make-marray 'double-float :dimensions (dim0 xa))))
+	(coefficients (grid:make-foreign-array 'double-float :dimensions (dim0 xa)))
+	(workspace (grid:make-foreign-array 'double-float :dimensions (dim0 xa))))
   "gsl_poly_dd_taylor"
   (((foreign-pointer coefficients) :pointer)
    (xp :double)
@@ -173,7 +173,7 @@
 (defmfun polynomial-solve
     (coefficients
      &optional
-     (answer (make-marray '(complex double-float)
+     (answer (grid:make-foreign-array '(complex double-float)
 			  :dimensions (1- (size coefficients))))
      (workspace (make-polynomial-complex-workspace (size coefficients))))
   "gsl_poly_complex_solve"

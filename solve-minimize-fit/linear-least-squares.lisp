@@ -1,6 +1,6 @@
 ;; Linear least squares, or linear regression
 ;; Liam Healy <2008-01-21 12:41:46EST linear-least-squares.lisp>
-;; Time-stamp: <2010-06-27 18:13:53EDT linear-least-squares.lisp>
+;; Time-stamp: <2010-06-29 22:15:22EDT linear-least-squares.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -138,7 +138,7 @@
       (dim0 array-or-size)))
 
 (defun default-covariance (parameters-or-size)
-  (make-marray
+  (grid:make-foreign-array
    'double-float
    :dimensions
    (let ((s (size-array parameters-or-size))) (list s s))))
@@ -284,7 +284,7 @@
     (x observations coefficients
        &optional
        (residuals
-	(make-marray 'double-float :dimensions (dimensions observations))))
+	(grid:make-foreign-array 'double-float :dimensions (dimensions observations))))
   "gsl_multifit_linear_residuals"
   (((mpointer x) :pointer) ((mpointer observations) :pointer)
    ((mpointer coefficients) :pointer) ((mpointer residuals) :pointer))
@@ -348,9 +348,9 @@
    coefficients of x^0, x^1, x^2 for the best fit, and the chi
    squared."
   (let* ((n (length data))
-	 (x (make-marray 'double-float :dimensions (list n 3)))
-	 (y (make-marray 'double-float :dimensions n))
-	 (w (make-marray 'double-float :dimensions n)))
+	 (x (grid:make-foreign-array 'double-float :dimensions (list n 3)))
+	 (y (grid:make-foreign-array 'double-float :dimensions n))
+	 (w (grid:make-foreign-array 'double-float :dimensions n)))
     (loop for i from 0
        for row in data do
        (setf (maref X i 0) 1.0d0

@@ -1,6 +1,6 @@
 ;; Additional methods for lisp-unit
 ;; Liam Healy 2009-04-15 23:23:30EDT augment.lisp
-;; Time-stamp: <2010-06-01 22:02:57EDT augment.lisp>
+;; Time-stamp: <2010-06-29 22:51:21EDT augment.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -21,7 +21,7 @@
 (in-package :gsl)
 
 (defmethod lisp-unit:numerical-equal
-    ((result1 marray) (result2 marray) &key (test #'lisp-unit:number-equal))
+    ((result1 grid:foreign-array) (result2 grid:foreign-array) &key (test #'lisp-unit:number-equal))
   "Return true if the arrays are numerically equal according to :TEST."
   (when (equal (dimensions result1) (dimensions result2))
     (lisp-unit:numerical-equal (cl-array result1) (cl-array result2)

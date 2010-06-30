@@ -1,6 +1,6 @@
 ;; Generate matrices used in tests of linear algebra functions
 ;; Liam Healy 2009-09-19 18:28:31EDT matrix-generation.lisp
-;; Time-stamp: <2010-06-29 21:48:06EDT matrix-generation.lisp>
+;; Time-stamp: <2010-06-29 22:15:24EDT matrix-generation.lisp>
 ;;
 ;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -100,14 +100,14 @@
 (defparameter *hilb12* (create-hilbert-matrix 12))
 
 (defparameter *hilb2-soln*
-  (make-marray 'double-float :initial-contents '(-8.0d0 18.0d0)))
+  (grid:make-foreign-array 'double-float :initial-contents '(-8.0d0 18.0d0)))
 (defparameter *hilb3-soln*
-  (make-marray 'double-float :initial-contents '(27.0d0 -192.0d0 210.0d0)))
+  (grid:make-foreign-array 'double-float :initial-contents '(27.0d0 -192.0d0 210.0d0)))
 (defparameter *hilb4-soln*
-  (make-marray 'double-float
+  (grid:make-foreign-array 'double-float
 	       :initial-contents '(-64.0d0 900.0d0 -2520.0d0 1820.0d0)))
 (defparameter *hilb12-soln*
-  (make-marray 'double-float :initial-contents
+  (grid:make-foreign-array 'double-float :initial-contents
 	       '(-1728.0d0 245388.0d0 -8528520.0d0
 		 127026900.0d0 -1009008000.0d0 4768571808.0d0
 		 -14202796608.0d0 27336497760.0d0 -33921201600.0d0
@@ -119,15 +119,15 @@
 (defparameter *vander12* (create-vandermonde-matrix 12))
 
 (defparameter *vander2-soln*
-  (make-marray 'double-float :initial-contents '(1.0d0 0.0d0)))
+  (grid:make-foreign-array 'double-float :initial-contents '(1.0d0 0.0d0)))
 (defparameter *vander3-soln*
-  (make-marray 'double-float :initial-contents
+  (grid:make-foreign-array 'double-float :initial-contents
 	       '(0.0d0 1.0d0 0.0d0)))
 (defparameter *vander4-soln*
-  (make-marray 'double-float :initial-contents
+  (grid:make-foreign-array 'double-float :initial-contents
 	       '(0.0d0 0.0d0 1.0d0 0.0d0)))
 (defparameter *vander12-soln*
-  (make-marray 'double-float :initial-contents
+  (grid:make-foreign-array 'double-float :initial-contents
 	       '(0.0d0 0.0d0 0.0d0 0.0d0 0.0d0 0.0d0
 		 0.0d0 0.0d0 0.0d0 0.0d0 1.0d0 0.0d0)))
 

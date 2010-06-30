@@ -1,6 +1,6 @@
 ;; A grid:foreign-array with added metadata for GSL.
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2010-06-29 21:41:40EDT foreign-array.lisp>
+;; Time-stamp: <2010-06-29 22:08:52EDT foreign-array.lisp>
 ;;
 ;; Copyright 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -68,36 +68,6 @@
   (or 
    (metadata-slot object 'mpointer)
    (make-gsl-metadata object)))
-
-;;;;****************************************************************************
-;;;; Make data from either the dimensions provided or from the initial values
-;;;;****************************************************************************
-
-;;;;;;; There are >1400 calls to make-marray, write an emulation?
-;;; This should probably be moved/renamed grid:make-foreign-array.
-(export 'make-marray)
-(defun make-marray (element-type &rest keys &key dimensions &allow-other-keys)
-  "Make a GSLL array with the given element type,
-   :dimensions, and :initial-contents, :initial-element or :data."
-  (when (subtypep element-type 'grid:foreign-array)
-    (error "Can't take a class name here anymore, sorry."))
-  (apply
-   'grid:make-grid
-   `((grid:foreign-array ,@(alexandria:ensure-list dimensions)) ,element-type)
-   keys))
-
-(defun make-marray-or-default
-    (default dimensions
-     &optional dont-make-if-nil (element-type 'double-float) initial-element)
-  "If default is T or dont-make-if-nil, make a marray and
-   returned with the dimensions and element-type.  If default is a
-   marray, it is returned."
-  (if (member default (list t dont-make-if-nil))
-      (if initial-element
-	  (make-marray
-	   element-type :dimensions dimensions :initial-element initial-element)
-	  (make-marray element-type :dimensions dimensions))
-      default))
 
 ;;;;****************************************************************************
 ;;;; Make from GSL mpointers 

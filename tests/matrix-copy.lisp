@@ -27,7 +27,7 @@
                         (MULTIPLE-VALUE-LIST
                          (CL-ARRAY
                           (COPY
-                           (MAKE-MARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
+                           (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
                                         '((-34.5 8.24 3.29) (-8.93 34.12 -6.15)
                                           (49.27 -13.49 32.5)))))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
@@ -38,7 +38,7 @@
                         (MULTIPLE-VALUE-LIST
                          (CL-ARRAY
                           (COPY
-                           (MAKE-MARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
+                           (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
                                         '((-34.5d0 8.24d0 3.29d0)
                                           (-8.93d0 34.12d0 -6.15d0)
                                           (49.27d0 -13.49d0 32.5d0)))))))
@@ -51,7 +51,7 @@
                         (MULTIPLE-VALUE-LIST
                          (CL-ARRAY
                           (COPY
-                           (MAKE-MARRAY '(COMPLEX SINGLE-FLOAT)
+                           (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX SINGLE-FLOAT)
                                         :INITIAL-CONTENTS
                                         '((-34.5 8.24 3.29 -8.93 34.12 -6.15)
                                           (-8.93 34.12 -6.15 49.27 -13.49 32.5)
@@ -68,7 +68,7 @@
                         (MULTIPLE-VALUE-LIST
                          (CL-ARRAY
                           (COPY
-                           (MAKE-MARRAY '(COMPLEX DOUBLE-FLOAT)
+                           (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX DOUBLE-FLOAT)
                                         :INITIAL-CONTENTS
                                         '((-34.5d0 8.24d0 3.29d0 -8.93d0
                                            34.12d0 -6.15d0)
@@ -81,7 +81,7 @@
                         (MULTIPLE-VALUE-LIST
                          (CL-ARRAY
                           (COPY
-                           (MAKE-MARRAY '(SIGNED-BYTE 8) :INITIAL-CONTENTS
+                           (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 8) :INITIAL-CONTENTS
                                         '((-64 -68 71) (-91 52 -10)
                                           (73 -5 123)))))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
@@ -89,7 +89,7 @@
                         (MULTIPLE-VALUE-LIST
                          (CL-ARRAY
                           (COPY
-                           (MAKE-MARRAY '(UNSIGNED-BYTE 8) :INITIAL-CONTENTS
+                           (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 8) :INITIAL-CONTENTS
                                         '((67 44 189) (116 163 140)
                                           (161 215 98)))))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
@@ -97,7 +97,7 @@
                         (MULTIPLE-VALUE-LIST
                          (CL-ARRAY
                           (COPY
-                           (MAKE-MARRAY '(SIGNED-BYTE 16) :INITIAL-CONTENTS
+                           (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 16) :INITIAL-CONTENTS
                                         '((-64 -68 71) (-91 52 -10)
                                           (73 -5 123)))))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
@@ -105,7 +105,7 @@
                         (MULTIPLE-VALUE-LIST
                          (CL-ARRAY
                           (COPY
-                           (MAKE-MARRAY '(UNSIGNED-BYTE 16) :INITIAL-CONTENTS
+                           (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 16) :INITIAL-CONTENTS
                                         '((67 44 189) (116 163 140)
                                           (161 215 98)))))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
@@ -113,7 +113,7 @@
                         (MULTIPLE-VALUE-LIST
                          (CL-ARRAY
                           (COPY
-                           (MAKE-MARRAY '(SIGNED-BYTE 32) :INITIAL-CONTENTS
+                           (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 32) :INITIAL-CONTENTS
                                         '((-64 -68 71) (-91 52 -10)
                                           (73 -5 123)))))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
@@ -121,7 +121,7 @@
                         (MULTIPLE-VALUE-LIST
                          (CL-ARRAY
                           (COPY
-                           (MAKE-MARRAY '(UNSIGNED-BYTE 32) :INITIAL-CONTENTS
+                           (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 32) :INITIAL-CONTENTS
                                         '((67 44 189) (116 163 140)
                                           (161 215 98)))))))
 		       #+int64
@@ -130,7 +130,7 @@
                         (MULTIPLE-VALUE-LIST
                          (CL-ARRAY
                           (COPY
-                           (MAKE-MARRAY '(SIGNED-BYTE 64) :INITIAL-CONTENTS
+                           (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 64) :INITIAL-CONTENTS
                                         '((-64 -68 71) (-91 52 -10)
                                           (73 -5 123)))))))
 		       #+int64
@@ -139,7 +139,7 @@
                         (MULTIPLE-VALUE-LIST
                          (CL-ARRAY
                           (COPY
-                           (MAKE-MARRAY '(UNSIGNED-BYTE 64) :INITIAL-CONTENTS
+                           (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 64) :INITIAL-CONTENTS
                                         '((67 44 189) (116 163 140)
                                           (161 215 98))))))))
 

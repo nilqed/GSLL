@@ -30,12 +30,12 @@
                               (49.27 -13.49 32.5))))
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
-                                (MAKE-MARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
+                                (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
                                              '((-34.5 8.24 3.29)
                                                (-8.93 34.12 -6.15)
                                                (49.27 -13.49 32.5))))
                                (M2
-                                (MAKE-MARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
+                                (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
                                              '((42.73 -17.24 43.31)
                                                (-16.12 -8.25 21.44)
                                                (-49.08 -39.66 -49.46)))))
@@ -52,12 +52,12 @@
                               (49.27d0 -13.49d0 32.5d0))))
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
-                                (MAKE-MARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
+                                (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
                                              '((-34.5d0 8.24d0 3.29d0)
                                                (-8.93d0 34.12d0 -6.15d0)
                                                (49.27d0 -13.49d0 32.5d0))))
                                (M2
-                                (MAKE-MARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
+                                (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
                                              '((42.73d0 -17.24d0 43.31d0)
                                                (-16.12d0 -8.25d0 21.44d0)
                                                (-49.08d0 -39.66d0 -49.46d0)))))
@@ -78,7 +78,7 @@
                                #C(-17.24 43.31)))))
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
-                                (MAKE-MARRAY '(COMPLEX SINGLE-FLOAT)
+                                (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX SINGLE-FLOAT)
                                              :INITIAL-CONTENTS
                                              '((-34.5 8.24 3.29 -8.93 34.12
                                                 -6.15)
@@ -87,7 +87,7 @@
                                                (49.27 -13.49 32.5 42.73 -17.24
                                                 43.31))))
                                (M2
-                                (MAKE-MARRAY '(COMPLEX SINGLE-FLOAT)
+                                (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX SINGLE-FLOAT)
                                              :INITIAL-CONTENTS
                                              '((42.73 -17.24 43.31 -16.12 -8.25
                                                 21.44)
@@ -114,7 +114,7 @@
                                #C(-17.24d0 43.31d0)))))
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
-                                (MAKE-MARRAY '(COMPLEX DOUBLE-FLOAT)
+                                (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX DOUBLE-FLOAT)
                                              :INITIAL-CONTENTS
                                              '((-34.5d0 8.24d0 3.29d0 -8.93d0
                                                 34.12d0 -6.15d0)
@@ -123,7 +123,7 @@
                                                (49.27d0 -13.49d0 32.5d0 42.73d0
                                                 -17.24d0 43.31d0))))
                                (M2
-                                (MAKE-MARRAY '(COMPLEX DOUBLE-FLOAT)
+                                (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX DOUBLE-FLOAT)
                                              :INITIAL-CONTENTS
                                              '((42.73d0 -17.24d0 43.31d0
                                                 -16.12d0 -8.25d0 21.44d0)
@@ -139,11 +139,11 @@
                                #2A((-64 -68 71) (-91 52 -10) (73 -5 123))))
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
-                                (MAKE-MARRAY '(SIGNED-BYTE 8) :INITIAL-CONTENTS
+                                (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 8) :INITIAL-CONTENTS
                                              '((-64 -68 71) (-91 52 -10)
                                                (73 -5 123))))
                                (M2
-                                (MAKE-MARRAY '(SIGNED-BYTE 8) :INITIAL-CONTENTS
+                                (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 8) :INITIAL-CONTENTS
                                              '((32 28 30) (37 -73 -8)
                                                (-15 -22 68)))))
                            (SWAP M2 M1)
@@ -154,12 +154,12 @@
                                #2A((67 44 189) (116 163 140) (161 215 98))))
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
-                                (MAKE-MARRAY '(UNSIGNED-BYTE 8)
+                                (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 8)
                                              :INITIAL-CONTENTS
                                              '((67 44 189) (116 163 140)
                                                (161 215 98))))
                                (M2
-                                (MAKE-MARRAY '(UNSIGNED-BYTE 8)
+                                (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 8)
                                              :INITIAL-CONTENTS
                                              '((28 10 19) (28 178 217)
                                                (36 109 222)))))
@@ -171,12 +171,12 @@
                                #2A((-64 -68 71) (-91 52 -10) (73 -5 123))))
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
-                                (MAKE-MARRAY '(SIGNED-BYTE 16)
+                                (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 16)
                                              :INITIAL-CONTENTS
                                              '((-64 -68 71) (-91 52 -10)
                                                (73 -5 123))))
                                (M2
-                                (MAKE-MARRAY '(SIGNED-BYTE 16)
+                                (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 16)
                                              :INITIAL-CONTENTS
                                              '((32 28 30) (37 -73 -8)
                                                (-15 -22 68)))))
@@ -188,12 +188,12 @@
                                #2A((67 44 189) (116 163 140) (161 215 98))))
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
-                                (MAKE-MARRAY '(UNSIGNED-BYTE 16)
+                                (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 16)
                                              :INITIAL-CONTENTS
                                              '((67 44 189) (116 163 140)
                                                (161 215 98))))
                                (M2
-                                (MAKE-MARRAY '(UNSIGNED-BYTE 16)
+                                (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 16)
                                              :INITIAL-CONTENTS
                                              '((28 10 19) (28 178 217)
                                                (36 109 222)))))
@@ -205,12 +205,12 @@
                                #2A((-64 -68 71) (-91 52 -10) (73 -5 123))))
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
-                                (MAKE-MARRAY '(SIGNED-BYTE 32)
+                                (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 32)
                                              :INITIAL-CONTENTS
                                              '((-64 -68 71) (-91 52 -10)
                                                (73 -5 123))))
                                (M2
-                                (MAKE-MARRAY '(SIGNED-BYTE 32)
+                                (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 32)
                                              :INITIAL-CONTENTS
                                              '((32 28 30) (37 -73 -8)
                                                (-15 -22 68)))))
@@ -222,12 +222,12 @@
                                #2A((67 44 189) (116 163 140) (161 215 98))))
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
-                                (MAKE-MARRAY '(UNSIGNED-BYTE 32)
+                                (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 32)
                                              :INITIAL-CONTENTS
                                              '((67 44 189) (116 163 140)
                                                (161 215 98))))
                                (M2
-                                (MAKE-MARRAY '(UNSIGNED-BYTE 32)
+                                (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 32)
                                              :INITIAL-CONTENTS
                                              '((28 10 19) (28 178 217)
                                                (36 109 222)))))
@@ -240,12 +240,12 @@
                                #2A((-64 -68 71) (-91 52 -10) (73 -5 123))))
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
-                                (MAKE-MARRAY '(SIGNED-BYTE 64)
+                                (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 64)
                                              :INITIAL-CONTENTS
                                              '((-64 -68 71) (-91 52 -10)
                                                (73 -5 123))))
                                (M2
-                                (MAKE-MARRAY '(SIGNED-BYTE 64)
+                                (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 64)
                                              :INITIAL-CONTENTS
                                              '((32 28 30) (37 -73 -8)
                                                (-15 -22 68)))))
@@ -258,12 +258,12 @@
                                #2A((67 44 189) (116 163 140) (161 215 98))))
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
-                                (MAKE-MARRAY '(UNSIGNED-BYTE 64)
+                                (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 64)
                                              :INITIAL-CONTENTS
                                              '((67 44 189) (116 163 140)
                                                (161 215 98))))
                                (M2
-                                (MAKE-MARRAY '(UNSIGNED-BYTE 64)
+                                (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 64)
                                              :INITIAL-CONTENTS
                                              '((28 10 19) (28 178 217)
                                                (36 109 222)))))

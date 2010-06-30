@@ -1,6 +1,6 @@
 ;; Definition of GSL objects and ways to use them.
 ;; Liam Healy, Sun Dec  3 2006 - 10:21
-;; Time-stamp: <2010-06-27 18:26:32EDT mobject.lisp>
+;; Time-stamp: <2010-06-29 22:51:18EDT mobject.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -359,7 +359,7 @@
       ;; Defined for
       ;; histogram, histogram2d, 
       ;; random-number-generator, quasi-random-number-generator,
-      (if (typep object 'marray)
+      (if (typep object 'grid:foreign-array)
 	  (call-next-method)
 	  (make-instance (class-of object) :mpointer (call-next-method)))
       ;; The subclass does not supply a method, so this will be called

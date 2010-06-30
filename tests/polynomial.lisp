@@ -23,11 +23,11 @@
                         (LIST (LIST 2.5d0 7.2d0 32.7d0 91.0d0))
                         (MULTIPLE-VALUE-LIST
                          (LET* ((XA
-                                 (MAKE-MARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
+                                 (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
                                               '(0.0d0 1.0d0 2.0d0 3.0d0)))
                                 (DD
                                  (DIVIDED-DIFFERENCE XA
-                                                     (MAKE-MARRAY 'DOUBLE-FLOAT
+                                                     (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT
                                                                   :INITIAL-CONTENTS
                                                                   '(2.5d0 7.2d0
                                                                     32.7d0
@@ -39,7 +39,7 @@
                        (LISP-UNIT:ASSERT-NUMERICAL-EQUAL (LIST 2.0d0)
                                                          (MULTIPLE-VALUE-LIST
                                                           (LET ((VEC
-                                                                 (MAKE-MARRAY
+                                                                 (GRID:MAKE-FOREIGN-ARRAY
                                                                   'DOUBLE-FLOAT
                                                                   :INITIAL-CONTENTS
                                                                   '(1.0d0 2.0d0
@@ -80,7 +80,7 @@
                         (MULTIPLE-VALUE-LIST
                          (COPY
                           (POLYNOMIAL-SOLVE
-                           (MAKE-MARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
+                           (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
                                         '(-1.0d0 0.0d0 0.0d0 0.0d0 0.0d0
                                           1.0d0)))
                           'ARRAY)))
@@ -88,13 +88,13 @@
                         (LIST 1.3250000029802322d0)
                         (MULTIPLE-VALUE-LIST
                          (EVALUATE
-                          (MAKE-MARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
+                          (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
                                        '(1 0.5 0.3))
                           0.5d0)))
                        (LISP-UNIT:ASSERT-NUMERICAL-EQUAL (LIST 1.0d0)
                                                          (MULTIPLE-VALUE-LIST
                                                           (EVALUATE
-                                                           (MAKE-MARRAY
+                                                           (GRID:MAKE-FOREIGN-ARRAY
                                                             'DOUBLE-FLOAT
                                                             :INITIAL-CONTENTS
                                                             '(1 -1 1 -1 1 -1 1
@@ -231,7 +231,7 @@
                         (MULTIPLE-VALUE-LIST
                          (COPY
                           (POLYNOMIAL-SOLVE
-                           (MAKE-MARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
+                           (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
                                         '(-120 274 -225 85 -15 1.0)))
                           'ARRAY)))
                        (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
@@ -247,7 +247,7 @@
                         (MULTIPLE-VALUE-LIST
                          (COPY
                           (POLYNOMIAL-SOLVE
-                           (MAKE-MARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
+                           (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
                                         '(1 0 0 0 1 0 0 0 1)))
                           'ARRAY)))
                        (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
@@ -267,11 +267,11 @@
                             3.069999933242798d0)))
                         (MULTIPLE-VALUE-LIST
                          (LET* ((XA
-                                 (MAKE-MARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
+                                 (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
                                               '(0.16 0.97 1.94 2.74 3.58 3.73
                                                 4.7)))
                                 (YA
-                                 (MAKE-MARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
+                                 (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
                                               '(0.73 1.11 1.49 1.84 2.3 2.41
                                                 3.07)))
                                 (DD (DIVIDED-DIFFERENCE XA YA)))

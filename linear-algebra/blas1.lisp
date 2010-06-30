@@ -1,6 +1,6 @@
 ;; BLAS level 1, Vector operations
 ;; Liam Healy, Wed Apr 26 2006 - 15:23
-;; Time-stamp: <2010-06-27 18:13:54EDT blas1.lisp>
+;; Time-stamp: <2010-06-29 22:15:23EDT blas1.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -112,7 +112,7 @@
 (defmfun axpy
     (alpha (x vector)
 	   &optional
-	   (y (make-marray element-type :dimensions (dimensions x))))
+	   (y (grid:make-foreign-array element-type :dimensions (dimensions x))))
   ;; This gets an error for complex types because you can't pass a
   ;; struct in CFFI yet.
   ("gsl_blas_" :type "axpy")

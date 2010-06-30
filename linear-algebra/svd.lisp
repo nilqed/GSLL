@@ -1,6 +1,6 @@
 ;; Singular Value Decomposition
 ;; Liam Healy, Tue May  2 2006 - 12:15
-;; Time-stamp: <2009-12-27 09:54:57EST svd.lisp>
+;; Time-stamp: <2010-06-29 22:15:23EDT svd.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -44,9 +44,9 @@
 
 (defmfun SV-decomposition
     (A &optional
-       (S (make-marray 'double-float :dimensions (dim1 A)))
-       (V (make-marray 'double-float :dimensions (list (dim1 A) (dim1 A))))
-       (work (make-marray 'double-float :dimensions (dim1 A))))
+       (S (grid:make-foreign-array 'double-float :dimensions (dim1 A)))
+       (V (grid:make-foreign-array 'double-float :dimensions (list (dim1 A) (dim1 A))))
+       (work (grid:make-foreign-array 'double-float :dimensions (dim1 A))))
   "gsl_linalg_SV_decomp"
   (((mpointer A) :pointer) ((mpointer V) :pointer)
    ((mpointer S) :pointer) ((mpointer work) :pointer))
@@ -68,10 +68,10 @@
 (defmfun SV-modified-decomposition
     (A 
      &optional
-     (S (make-marray 'double-float :dimensions (dim1 A)))
-     (V (make-marray 'double-float :dimensions (list (dim1 A) (dim1 A))))
-     (X (make-marray 'double-float :dimensions (list (dim1 A) (dim1 A))))
-     (work (make-marray 'double-float :dimensions (dim1 A))))
+     (S (grid:make-foreign-array 'double-float :dimensions (dim1 A)))
+     (V (grid:make-foreign-array 'double-float :dimensions (list (dim1 A) (dim1 A))))
+     (X (grid:make-foreign-array 'double-float :dimensions (list (dim1 A) (dim1 A))))
+     (work (grid:make-foreign-array 'double-float :dimensions (dim1 A))))
   "gsl_linalg_SV_decomp_mod"
   (((mpointer A) :pointer) ((mpointer X) :pointer)
    ((mpointer V) :pointer)
@@ -86,8 +86,8 @@
 
 (defmfun SV-jacobi-decomposition
     (A &optional
-       (S (make-marray 'double-float :dimensions (dim1 A)))
-       (V (make-marray 'double-float :dimensions (list (dim1 A) (dim1 A)))))
+       (S (grid:make-foreign-array 'double-float :dimensions (dim1 A)))
+       (V (grid:make-foreign-array 'double-float :dimensions (list (dim1 A) (dim1 A)))))
   "gsl_linalg_SV_decomp_jacobi"
   (((mpointer A) :pointer) ((mpointer V) :pointer)
    ((mpointer S) :pointer))
@@ -101,7 +101,7 @@
    references for details).")
 
 (defmfun SV-solve
-    (U S V b &optional (x (make-marray 'double-float :dimensions (dim0 V))))
+    (U S V b &optional (x (grid:make-foreign-array 'double-float :dimensions (dim0 V))))
   "gsl_linalg_SV_solve"
   (((mpointer U) :pointer) ((mpointer V) :pointer)
    ((mpointer S) :pointer)

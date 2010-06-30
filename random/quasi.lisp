@@ -1,6 +1,6 @@
 ;; Quasi-random sequences in arbitrary dimensions.
 ;; Liam Healy, Sun Jul 16 2006 - 15:54
-;; Time-stamp: <2010-06-29 21:11:34EDT quasi.lisp>
+;; Time-stamp: <2010-06-29 22:15:18EDT quasi.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -120,7 +120,7 @@
 (save-test quasi-random-number-generators
   ;; This example is given in the GSL documentation
   (let ((gen (make-quasi-random-number-generator +sobol+ 2))
-	  (vec (make-marray 'double-float :dimensions 2)))
+	  (vec (grid:make-foreign-array 'double-float :dimensions 2)))
      (loop repeat 5
 	   do (qrng-get gen vec)
 	   append (coerce (cl-array vec) 'list))))

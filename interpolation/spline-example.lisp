@@ -1,6 +1,6 @@
 ;; Example spline
 ;; Liam Healy, Sat Nov 10 2007 - 21:18
-;; Time-stamp: <2009-12-27 09:52:13EST spline-example.lisp>
+;; Time-stamp: <2010-06-29 22:15:24EDT spline-example.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -23,13 +23,13 @@
 (defun spline-example (&optional (step 0.01d0))
   "The first example in Sec. 26.7 of the GSL manual."
   (let* ((xarr
-	  (make-marray
+	  (grid:make-foreign-array
 	   'double-float
 	   :initial-contents
 	   (loop for i from 0.0d0 below 10.0d0
 	      collect (+ i (* 0.5d0 (sin i))))))
 	 (yarr
-	  (make-marray
+	  (grid:make-foreign-array
 	   'double-float
 	   :initial-contents
 	   (loop for i from 0.0d0 below 10.0d0
@@ -46,9 +46,9 @@
 	  (loop with step = (/ (* 2.0 pi) intervals)
 	     for i from 0 upto intervals
 	     collect (* i step)))
-	 (xmarr (make-marray 'double-float :initial-contents xarr))
+	 (xmarr (grid:make-foreign-array 'double-float :initial-contents xarr))
 	 (ymarr
-	  (make-marray 'double-float :initial-contents (mapcar 'sin xarr)))
+	  (grid:make-foreign-array 'double-float :initial-contents (mapcar 'sin xarr)))
 	 (spline
 	  (make-spline +periodic-cubic-spline-interpolation+ xmarr ymarr)))
     (evaluate-integral spline 0d0

@@ -25,7 +25,7 @@
                                                                   (MAKE-COMBINATION
                                                                    8 3 NIL))
                                                                  (V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    'SINGLE-FLOAT
                                                                    :INITIAL-CONTENTS
                                                                    '(-34.5 8.24
@@ -43,7 +43,7 @@
                                                                   (MAKE-COMBINATION
                                                                    8 3 NIL))
                                                                  (V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    'DOUBLE-FLOAT
                                                                    :INITIAL-CONTENTS
                                                                    '(-34.5d0
@@ -63,7 +63,7 @@
                                                                   (MAKE-COMBINATION
                                                                    8 3 NIL))
                                                                  (V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(SIGNED-BYTE
                                                                      8)
                                                                    :INITIAL-CONTENTS
@@ -79,7 +79,7 @@
                                                                   (MAKE-COMBINATION
                                                                    8 3 NIL))
                                                                  (V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(UNSIGNED-BYTE
                                                                      8)
                                                                    :INITIAL-CONTENTS
@@ -96,7 +96,7 @@
                                                                   (MAKE-COMBINATION
                                                                    8 3 NIL))
                                                                  (V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(SIGNED-BYTE
                                                                      16)
                                                                    :INITIAL-CONTENTS
@@ -112,7 +112,7 @@
                                                                   (MAKE-COMBINATION
                                                                    8 3 NIL))
                                                                  (V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(UNSIGNED-BYTE
                                                                      16)
                                                                    :INITIAL-CONTENTS
@@ -129,7 +129,7 @@
                                                                   (MAKE-COMBINATION
                                                                    8 3 NIL))
                                                                  (V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(SIGNED-BYTE
                                                                      32)
                                                                    :INITIAL-CONTENTS
@@ -145,7 +145,7 @@
                                                                   (MAKE-COMBINATION
                                                                    8 3 NIL))
                                                                  (V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(UNSIGNED-BYTE
                                                                      32)
                                                                    :INITIAL-CONTENTS
@@ -163,7 +163,7 @@
                                                                   (MAKE-COMBINATION
                                                                    8 3 NIL))
                                                                  (V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(SIGNED-BYTE
                                                                      64)
                                                                    :INITIAL-CONTENTS
@@ -180,7 +180,7 @@
                                                                   (MAKE-COMBINATION
                                                                    8 3 NIL))
                                                                  (V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(UNSIGNED-BYTE
                                                                      64)
                                                                    :INITIAL-CONTENTS

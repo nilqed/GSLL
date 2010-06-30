@@ -1,6 +1,6 @@
 ;; Tridiagonal and Bidiagonal matrices
 ;; Liam Healy, Thu May  4 2006 - 15:43
-;; Time-stamp: <2009-12-27 09:55:00EST diagonal.lisp>
+;; Time-stamp: <2010-06-29 22:15:24EDT diagonal.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -246,8 +246,8 @@
   (labels ((mvec (dimension &key initial-element)
 	     "Shorthand for initializing gsll vectors"
 	     (if initial-element
-		 (make-marray 'double-float :dimensions dimension :initial-element initial-element)
-		 (make-marray 'double-float :dimensions dimension))))
+		 (grid:make-foreign-array 'double-float :dimensions dimension :initial-element initial-element)
+		 (grid:make-foreign-array 'double-float :dimensions dimension))))
     (let ((x (mvec n))
 	  (b (mvec n :initial-element 1d0))
 	  (diag (mvec n :initial-element -1d0))

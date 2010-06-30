@@ -1,6 +1,6 @@
 ;; Define examples.
 ;; Liam Healy 2008-09-07 21:00:48EDT generate-tests.lisp
-;; Time-stamp: <2010-06-27 18:03:19EDT generate-examples.lisp>
+;; Time-stamp: <2010-06-29 22:15:23EDT generate-examples.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -115,9 +115,9 @@
   (let ((matrixp (listp spec)))
     (if no-init
 	;; No initial values, just dimension
-	`(make-marray ',default-element-type :dimensions ',spec)
+	`(grid:make-foreign-array ',default-element-type :dimensions ',spec)
 	;; Initial contents
-	`(make-marray
+	`(grid:make-foreign-array
 	  ',default-element-type
 	  :initial-contents
 	  ',(if matrixp

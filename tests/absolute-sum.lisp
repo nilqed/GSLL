@@ -22,7 +22,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST 157.99)
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    'SINGLE-FLOAT
                                                                    :INITIAL-CONTENTS
                                                                    '(-34.5 8.24
@@ -36,7 +36,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST 157.99d0)
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    'DOUBLE-FLOAT
                                                                    :INITIAL-CONTENTS
                                                                    '(-34.5d0
@@ -52,7 +52,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST 388.65997)
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(COMPLEX
                                                                      SINGLE-FLOAT)
                                                                    :INITIAL-CONTENTS
@@ -75,7 +75,7 @@
                         (LIST 388.65999999999997d0)
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(COMPLEX DOUBLE-FLOAT)
+                                (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX DOUBLE-FLOAT)
                                              :INITIAL-CONTENTS
                                              '(-34.5d0 8.24d0 3.29d0 -8.93d0
                                                34.12d0 -6.15d0 49.27d0 -13.49d0

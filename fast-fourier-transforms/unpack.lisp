@@ -1,6 +1,6 @@
 ;; Unpack functions for FFT vectors.
 ;; Sumant Oemrawsingh, Sun Oct 25 2009 - 16:35
-;; Time-stamp: <2010-06-27 18:14:00EDT unpack.lisp>
+;; Time-stamp: <2010-06-29 22:12:06EDT unpack.lisp>
 ;;
 ;; Copyright 2009 Sumant Oemrawsingh, Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -30,9 +30,9 @@
      &key (stride 1)
      (output
 	 (eltcase single-float
-		  (make-marray '(complex single-float) :dimensions (size vector))
+		  (grid:make-foreign-array '(complex single-float) :dimensions (size vector))
 		  t
-		  (make-marray '(complex double-float) :dimensions (size vector)))))
+		  (grid:make-foreign-array '(complex double-float) :dimensions (size vector)))))
   ("gsl_fft_real" :type "_unpack")
   (((foreign-pointer vector) :pointer)
    ((foreign-pointer output) :pointer)
@@ -54,9 +54,9 @@
      &key (stride 1)
      (output
 	 (eltcase single-float
-		  (make-marray '(complex single-float) :dimensions (size vector))
+		  (grid:make-foreign-array '(complex single-float) :dimensions (size vector))
 		  t
-		  (make-marray '(complex double-float) :dimensions (size vector)))))
+		  (grid:make-foreign-array '(complex double-float) :dimensions (size vector)))))
   ("gsl_fft_halfcomplex" :type "_radix2_unpack")
   (((foreign-pointer vector) :pointer)
    ((foreign-pointer output) :pointer)
@@ -77,9 +77,9 @@
      &key (stride 1)
      (output
 	 (eltcase single-float
-		  (make-marray '(complex single-float) :dimensions (size vector))
+		  (grid:make-foreign-array '(complex single-float) :dimensions (size vector))
 		  t
-		  (make-marray '(complex double-float) :dimensions (size vector)))))
+		  (grid:make-foreign-array '(complex double-float) :dimensions (size vector)))))
   ("gsl_fft_halfcomplex" :type "_unpack")
   (((foreign-pointer vector) :pointer)
    ((foreign-pointer output) :pointer)

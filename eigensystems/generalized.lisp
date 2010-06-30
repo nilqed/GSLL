@@ -1,6 +1,6 @@
 ;; Real generalized eigensystems
 ;; Liam Healy 2009-02-16 12:55:04EST real-generalized.lisp
-;; Time-stamp: <2009-12-27 09:45:35EST generalized.lisp>
+;; Time-stamp: <2010-06-29 22:15:24EDT generalized.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -59,7 +59,7 @@
 (defmfun eigenvalues-gensymm
     ((A matrix) (B matrix)
      &optional
-     (eigenvalues (make-marray element-type :dimensions (dim0 A)))
+     (eigenvalues (grid:make-foreign-array element-type :dimensions (dim0 A)))
      (ws (eltcase complex (make-eigen-genherm (dim0 A))
 		  t (make-eigen-gensymm (dim0 A)))))
   (double-float "gsl_eigen_gensymm"
@@ -81,8 +81,8 @@
 (defmfun eigenvalues-eigenvectors-gensymm
     ((A matrix) (B matrix)
      &optional
-     (eigenvalues (make-marray element-type :dimensions (dim0 A)))
-     (eigenvectors (make-marray element-type :dimensions (dimensions A)))
+     (eigenvalues (grid:make-foreign-array element-type :dimensions (dim0 A)))
+     (eigenvectors (grid:make-foreign-array element-type :dimensions (dimensions A)))
      (ws (eltcase complex (make-eigen-hermv (dim0 A))
 		  t (make-eigen-symmv (dim0 A)))))
   (double-float "gsl_eigen_gensymmv"

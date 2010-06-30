@@ -59,7 +59,7 @@
             neg-f
             (loop for i from min-f-index below 0
                   collect (coerce (* i df) element-type)))
-      (make-marray element-type
+      (grid:make-foreign-array element-type
                    :initial-contents (if shifted
                                        (nconc neg-f pos-f)
                                        (nconc pos-f neg-f))))))

@@ -80,7 +80,7 @@
                                                                   (MAKE-PERMUTATION
                                                                    4 T))
                                                                  (INTVEC
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(SIGNED-BYTE
                                                                      32)
                                                                    :INITIAL-CONTENTS

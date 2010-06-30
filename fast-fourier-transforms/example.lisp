@@ -1,6 +1,6 @@
 ;; Example FFT: transform a pulse (using the "clean" fft interface)
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 00:24
-;; Time-stamp: <2010-06-27 18:03:24EDT example.lisp>
+;; Time-stamp: <2010-06-29 22:15:25EDT example.lisp>
 ;;
 ;; Copyright 2009 Sumant Oemrawsingh, Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -40,7 +40,7 @@
 
 (defun fft-pulse-test (element-type dimension)
   (assert (and (integerp dimension) (> dimension 20)))
-  (let ((pulse (make-marray element-type :dimensions dimension))
+  (let ((pulse (grid:make-foreign-array element-type :dimensions dimension))
         (init-value (coerce 1 element-type)))
     (setf (maref pulse 0) init-value)
     (loop for i from 1 to 10
@@ -76,7 +76,7 @@
 ;; (make-urand-vector '(complex double-float) 5)
 (defun make-urand-vector (element-type dimension &key (stride 1))
   "Make a vector with random elements."
-  (let ((vec (make-marray `(complex ,(grid:component-float-type element-type))
+  (let ((vec (grid:make-foreign-array `(complex ,(grid:component-float-type element-type))
 			  :dimensions (list (* stride dimension)))))
     (loop for i from 0 below (* stride dimension) by stride
        do
@@ -89,7 +89,7 @@
 (defun realpart-vector (complex-vector)
   "The real vector consisting of the real part of the complex vector."
   (let ((real-vector
-	 (make-marray
+	 (grid:make-foreign-array
 	  (grid:component-float-type (element-type complex-vector))
 	  :dimensions (dimensions complex-vector))))
     (loop for i below (total-size complex-vector) do
@@ -141,7 +141,7 @@
 	   (if (and (have-at-least-gsl-version '(1 12)) #+fsbv t #-fsbv nil)
 	       (elt/ (copy backward) (size-vector-real backward :stride stride))
 	       ;; Hack for old GSL version without complex vector math
-	       (make-marray
+	       (grid:make-foreign-array
 		(element-type backward)
 		:dimensions (dimensions backward)
 		:initial-contents

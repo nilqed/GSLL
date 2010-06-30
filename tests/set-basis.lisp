@@ -23,7 +23,7 @@
                         (LIST #(0.0 0.0 1.0 0.0 0.0 0.0 0.0 0.0))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
+                                (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
                                              '(-34.5 8.24 3.29 -8.93 34.12
                                                -6.15 49.27 -13.49))))
                            (SET-BASIS V1 2)
@@ -33,7 +33,7 @@
                          #(0.0d0 0.0d0 1.0d0 0.0d0 0.0d0 0.0d0 0.0d0 0.0d0))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
+                                (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
                                              '(-34.5d0 8.24d0 3.29d0 -8.93d0
                                                34.12d0 -6.15d0 49.27d0
                                                -13.49d0))))
@@ -45,7 +45,7 @@
                            #C(0.0 0.0) #C(0.0 0.0) #C(0.0 0.0) #C(0.0 0.0)))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(COMPLEX SINGLE-FLOAT)
+                                (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX SINGLE-FLOAT)
                                              :INITIAL-CONTENTS
                                              '(-34.5 8.24 3.29 -8.93 34.12
                                                -6.15 49.27 -13.49 32.5 42.73
@@ -60,7 +60,7 @@
                            #C(0.0d0 0.0d0) #C(0.0d0 0.0d0)))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(COMPLEX DOUBLE-FLOAT)
+                                (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX DOUBLE-FLOAT)
                                              :INITIAL-CONTENTS
                                              '(-34.5d0 8.24d0 3.29d0 -8.93d0
                                                34.12d0 -6.15d0 49.27d0 -13.49d0
@@ -73,7 +73,7 @@
                         (LIST #(0 0 1 0 0 0 0 0))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(SIGNED-BYTE 8) :INITIAL-CONTENTS
+                                (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 8) :INITIAL-CONTENTS
                                              '(-64 -68 71 -91 52 -10 73 -5))))
                            (SET-BASIS V1 2)
                            (CL-ARRAY V1))))
@@ -81,7 +81,7 @@
                         (LIST #(0 0 1 0 0 0 0 0))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(UNSIGNED-BYTE 8)
+                                (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 8)
                                              :INITIAL-CONTENTS
                                              '(67 44 189 116 163 140 161 215))))
                            (SET-BASIS V1 2)
@@ -90,7 +90,7 @@
                         (LIST #(0 0 1 0 0 0 0 0))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(SIGNED-BYTE 16)
+                                (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 16)
                                              :INITIAL-CONTENTS
                                              '(-64 -68 71 -91 52 -10 73 -5))))
                            (SET-BASIS V1 2)
@@ -99,7 +99,7 @@
                         (LIST #(0 0 1 0 0 0 0 0))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(UNSIGNED-BYTE 16)
+                                (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 16)
                                              :INITIAL-CONTENTS
                                              '(67 44 189 116 163 140 161 215))))
                            (SET-BASIS V1 2)
@@ -108,7 +108,7 @@
                         (LIST #(0 0 1 0 0 0 0 0))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(SIGNED-BYTE 32)
+                                (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 32)
                                              :INITIAL-CONTENTS
                                              '(-64 -68 71 -91 52 -10 73 -5))))
                            (SET-BASIS V1 2)
@@ -117,7 +117,7 @@
                         (LIST #(0 0 1 0 0 0 0 0))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(UNSIGNED-BYTE 32)
+                                (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 32)
                                              :INITIAL-CONTENTS
                                              '(67 44 189 116 163 140 161 215))))
                            (SET-BASIS V1 2)
@@ -127,7 +127,7 @@
                         (LIST #(0 0 1 0 0 0 0 0))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(SIGNED-BYTE 64)
+                                (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 64)
                                              :INITIAL-CONTENTS
                                              '(-64 -68 71 -91 52 -10 73 -5))))
                            (SET-BASIS V1 2)
@@ -137,7 +137,7 @@
                         (LIST #(0 0 1 0 0 0 0 0))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
-                                (MAKE-MARRAY '(UNSIGNED-BYTE 64)
+                                (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 64)
                                              :INITIAL-CONTENTS
                                              '(67 44 189 116 163 140 161 215))))
                            (SET-BASIS V1 2)

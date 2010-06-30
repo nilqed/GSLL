@@ -1,6 +1,6 @@
 ;; QR with column pivoting
 ;; Liam Healy, Fri Apr 28 2006 - 16:53
-;; Time-stamp: <2010-06-27 18:27:59EDT qrpt.lisp>
+;; Time-stamp: <2010-06-29 22:51:20EDT qrpt.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -25,9 +25,9 @@
 (defmfun QRPT-decomposition
     (A
      &optional
-     (tau (make-marray 'double-float :dimensions (min (dim0 A) (dim1 A))))
+     (tau (grid:make-foreign-array 'double-float :dimensions (min (dim0 A) (dim1 A))))
      (permutation (make-permutation (dim1 A)))
-     (norm (make-marray 'double-float :dimensions (dim1 A))))
+     (norm (grid:make-foreign-array 'double-float :dimensions (dim1 A))))
   "gsl_linalg_QRPT_decomp"
   (((mpointer A) :pointer) ((mpointer tau) :pointer)
    ((mpointer permutation) :pointer)
@@ -59,11 +59,11 @@
 (defmfun QRPT-decomposition*
     (A
      &optional
-     (q (make-marray 'double-float :dimensions (list (dim0 A) (dim0 A))))
-     (r (make-marray 'double-float :dimensions (dimensions A)))
-     (tau (make-marray 'double-float :dimensions (min (dim0 A) (dim1 A))))
+     (q (grid:make-foreign-array 'double-float :dimensions (list (dim0 A) (dim0 A))))
+     (r (grid:make-foreign-array 'double-float :dimensions (dimensions A)))
+     (tau (grid:make-foreign-array 'double-float :dimensions (min (dim0 A) (dim1 A))))
      (permutation (make-permutation (dim1 A)))
-     (norm (make-marray 'double-float :dimensions (dim1 A))))
+     (norm (grid:make-foreign-array 'double-float :dimensions (dim1 A))))
   "gsl_linalg_QRPT_decomp2"
   (((mpointer A) :pointer) ((mpointer q) :pointer)
    ((mpointer r) :pointer) ((mpointer tau) :pointer)
@@ -80,7 +80,7 @@
 (defmfun QRPT-solve
     (QR tau permutation b &optional x-spec
        &aux
-       (x (make-marray-or-default x-spec (dimensions b) t)))
+       (x (grid:make-foreign-array-or-default x-spec (dimensions b) t)))
   ("gsl_linalg_QRPT_svx" "gsl_linalg_QRPT_solve")
   ((((mpointer QR) :pointer) ((mpointer tau) :pointer)
     ((mpointer permutation) :pointer) ((mpointer b) :pointer))
@@ -95,13 +95,13 @@
    into (QR, tau, permutation) given by #'QRPT-decomposition.  If x-spec is
    NIL (default), the solution will replace b.  If x-spec is T, then
    an array will be created and the solution returned in it.  If
-   x-spec is a marray, the solution will be returned in it.  If x-spec
+   x-spec is a grid:foreign-array, the solution will be returned in it.  If x-spec
    is non-NIL, on output the solution is stored in x and b is not
    modified.  The solution is returned from the function call.")
 
 (defmfun QRPT-QRsolve
     (Q R permutation b
-       &optional (x (make-marray 'double-float :dimensions (dim0 b))))
+       &optional (x (grid:make-foreign-array 'double-float :dimensions (dim0 b))))
   "gsl_linalg_QRPT_QRsolve"
   (((mpointer Q) :pointer) ((mpointer R) :pointer)
    ((mpointer permutation) :pointer)
@@ -131,7 +131,7 @@
 (defmfun QRPT-Rsolve
     (QR permutation b &optional x-spec
        &aux
-       (x (make-marray-or-default x-spec (dimensions b) t)))
+       (x (grid:make-foreign-array-or-default x-spec (dimensions b) t)))
   ("gsl_linalg_QRPT_Rsvx" "gsl_linalg_QRPT_Rsolve")
   ((((mpointer QR) :pointer) ((mpointer permutation) :pointer)
     ((mpointer b) :pointer))
@@ -146,7 +146,7 @@
   side b, which is replaced by the solution on output.  If x-spec is
   NIL (default), the solution will replace b.  If x-spec is T, then an
   array will be created and the solution returned in it.  If x-spec is
-  a marray, the solution will be returned in it.  If x-spec is
+  a grid:foreign-array, the solution will be returned in it.  If x-spec is
   non-NIL, on output the solution is stored in x and b is not
   modified.  The solution is returned from the function call.")
 
@@ -179,7 +179,7 @@
     (multiple-value-bind (Q R)
 	(QR-unpack QRPT tau)
       (let* ((qr (matrix-product Q R))
-	     (ans (make-marray
+	     (ans (grid:make-foreign-array
 		   'double-float :dimensions (dimensions qr)
 		   ;; It shouldn't be necessary to initialize values
 		   ;; because we are going to setf every row,

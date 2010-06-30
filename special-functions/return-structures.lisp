@@ -1,6 +1,6 @@
 ;; Structures returned by special functions.
 ;; Liam Healy, Mon Jan  1 2007 - 11:35
-;; Time-stamp: <2009-12-27 10:10:00EST return-structures.lisp>
+;; Time-stamp: <2010-06-29 22:15:22EDT return-structures.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -43,7 +43,7 @@
 (defun vdf (size-or-array)
   "Make or take a vector-double-float."
   (if (integerp size-or-array)
-      (make-marray 'double-float :dimensions size-or-array)
+      (grid:make-foreign-array 'double-float :dimensions size-or-array)
       size-or-array))
 
 (defun vdf-size (size-or-array)

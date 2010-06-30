@@ -1,6 +1,6 @@
 ;;; Multivariate roots.                
 ;;; Liam Healy 2008-01-12 12:49:08
-;;; Time-stamp: <2010-06-27 08:44:26EDT roots-multi.lisp>
+;;; Time-stamp: <2010-06-29 22:51:17EDT roots-multi.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -24,9 +24,9 @@
 
 ;;; Currently, functions defined for root solving will be passed
 ;;; scalars and should return scalars as multiple values.  A possible
-;;; future enhancement is to optionally pass marrays and return
-;;; marrays instead.  This would allow directly manipulation of
-;;; marrays by the user function.  Notes Mon Jan 19 2009.
+;;; future enhancement is to optionally pass grid:foreign-arrays and return
+;;; grid:foreign-arrays instead.  This would allow directly manipulation of
+;;; grid:foreign-arrays by the user function.  Notes Mon Jan 19 2009.
 
 ;;;;****************************************************************************
 ;;;; Initialization
@@ -47,8 +47,8 @@
   (callback fnstruct-dimension (dimension)
 	    (function
 	     :success-failure
-	     (:input :double :marray dim0) :slug
-	     (:output :double :marray dim0)))
+	     (:input :double :foreign-array dim0) :slug
+	     (:output :double :foreign-array dim0)))
   :arglists-function
   (lambda (set)
     `((type &optional function-or-dimension (initial nil ,set) (scalarsp t))
@@ -73,18 +73,18 @@
   :callbacks
   (callback fnstruct-dimension-fdf (dimension)
 	    (function :success-failure
-		      (:input :double :marray dim0)
+		      (:input :double :foreign-array dim0)
 		      :slug
-		      (:output :double :marray dim0))
+		      (:output :double :foreign-array dim0))
 	    (df :success-failure
-		(:input :double :marray dim0)
+		(:input :double :foreign-array dim0)
 		:slug
-		(:output :double :marray dim0 dim0))
+		(:output :double :foreign-array dim0 dim0))
 	    (fdf :success-failure
-		 (:input :double :marray dim0)
+		 (:input :double :foreign-array dim0)
 		 :slug
-		 (:output :double :marray dim0)
-		 (:output :double :marray dim0 dim0)))
+		 (:output :double :foreign-array dim0)
+		 (:output :double :foreign-array dim0 dim0)))
   :arglists-function
   (lambda (set)
     `((type &optional function-or-dimension (initial nil ,set) 

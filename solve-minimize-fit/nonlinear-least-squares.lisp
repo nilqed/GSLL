@@ -1,6 +1,6 @@
 ;; Nonlinear least squares fitting.
 ;; Liam Healy, 2008-02-09 12:59:16EST nonlinear-least-squares.lisp
-;; Time-stamp: <2010-06-27 08:42:19EDT nonlinear-least-squares.lisp>
+;; Time-stamp: <2010-06-29 22:49:06EDT nonlinear-least-squares.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -41,8 +41,8 @@
 	    (number-of-observations number-of-parameters)
 	    (function
 	     :success-failure
-	     (:input :double :marray dim1) :slug
-	     (:output :double :marray dim0)))
+	     (:input :double :foreign-array dim1) :slug
+	     (:output :double :foreign-array dim0)))
   :initialize-suffix "set"
   :initialize-args ((callback :pointer) ((mpointer initial-guess) :pointer))
   :singular (function))
@@ -71,18 +71,18 @@
   (callback fnstruct-fit-fdf
 	    (number-of-observations number-of-parameters)
 	    (function :success-failure
-		      (:input :double :marray dim1)
+		      (:input :double :foreign-array dim1)
 		      :slug
-		      (:output :double :marray dim0))
+		      (:output :double :foreign-array dim0))
 	    (df :success-failure
-		      (:input :double :marray dim1)
+		      (:input :double :foreign-array dim1)
 		      :slug
-		      (:output :double :marray dim0 dim1))
+		      (:output :double :foreign-array dim0 dim1))
 	    (fdf :success-failure
-		      (:input :double :marray dim1)
+		      (:input :double :foreign-array dim1)
 		      :slug
-		      (:output :double :marray dim0)
-		      (:output :double :marray dim0 dim1)))
+		      (:output :double :foreign-array dim0)
+		      (:output :double :foreign-array dim0 dim1)))
   :initialize-suffix "set"
   :initialize-args ((callback :pointer) ((mpointer initial-guess) :pointer)))
 
@@ -245,7 +245,7 @@
 (defmfun ls-covariance
     (solver relative-error &optional covariance
 	    &aux (cov (or covariance
-			  (make-marray 'double-float
+			  (grid:make-foreign-array 'double-float
 				       :dimensions
 				       (list (dim1 solver) (dim1 solver))))))
   "gsl_multifit_covar"
@@ -298,14 +298,14 @@
   (make-exponent-fit-data
    :n number-of-observations
    :y
-   (let ((arr (make-marray 'double-float :dimensions number-of-observations))
+   (let ((arr (grid:make-foreign-array 'double-float :dimensions number-of-observations))
 	 (rng (make-random-number-generator +mt19937+ 0)))
      (dotimes (i number-of-observations arr)
        (setf (maref arr i)
 	     (+ 1 (* 5 (exp (* -1/10 i)))
 		(sample rng :gaussian :sigma 0.1d0)))))
    :sigma
-   (make-marray
+   (grid:make-foreign-array
     'double-float :dimensions number-of-observations :initial-element 0.1d0)))
 
 (defun exponential-residual (x f)

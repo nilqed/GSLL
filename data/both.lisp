@@ -1,6 +1,6 @@
 ;; Functions for both vectors and matrices.
 ;; Liam Healy 2008-04-26 20:48:44EDT both.lisp
-;; Time-stamp: <2010-06-27 21:31:00EDT both.lisp>
+;; Time-stamp: <2010-06-29 22:12:07EDT both.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -81,7 +81,7 @@
 (defmfun grid:copy-making-destination
     ((source both) &aux 
      (destination
-      (make-marray element-type :dimensions (dimensions source))))
+      (grid:make-foreign-array element-type :dimensions (dimensions source))))
   ("gsl_" :category :type "_memcpy")
   (((mpointer destination) :pointer) ((mpointer source) :pointer))
   :definition :methods

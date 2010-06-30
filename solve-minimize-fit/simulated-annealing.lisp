@@ -1,6 +1,6 @@
 ;; Simulated Annealing
 ;; Liam Healy Sun Feb 11 2007 - 17:23
-;; Time-stamp: <2010-04-10 17:22:03EDT simulated-annealing.lisp>
+;; Time-stamp: <2010-06-29 22:15:22EDT simulated-annealing.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -224,7 +224,7 @@
    200 1000 1.0d0 1.0d0 0.008d0 1.003d0 2.0d-6 ; parameters
    (make-random-number-generator +mt19937+ 0)
    (lambda (&optional initial)
-     (make-marray 'double-float :dimensions 1 :initial-contents initial))
+     (grid:make-foreign-array 'double-float :dimensions 1 :initial-contents initial))
    'trivial-example-energy
    'trivial-example-step
    'trivial-example-metric
@@ -245,7 +245,7 @@
    200 1000 1.0d0 1.0d0 0.008d0 1.003d0 2.0d-6 ; parameters
    (make-random-number-generator +mt19937+ 0)
    (lambda (&optional initial)
-     (make-marray 'double-float :dimensions 1 :initial-contents initial))
+     (grid:make-foreign-array 'double-float :dimensions 1 :initial-contents initial))
    'trivial-test-energy
    'trivial-example-step
    'trivial-example-metric

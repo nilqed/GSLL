@@ -1,6 +1,6 @@
 ;; BLAS level 3, Matrix-matrix operations
 ;; Liam Healy, Wed Apr 26 2006 - 21:08
-;; Time-stamp: <2009-12-27 09:55:00EST blas3.lisp>
+;; Time-stamp: <2010-06-29 22:15:23EDT blas3.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -41,7 +41,7 @@
      &aux
      (Carr
       (or C
-	  (make-marray element-type :dimensions (matrix-product-dimensions A B)
+	  (grid:make-foreign-array element-type :dimensions (matrix-product-dimensions A B)
 		       :initial-element 0))))
   ("gsl_blas_" :type "gemm")
   ((TransA cblas-transpose) (TransB cblas-transpose)
@@ -58,7 +58,7 @@
      &aux
      (Carr
       (or C
-	  (make-marray element-type :dimensions (matrix-product-dimensions A B)
+	  (grid:make-foreign-array element-type :dimensions (matrix-product-dimensions A B)
 		       :initial-element 0))))
   ("gsl_blas_" :type "symm")
   ((side cblas-side) (uplo cblas-uplo) (alpha :element-c-type)
@@ -73,7 +73,7 @@
 (defmfun matrix-product-hermitian
     ((A matrix) (B matrix)
      &optional
-     (C (make-marray element-type :dimensions (matrix-product-dimensions A B)
+     (C (grid:make-foreign-array element-type :dimensions (matrix-product-dimensions A B)
 		     :initial-element 0))
      (alpha 1) (beta 1) (uplo :upper) (side :left))
   ;; This always signals an error because you can't pass a

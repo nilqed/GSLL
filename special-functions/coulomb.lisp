@@ -1,6 +1,6 @@
 ;; Coulumb functions
 ;; Liam Healy, Sat Mar 18 2006 - 23:23
-;; Time-stamp: <2010-06-27 18:13:47EDT coulomb.lisp>
+;; Time-stamp: <2010-06-29 22:15:22EDT coulomb.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -167,16 +167,16 @@
  (hydrogenicr-1 1.0d0 2.5d0)
  (hydrogenicr 3 1 1.0d0 2.5d0)
  (coulomb-wave-FG 0.0d0 1.0d0 2.0d0 0)
- (let ((arr (make-marray 'double-float :dimensions 3)))
+ (let ((arr (grid:make-foreign-array 'double-float :dimensions 3)))
    (coulomb-wave-F-array 0.0d0 1.0d0 2.0d0 arr)
    (cl-array arr))
  (coulomb-wave-fg 1.0d0 2.0d0 2.5d0 1)
- (let ((Farr (make-marray 'double-float :dimensions 3))
-       (Garr (make-marray 'double-float :dimensions 3)))
+ (let ((Farr (grid:make-foreign-array 'double-float :dimensions 3))
+       (Garr (grid:make-foreign-array 'double-float :dimensions 3)))
    (coulomb-wave-FG-array 1.5d0 1.0d0 1.0d0 Farr Garr)
    (append (coerce (cl-array Farr) 'list) (coerce (cl-array Garr) 'list)))
- (let ((arr (make-marray 'double-float :dimensions 3)))
+ (let ((arr (grid:make-foreign-array 'double-float :dimensions 3)))
    (coulomb-wave-sphF-array  0.0d0 1.0d0 2.0d0 arr) (cl-array arr))
  (coulomb-cl 1.0d0 2.5d0)
- (let ((cl (make-marray 'double-float :dimensions 3)))
+ (let ((cl (grid:make-foreign-array 'double-float :dimensions 3)))
    (coulomb-CL-array 0.0d0 1.0d0 cl) (cl-array cl)))

@@ -1,6 +1,6 @@
 ;; Eigensystems for nonsymmetric real matrices
 ;; Liam Healy 2009-02-16 12:51:18EST nonsymmetric.lisp
-;; Time-stamp: <2009-12-27 09:45:34EST nonsymmetric.lisp>
+;; Time-stamp: <2010-06-29 22:15:24EDT nonsymmetric.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -52,13 +52,13 @@
     (A
      &optional
      (eigenvalues
-      (make-marray '(complex double-float) :dimensions (dim0 A)))
+      (grid:make-foreign-array '(complex double-float) :dimensions (dim0 A)))
      (ws (make-eigen-nonsymm (dim0 A)))
      compute-shur-form balance shur-vectors
      &aux
      (sv
       (if (eql shur-vectors t)
-	  (make-marray 'double-float :dimensions (dimensions A))
+	  (grid:make-foreign-array 'double-float :dimensions (dimensions A))
 	  shur-vectors)))
   ("gsl_eigen_nonsymm" "gsl_eigen_nonsymm_Z")
   ((((mpointer A) :pointer)
@@ -117,15 +117,15 @@
     (A
      &optional
      (eigenvalues
-      (make-marray '(complex double-float) :dimensions (dim0 A)))
+      (grid:make-foreign-array '(complex double-float) :dimensions (dim0 A)))
      (eigenvectors
-      (make-marray  '(complex double-float) :dimensions (dimensions A)))
+      (grid:make-foreign-array  '(complex double-float) :dimensions (dimensions A)))
      (ws (make-eigen-nonsymmv (dim0 A)))
      shur-vectors
      &aux
      (sv
       (if (eql shur-vectors t)
-	  (make-marray 'double-float :dimensions (dimensions A))
+	  (grid:make-foreign-array 'double-float :dimensions (dimensions A))
 	  shur-vectors)))
   ("gsl_eigen_nonsymmv" "gsl_eigen_nonsymmv_Z")
   ((((mpointer A) :pointer)

@@ -1,6 +1,6 @@
 ;; Shuffling and sampling
 ;; Liam Healy, Sat Dec  2 2006 - 18:40
-;; Time-stamp: <2010-06-27 18:13:45EDT shuffling-sampling.lisp>
+;; Time-stamp: <2010-06-29 22:15:18EDT shuffling-sampling.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -46,7 +46,7 @@
      &aux
      (destarr
       (if (integerp dest)
-	  (make-marray (element-type src) :dimensions dest)
+	  (grid:make-foreign-array (element-type src) :dimensions dest)
 	  dest)))
   "gsl_ran_choose"
   (((mpointer generator) :pointer)
@@ -74,7 +74,7 @@
      &aux
      (destarr
       (if (integerp dest)
-	  (make-marray (element-type src) :dimensions dest)
+	  (grid:make-foreign-array (element-type src) :dimensions dest)
 	  dest)))
   "gsl_ran_sample"
   (((mpointer generator) :pointer)

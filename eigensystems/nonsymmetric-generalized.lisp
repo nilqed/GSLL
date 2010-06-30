@@ -1,6 +1,6 @@
 ;; Generalized eigensystems for nonsymmetric real matrices
 ;; Liam Healy 2009-02-16 14:27:20EST nonsymmetric-generalized.lisp
-;; Time-stamp: <2009-12-27 09:45:35EST nonsymmetric-generalized.lisp>
+;; Time-stamp: <2010-06-29 22:15:24EDT nonsymmetric-generalized.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -54,20 +54,20 @@
     (A B
        &optional
        (alpha
-	(make-marray '(complex double-float) :dimensions (dim0 A)))
+	(grid:make-foreign-array '(complex double-float) :dimensions (dim0 A)))
        (beta
-	(make-marray 'double-float :dimensions (dim0 A)))
+	(grid:make-foreign-array 'double-float :dimensions (dim0 A)))
        (ws (make-eigen-gen (dim0 A)))
        compute-shur-form-s compute-shur-form-t shur-vectors
        &aux
        (balance nil)			; unused by GSL
        (Q
 	(if (eql shur-vectors t)
-	    (make-marray 'double-float :dimensions (dimensions A))
+	    (grid:make-foreign-array 'double-float :dimensions (dimensions A))
 	    shur-vectors))
        (Z
 	(if (eql shur-vectors t)
-	    (make-marray 'double-float :dimensions (dimensions A))
+	    (grid:make-foreign-array 'double-float :dimensions (dimensions A))
 	    shur-vectors)))
   ("gsl_eigen_gen" "gsl_eigen_gen_QZ")
   ((((mpointer A) :pointer) ((mpointer B) :pointer)
@@ -114,22 +114,22 @@
     (A B
        &optional
        (alpha
-	(make-marray '(complex double-float) :dimensions (dim0 A)))
+	(grid:make-foreign-array '(complex double-float) :dimensions (dim0 A)))
        (beta
-	(make-marray 'double-float :dimensions (dim0 A)))
+	(grid:make-foreign-array 'double-float :dimensions (dim0 A)))
        (eigenvectors
-	(make-marray 'double-float :dimensions (dimensions A)))
+	(grid:make-foreign-array 'double-float :dimensions (dimensions A)))
        (ws (make-eigen-genv (dim0 A)))
        compute-shur-form-s compute-shur-form-t shur-vectors
        &aux
        (balance nil)			; unused by GSL
        (Q
 	(if (eql shur-vectors t)
-	    (make-marray 'double-float :dimensions (dimensions A))
+	    (grid:make-foreign-array 'double-float :dimensions (dimensions A))
 	    shur-vectors))
        (Z
 	(if (eql shur-vectors t)
-	    (make-marray 'double-float :dimensions (dimensions A))
+	    (grid:make-foreign-array 'double-float :dimensions (dimensions A))
 	    shur-vectors)))
   ("gsl_eigen_genv" "gsl_eigen_genv_QZ")
   ((((mpointer A) :pointer) ((mpointer B) :pointer)
