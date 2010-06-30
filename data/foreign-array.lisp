@@ -1,6 +1,6 @@
 ;; A grid:foreign-array with added metadata for GSL.
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2010-06-29 22:08:52EDT foreign-array.lisp>
+;; Time-stamp: <2010-06-30 18:03:10EDT foreign-array.lisp>
 ;;
 ;; Copyright 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -31,16 +31,13 @@
 ;;; GSL would try to allocate the C array.  We do not use any of the
 ;;; GSL free functions because they would free the C array data.
 
-(defmacro metadata-slot (object name)
-  `(getf (slot-value ,object 'grid:foreign-metadata) ,name))
-
 (defun make-gsl-metadata (object)
   "Make the necessary GSL metadata (mpointer and block-pointer)
    for the given foreign array, and return the mpointer.
    This should only be called by #'mpointer the first time
    it is called on a particular foreign-array."
   ;; Don't do anything if mpointer has already been assigned.
-  (unless (metadata-slot object 'mpointer)
+  (unless (grid:metadata-slot object 'mpointer)
     (when (zerop (total-size object))
       (error "Object ~a has zero total dimension." object))
     (let ((blockptr (cffi:foreign-alloc 'gsl-block-c)))
@@ -48,10 +45,10 @@
 	    (grid:total-size object)
 	    (cffi:foreign-slot-value blockptr 'gsl-block-c 'data)
 	    (foreign-pointer object)
-	    (metadata-slot object 'block-pointer) blockptr)
+	    (grid:metadata-slot object 'block-pointer) blockptr)
       (let ((array-struct (alloc-from-block object blockptr)))
 	(setf
-	 (metadata-slot object 'mpointer) array-struct
+	 (grid:metadata-slot object 'mpointer) array-struct
 	 ;; alloc-from-block automatically copies over the data pointer
 	 ;; from the block to the vector/matrix; we must do that manually here
 	 (cffi:foreign-slot-value
@@ -62,11 +59,11 @@
 		     (lambda ()
 		       (cffi:foreign-free blockptr)
 		       (cffi:foreign-free array-struct))))
-      (metadata-slot object 'mpointer))))
+      (grid:metadata-slot object 'mpointer))))
 
 (defmethod mpointer ((object grid:foreign-array))
   (or 
-   (metadata-slot object 'mpointer)
+   (grid:metadata-slot object 'mpointer)
    (make-gsl-metadata object)))
 
 ;;;;****************************************************************************
@@ -86,18 +83,18 @@
 	    (:vector 'gsl-vector-c)
 	    (:matrix 'gsl-matrix-c)
 	    (t (error "Unrecognized category ~a" category))))
-	 (foreign-pointer (cffi:foreign-slot-value mpointer cstruct 'data)))
-    (grid:make-grid
-     (case category
-       (:vector
-	`((foreign-array ,(cffi:foreign-slot-value mpointer cstruct 'size))
-	  ,element-type))
-       (:matrix
-	`((foreign-array
-	   ,(cffi:foreign-slot-value mpointer cstruct 'size0)
-	   ,(cffi:foreign-slot-value mpointer cstruct 'size1))
-	  ,element-type)))
-     :foreign-pointer foreign-pointer
-     :foreign-metadata mpointer)))
-
-(defun make-foreign-array-from-pointer ())
+	 (fa
+	  (grid:make-grid
+	   (case category
+	     (:vector
+	      `((foreign-array ,(cffi:foreign-slot-value mpointer cstruct 'size))
+		,element-type))
+	     (:matrix
+	      `((foreign-array
+		 ,(cffi:foreign-slot-value mpointer cstruct 'size0)
+		 ,(cffi:foreign-slot-value mpointer cstruct 'size1))
+		,element-type)))
+	   :foreign-pointer
+	   (cffi:foreign-slot-value mpointer cstruct 'data))))
+    (setf (grid:metadata-slot fa 'mpointer) mpointer)
+    fa))

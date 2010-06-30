@@ -1,6 +1,6 @@
 ;; Combinations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2010-06-30 10:17:52EDT combination.lisp>
+;; Time-stamp: <2010-06-30 18:00:27EDT combination.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -34,7 +34,7 @@
 (defmethod initialize-instance :after
     ((object combination) &key range dimensions &allow-other-keys)
   (let ((mptr (cffi:foreign-alloc 'gsl-combination-c)))
-    (setf (metadata-slot object 'mpointer)
+    (setf (grid:metadata-slot object 'mpointer)
 	  mptr
 	  (cffi:foreign-slot-value mptr 'gsl-combination-c 'data)
 	  (foreign-pointer object)
