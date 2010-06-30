@@ -1,6 +1,6 @@
 ;; Combinations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2010-06-29 19:48:55EDT combination.lisp>
+;; Time-stamp: <2010-06-30 10:17:52EDT combination.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -28,19 +28,18 @@
 
 (defclass combination 
     (#+int64 grid:vector-unsigned-byte-64 #+int32 grid:vector-unsigned-byte-32)
-  ((choice-of :initarg :choice-of :reader choice-of :type (integer 0)
-	      :documentation "Maximum possible value; n in the (n k) notation."))
+  ()
   (:documentation "GSL combinations."))
 
 (defmethod initialize-instance :after
-    ((object combination) &key choice-of dimensions &allow-other-keys)
+    ((object combination) &key range dimensions &allow-other-keys)
   (let ((mptr (cffi:foreign-alloc 'gsl-combination-c)))
     (setf (metadata-slot object 'mpointer)
 	  mptr
 	  (cffi:foreign-slot-value mptr 'gsl-combination-c 'data)
 	  (foreign-pointer object)
-	  (cffi:foreign-slot-value mptr 'gsl-combination-c 'choice-of)
-	  choice-of
+	  (cffi:foreign-slot-value mptr 'gsl-combination-c 'range)
+	  range
 	  (cffi:foreign-slot-value mptr 'gsl-combination-c 'size)
 	  (first dimensions))
     (tg:finalize object (lambda () (cffi:foreign-free mptr)))))
@@ -57,11 +56,11 @@
 	     (make-instance
 	      'combination
 	      :element-type '(unsigned-byte #+int64 64 #+int32 32)
-	      :choice-of (choice-of n) :dimensions (dimensions k))
+	      :range (combination-range n) :dimensions (dimensions k))
 	     (make-instance
 	      'combination
 	      :element-type '(unsigned-byte #+int64 64 #+int32 32)
-	      :choice-of n :dimensions (list k)))))
+	      :range n :dimensions (list k)))))
     (when initialize
       (if (typep n 'combination)
 	  (error "not available yet")	; (copy comb n)
@@ -70,7 +69,7 @@
 
 (defmethod print-object ((object combination) stream)
   (print-unreadable-object (object stream :type t)
-    ;(format stream " choice of ~d " (choice-of object))
+    (format stream "range ~d: " (combination-range object))
     (princ (grid:contents object) stream)))
 
 ;;;;****************************************************************************
@@ -120,7 +119,8 @@
   :c-return sizet
   :inputs (c)
   :documentation			; FDL
-  "The range (n) of the combination c.")
+  "The range (n), or maximum possible value (n in the (n k) notation)
+   of the combination c.")
 
 (defmfun size ((c combination))
   "gsl_combination_k"
