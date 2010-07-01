@@ -43,9 +43,9 @@
                                (COSINES
                                 (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :DIMENSIONS '8)))
                            (LOOP FOR I BELOW 8 DO
-                                 (SETF (MAREF SINES I) (SIN (MAREF ANGLES I)))
-                                 (SETF (MAREF COSINES I)
-                                         (COS (MAREF ANGLES I))))
+                                 (SETF (GRID:GREF SINES I) (SIN (GRID:GREF ANGLES I)))
+                                 (SETF (GRID:GREF COSINES I)
+                                         (COS (GRID:GREF ANGLES I))))
                            (GIVENS-ROTATION V1 V2 COSINES SINES)
                            (LIST (CL-ARRAY V1) (CL-ARRAY V2)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
@@ -76,9 +76,9 @@
                                (COSINES
                                 (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS '8)))
                            (LOOP FOR I BELOW 8 DO
-                                 (SETF (MAREF SINES I) (SIN (MAREF ANGLES I)))
-                                 (SETF (MAREF COSINES I)
-                                         (COS (MAREF ANGLES I))))
+                                 (SETF (GRID:GREF SINES I) (SIN (GRID:GREF ANGLES I)))
+                                 (SETF (GRID:GREF COSINES I)
+                                         (COS (GRID:GREF ANGLES I))))
                            (GIVENS-ROTATION V1 V2 COSINES SINES)
                            (LIST (CL-ARRAY V1) (CL-ARRAY V2))))))
 

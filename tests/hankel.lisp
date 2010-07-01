@@ -116,7 +116,7 @@
                          (LET ((HANK (MAKE-HANKEL 128 0.0d0 100.0d0))
                                (IN (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 128)))
                            (LOOP FOR N FROM 0 BELOW 128 DO
-                                 (SETF (MAREF IN N)
+                                 (SETF (GRID:GREF IN N)
                                          (/
                                           (1+
                                            (EXPT (SAMPLE-X-HANKEL HANK N)
@@ -192,7 +192,7 @@
                          (LET ((HANK (MAKE-HANKEL 128 1.0d0 20.0d0))
                                (IN (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 128)))
                            (LOOP FOR N FROM 0 BELOW 128 DO
-                                 (SETF (MAREF IN N)
+                                 (SETF (GRID:GREF IN N)
                                          (EXP (- (SAMPLE-X-HANKEL HANK N)))))
                            (COPY (APPLY-HANKEL HANK IN) 'ARRAY))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
@@ -265,7 +265,7 @@
                          (LET ((HANK (MAKE-HANKEL 128 1.0d0 1.0d0))
                                (IN (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 128)))
                            (LOOP FOR N FROM 0 BELOW 128 DO
-                                 (SETF (MAREF IN N)
+                                 (SETF (GRID:GREF IN N)
                                          (LET ((X (SAMPLE-X-HANKEL HANK N)))
                                            (* X (- 1 (EXPT X 2))))))
                            (COPY (APPLY-HANKEL HANK IN) 'ARRAY)))))

@@ -1,6 +1,6 @@
 ;; Regression test BLAS-COPY for GSLL, automatically generated
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -19,50 +19,50 @@
 (in-package :gsl)
 
 (LISP-UNIT:DEFINE-TEST BLAS-COPY
-                       (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-                        (LIST #(-34.5 8.24 3.29))
-                        (MULTIPLE-VALUE-LIST
-                         (LET ((V1
-                                (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
-                                             '(-34.5 8.24 3.29)))
-                               (V2 (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :DIMENSIONS '3)))
-                           (BLAS-COPY V1 V2)
-                           (CL-ARRAY V2))))
-                       (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-                        (LIST #(-34.5d0 8.24d0 3.29d0))
-                        (MULTIPLE-VALUE-LIST
-                         (LET ((V1
-                                (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
-                                             '(-34.5d0 8.24d0 3.29d0)))
-                               (V2 (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS '3)))
-                           (BLAS-COPY V1 V2)
-                           (CL-ARRAY V2))))
-                       (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-                        (LIST #(#C(-34.5 8.24) #C(3.29 -8.93) #C(34.12 -6.15)))
-                        (MULTIPLE-VALUE-LIST
-                         (LET ((V1
-                                (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX SINGLE-FLOAT)
-                                             :INITIAL-CONTENTS
-                                             '(-34.5 8.24 3.29 -8.93 34.12
-                                               -6.15)))
-                               (V2
-                                (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX SINGLE-FLOAT)
-                                             :DIMENSIONS '3)))
-                           (BLAS-COPY V1 V2)
-                           (CL-ARRAY V2))))
-                       (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-                        (LIST
-                         #(#C(-34.5d0 8.24d0) #C(3.29d0 -8.93d0)
-                           #C(34.12d0 -6.15d0)))
-                        (MULTIPLE-VALUE-LIST
-                         (LET ((V1
-                                (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX DOUBLE-FLOAT)
-                                             :INITIAL-CONTENTS
-                                             '(-34.5d0 8.24d0 3.29d0 -8.93d0
-                                               34.12d0 -6.15d0)))
-                               (V2
-                                (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX DOUBLE-FLOAT)
-                                             :DIMENSIONS '3)))
-                           (BLAS-COPY V1 V2)
-                           (CL-ARRAY V2)))))
-
+  (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
+   (LIST #(-34.5 8.24 3.29))
+   (MULTIPLE-VALUE-LIST
+    (LET ((V1
+	   (GRID:MAKE-FOREIGN-ARRAY
+	    'SINGLE-FLOAT :INITIAL-CONTENTS '(-34.5 8.24 3.29)))
+	  (V2 (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :DIMENSIONS '3)))
+      (BLAS-COPY V1 V2)
+      (CL-ARRAY V2))))
+  (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
+   (LIST #(-34.5d0 8.24d0 3.29d0))
+   (MULTIPLE-VALUE-LIST
+    (LET ((V1
+	   (GRID:MAKE-FOREIGN-ARRAY
+	    'DOUBLE-FLOAT :INITIAL-CONTENTS '(-34.5d0 8.24d0 3.29d0)))
+	  (V2 (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS '3)))
+      (BLAS-COPY V1 V2)
+      (CL-ARRAY V2))))
+  (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
+   (LIST #(#C(-34.5 8.24) #C(3.29 -8.93) #C(34.12 -6.15)))
+   (MULTIPLE-VALUE-LIST
+    (LET ((V1
+	   (GRID:MAKE-FOREIGN-ARRAY
+	    '(COMPLEX SINGLE-FLOAT)
+	    :INITIAL-CONTENTS
+	    '(#C(-34.5 8.24) #C(3.29 -8.93) #C(34.12 -6.15))))
+	  (V2
+	   (GRID:MAKE-FOREIGN-ARRAY
+	    '(COMPLEX SINGLE-FLOAT) :DIMENSIONS '3)))
+      (BLAS-COPY V1 V2)
+      (CL-ARRAY V2))))
+  (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
+   (LIST
+    #(#C(-34.5d0 8.24d0) #C(3.29d0 -8.93d0)
+      #C(34.12d0 -6.15d0)))
+   (MULTIPLE-VALUE-LIST
+    (LET ((V1
+	   (GRID:MAKE-FOREIGN-ARRAY
+	    '(COMPLEX DOUBLE-FLOAT)
+	    :INITIAL-CONTENTS
+	    '(#C(-34.5d0 8.24d0) #C(3.29d0 -8.93d0)
+	      #C(34.12d0 -6.15d0))))
+	  (V2
+	   (GRID:MAKE-FOREIGN-ARRAY
+	    '(COMPLEX DOUBLE-FLOAT) :DIMENSIONS '3)))
+      (BLAS-COPY V1 V2)
+      (CL-ARRAY V2)))))
