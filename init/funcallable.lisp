@@ -1,6 +1,6 @@
 ;; Generate a lambda that calls the user function; will be called by callback.
 ;; Liam Healy 
-;; Time-stamp: <2010-06-29 22:49:08EDT funcallable.lisp>
+;; Time-stamp: <2010-06-30 19:57:28EDT funcallable.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -71,7 +71,7 @@
    array, or a scalar."
   (if (parse-callback-argspec argspec 'dimensions)
       (if (eql (parse-callback-argspec argspec 'array-type) :foreign-array)
-	  `(maref
+	  `(grid:gref
 	    ,foreign-variable-name
 	    ,@(let ((dims (value-from-dimensions argspec dimension-values)))
 		   (if (= (length dims) 2) ; matrix

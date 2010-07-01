@@ -1,6 +1,6 @@
 ;; Simulated Annealing
 ;; Liam Healy Sun Feb 11 2007 - 17:23
-;; Time-stamp: <2010-06-29 22:15:22EDT simulated-annealing.lisp>
+;; Time-stamp: <2010-06-30 19:57:28EDT simulated-annealing.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -193,7 +193,7 @@
 ;;; Trivial example, Sec. 24.3.1
 
 (defun trivial-example-energy (state)
-  (let ((x (maref state 0)))
+  (let ((x (grid:gref state 0)))
     (declare (type double-float x) (optimize (speed 3) (safety 1)))
     (* (exp (- (expt (1- x) 2))) (sin (* 8 x)))))
 
@@ -205,15 +205,15 @@
    ;; the dynamical environment.
    (ignore rng-mpointer)
    (special cl-generator))
-  (symbol-macrolet ((x (maref state 0)))
+  (symbol-macrolet ((x (grid:gref state 0)))
     (let ((rand (sample cl-generator :uniform)))
       (declare (type double-float rand))
       (setf x (+  (the double-float x) (- (* 2.0d0 rand step-size) step-size))))))
 
 (defun trivial-example-metric (state1 state2)
   (declare (optimize (speed 3) (safety 1)))
-  (abs (- (the double-float (maref state1 0))
-	  (the double-float (maref state2 0)))))
+  (abs (- (the double-float (grid:gref state1 0))
+	  (the double-float (grid:gref state2 0)))))
 
 (defun simulated-annealing-example ()
   (simulated-annealing
@@ -235,7 +235,7 @@
 
 ;;; exp(-square(x-1))*sin(8*x) - exp(-square(x-1000))*0.89;
 (defun trivial-test-energy (state)
-  (let ((x (maref state 0)))
+  (let ((x (grid:gref state 0)))
     (- (* (exp (- (expt (1- x) 2))) (sin (* 8 x)))
        (* 0.89d0 (exp (- (expt (- x 1000) 2)))))))
 

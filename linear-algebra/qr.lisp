@@ -1,6 +1,6 @@
 ;; QR decomposition
 ;; Liam Healy 2008-02-17 11:05:20EST qr.lisp
-;; Time-stamp: <2010-06-29 22:51:19EDT qr.lisp>
+;; Time-stamp: <2010-06-30 19:57:28EDT qr.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -258,7 +258,7 @@
 	     dim1 nil))
 	 (qr1
 	  (create-matrix
-	   (lambda (i j) (+ (maref matrix i j) (* (maref u i) (maref v j))))
+	   (lambda (i j) (+ (grid:gref matrix i j) (* (grid:gref u i) (grid:gref v j))))
 	   dim0 dim1))
 	 (qr2 (copy matrix))
 	 (w (grid:make-foreign-array 'double-float :dimensions dim0 :initial-element 0)))

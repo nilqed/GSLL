@@ -1,6 +1,6 @@
 ;; Example FFT: transform a pulse (using the "clean" fft interface)
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 00:24
-;; Time-stamp: <2010-06-29 22:15:25EDT example.lisp>
+;; Time-stamp: <2010-06-30 19:57:28EDT example.lisp>
 ;;
 ;; Copyright 2009 Sumant Oemrawsingh, Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -42,10 +42,10 @@
   (assert (and (integerp dimension) (> dimension 20)))
   (let ((pulse (grid:make-foreign-array element-type :dimensions dimension))
         (init-value (coerce 1 element-type)))
-    (setf (maref pulse 0) init-value)
+    (setf (grid:gref pulse 0) init-value)
     (loop for i from 1 to 10
-          do (setf (maref pulse i) init-value
-                   (maref pulse (- dimension i)) init-value))
+          do (setf (grid:gref pulse i) init-value
+                   (grid:gref pulse (- dimension i)) init-value))
     (forward-fourier-transform pulse)))
 
 (save-test
@@ -80,7 +80,7 @@
 			  :dimensions (list (* stride dimension)))))
     (loop for i from 0 below (* stride dimension) by stride
        do
-       (setf (maref vec i)
+       (setf (grid:gref vec i)
 	     (if (subtypep element-type 'complex)
 		 (coerce (complex (urand) (urand)) element-type)
 		 (complex (coerce (urand) element-type)))))
@@ -93,8 +93,8 @@
 	  (grid:component-float-type (element-type complex-vector))
 	  :dimensions (dimensions complex-vector))))
     (loop for i below (total-size complex-vector) do
-	 (setf (maref real-vector i)
-	       (realpart (maref complex-vector i))))
+	 (setf (grid:gref real-vector i)
+	       (realpart (grid:gref complex-vector i))))
     real-vector))
 
 (defun size-vector-real (vector &key (stride 1))

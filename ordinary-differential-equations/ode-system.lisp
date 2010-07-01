@@ -1,6 +1,6 @@
 ;; ODE system setup
 ;; Liam Healy, Sun Apr 15 2007 - 14:19
-;; Time-stamp: <2010-06-29 22:15:22EDT ode-system.lisp>
+;; Time-stamp: <2010-06-30 19:57:28EDT ode-system.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -43,11 +43,11 @@
 	   (,ctime (grid:make-foreign-array 'double-float :dimensions 1))
 	   (,cstep (grid:make-foreign-array 'double-float :dimensions 1)))
        (symbol-macrolet
-	   ((,time (maref ,ctime 0))
-	    (,step-size (maref ,cstep 0))
+	   ((,time (grid:gref ,ctime 0))
+	    (,step-size (grid:gref ,cstep 0))
 	    ,@(loop for symb in dependent
 		 for i from 0
-		 collect `(,symb (maref ,dep ,i))))
+		 collect `(,symb (grid:gref ,dep ,i))))
 	 (flet ((next-step ()
 		  (apply-evolution
 		   evolve ,ctime ,dep ,cstep control stepperobj ,max-time)))

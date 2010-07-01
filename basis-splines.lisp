@@ -1,6 +1,6 @@
 ;; Basis splines.
 ;; Liam Healy 2008-02-18 14:43:20EST basis-splines.lisp
-;; Time-stamp: <2010-06-29 22:15:23EDT basis-splines.lisp>
+;; Time-stamp: <2010-06-30 19:57:28EDT basis-splines.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -125,18 +125,18 @@
       (let* ((xi (coerce (* i (/ 15 (1- ndata))) 'double-float))
 	     (yi (+ (* (cos xi) (exp (* -0.1d0 xi)))
 		    (sample rng :gaussian :sigma sigma))))
-	(setf (maref x i) xi
-	      (maref y i) yi
-	      (maref w i) (/ (expt sigma 2)))))
+	(setf (grid:gref x i) xi
+	      (grid:gref y i) yi
+	      (grid:gref w i) (/ (expt sigma 2)))))
     ;; Uniform breakpoints [0, 15]
     (uniform-knots 0.0d0 15.0d0 bw)
     ;; Fit matrix
     (dotimes (i ndata)
       ;; Compute B_j
-      (evaluate bw (maref x i) :b B)
+      (evaluate bw (grid:gref x i) :b B)
       ;; Fill in row i of X
       (dotimes (j ncoeffs)
-	(setf (maref Xmatrix i j) (maref B j))))
+	(setf (grid:gref Xmatrix i j) (grid:gref B j))))
     ;; Do the fit
     (linear-mfit Xmatrix y c w nil cov mw)
     ;; Return the smoothed curve

@@ -1,6 +1,6 @@
 ;; Discrete Hankel Transforms.
 ;; Liam Healy, Sat Dec  8 2007 - 16:50
-;; Time-stamp: <2010-06-29 22:15:22EDT hankel.lisp>
+;; Time-stamp: <2010-06-30 19:57:28EDT hankel.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -81,7 +81,7 @@
  (let ((hank (make-hankel 128 0.0d0 100.0d0))
        (in (grid:make-foreign-array 'double-float :dimensions 128)))
    (loop for n from 0 below 128
-      do (setf (maref in n)
+      do (setf (grid:gref in n)
 	       (/ (1+ (expt (sample-x-hankel hank n) 2)))))
    (copy (apply-hankel hank in) 'array))
  ;; Integrate[ x exp(-x) J_1(a x), {x,0,Inf}] = a F(3/2, 2; 2; -a^2)
@@ -89,13 +89,13 @@
  (let ((hank (make-hankel 128 1.0d0 20.0d0))
        (in (grid:make-foreign-array 'double-float :dimensions 128)))
    (loop for n from 0 below 128
-      do (setf (maref in n) (exp (- (sample-x-hankel hank n)))))
+      do (setf (grid:gref in n) (exp (- (sample-x-hankel hank n)))))
    (copy (apply-hankel hank in) 'array))
  ;; Integrate[ x^2 (1-x^2) J_1(a x), {x,0,1}] = 2/a^2 J_3(a)
  (let ((hank (make-hankel 128 1.0d0 1.0d0))
        (in (grid:make-foreign-array 'double-float :dimensions 128)))
    (loop for n from 0 below 128
-      do (setf (maref in n)
+      do (setf (grid:gref in n)
 	       (let ((x (sample-x-hankel hank n)))
 		 (* x (- 1 (expt x 2))))))
    (copy (apply-hankel hank in) 'array)))

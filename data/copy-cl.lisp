@@ -1,6 +1,6 @@
 ;; Copy grid:foreign-arrays to/from CL arrays
 ;; Liam Healy 2009-02-11 19:28:44EST copy-cl.lisp
-;; Time-stamp: <2010-06-29 22:51:21EDT copy-cl.lisp>
+;; Time-stamp: <2010-06-30 19:57:28EDT copy-cl.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -42,7 +42,7 @@
   (unless (equal (dimensions source) (array-dimensions destination))
     (error 'grid:array-mismatch))
   (loop for i below (dim0 source)
-       do (setf (aref destination i) (maref source i)))
+       do (setf (aref destination i) (grid:gref source i)))
   destination)
 
 (defmethod grid:copy-to-destination ((source matrix) (destination array))
@@ -50,14 +50,14 @@
     (error 'grid:array-mismatch))
   (loop for i below (dim0 source) do
        (loop for j below (dim1 source) do
-	    (setf (aref destination i j) (maref source i j))))
+	    (setf (aref destination i j) (grid:gref source i j))))
   destination)
 
 (defmethod grid:copy-to-destination ((source array) (destination mvector))
   (unless (equal (array-dimensions source) (dimensions destination))
     (error 'grid:array-mismatch))
   (loop for i below (length source)
-       do (setf (maref destination i) (aref source i)))
+       do (setf (grid:gref destination i) (aref source i)))
   destination)
 
 (defmethod grid:copy-to-destination ((source array) (destination matrix))
@@ -65,7 +65,7 @@
     (error 'grid:array-mismatch))
   (loop for i below (array-dimension source 0) do
        (loop for j below (array-dimension source 1) do
-	    (setf (maref destination i j) (aref source i j))))
+	    (setf (grid:gref destination i j) (aref source i j))))
   destination)
 
 (defmethod grid:copy-to-destination ((source grid:foreign-array) (destclass (eql 'array)))

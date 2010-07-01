@@ -1,6 +1,6 @@
 ;; Cholesky Decomposition
 ;; Liam Healy, Wed May  3 2006 - 16:38
-;; Time-stamp: <2010-06-29 22:51:20EDT cholesky.lisp>
+;; Time-stamp: <2010-06-30 19:57:28EDT cholesky.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -98,7 +98,7 @@
   (let ((decomp (cholesky-decomposition (copy matrix))))
     (dotimes (row (dim0 matrix) decomp)
       (loop for col from (1+ row) below (dim1 matrix) do
-	   (setf (maref decomp row col) 0.0d0)))
+	   (setf (grid:gref decomp row col) 0.0d0)))
     (matrix-product decomp decomp nil 1.0d0 0.0d0 :notrans :trans)))
 
 (defun test-cholesky-invert-dim (matrix)

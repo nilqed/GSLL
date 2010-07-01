@@ -1,6 +1,6 @@
 ;; Permutations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2010-06-30 18:00:28EDT permutation.lisp>
+;; Time-stamp: <2010-06-30 19:53:22EDT permutation.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -333,7 +333,7 @@
        while (nth-value 1 (permutation-previous perm)))))
 
 (save-test permutation
- (let ((perm-1 (make-permutation 4 t)))	;maref
+ (let ((perm-1 (make-permutation 4 t)))
    (grid:gref perm-1 2))
  (let ((perm-1 (make-permutation 4 t)))	;grid:contents
    (grid:contents perm-1))
