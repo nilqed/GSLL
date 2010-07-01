@@ -1,6 +1,6 @@
 ;; Example FFT: transform a pulse (using the "clean" fft interface)
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 00:24
-;; Time-stamp: <2010-06-30 19:57:28EDT example.lisp>
+;; Time-stamp: <2010-07-01 19:38:50EDT example.lisp>
 ;;
 ;; Copyright 2009 Sumant Oemrawsingh, Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -92,7 +92,7 @@
 	 (grid:make-foreign-array
 	  (grid:component-float-type (element-type complex-vector))
 	  :dimensions (dimensions complex-vector))))
-    (loop for i below (total-size complex-vector) do
+    (loop for i below (size complex-vector) do
 	 (setf (grid:gref real-vector i)
 	       (realpart (grid:gref complex-vector i))))
     real-vector))

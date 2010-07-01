@@ -1,6 +1,6 @@
 ;; Definition of GSL objects and ways to use them.
 ;; Liam Healy, Sun Dec  3 2006 - 10:21
-;; Time-stamp: <2010-06-29 22:51:18EDT mobject.lisp>
+;; Time-stamp: <2010-07-01 19:37:25EDT mobject.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -309,7 +309,9 @@
 (defgeneric size (object)
   (:documentation "The size of the GSL object.")
   (:method ((object array))
-    (array-total-size object)))
+    (array-total-size object))
+  (:method ((object grid:foreign-array))
+    (grid:total-size object)))
 
 (export 'evaluate)
 (defgeneric evaluate (object point &key #+sbcl &allow-other-keys)

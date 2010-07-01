@@ -1,6 +1,6 @@
 ;; A grid:foreign-array with added metadata for GSL.
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2010-06-30 18:03:10EDT foreign-array.lisp>
+;; Time-stamp: <2010-07-01 19:38:35EDT foreign-array.lisp>
 ;;
 ;; Copyright 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -21,7 +21,7 @@
 (in-package :gsl)
 
 ;;;;****************************************************************************
-;;;; Make the mpointer, block-pointer, total-size metadata
+;;;; Make the mpointer, block-pointer, size metadata
 ;;;;****************************************************************************
 
 ;;; We don't allocate or free the C array data, because that is
@@ -38,11 +38,11 @@
    it is called on a particular foreign-array."
   ;; Don't do anything if mpointer has already been assigned.
   (unless (grid:metadata-slot object 'mpointer)
-    (when (zerop (total-size object))
+    (when (zerop (size object))
       (error "Object ~a has zero total dimension." object))
     (let ((blockptr (cffi:foreign-alloc 'gsl-block-c)))
       (setf (cffi:foreign-slot-value blockptr 'gsl-block-c 'size)
-	    (grid:total-size object)
+	    (size object)
 	    (cffi:foreign-slot-value blockptr 'gsl-block-c 'data)
 	    (foreign-pointer object)
 	    (grid:metadata-slot object 'block-pointer) blockptr)

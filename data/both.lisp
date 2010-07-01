@@ -1,6 +1,6 @@
 ;; Functions for both vectors and matrices.
 ;; Liam Healy 2008-04-26 20:48:44EDT both.lisp
-;; Time-stamp: <2010-06-29 22:12:07EDT both.lisp>
+;; Time-stamp: <2010-07-01 19:38:01EDT both.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -28,7 +28,7 @@
   ("gsl_" :category :type "_alloc_from_block")
   ((blockptr :pointer)
    (0 sizet)				; offset
-   ((total-size object) sizet)		; number of elements
+   ((size object) sizet)		; number of elements
    (1 sizet))				; stride
   :definition :generic
   :c-return :pointer
