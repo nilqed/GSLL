@@ -1,6 +1,6 @@
 ;; Load GSL
 ;; Liam Healy Sat Mar  4 2006 - 18:53
-;; Time-stamp: <2010-07-01 19:36:05EDT init.lisp>
+;; Time-stamp: <2010-07-01 21:39:45EDT init.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -25,8 +25,7 @@
    :grid
    #:cl-array #:dimensions #:element-type
    #:foreign-array #:matrix #:dim0 #:dim1 #:^
-    ; #:copy #:clone
-   )
+   #:copy #:clone)
   (:shadowing-import-from :grid #:foreign-pointer)
   (:export
    #:cl-array #:dimensions #:element-type #:dim0 #:dim1

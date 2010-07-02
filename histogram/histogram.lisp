@@ -1,6 +1,6 @@
 ;; The histogram structure
 ;; Liam Healy, Mon Jan  1 2007 - 11:32
-;; Time-stamp: <2010-06-29 21:18:58EDT histogram.lisp>
+;; Time-stamp: <2010-07-01 21:14:48EDT histogram.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -79,7 +79,6 @@
   :definition :method
   :return (histogram))
 
-#|
 (defmfun grid:copy-to-destination ((source histogram) (destination histogram))
   "gsl_histogram_memcpy"
   (((mpointer destination) :pointer) ((mpointer source) :pointer))
@@ -117,4 +116,3 @@
   :definition :method
   :c-return :pointer
   :index copy)
-|#

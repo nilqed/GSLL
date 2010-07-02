@@ -1,6 +1,6 @@
 ;; Quasi-random sequences in arbitrary dimensions.
 ;; Liam Healy, Sun Jul 16 2006 - 15:54
-;; Time-stamp: <2010-06-29 22:15:18EDT quasi.lisp>
+;; Time-stamp: <2010-07-01 21:15:03EDT quasi.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -64,7 +64,6 @@
   :export nil
   :index gsl-random-state)
 
-#|
 (defmfun grid:copy-to-destination
     ((source quasi-random-number-generator)
      (destination quasi-random-number-generator))
@@ -82,7 +81,6 @@
   :definition :method
   :c-return :pointer
   :index copy)
-|#
 
 (def-rng-type +niederreiter2+
     ;; FDL
