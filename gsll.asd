@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2010-07-06 22:26:15EDT gsll.asd>
+;; Time-stamp: <2010-07-07 09:55:58EDT gsll.asd>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -30,7 +30,7 @@
   :version "0"
   :author "Liam M. Healy"
   :licence "GPL v3"
-  :depends-on (foreign-array grid cffi cffi-grovel trivial-garbage cl-utilities #+fsbv fsbv)
+  :depends-on (foreign-array grid cffi cffi-grovel trivial-garbage #+fsbv fsbv)
   :components
   ((:module init
 	    :components
