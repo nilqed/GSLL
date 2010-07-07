@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2010-06-29 21:42:42EDT gsll.asd>
+;; Time-stamp: <2010-07-06 22:26:15EDT gsll.asd>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -78,7 +78,6 @@
 	     (:file "vector" :depends-on ("foreign-array" "array-structs"))
 	     (:file "matrix" :depends-on ("foreign-array" "vector" "array-structs"))
 	     (:file "both" :depends-on ("foreign-array" "vector" "matrix"))
-	     ;(:file "copy-cl")
 	     (:file "array-tests" :depends-on ("both"))
 	     (:file "permutation" :depends-on ("foreign-array" "array-structs"))
 	     (:file "combination" :depends-on ("foreign-array" "array-structs"))))

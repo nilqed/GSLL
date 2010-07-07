@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2010-05-22 18:08:01EDT gsll-tests.asd>
+;; Time-stamp: <2010-07-06 22:26:35EDT gsll-tests.asd>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -113,7 +113,6 @@
 	     (:file "mathematical")
 	     (:file "mathieu")
 	     (:file "matrix-copy")
-	     (:file "matrix-copy-to-cl-and-back")
 	     (:file "matrix-div")
 	     (:file "matrix-max-index")
 	     (:file "matrix-max")
@@ -194,7 +193,6 @@
 	     (:file "transport")
 	     (:file "trigonometry")
 	     (:file "vector-copy")
-	     (:file "vector-copy-to-cl-and-back")
 	     (:file "vector-div")
 	     (:file "vector-max-index")
 	     (:file "vector-max")
