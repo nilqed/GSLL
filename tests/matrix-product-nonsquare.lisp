@@ -32,7 +32,7 @@
 	    'SINGLE-FLOAT :INITIAL-CONTENTS
 	    '((49.27 -13.49) (32.5 42.73)
 	      (-17.24 43.31)))))
-      (CL-ARRAY (MATRIX-PRODUCT M1 M2)))))
+      (GRID:COPY-TO (MATRIX-PRODUCT M1 M2)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     #2A((-1488.7346d0 959.9901d0)
@@ -49,7 +49,7 @@
 	    '((49.27d0 -13.49d0)
 	      (32.5d0 42.73d0)
 	      (-17.24d0 43.31d0)))))
-      (CL-ARRAY (MATRIX-PRODUCT M1 M2)))))
+      (GRID:COPY-TO (MATRIX-PRODUCT M1 M2)))))
   #+fsbv
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -71,7 +71,7 @@
 	    '((#C(49.27 -13.49) #C(32.5 42.73))
 	      (#C(32.5 42.73) #C(-17.24 43.31))
 	      (#C(-17.24 43.31) #C(-16.12 -8.25))))))
-      (CL-ARRAY (MATRIX-PRODUCT M1 M2)))))
+      (GRID:COPY-TO (MATRIX-PRODUCT M1 M2)))))
   #+fsbv
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -93,5 +93,5 @@
 	    '((#C(49.27d0 -13.49d0) #C(32.5d0 42.73d0))
 	      (#C(32.5d0 42.73d0) #C(-17.24d0 43.31d0))
 	      (#C(-17.24d0 43.31d0) #C(-16.12d0 -8.25d0))))))
-      (CL-ARRAY (MATRIX-PRODUCT M1 M2))))))
+      (GRID:COPY-TO (MATRIX-PRODUCT M1 M2))))))
 

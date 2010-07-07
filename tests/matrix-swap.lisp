@@ -42,7 +42,7 @@
 	      (-16.12 -8.25 21.44)
 	      (-49.08 -39.66 -49.46)))))
       (SWAP M2 M1)
-      (LIST (CL-ARRAY M1) (CL-ARRAY M2)))))
+      (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST
@@ -66,7 +66,7 @@
 	      (-16.12d0 -8.25d0 21.44d0)
 	      (-49.08d0 -39.66d0 -49.46d0)))))
       (SWAP M2 M1)
-      (LIST (CL-ARRAY M1) (CL-ARRAY M2)))))
+      (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST
@@ -93,7 +93,7 @@
 	      (#C(-16.12 -8.25) #C(21.44 -49.08) #C(-39.66 -49.46))
 	      (#C(-49.08 -39.66) #C(-49.46 19.68) #C(-5.55 -8.82))))))
       (SWAP M2 M1)
-      (LIST (CL-ARRAY M1) (CL-ARRAY M2)))))
+      (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST
@@ -119,7 +119,7 @@
 	      (#C(-16.12d0 -8.25d0) #C(21.44d0 -49.08d0) #C(-39.66d0 -49.46d0))
 	      (#C(-49.08d0 -39.66d0) #C(-49.46d0 19.68d0) #C(-5.55d0 -8.82d0))))))
       (SWAP M2 M1)
-      (LIST (CL-ARRAY M1) (CL-ARRAY M2)))))
+      (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST #2A((32 28 30) (37 -73 -8) (-15 -22 68))
@@ -134,7 +134,7 @@
 				    '((32 28 30) (37 -73 -8)
 				      (-15 -22 68)))))
       (SWAP M2 M1)
-      (LIST (CL-ARRAY M1) (CL-ARRAY M2)))))
+      (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST #2A((28 10 19) (28 178 217) (36 109 222))
@@ -151,7 +151,7 @@
 				    '((28 10 19) (28 178 217)
 				      (36 109 222)))))
       (SWAP M2 M1)
-      (LIST (CL-ARRAY M1) (CL-ARRAY M2)))))
+      (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST #2A((32 28 30) (37 -73 -8) (-15 -22 68))
@@ -168,7 +168,7 @@
 				    '((32 28 30) (37 -73 -8)
 				      (-15 -22 68)))))
       (SWAP M2 M1)
-      (LIST (CL-ARRAY M1) (CL-ARRAY M2)))))
+      (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST #2A((28 10 19) (28 178 217) (36 109 222))
@@ -185,7 +185,7 @@
 				    '((28 10 19) (28 178 217)
 				      (36 109 222)))))
       (SWAP M2 M1)
-      (LIST (CL-ARRAY M1) (CL-ARRAY M2)))))
+      (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST #2A((32 28 30) (37 -73 -8) (-15 -22 68))
@@ -202,7 +202,7 @@
 				    '((32 28 30) (37 -73 -8)
 				      (-15 -22 68)))))
       (SWAP M2 M1)
-      (LIST (CL-ARRAY M1) (CL-ARRAY M2)))))
+      (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST #2A((28 10 19) (28 178 217) (36 109 222))
@@ -219,7 +219,7 @@
 				    '((28 10 19) (28 178 217)
 				      (36 109 222)))))
       (SWAP M2 M1)
-      (LIST (CL-ARRAY M1) (CL-ARRAY M2)))))
+      (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
   #+int64
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -237,7 +237,7 @@
 				    '((32 28 30) (37 -73 -8)
 				      (-15 -22 68)))))
       (SWAP M2 M1)
-      (LIST (CL-ARRAY M1) (CL-ARRAY M2)))))
+      (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
   #+int64
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -255,5 +255,5 @@
 				    '((28 10 19) (28 178 217)
 				      (36 109 222)))))
       (SWAP M2 M1)
-      (LIST (CL-ARRAY M1) (CL-ARRAY M2))))))
+      (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2))))))
 

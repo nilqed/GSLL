@@ -36,5 +36,5 @@
                         (MULTIPLE-VALUE-LIST
                          (LET ((ARR (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 4)))
                            (GEGENBAUER-ARRAY 1.0d0 3.0d0 ARR)
-                           (CL-ARRAY ARR)))))
+                           (GRID:COPY-TO ARR)))))
 

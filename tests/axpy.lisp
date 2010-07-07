@@ -33,7 +33,7 @@
 	    'SINGLE-FLOAT :INITIAL-CONTENTS
 	    '(32.5 42.73 -17.24 43.31 -16.12 -8.25 21.44 -49.08)))
 	  (SCALAR -39.66))
-      (CL-ARRAY (AXPY SCALAR V1 V2)))))
+      (grid:copy-to (AXPY SCALAR V1 V2)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     #(1400.77d0 -284.06839999999994d0 -147.7214d0
@@ -55,7 +55,7 @@
 	      -16.12d0 -8.25d0 21.44d0
 	      -49.08d0)))
 	  (SCALAR -39.66d0))
-      (CL-ARRAY (AXPY SCALAR V1 V2)))))
+      (GRID:COPY-TO (AXPY SCALAR V1 V2)))))
   #+fsbv
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -80,7 +80,7 @@
 	      #C(19.68 -5.55) #C(-8.82 25.37)
 	      #C(-30.58 31.67))))
 	  (SCALAR #C(-39.66 -49.46)))
-      (CL-ARRAY (AXPY SCALAR V1 V2)))))
+      (GRID:COPY-TO (AXPY SCALAR V1 V2)))))
   #+fsbv
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -110,4 +110,4 @@
 	      #C(-39.66d0 -49.46d0) #C(19.68d0 -5.55d0)
 	      #C(-8.82d0 25.37d0) #C(-30.58d0 31.67d0))))
 	  (SCALAR #C(-39.66d0 -49.46d0)))
-      (CL-ARRAY (AXPY SCALAR V1 V2))))))
+      (GRID:COPY-TO (AXPY SCALAR V1 V2))))))

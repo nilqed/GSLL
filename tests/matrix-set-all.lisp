@@ -27,7 +27,7 @@
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
                                 (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :DIMENSIONS '(3 3))))
-                           (CL-ARRAY (SET-ALL M1 -34.5)))))
+                           (GRID:COPY-TO (SET-ALL M1 -34.5)))))
                        (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
                         (LIST
                          #2A((-34.5d0 -34.5d0 -34.5d0)
@@ -36,7 +36,7 @@
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
                                 (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS '(3 3))))
-                           (CL-ARRAY (SET-ALL M1 -34.5d0)))))
+                           (GRID:COPY-TO (SET-ALL M1 -34.5d0)))))
 		       #+fsbv
                        (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
                         (LIST
@@ -47,7 +47,7 @@
                          (LET ((M1
                                 (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX SINGLE-FLOAT)
                                              :DIMENSIONS '(3 3))))
-                           (CL-ARRAY (SET-ALL M1 #C(-34.5 8.24))))))
+                           (GRID:COPY-TO (SET-ALL M1 #C(-34.5 8.24))))))
 		       #+fsbv
                        (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
                         (LIST
@@ -61,49 +61,49 @@
                          (LET ((M1
                                 (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX DOUBLE-FLOAT)
                                              :DIMENSIONS '(3 3))))
-                           (CL-ARRAY (SET-ALL M1 #C(-34.5d0 8.24d0))))))
+                           (GRID:COPY-TO (SET-ALL M1 #C(-34.5d0 8.24d0))))))
                        (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
                         (LIST #2A((-64 -64 -64) (-64 -64 -64) (-64 -64 -64)))
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
                                 (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 8) :DIMENSIONS
                                              '(3 3))))
-                           (CL-ARRAY (SET-ALL M1 -64)))))
+                           (GRID:COPY-TO (SET-ALL M1 -64)))))
                        (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
                         (LIST #2A((67 67 67) (67 67 67) (67 67 67)))
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
                                 (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 8) :DIMENSIONS
                                              '(3 3))))
-                           (CL-ARRAY (SET-ALL M1 67)))))
+                           (GRID:COPY-TO (SET-ALL M1 67)))))
                        (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
                         (LIST #2A((-64 -64 -64) (-64 -64 -64) (-64 -64 -64)))
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
                                 (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 16) :DIMENSIONS
                                              '(3 3))))
-                           (CL-ARRAY (SET-ALL M1 -64)))))
+                           (GRID:COPY-TO (SET-ALL M1 -64)))))
                        (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
                         (LIST #2A((67 67 67) (67 67 67) (67 67 67)))
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
                                 (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 16) :DIMENSIONS
                                              '(3 3))))
-                           (CL-ARRAY (SET-ALL M1 67)))))
+                           (GRID:COPY-TO (SET-ALL M1 67)))))
                        (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
                         (LIST #2A((-64 -64 -64) (-64 -64 -64) (-64 -64 -64)))
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
                                 (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 32) :DIMENSIONS
                                              '(3 3))))
-                           (CL-ARRAY (SET-ALL M1 -64)))))
+                           (GRID:COPY-TO (SET-ALL M1 -64)))))
                        (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
                         (LIST #2A((67 67 67) (67 67 67) (67 67 67)))
                         (MULTIPLE-VALUE-LIST
                          (LET ((M1
                                 (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 32) :DIMENSIONS
                                              '(3 3))))
-                           (CL-ARRAY (SET-ALL M1 67)))))
+                           (GRID:COPY-TO (SET-ALL M1 67)))))
 		       #+int64
                        (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
                         (LIST #2A((-64 -64 -64) (-64 -64 -64) (-64 -64 -64)))
@@ -111,7 +111,7 @@
                          (LET ((M1
                                 (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 64) :DIMENSIONS
                                              '(3 3))))
-                           (CL-ARRAY (SET-ALL M1 -64)))))
+                           (GRID:COPY-TO (SET-ALL M1 -64)))))
 		       #+int64
                        (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
                         (LIST #2A((67 67 67) (67 67 67) (67 67 67)))
@@ -119,5 +119,5 @@
                          (LET ((M1
                                 (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 64) :DIMENSIONS
                                              '(3 3))))
-                           (CL-ARRAY (SET-ALL M1 67))))))
+                           (GRID:COPY-TO (SET-ALL M1 67))))))
 

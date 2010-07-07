@@ -1,6 +1,6 @@
 ;; The histogram structure
 ;; Liam Healy, Mon Jan  1 2007 - 11:32
-;; Time-stamp: <2010-07-01 21:14:48EDT histogram.lisp>
+;; Time-stamp: <2010-07-07 14:30:30EDT histogram.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -79,7 +79,7 @@
   :definition :method
   :return (histogram))
 
-(defmfun grid:copy-to-destination ((source histogram) (destination histogram))
+(defmfun grid::copy-to-destination ((source histogram) (destination histogram))
   "gsl_histogram_memcpy"
   (((mpointer destination) :pointer) ((mpointer source) :pointer))
   :definition :method
@@ -91,7 +91,7 @@
    an exact copy of the former.
    The two histograms must be of the same size.")
 
-(defmfun grid:copy-to-destination ((source histogram2d) (destination histogram2d))
+(defmfun grid::copy-to-destination ((source histogram2d) (destination histogram2d))
   "gsl_histogram2d_memcpy"
   (((mpointer destination) :pointer) ((mpointer source) :pointer))
   :definition :method
@@ -103,14 +103,14 @@
    an exact copy of the former.
    The two histograms must be of the same size.")
 
-(defmfun grid:copy-making-destination ((source histogram))
+(defmfun grid::copy-making-destination ((source histogram))
   "gsl_histogram_clone"
   (((mpointer source) :pointer))
   :definition :method
   :c-return :pointer
   :index copy)
 
-(defmfun grid:copy-making-destination ((source histogram2d))
+(defmfun grid::copy-making-destination ((source histogram2d))
   "gsl_histogram2d_clone"
   (((mpointer source) :pointer))
   :definition :method

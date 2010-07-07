@@ -29,7 +29,7 @@
                                (V2
                                 (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
                                              '(32.5 42.73 -17.24))))
-                           (CL-ARRAY (SORT-VECTOR-SMALLEST V2 V1)))))
+                           (GRID:COPY-TO (SORT-VECTOR-SMALLEST V2 V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST #(-34.5d0 -13.49d0 -8.93d0))
                         (MULTIPLE-VALUE-LIST
@@ -41,7 +41,7 @@
                                (V2
                                 (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
                                              '(32.5d0 42.73d0 -17.24d0))))
-                           (CL-ARRAY (SORT-VECTOR-SMALLEST V2 V1)))))
+                           (GRID:COPY-TO (SORT-VECTOR-SMALLEST V2 V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(-91 -68 -64))
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((V1
@@ -59,7 +59,7 @@
                                                                    :INITIAL-CONTENTS
                                                                    '(123 32
                                                                      28))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-SMALLEST
                                                                V2 V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(44 67 116))
@@ -80,7 +80,7 @@
                                                                    :INITIAL-CONTENTS
                                                                    '(98 28
                                                                      10))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-SMALLEST
                                                                V2 V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(-91 -68 -64))
@@ -100,7 +100,7 @@
                                                                    :INITIAL-CONTENTS
                                                                    '(123 32
                                                                      28))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-SMALLEST
                                                                V2 V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(44 67 116))
@@ -121,7 +121,7 @@
                                                                    :INITIAL-CONTENTS
                                                                    '(98 28
                                                                      10))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-SMALLEST
                                                                V2 V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(-91 -68 -64))
@@ -141,7 +141,7 @@
                                                                    :INITIAL-CONTENTS
                                                                    '(123 32
                                                                      28))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-SMALLEST
                                                                V2 V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(44 67 116))
@@ -162,7 +162,7 @@
                                                                    :INITIAL-CONTENTS
                                                                    '(98 28
                                                                      10))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-SMALLEST
                                                                V2 V1)))))
 		       #+int64
@@ -183,7 +183,7 @@
                                                                    :INITIAL-CONTENTS
                                                                    '(123 32
                                                                      28))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-SMALLEST
                                                                V2 V1)))))
 		       #+int64
@@ -205,7 +205,7 @@
                                                                    :INITIAL-CONTENTS
                                                                    '(98 28
                                                                      10))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-SMALLEST
                                                                V2 V1))))))
 

@@ -52,7 +52,7 @@
 	      (#C(29.36 -33.24) #C(-27.03 -41.67) #C(42.0 -20.81)))))
 	  (S1 #C(-41.67 42.0))
 	  (S2 #C(42.0 -20.81)))
-      (CL-ARRAY
+      (GRID:COPY-TO
        (MATRIX-PRODUCT-HERMITIAN M1 M2 M3 S1 S2)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -89,7 +89,7 @@
 	      (#C(29.36d0 -33.24d0) #C(-27.03d0 -41.67d0) #C(42.0d0 -20.81d0)))))
 	  (S1 #C(-41.67d0 42.0d0))
 	  (S2 #C(42.0d0 -20.81d0)))
-      (CL-ARRAY
+      (GRID:COPY-TO
        (MATRIX-PRODUCT-HERMITIAN M1 M2 M3 S1 S2)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -115,7 +115,7 @@
 	    '(#C(-16.12 -8.25) #C(21.44 -49.08) #C(-39.66 -49.46))))
 	  (S1 #C(-49.08 -39.66))
 	  (S2 #C(-39.66 -49.46)))
-      (CL-ARRAY
+      (GRID:COPY-TO
        (MATRIX-PRODUCT-HERMITIAN M1 V1 V2 S1 S2)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -142,6 +142,6 @@
 	    '(#C(-16.12d0 -8.25d0) #C(21.44d0 -49.08d0) #C(-39.66d0 -49.46d0))))
 	  (S1 #C(-49.08d0 -39.66d0))
 	  (S2 #C(-39.66d0 -49.46d0)))
-      (CL-ARRAY
+      (GRID:COPY-TO
        (MATRIX-PRODUCT-HERMITIAN M1 V1 V2 S1 S2))))))
 

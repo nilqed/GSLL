@@ -1,6 +1,6 @@
 ;; Wavelet transforms.
 ;; Liam Healy, Mon Nov 26 2007 - 20:43
-;; Time-stamp: <2010-06-30 19:57:28EDT wavelet.lisp>
+;; Time-stamp: <2010-07-07 14:24:54EDT wavelet.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -396,7 +396,7 @@
 	      0.0d0))) ;; Transform back
     (dotimes (i n) (format t "~&~a" (grid:gref vector i)))
     (wavelet-transform-inverse wavelet vector 1 workspace)
-    (cl-array vector)))
+    (grid:copy-to vector)))
 
 (defun wavelet-forward-example (&optional (cl-data *wavelet-sample*))
   "Simpler example, with only a Daubechies wavelet forward transformation."
@@ -405,4 +405,4 @@
 	 (wavelet (make-wavelet +daubechies-wavelet+ 4))
 	 (workspace (make-wavelet-workspace n)))
     (wavelet-transform-forward wavelet vector 1 workspace)
-    (cl-array vector)))
+    (grid:copy-to vector)))

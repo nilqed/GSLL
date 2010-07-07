@@ -1,6 +1,6 @@
 ;; Quasi-random sequences in arbitrary dimensions.
 ;; Liam Healy, Sun Jul 16 2006 - 15:54
-;; Time-stamp: <2010-07-01 21:15:03EDT quasi.lisp>
+;; Time-stamp: <2010-07-07 14:30:06EDT quasi.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -64,7 +64,7 @@
   :export nil
   :index gsl-random-state)
 
-(defmfun grid:copy-to-destination
+(defmfun grid::copy-to-destination
     ((source quasi-random-number-generator)
      (destination quasi-random-number-generator))
   "gsl_qrng_memcpy"
@@ -76,7 +76,7 @@
    pre-existing generator dest, making dest into an exact copy
    of src.  The two generators must be of the same type.")
 
-(defmfun grid:copy-making-destination ((instance quasi-random-number-generator))
+(defmfun grid::copy-making-destination ((instance quasi-random-number-generator))
   "gsl_qrng_clone" (((mpointer instance) :pointer))
   :definition :method
   :c-return :pointer
@@ -121,4 +121,4 @@
 	  (vec (grid:make-foreign-array 'double-float :dimensions 2)))
      (loop repeat 5
 	   do (qrng-get gen vec)
-	   append (coerce (cl-array vec) 'list))))
+	   append (coerce (grid:copy-to vec) 'list))))

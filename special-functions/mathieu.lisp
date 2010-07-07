@@ -1,6 +1,6 @@
 ;; Mathieu functions
 ;; Liam Healy 2009-02-16 16:30:59EST mathieu.lisp
-;; Time-stamp: <2010-06-27 18:13:47EDT mathieu.lisp>
+;; Time-stamp: <2010-07-07 14:24:56EDT mathieu.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -290,6 +290,6 @@
 	   (mathieu-se 15 15.0d0 (/ pi 2))
 	   (mathieu-se 15 20.0d0 (/ pi 2))
 	   (mathieu-se 15 25.0d0 (/ pi 2))
-	   (cl-array (mathieu-ce-array 0.0d0 (/ pi 2) 6))
-	   (cl-array (mathieu-ce-array 20.0d0 0.0d0 16))
-	   (cl-array (mathieu-se-array 20.0d0 (/ pi 2) 15 1)))
+	   (grid:copy-to (mathieu-ce-array 0.0d0 (/ pi 2) 6))
+	   (grid:copy-to (mathieu-ce-array 20.0d0 0.0d0 16))
+	   (grid:copy-to (mathieu-se-array 20.0d0 (/ pi 2) 15 1)))

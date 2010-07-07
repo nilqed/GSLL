@@ -1,6 +1,6 @@
 ;; Dirichlet distribution
 ;; Liam Healy, Sun Oct 29 2006
-;; Time-stamp: <2010-06-27 18:13:44EDT dirichlet.lisp>
+;; Time-stamp: <2010-07-07 14:24:59EDT dirichlet.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -83,7 +83,7 @@
 (save-test dirichlet
  (let ((rng (make-random-number-generator +mt19937+ 0))
        (alpha #m(1.0d0 2.0d0 3.0d0 4.0d0)))
-   (cl-array (sample rng :dirichlet :alpha alpha)))
+   (grid:copy-to (sample rng :dirichlet :alpha alpha)))
  (let ((alpha #m(1.0d0 2.0d0 3.0d0 4.0d0))
        (theta #m(1.0d0 2.0d0 3.0d0 4.0d0)))
    (dirichlet-pdf alpha theta))

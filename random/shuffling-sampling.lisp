@@ -1,6 +1,6 @@
 ;; Shuffling and sampling
 ;; Liam Healy, Sat Dec  2 2006 - 18:40
-;; Time-stamp: <2010-06-29 22:15:18EDT shuffling-sampling.lisp>
+;; Time-stamp: <2010-07-07 14:24:58EDT shuffling-sampling.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -94,10 +94,10 @@
 (save-test shuffling-sampling
  (let ((rng (make-random-number-generator +mt19937+ 0))
        (v1 #31m(1 2 3 4 5 6 7 8)))
-   (cl-array (sample rng :shuffle :base v1)))
+   (grid:copy-to (sample rng :shuffle :base v1)))
  (let ((rng (make-random-number-generator +mt19937+ 0))
        (v1 #31m(1 2 3 4 5 6 7 8)))
-   (cl-array (sample rng :choose-random :src v1 :dest 4)))
+   (grid:copy-to (sample rng :choose-random :src v1 :dest 4)))
  (let ((rng (make-random-number-generator +mt19937+ 0))
        (v1 #31m(1 2 3 4 5 6 7 8)))
-   (cl-array (sample rng :random-sample :src v1 :dest 10))))
+   (grid:copy-to (sample rng :random-sample :src v1 :dest 10))))

@@ -40,7 +40,7 @@
                         (MULTIPLE-VALUE-LIST
                          (LET ((ARR (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 3)))
                            (COULOMB-WAVE-F-ARRAY 0.0d0 1.0d0 2.0d0 ARR)
-                           (CL-ARRAY ARR))))
+                           (GRID:COPY-TO ARR))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST 0.07161779967468254d0 0.1278101031568499d0
                               2.2510703464871114d0 -1.4245543587641651d0 0.0d0
@@ -58,8 +58,8 @@
                          (LET ((FARR (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 3))
                                (GARR (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 3)))
                            (COULOMB-WAVE-FG-ARRAY 1.5d0 1.0d0 1.0d0 FARR GARR)
-                           (APPEND (COERCE (CL-ARRAY FARR) 'LIST)
-                                   (COERCE (CL-ARRAY GARR) 'LIST)))))
+                           (APPEND (COERCE (GRID:COPY-TO FARR) 'LIST)
+                                   (COERCE (GRID:COPY-TO GARR) 'LIST)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST
                          #(0.33089080691634065d0 0.18070642887252675d0
@@ -67,7 +67,7 @@
                         (MULTIPLE-VALUE-LIST
                          (LET ((ARR (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 3)))
                            (COULOMB-WAVE-SPHF-ARRAY 0.0d0 1.0d0 2.0d0 ARR)
-                           (CL-ARRAY ARR))))
+                           (GRID:COPY-TO ARR))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST 0.0013809146441856027d0 2.759621819430441d-17)
                         (MULTIPLE-VALUE-LIST (COULOMB-CL 1.0d0 2.5d0)))
@@ -77,6 +77,6 @@
                            0.011428736368066591d0))
                         (MULTIPLE-VALUE-LIST
                          (LET ((CL (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 3)))
-                           (COULOMB-CL-ARRAY 0.0d0 1.0d0 CL)
-                           (CL-ARRAY CL)))))
+                           (COULOMB-cl-array 0.0d0 1.0d0 CL)
+                           (GRID:COPY-TO CL)))))
 

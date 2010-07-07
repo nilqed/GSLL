@@ -28,7 +28,7 @@
                                (V2
                                 (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
                                              '(-8.93 34.12 -6.15))))
-                           (CL-ARRAY (ELT/ V1 V2)))))
+                           (GRID:COPY-TO (ELT/ V1 V2)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST
                          #(3.8633818589025757d0 0.2415005861664713d0
@@ -40,7 +40,7 @@
                                (V2
                                 (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
                                              '(-8.93d0 34.12d0 -6.15d0))))
-                           (CL-ARRAY (ELT/ V1 V2)))))
+                           (GRID:COPY-TO (ELT/ V1 V2)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(0 -1 -7))
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((V1
@@ -57,7 +57,7 @@
                                                                    :INITIAL-CONTENTS
                                                                    '(-91 52
                                                                      -10))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (ELT/ V1 V2)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(0 0 1))
                                                           (MULTIPLE-VALUE-LIST
@@ -75,7 +75,7 @@
                                                                    :INITIAL-CONTENTS
                                                                    '(116 163
                                                                      140))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (ELT/ V1 V2)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(0 -1 -7))
                                                           (MULTIPLE-VALUE-LIST
@@ -93,7 +93,7 @@
                                                                    :INITIAL-CONTENTS
                                                                    '(-91 52
                                                                      -10))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (ELT/ V1 V2)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(0 0 1))
                                                           (MULTIPLE-VALUE-LIST
@@ -111,7 +111,7 @@
                                                                    :INITIAL-CONTENTS
                                                                    '(116 163
                                                                      140))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (ELT/ V1 V2)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(0 -1 -7))
                                                           (MULTIPLE-VALUE-LIST
@@ -129,7 +129,7 @@
                                                                    :INITIAL-CONTENTS
                                                                    '(-91 52
                                                                      -10))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (ELT/ V1 V2)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(0 0 1))
                                                           (MULTIPLE-VALUE-LIST
@@ -147,7 +147,7 @@
                                                                    :INITIAL-CONTENTS
                                                                    '(116 163
                                                                      140))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (ELT/ V1 V2)))))
 		       #+int64
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(0 -1 -7))
@@ -166,7 +166,7 @@
                                                                    :INITIAL-CONTENTS
                                                                    '(-91 52
                                                                      -10))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (ELT/ V1 V2)))))
 		       #+int64
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(0 0 1))
@@ -185,6 +185,6 @@
                                                                    :INITIAL-CONTENTS
                                                                    '(116 163
                                                                      140))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (ELT/ V1 V2))))))
 

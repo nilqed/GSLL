@@ -223,9 +223,8 @@
    (LIST 52.740806116727164d0 1.7557038486870624d-4)
    (MULTIPLE-VALUE-LIST
     (INTEGRATION-QAGP 'INTEGRATION-TEST-F454
-		      (COPY
-		       (VECTOR 0.0d0 1.0d0 (SQRT 2.0d0) 3.0d0)
-		       :grid-type 'foreign-array)
+		      (grid:COPY-to
+		       (VECTOR 0.0d0 1.0d0 (SQRT 2.0d0) 3.0d0))
 		      0.0d0 0.001d0 1000)))
   (let ((lisp-unit:*epsilon* 1.0d-9))
     (LISP-UNIT:ASSERT-NUMERICAL-EQUAL

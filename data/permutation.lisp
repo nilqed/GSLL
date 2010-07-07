@@ -1,6 +1,6 @@
 ;; Permutations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2010-07-01 21:12:59EDT permutation.lisp>
+;; Time-stamp: <2010-07-07 14:30:06EDT permutation.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -79,7 +79,7 @@
   "Initialize the permutation p to the identity, i.e.
    (0,1,2,...,n-1).")
 
-(defmfun grid:copy-to-destination ((source permutation) (destination permutation))
+(defmfun grid::copy-to-destination ((source permutation) (destination permutation))
   "gsl_permutation_memcpy"
   (((mpointer destination) :pointer)
    ((mpointer source) :pointer))

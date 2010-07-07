@@ -1,6 +1,6 @@
 ;; LU decomposition
 ;; Liam Healy, Thu Apr 27 2006 - 12:42
-;; Time-stamp: <2010-06-29 22:15:23EDT lu.lisp>
+;; Time-stamp: <2010-07-07 14:24:59EDT lu.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -164,7 +164,7 @@
 
 (save-test
  lu
- (cl-array
+ (grid:copy-to
   (invert-matrix
    (grid:make-foreign-array 'double-float
 		:dimensions  '(2 2)
@@ -176,7 +176,7 @@
    (multiple-value-bind (matrix perm)
        (lu-decomposition matrix)
     (let ((x (lu-solve matrix vec perm)))
-      (cl-array
+      (grid:copy-to
        (permute-inverse
 	perm
 	(matrix-product-triangular

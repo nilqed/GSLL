@@ -1,6 +1,6 @@
 ;; Numerical integration
 ;; Liam Healy, Wed Jul  5 2006 - 23:14
-;; Time-stamp: <2010-07-06 23:26:39EDT numerical-integration.lisp>
+;; Time-stamp: <2010-07-07 14:21:55EDT numerical-integration.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -367,6 +367,6 @@
  (integration-QAGil (integration-test-myfn2 1.0d0) 1.0d0 1.0d-7 0.0d0 1000)
  (integration-QAGp
   'integration-test-f454
-  (copy (vector 0.0d0 1.0d0 (sqrt 2.0d0) 3.0d0) :grid-type 'foreign-array)
+  (grid:copy-to (vector 0.0d0 1.0d0 (sqrt 2.0d0) 3.0d0))
   0.0d0 1.0d-3 1000)
  (integration-QAWc 'integration-test-f459 -1.0d0 5.0d0 0.0d0 0.0d0 1.0d-3 1000))

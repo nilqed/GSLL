@@ -1,6 +1,6 @@
 ;; Gegenbauer polynomials
 ;; Liam Healy, Fri Apr 28 2006 - 20:40
-;; Time-stamp: <2010-06-27 18:13:48EDT gegenbauer.lisp>
+;; Time-stamp: <2010-07-07 14:24:57EDT gegenbauer.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -62,4 +62,4 @@
   (gegenbauer-2 1.0d0 3.0d0)
   (gegenbauer-3 1.0d0 3.0d0)
   (gegenbauer 4 1.0d0 3.0d0)
-  (cl-array (gegenbauer-array 1.0d0 3.0d0 4)))
+  (grid:copy-to (gegenbauer-array 1.0d0 3.0d0 4)))

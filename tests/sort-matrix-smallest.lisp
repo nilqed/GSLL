@@ -29,7 +29,7 @@
                                                (49.27 -13.49 32.5))))
                                (M2
                                 (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :DIMENSIONS '(2 3))))
-                           (CL-ARRAY (SORT-SMALLEST M2 M1)))))
+                           (GRID:COPY-TO (SORT-SMALLEST M2 M1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST
                          #2A((-34.5d0 -13.49d0 -8.93d0)
@@ -42,7 +42,7 @@
                                                (49.27d0 -13.49d0 32.5d0))))
                                (M2
                                 (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS '(2 3))))
-                           (CL-ARRAY (SORT-SMALLEST M2 M1)))))
+                           (GRID:COPY-TO (SORT-SMALLEST M2 M1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST #2A((-91 -68 -64) (-10 -5 52)))
                         (MULTIPLE-VALUE-LIST
@@ -53,7 +53,7 @@
                                (M2
                                 (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 8) :DIMENSIONS
                                              '(2 3))))
-                           (CL-ARRAY (SORT-SMALLEST M2 M1)))))
+                           (GRID:COPY-TO (SORT-SMALLEST M2 M1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST #2A((44 67 98) (116 140 161)))
                         (MULTIPLE-VALUE-LIST
@@ -65,7 +65,7 @@
                                (M2
                                 (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 8) :DIMENSIONS
                                              '(2 3))))
-                           (CL-ARRAY (SORT-SMALLEST M2 M1)))))
+                           (GRID:COPY-TO (SORT-SMALLEST M2 M1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST #2A((-91 -68 -64) (-10 -5 52)))
                         (MULTIPLE-VALUE-LIST
@@ -77,7 +77,7 @@
                                (M2
                                 (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 16) :DIMENSIONS
                                              '(2 3))))
-                           (CL-ARRAY (SORT-SMALLEST M2 M1)))))
+                           (GRID:COPY-TO (SORT-SMALLEST M2 M1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST #2A((44 67 98) (116 140 161)))
                         (MULTIPLE-VALUE-LIST
@@ -89,7 +89,7 @@
                                (M2
                                 (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 16) :DIMENSIONS
                                              '(2 3))))
-                           (CL-ARRAY (SORT-SMALLEST M2 M1)))))
+                           (GRID:COPY-TO (SORT-SMALLEST M2 M1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST #2A((-91 -68 -64) (-10 -5 52)))
                         (MULTIPLE-VALUE-LIST
@@ -101,7 +101,7 @@
                                (M2
                                 (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 32) :DIMENSIONS
                                              '(2 3))))
-                           (CL-ARRAY (SORT-SMALLEST M2 M1)))))
+                           (GRID:COPY-TO (SORT-SMALLEST M2 M1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST #2A((44 67 98) (116 140 161)))
                         (MULTIPLE-VALUE-LIST
@@ -113,7 +113,7 @@
                                (M2
                                 (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 32) :DIMENSIONS
                                              '(2 3))))
-                           (CL-ARRAY (SORT-SMALLEST M2 M1)))))
+                           (GRID:COPY-TO (SORT-SMALLEST M2 M1)))))
 		       #+int64
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST #2A((-91 -68 -64) (-10 -5 52)))
@@ -126,7 +126,7 @@
                                (M2
                                 (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 64) :DIMENSIONS
                                              '(2 3))))
-                           (CL-ARRAY (SORT-SMALLEST M2 M1)))))
+                           (GRID:COPY-TO (SORT-SMALLEST M2 M1)))))
 		       #+int64
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST #2A((44 67 98) (116 140 161)))
@@ -139,5 +139,5 @@
                                (M2
                                 (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 64) :DIMENSIONS
                                              '(2 3))))
-                           (CL-ARRAY (SORT-SMALLEST M2 M1))))))
+                           (GRID:COPY-TO (SORT-SMALLEST M2 M1))))))
 

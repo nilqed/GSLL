@@ -1,6 +1,6 @@
 ;; Coulumb functions
 ;; Liam Healy, Sat Mar 18 2006 - 23:23
-;; Time-stamp: <2010-06-29 22:15:22EDT coulomb.lisp>
+;; Time-stamp: <2010-07-07 14:24:53EDT coulomb.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -148,7 +148,7 @@
   "The Coulomb wave function normalization constant C_L(\eta)
    for L > -1.")
 
-(defmfun coulomb-CL-array
+(defmfun coulomb-cl-array
     (L-min eta &optional (size-or-array *default-sf-array-size*)
 	   &aux (array (vdf size-or-array)))
   "gsl_sf_coulomb_CL_array"
@@ -169,14 +169,14 @@
  (coulomb-wave-FG 0.0d0 1.0d0 2.0d0 0)
  (let ((arr (grid:make-foreign-array 'double-float :dimensions 3)))
    (coulomb-wave-F-array 0.0d0 1.0d0 2.0d0 arr)
-   (cl-array arr))
+   (grid:copy-to arr))
  (coulomb-wave-fg 1.0d0 2.0d0 2.5d0 1)
  (let ((Farr (grid:make-foreign-array 'double-float :dimensions 3))
        (Garr (grid:make-foreign-array 'double-float :dimensions 3)))
    (coulomb-wave-FG-array 1.5d0 1.0d0 1.0d0 Farr Garr)
-   (append (coerce (cl-array Farr) 'list) (coerce (cl-array Garr) 'list)))
+   (append (coerce (grid:copy-to Farr) 'list) (coerce (grid:copy-to Garr) 'list)))
  (let ((arr (grid:make-foreign-array 'double-float :dimensions 3)))
-   (coulomb-wave-sphF-array  0.0d0 1.0d0 2.0d0 arr) (cl-array arr))
+   (coulomb-wave-sphF-array  0.0d0 1.0d0 2.0d0 arr) (grid:copy-to arr))
  (coulomb-cl 1.0d0 2.5d0)
  (let ((cl (grid:make-foreign-array 'double-float :dimensions 3)))
-   (coulomb-CL-array 0.0d0 1.0d0 cl) (cl-array cl)))
+   (coulomb-CL-array 0.0d0 1.0d0 cl) (grid:copy-to cl)))

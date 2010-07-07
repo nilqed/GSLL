@@ -42,7 +42,7 @@
                                                (29.36 -33.24 -27.03))))
                                (S1 -41.67)
                                (S2 42.0))
-                           (CL-ARRAY
+                           (GRID:COPY-TO
                             (MATRIX-PRODUCT-SYMMETRIC M1 M2 M3 S1 S2)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST
@@ -70,7 +70,7 @@
                                                (29.36d0 -33.24d0 -27.03d0))))
                                (S1 -41.67d0)
                                (S2 42.0d0))
-                           (CL-ARRAY
+                           (GRID:COPY-TO
                             (MATRIX-PRODUCT-SYMMETRIC M1 M2 M3 S1 S2)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST #(72971.1 24989.41 -82037.61))
@@ -88,7 +88,7 @@
                                              '(-16.12 -8.25 21.44)))
                                (S1 -49.08)
                                (S2 -39.66))
-                           (CL-ARRAY
+                           (GRID:COPY-TO
                             (MATRIX-PRODUCT-SYMMETRIC M1 V1 V3 S1 S2)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST
@@ -108,6 +108,6 @@
                                              '(-16.12d0 -8.25d0 21.44d0)))
                                (S1 -49.08d0)
                                (S2 -39.66d0))
-                           (CL-ARRAY
+                           (GRID:COPY-TO
                             (MATRIX-PRODUCT-SYMMETRIC M1 V1 V3 S1 S2))))))
 

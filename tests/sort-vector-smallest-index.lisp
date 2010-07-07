@@ -34,7 +34,7 @@
                                                                      -6.15
                                                                      49.27
                                                                      -13.49))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-SMALLEST-INDEX
                                                                COMB V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(0 7 3))
@@ -54,7 +54,7 @@
                                                                      -6.15d0
                                                                      49.27d0
                                                                      -13.49d0))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-SMALLEST-INDEX
                                                                COMB V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(3 1 0))
@@ -70,7 +70,7 @@
                                                                    '(-64 -68 71
                                                                      -91 52 -10
                                                                      73 -5))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-SMALLEST-INDEX
                                                                COMB V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(1 0 3))
@@ -87,7 +87,7 @@
                                                                      116 163
                                                                      140 161
                                                                      215))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-SMALLEST-INDEX
                                                                COMB V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(3 1 0))
@@ -103,7 +103,7 @@
                                                                    '(-64 -68 71
                                                                      -91 52 -10
                                                                      73 -5))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-SMALLEST-INDEX
                                                                COMB V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(1 0 3))
@@ -120,7 +120,7 @@
                                                                      116 163
                                                                      140 161
                                                                      215))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-SMALLEST-INDEX
                                                                COMB V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(3 1 0))
@@ -136,7 +136,7 @@
                                                                    '(-64 -68 71
                                                                      -91 52 -10
                                                                      73 -5))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-SMALLEST-INDEX
                                                                COMB V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(1 0 3))
@@ -153,7 +153,7 @@
                                                                      116 163
                                                                      140 161
                                                                      215))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-SMALLEST-INDEX
                                                                COMB V1)))))
 		       #+int64
@@ -170,7 +170,7 @@
                                                                    '(-64 -68 71
                                                                      -91 52 -10
                                                                      73 -5))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-SMALLEST-INDEX
                                                                COMB V1)))))
 		       #+int64
@@ -188,7 +188,7 @@
                                                                      116 163
                                                                      140 161
                                                                      215))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-SMALLEST-INDEX
                                                                COMB V1))))))
 

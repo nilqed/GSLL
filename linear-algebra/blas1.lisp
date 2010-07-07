@@ -1,6 +1,6 @@
 ;; BLAS level 1, Vector operations
 ;; Liam Healy, Wed Apr 26 2006 - 15:23
-;; Time-stamp: <2010-06-30 19:57:28EDT blas1.lisp>
+;; Time-stamp: <2010-07-07 14:25:01EDT blas1.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -233,29 +233,29 @@
  (let ((v1 (array-default 3))
 	(v2 (array-default 3)))
    (blas-swap v2 v1)
-   (list (cl-array v1) (cl-array v2))))
+   (list (grid:copy-to v1) (grid:copy-to v2))))
 
 (generate-all-array-tests blas-copy :float-complex
  (let ((v1 (array-default 3))
 	(v2 (array-default 3 t)))
    (blas-copy v1 v2)
-   (cl-array v2)))
+   (grid:copy-to v2)))
 
 (generate-all-array-tests axpy :float-complex
  (let ((v1 (array-default 8))
 	(v2 (array-default 8))
 	(scalar (scalar-default)))
-   (cl-array (axpy scalar v1 v2))))
+   (grid:copy-to (axpy scalar v1 v2))))
 
 (generate-all-array-tests scale #+fsbv :float-complex #-fsbv :float
  (let ((v1 (array-default 8))
 	(scalar (scalar-default)))
-   (cl-array (scale scalar v1))))
+   (grid:copy-to (scale scalar v1))))
 
 (generate-all-array-tests scale :complex
  (let ((v1 (array-default 8))
        (scalar (scalar-default t)))
-   (cl-array (scale scalar v1))))
+   (grid:copy-to (scale scalar v1))))
 
 (generate-all-array-tests givens :float
  (let ((v1 (array-default 8))
@@ -267,4 +267,4 @@
 	(setf (grid:gref sines i) (sin (grid:gref angles i)))
 	(setf (grid:gref cosines i) (cos (grid:gref angles i))))
    (givens-rotation v1 v2 cosines sines)
-   (list (cl-array v1) (cl-array v2))))
+   (list (grid:copy-to v1) (grid:copy-to v2))))

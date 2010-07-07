@@ -47,7 +47,7 @@
                                  (SETF (GRID:GREF COSINES I)
                                          (COS (GRID:GREF ANGLES I))))
                            (GIVENS-ROTATION V1 V2 COSINES SINES)
-                           (LIST (CL-ARRAY V1) (CL-ARRAY V2)))))
+                           (LIST (GRID:COPY-TO V1) (GRID:COPY-TO V2)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST
                          (LIST
@@ -80,5 +80,5 @@
                                  (SETF (GRID:GREF COSINES I)
                                          (COS (GRID:GREF ANGLES I))))
                            (GIVENS-ROTATION V1 V2 COSINES SINES)
-                           (LIST (CL-ARRAY V1) (CL-ARRAY V2))))))
+                           (LIST (GRID:COPY-TO V1) (GRID:COPY-TO V2))))))
 

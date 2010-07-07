@@ -1,6 +1,6 @@
 ;; Sorting
 ;; Liam Healy, Fri Apr 14 2006 - 20:20
-;; Time-stamp: <2010-06-27 18:13:49EDT sorting.lisp>
+;; Time-stamp: <2010-07-07 14:24:54EDT sorting.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -271,44 +271,44 @@
 (generate-all-array-tests sort-vector :no-complex
  (let ((v1 (array-default 8)))
    ;; or you can use msort
-   (cl-array (sort-vector v1))))
+   (grid:copy-to (sort-vector v1))))
 
 (generate-all-array-tests sort-matrix :no-complex
  (let ((m1 (array-default '(3 3))))
-   (cl-array (msort m1))))
+   (grid:copy-to (msort m1))))
 
 (generate-all-array-tests sort-vector-index :no-complex
  (let ((perm (make-permutation 8))
 	(v1 (array-default 8)))
    (sort-vector-index perm v1)
-   (cl-array perm)))
+   (grid:copy-to perm)))
 
 (generate-all-array-tests sort-vector-smallest :no-complex
  (let ((v1 (array-default 8))
 	(v2 (array-default 3)))
-   (cl-array (sort-vector-smallest v2 v1))))
+   (grid:copy-to (sort-vector-smallest v2 v1))))
 
 (generate-all-array-tests sort-matrix-smallest :no-complex
  (let ((m1 (array-default '(3 3)))
 	(m2 (array-default '(2 3) t)))
-   (cl-array (sort-smallest m2 m1))))
+   (grid:copy-to (sort-smallest m2 m1))))
 
 (generate-all-array-tests sort-vector-smallest-index :no-complex
  (let ((comb (make-combination 8 3 nil))
 	(v1 (array-default 8)))
-   (cl-array (sort-vector-smallest-index comb v1))))
+   (grid:copy-to (sort-vector-smallest-index comb v1))))
 
 (generate-all-array-tests sort-vector-largest :no-complex
  (let ((v1 (array-default 8))
 	(v2 (array-default 3)))
-   (cl-array (sort-vector-largest v2 v1))))
+   (grid:copy-to (sort-vector-largest v2 v1))))
 
 (generate-all-array-tests sort-matrix-largest :no-complex
  (let ((m1 (array-default '(3 3)))
 	(m2 (array-default '(2 3) t)))
-   (cl-array (sort-largest m2 m1))))
+   (grid:copy-to (sort-largest m2 m1))))
 
 (generate-all-array-tests sort-vector-largest-index :no-complex
  (let ((comb (make-combination 8 3 nil))
 	(v1 (array-default 8)))
-   (cl-array (sort-vector-largest-index comb v1))))
+   (grid:copy-to (sort-vector-largest-index comb v1))))

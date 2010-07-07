@@ -1,6 +1,6 @@
 ;; Combinations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2010-07-01 21:13:06EDT combination.lisp>
+;; Time-stamp: <2010-07-07 14:30:07EDT combination.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -94,7 +94,7 @@
   "Initialize the combination c to the lexicographically
    last combination, i.e. (n-k,n-k+1,...,n-1).")
 
-(defmfun grid:copy-to-destination ((source combination) (destination combination))
+(defmfun grid::copy-to-destination ((source combination) (destination combination))
   "gsl_combination_memcpy"
   (((mpointer destination) :pointer)
    ((mpointer source) :pointer))

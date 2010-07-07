@@ -1,6 +1,6 @@
 ;; Generators of random numbers.
 ;; Liam Healy, Sat Jul 15 2006 - 14:43
-;; Time-stamp: <2010-07-01 21:15:11EDT generators.lisp>
+;; Time-stamp: <2010-07-07 14:30:30EDT generators.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -176,7 +176,7 @@
 ;;;; Copying state
 ;;;;****************************************************************************
 
-(defmfun grid:copy-to-destination
+(defmfun grid::copy-to-destination
     ((source random-number-generator) (destination random-number-generator))
   "gsl_rng_memcpy"
   (((mpointer destination) :pointer) ((mpointer source) :pointer))
@@ -188,7 +188,7 @@
    making destination into an exact copy
    of source.  The two generators must be of the same type.")
 
-(defmfun grid:copy-making-destination ((instance random-number-generator))
+(defmfun grid::copy-making-destination ((instance random-number-generator))
   "gsl_rng_clone" (((mpointer instance) :pointer))
   :definition :method
   :c-return :pointer

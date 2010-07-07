@@ -1,6 +1,6 @@
 ;; Eigenvectors and eigenvalues
 ;; Liam Healy, Sun May 21 2006 - 19:52
-;; Time-stamp: <2010-06-29 22:15:24EDT symmetric-hermitian.lisp>
+;; Time-stamp: <2010-07-07 14:25:01EDT symmetric-hermitian.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -155,7 +155,7 @@
  (let ((m1 (array-default '(5 5))))
    (multiple-value-bind (eval evec)
        (eigenvalues-eigenvectors (elt+ m1 (matrix-transpose-copy m1)))
-     (list (cl-array eval) (cl-array evec)))))
+     (list (grid:copy-to eval) (grid:copy-to evec)))))
 |#
 
 (defun eigenvalue-eigenvectors-example ()
@@ -165,7 +165,7 @@
 		-10.0d0 30.0d0 0.0d0 ^
 		0.0d0 0.0d0 40.0d0)))
     (eigenvalues-eigenvectors mat evals evecs)
-    (values (cl-array evals) (cl-array evecs))))
+    (values (grid:copy-to evals) (grid:copy-to evecs))))
 
 (save-test eigensystems
 	   (eigenvalue-eigenvectors-example))

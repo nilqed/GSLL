@@ -1,6 +1,6 @@
 ;; Discrete Hankel Transforms.
 ;; Liam Healy, Sat Dec  8 2007 - 16:50
-;; Time-stamp: <2010-07-06 23:13:16EDT hankel.lisp>
+;; Time-stamp: <2010-07-07 14:19:28EDT hankel.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -69,8 +69,7 @@
 
 
 (save-test hankel					; tests from dht/test.c
- (copy (apply-hankel (make-hankel 3 1.0d0 1.0d0) #m(1.0d0 2.0d0 3.0d0))
-       :grid-type 'array)
+ (grid:copy-to (apply-hankel (make-hankel 3 1.0d0 1.0d0) #m(1.0d0 2.0d0 3.0d0)))
  ;; Exact, forward-inverse transform should be accurate to 2e-5
  (let ((hank (make-hankel 3 1.0d0 1.0d0)))
    (copy
@@ -84,16 +83,14 @@
    (loop for n from 0 below 128
       do (setf (grid:gref in n)
 	       (/ (1+ (expt (sample-x-hankel hank n) 2)))))
-   (copy (apply-hankel hank in)
-	 :grid-type 'array))
+   (grid:copy-to (apply-hankel hank in)))
  ;; Integrate[ x exp(-x) J_1(a x), {x,0,Inf}] = a F(3/2, 2; 2; -a^2)
  ;; expected accuracy only about 2%
  (let ((hank (make-hankel 128 1.0d0 20.0d0))
        (in (grid:make-foreign-array 'double-float :dimensions 128)))
    (loop for n from 0 below 128
       do (setf (grid:gref in n) (exp (- (sample-x-hankel hank n)))))
-   (copy (apply-hankel hank in)
-	 :grid-type 'array))
+   (grid:copy-to (apply-hankel hank in)))
  ;; Integrate[ x^2 (1-x^2) J_1(a x), {x,0,1}] = 2/a^2 J_3(a)
  (let ((hank (make-hankel 128 1.0d0 1.0d0))
        (in (grid:make-foreign-array 'double-float :dimensions 128)))
@@ -101,4 +98,4 @@
       do (setf (grid:gref in n)
 	       (let ((x (sample-x-hankel hank n)))
 		 (* x (- 1 (expt x 2))))))
-   (copy (apply-hankel hank in) :grid-type 'array)))
+   (grid:copy-to (apply-hankel hank in))))

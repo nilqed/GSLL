@@ -74,12 +74,11 @@
       #C(0.3090169943749475d0 -0.951056516295153d0)
       #C(0.9999999999999999d0 0.0d0)))
    (MULTIPLE-VALUE-LIST
-    (COPY
+    (grid:COPY-to
      (POLYNOMIAL-SOLVE
       (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
 			       '(-1.0d0 0.0d0 0.0d0 0.0d0 0.0d0
-				 1.0d0)))
-      :grid-type 'ARRAY)))
+				 1.0d0))))))
   (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
    (LIST 1.3250000029802322d0)
    (MULTIPLE-VALUE-LIST
@@ -225,11 +224,10 @@
       #C(4.000000000000085d0 0.0d0)
       #C(4.9999999999999964d0 0.0d0)))
    (MULTIPLE-VALUE-LIST
-    (COPY
+    (grid:COPY-to
      (POLYNOMIAL-SOLVE
       (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
-			       '(-120 274 -225 85 -15 1.0)))
-      :grid-type 'ARRAY)))
+			       '(-120 274 -225 85 -15 1.0))))))
   (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
    (LIST
     #(#C(-0.8660254037844393d0 0.49999999999999983d0)
@@ -241,11 +239,10 @@
       #C(0.8660254037844388d0 0.4999999999999996d0)
       #C(0.8660254037844388d0 -0.4999999999999996d0)))
    (MULTIPLE-VALUE-LIST
-    (COPY
+    (grid:COPY-to
      (POLYNOMIAL-SOLVE
       (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
-			       '(1 0 0 0 1 0 0 0 1)))
-      :grid-type 'ARRAY)))
+			       '(1 0 0 0 1 0 0 0 1))))))
   (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST
@@ -271,16 +268,16 @@
 				     '(0.73 1.11 1.49 1.84 2.3 2.41
 				       3.07)))
 	   (DD (DIVIDED-DIFFERENCE XA YA)))
-      (LIST (COPY DD  :grid-type 'ARRAY)
+      (LIST (grid:COPY-to DD)
 	    (MAP 'VECTOR
 		 (LAMBDA (X)
 		   (EVALUATE XA X :DIVIDED-DIFFERENCE DD))
-		 (COPY XA  :grid-type 'ARRAY))
+		 (grid:COPY-to XA))
 	    (MAP 'VECTOR
 		 (LAMBDA (X)
 		   (EVALUATE
 		    (TAYLOR-DIVIDED-DIFFERENCE 1.5d0 DD
 					       XA)
 		    (- X 1.5d0)))
-		 (COPY XA  :grid-type 'ARRAY)))))))
+		 (grid:COPY-to XA)))))))
 

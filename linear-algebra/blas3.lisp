@@ -1,6 +1,6 @@
 ;; BLAS level 3, Matrix-matrix operations
 ;; Liam Healy, Wed Apr 26 2006 - 21:08
-;; Time-stamp: <2010-06-29 22:15:23EDT blas3.lisp>
+;; Time-stamp: <2010-07-07 14:25:00EDT blas3.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -177,26 +177,26 @@
        (m3 (array-default '(3 3)))
        (s1 (scalar-default))
        (s2 (scalar-default)))
-   (cl-array (matrix-product m1 m2 m3 s1 s2))))
+   (grid:copy-to (matrix-product m1 m2 m3 s1 s2))))
 
 (generate-all-array-tests matrix-product-nonsquare :float-complex
  (let ((m1 (array-default '(2 3)))
        (m2 (array-default '(3 2))))
-   (cl-array (matrix-product m1 m2))))
+   (grid:copy-to (matrix-product m1 m2))))
 
 (generate-all-array-tests matrix-product-triangular
 			  #+fsbv :float-complex #-fsbv :float
  (let ((m1 (array-default '(3 3)))
        (m2 (array-default '(3 3)))
        (s1 (scalar-default)))
-   (cl-array (matrix-product-triangular m1 m2 s1))))
+   (grid:copy-to (matrix-product-triangular m1 m2 s1))))
 
 (generate-all-array-tests inverse-matrix-product 
 			  #+fsbv :float-complex #-fsbv :float
  (let ((m1 (array-default '(3 3)))
        (m2 (array-default '(3 3)))
        (s1 (scalar-default)))
-   (cl-array (inverse-matrix-product m1 m2 s1))))
+   (grid:copy-to (inverse-matrix-product m1 m2 s1))))
 
 (generate-all-array-tests matrix-product-symmetric :float
  (let ((m1 (array-default '(3 3)))
@@ -204,7 +204,7 @@
        (m3 (array-default '(3 3)))
        (s1 (scalar-default))
        (s2 (scalar-default)))
-   (cl-array (matrix-product-symmetric m1 m2 m3 s1 s2))))
+   (grid:copy-to (matrix-product-symmetric m1 m2 m3 s1 s2))))
 
 #+fsbv
 (generate-all-array-tests matrix-product-hermitian :complex
@@ -213,4 +213,4 @@
        (m3 (array-default '(3 3)))
        (s1 (scalar-default))
        (s2 (scalar-default)))
-   (cl-array (matrix-product-hermitian m1 m2 m3 s1 s2))))
+   (grid:copy-to (matrix-product-hermitian m1 m2 m3 s1 s2))))
