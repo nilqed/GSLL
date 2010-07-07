@@ -1,6 +1,6 @@
 ;; Example FFT: transform a pulse (using the "clean" fft interface)
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 00:24
-;; Time-stamp: <2010-07-01 19:38:50EDT example.lisp>
+;; Time-stamp: <2010-07-06 23:16:03EDT example.lisp>
 ;;
 ;; Copyright 2009 Sumant Oemrawsingh, Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -147,7 +147,7 @@
 		:initial-contents
 		(map 'list
 		     (lambda (x) (/ x (floor (size backward) stride)))
-		     (copy backward 'array))))))
+		     (copy backward :grid-type 'array))))))
 	(multiple-value-bind (forward inverse)
 	    (test-real-fft-noise random-vector :stride stride)
 	  (values dft-random-vector forward random-vector inverse)))))

@@ -1,6 +1,6 @@
 ;; Generate matrices used in tests of linear algebra functions
 ;; Liam Healy 2009-09-19 18:28:31EDT matrix-generation.lisp
-;; Time-stamp: <2010-07-06 22:29:07EDT matrix-generation.lisp>
+;; Time-stamp: <2010-07-06 23:57:49EDT matrix-generation.lisp>
 ;;
 ;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -39,8 +39,9 @@
   (grid:map-grid
    :source function
    :destination-specification
-   `((foreign-array ,dim0 ,dim1) ,element-type)
-   :source-dims (if dim1 (list dim0 dim1) (list dim0))))
+   (if dim1
+       `((foreign-array ,dim0 ,dim1) ,element-type)
+       `((foreign-array ,dim0) ,element-type))))
 
 (defun constant-matrix
     (constant dim0 &optional (dim1 dim0) (element-type 'double-float))

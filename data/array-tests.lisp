@@ -1,6 +1,6 @@
 ;; Tests of array functions 
 ;; Liam Healy 2008-10-20 22:41:48EDT array-tests.lisp
-;; Time-stamp: <2009-12-27 09:42:06EST array-tests.lisp>
+;; Time-stamp: <2010-07-06 23:51:52EDT array-tests.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -47,12 +47,6 @@
  (let ((m1 (array-default '(3 3))))
    (set-zero m1)
    (cl-array m1)))
-
-(generate-all-array-tests vector-copy t
- (cl-array (copy (array-default 3))))
-
-(generate-all-array-tests matrix-copy t
- (cl-array (copy (array-default '(3 3)))))
 
 (generate-all-array-tests vector-swap t
  (let ((v1 (array-default 3))

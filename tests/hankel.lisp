@@ -29,7 +29,7 @@
                                         (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT
                                                      :INITIAL-CONTENTS
                                                      '(1.0d0 2.0d0 3.0d0)))
-                          'ARRAY)))
+                           :grid-type 'ARRAY)))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST
                          #(1.000011918676266d0 1.9999790476647115d0
@@ -45,7 +45,7 @@
                                                                :INITIAL-CONTENTS
                                                                '(1.0d0 2.0d0
                                                                  3.0d0)))))
-                            'ARRAY))))
+                             :grid-type 'ARRAY))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST
                          #(3.999613382195876d0 2.9590494996797356d0
@@ -121,7 +121,7 @@
                                           (1+
                                            (EXPT (SAMPLE-X-HANKEL HANK N)
                                                  2)))))
-                           (COPY (APPLY-HANKEL HANK IN) 'ARRAY))))
+                           (COPY (APPLY-HANKEL HANK IN)  :grid-type 'ARRAY))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST
                          #(0.18148296716239096d0 0.29470565030732726d0
@@ -194,7 +194,7 @@
                            (LOOP FOR N FROM 0 BELOW 128 DO
                                  (SETF (GRID:GREF IN N)
                                          (EXP (- (SAMPLE-X-HANKEL HANK N)))))
-                           (COPY (APPLY-HANKEL HANK IN) 'ARRAY))))
+                           (COPY (APPLY-HANKEL HANK IN) :grid-type 'ARRAY))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST
                          #(0.05727421417071144d0 -0.0069532329565967065d0
@@ -268,5 +268,5 @@
                                  (SETF (GRID:GREF IN N)
                                          (LET ((X (SAMPLE-X-HANKEL HANK N)))
                                            (* X (- 1 (EXPT X 2))))))
-                           (COPY (APPLY-HANKEL HANK IN) 'ARRAY)))))
+                           (COPY (APPLY-HANKEL HANK IN) :grid-type 'ARRAY)))))
 

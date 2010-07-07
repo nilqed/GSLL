@@ -1,6 +1,6 @@
 ;; Polynomials
 ;; Liam Healy, Tue Mar 21 2006 - 18:33
-;; Time-stamp: <2010-06-29 22:15:17EDT polynomial.lisp>
+;; Time-stamp: <2010-07-06 23:17:06EDT polynomial.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -211,7 +211,8 @@
  (solve-cubic -6.0d0 -13.0d0 42.0d0)
  (solve-cubic-complex -1.0d0 1.0d0 -1.0d0)
  ;; Example from GSL manual
- (copy (polynomial-solve #m(-1.0d0 0.0d0 0.0d0 0.0d0 0.0d0 1.0d0)) 'array)
+ (copy (polynomial-solve #m(-1.0d0 0.0d0 0.0d0 0.0d0 0.0d0 1.0d0))
+        :grid-type 'array)
  ;; tests from gsl-1.11/poly/test.c
  (evaluate #m(1 0.5 0.3) 0.5d0)
  (evaluate #m(1 -1 1 -1 1 -1 1 -1 1 -1 1) 1.0d0)
@@ -242,15 +243,18 @@
  (solve-cubic-complex -57.0d0 1071.0d0 -6647.0d0)
  (solve-cubic-complex -11.0d0 -493.0d0 +6647.0d0)
  (solve-cubic-complex -143.0d0 5087.0d0 -50065.0d0)
- (copy (polynomial-solve #m(-120 274 -225 85 -15 1.0)) 'array)
- (copy (polynomial-solve #m(1 0 0 0 1 0 0 0 1)) 'array)
+ (copy (polynomial-solve #m(-120 274 -225 85 -15 1.0))
+        :grid-type 'array)
+ (copy (polynomial-solve #m(1 0 0 0 1 0 0 0 1))
+        :grid-type 'array)
  (let* ((xa #m(0.16 0.97 1.94 2.74 3.58 3.73 4.70))
 	(ya #m(0.73 1.11 1.49 1.84 2.30 2.41 3.07))
 	(dd (divided-difference xa ya)))
    (list
-    (copy dd 'array)
-    (map 'vector (lambda (x) (evaluate xa x :divided-difference dd)) (copy xa 'array))
+    (copy dd :grid-type 'array)
+    (map 'vector (lambda (x) (evaluate xa x :divided-difference dd))
+	 (copy xa :grid-type 'array))
     (map 'vector
 	 (lambda (x) (evaluate (taylor-divided-difference 1.5d0 dd xa) (- x 1.5d0)))
-	 (copy xa 'array)))))
+	 (copy xa :grid-type 'array)))))
 
