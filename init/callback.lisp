@@ -1,6 +1,6 @@
 ;; Foreign callback functions.               
 ;; Liam Healy 
-;; Time-stamp: <2010-06-29 22:51:19EDT callback.lisp>
+;; Time-stamp: <2010-07-11 19:01:17EDT callback.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -37,14 +37,13 @@
 ;;; they are defined with those tasks.  The macro #'defmcallback can
 ;;; specify that the CL function is to expect in arglist and return as
 ;;; multiple values scalar quantities that come from and will be bound
-;;; to either grid:foreign-arrays or C vectors.  This is done with a list of the
+;;; to either grid:foreign-arrays.  This is done with a list of the
 ;;; type and size, e.g. (:double 3), and for setting :set, type size,
-;;; e.g. (:set :double 3).  If the 'grid:foreign-array argument is nil, it will
-;;; expand to read or set a C vector; if it is T, it will expand to
-;;; read or set a grid:foreign-array.  This allows the user to define ordinary CL
+;;; e.g. (:set :double 3).  These can read either :cvector or
+;;; :foreign-array.  This allows the user to define ordinary CL
 ;;; functions with scalars as input and output.  However, it may be
-;;; desirable to read and set grid:foreign-arrays, in which case :pointer is the
-;;; right specification.
+;;; desirable to read and set grid:foreign-arrays, in which case
+;;; :pointer is the right specification.
 
 ;;;;****************************************************************************
 ;;;; Setting slots

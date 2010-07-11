@@ -1,8 +1,8 @@
 ;; Generate a lambda that calls the user function; will be called by callback.
 ;; Liam Healy 
-;; Time-stamp: <2010-07-10 22:18:51EDT funcallable.lisp>
+;; Time-stamp: <2010-07-11 18:12:29EDT funcallable.lisp>
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -66,13 +66,17 @@
 ;;;;****************************************************************************
 
 (defun gref-mpointer-form
-    (mpointer index &optional (category 'vector) (element-type 'double-float))
-  "Create the call that will return an element from a GSL array mpointer."
+    (mpointer index &optional value (category 'vector) (element-type 'double-float))
+  "Create the call that will return an element from a GSL array mpointer, 
+   or set it to value if value is non-NIL."
   (ffexpand
    nil
    (actual-gsl-function-name
-    '("gsl_" :category :type "_get") category element-type)
-   `(:pointer ,mpointer sizet ,index ,element-type)))
+    `("gsl_" :category :type ,(if value "_set" "_get"))
+    category element-type)
+   (if value
+       `(:pointer ,mpointer sizet ,index ,element-type ,value :void)
+       `(:pointer ,mpointer sizet ,index ,element-type))))
 
 (defun reference-foreign-element
     (foreign-variable-name linear-index argspec dimension-values)
@@ -92,7 +96,7 @@
 	       (parse-callback-argspec argspec 'element-type))
 	      ;; A vector
 	      (gref-mpointer-form
-	       foreign-variable-name linear-index 'vector
+	       foreign-variable-name linear-index nil 'vector
 	       (parse-callback-argspec argspec 'element-type)))
 	  `(cffi:mem-aref
 	    ,foreign-variable-name

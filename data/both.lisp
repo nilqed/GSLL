@@ -1,6 +1,6 @@
 ;; Functions for both vectors and matrices.
 ;; Liam Healy 2008-04-26 20:48:44EDT both.lisp
-;; Time-stamp: <2010-07-06 22:37:34EDT both.lisp>
+;; Time-stamp: <2010-07-11 18:37:28EDT both.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -78,9 +78,6 @@
   "Exchange the elements of a and b
    by copying.  The two must have the same dimensions.")
 
-;;; These functions are here as debugging tools only; they do not insure
-;;; coherency between the C and CL sides and therefore should not be
-;;; used in production.
 ;;; For matrix functions, there should be another index argument
 #|
 (defmfun set-value ((object vector) index value)

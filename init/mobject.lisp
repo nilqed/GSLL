@@ -1,6 +1,6 @@
 ;; Definition of GSL objects and ways to use them.
 ;; Liam Healy, Sun Dec  3 2006 - 10:21
-;; Time-stamp: <2010-07-07 14:30:30EDT mobject.lisp>
+;; Time-stamp: <2010-07-11 17:07:40EDT mobject.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -62,7 +62,7 @@
 ;;; allocate-inputs
 ;;; freer
 ;;; callbacks
-;;;   See callbacks.lisp
+;;;   See callback.lisp
 ;;; superclasses
 ;;;   List of superclasses other than 'mobject.
 ;;; singular
