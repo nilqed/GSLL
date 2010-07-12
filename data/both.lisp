@@ -1,6 +1,6 @@
 ;; Functions for both vectors and matrices.
 ;; Liam Healy 2008-04-26 20:48:44EDT both.lisp
-;; Time-stamp: <2010-07-11 18:37:28EDT both.lisp>
+;; Time-stamp: <2010-07-12 12:45:15EDT both.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -79,29 +79,28 @@
    by copying.  The two must have the same dimensions.")
 
 ;;; For matrix functions, there should be another index argument
-#|
-(defmfun set-value ((object vector) index value)
+(defmfun get-value ((class-name (eql vector)) mpointer index)
+  ("gsl_"  :category :type "_get")
+  ((mpointer :pointer) (index sizet))
+  :definition :generic
+  :c-return :element-c-type
+  :export nil
+  :documentation
+  "Get the single element of the GSL vector.  This is used
+   in callbacks.")
+
+(defmfun (setf get-value)
+    (value (class-name (eql vector)) mpointer index)
   ("gsl_"  :category :type "_set")
-  (((mpointer object) :pointer) (index sizet) (value :element-c-type))
+  ((value :element-c-type) (mpointer :pointer) (index sizet))
   :definition :generic
   :element-types #+fsbv t #-fsbv :no-complex
-  :inputs (object)
-  :outputs (object)
   :c-return :void
-  :export nil				; debugging only
+  :return (value)
+  :export nil
   :documentation
-  "Set single element to the value.  For debugging only; do not use.")
-
-(defmfun get-value ((object vector) index)
-  ("gsl_"  :category :type "_get")
-  (((mpointer object) :pointer) (index sizet))
-  :definition :generic
-  :inputs (object)
-  :c-return :element-c-type
-  :export nil				; debugging only
-  :documentation
-  "Set single element to the value.  For debugging only; do not use.")
-|#
+  "Set the single element of the GSL vector to the value.  This is
+   used in callbacks.")
 
 ;;;;****************************************************************************
 ;;;; Elementwise arithmetic operations overwriting an array

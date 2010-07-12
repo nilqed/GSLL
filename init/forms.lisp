@@ -1,6 +1,6 @@
 ;; Lisp forms
 ;; Liam Healy 2009-03-07 15:49:25EST forms.lisp
-;; Time-stamp: <2009-12-27 09:50:31EST forms.lisp>
+;; Time-stamp: <2010-07-12 12:28:48EDT forms.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -30,6 +30,14 @@
 (defparameter *defmfun-optk* '(&optional &key)
   "Possible optional-argument keywords.")
 
+(defun eql-specializer (arg)
+  "If this argument has an eql specializer, return
+   the specialization category; otherwise nil."
+  (when (and (listp arg)
+	     (listp (second arg))
+	     (eql (first (second arg)) 'eql))
+    (second (second arg))))
+
 (defun arglist-plain-and-categories
     (arglist &optional (include-llk t))
   "Get arglist without classes and a list of categories."
@@ -41,7 +49,7 @@
      (when (and getting-categories (listp arg))
        ;; Collect categories (classes), but not default values to
        ;; optional arugments.
-       (pushnew (second arg) categories))
+       (pushnew (or (eql-specializer arg) (second arg)) categories))
      when (or (not (member arg *defmfun-llk*)) include-llk)
      collect
      (if (listp arg) (first arg) arg)

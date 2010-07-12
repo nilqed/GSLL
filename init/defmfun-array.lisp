@@ -1,6 +1,6 @@
 ;; Helpers for defining GSL functions on arrays
 ;; Liam Healy 2009-01-07 22:01:16EST defmfun-array.lisp
-;; Time-stamp: <2010-06-27 21:11:54EDT defmfun-array.lisp>
+;; Time-stamp: <2010-07-12 12:28:57EDT defmfun-array.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -85,6 +85,7 @@
   ;; are defaulted if not supplied and a single GSL function called,
   ;; or the presence/absence of optional arguments switches between two
   ;; GSL functions.
+  (unless category (error "category is nil"))
   (with-defmfun-key-args key-args
     (mapcar (lambda (eltype)
 	      (flet ((actual-gfn (gslname)
@@ -147,6 +148,20 @@
 			(string-downcase (symbol-name category)) :category
 			base-name))))))))))
 
+(defun actual-array-class (category element-type &optional replace-both)
+  "From the category ('vector, 'matrix, or 'both) and element type,
+   find the class name."
+  (case category
+    (:element-type (grid:number-class element-type))
+    (:component-float-type
+     (grid:number-class (grid:component-float-type element-type)))
+    (otherwise
+     (grid:data-class-name
+      (if (and (eq category 'both) replace-both)
+	  replace-both
+	  category)
+      element-type))))
+
 (defun actual-class-arglist
     (arglist element-type c-arguments &optional replace-both)
   "Replace the prototype arglist with an actual arglist."
@@ -159,16 +174,12 @@
      collect
      (if (and replacing (listp arg))
 	 (list (first arg)
-	       (case (second arg)
-		 (:element-type (grid:number-class element-type))
-		 (:component-float-type
-		  (grid:number-class (grid:component-float-type element-type)))
-		 (otherwise
-		  (grid:data-class-name
-		   (if (and (eq (second arg) 'both) replace-both)
-		       replace-both
-		       (second arg))
-		   element-type))))
+	       (if (eql-specializer arg)
+		   ;; eql specializer on class name
+		   `(eql
+		     ',(actual-array-class
+			(eql-specializer arg) element-type replace-both))
+		   (actual-array-class (second arg) element-type replace-both)))
 	 ;; Default values for optional/key arguments are treated
 	 ;; specially for array methods.
 	 (if (and (listp arg) (numberp (second arg)))
@@ -177,7 +188,7 @@
 		     (grid:st-type (find (first arg) carg-actual :key 'grid:st-symbol)))))
 	       (list (first arg) ; Optional arg default numerical value
 		     (if actual-type
-		     ;; coerce to the right type
+			 ;; coerce to the right type
 			 (coerce (second arg) actual-type)
 			 (second arg))))
 	     (if (listp arg)
