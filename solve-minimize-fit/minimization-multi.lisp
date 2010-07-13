@@ -1,6 +1,6 @@
 ;; Multivariate minimization.
 ;; Liam Healy  <Tue Jan  8 2008 - 21:28>
-;; Time-stamp: <2010-06-30 19:57:28EDT minimization-multi.lisp>
+;; Time-stamp: <2010-07-12 21:28:04EDT minimization-multi.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -393,15 +393,19 @@
 	     (values (grid:gref x 0) (grid:gref x 1) (function-value minimizer))))))))
 
 ;;; Example using derivatives, taking a vector argument.
-;;; Note that these functions are written to read objects of
+;;; Note that these functions are written to read mpointers to
 ;;; vector-double-float.  They could as well have been written to
 ;;; accept the correct number of scalar double-floats.
 
-(defun paraboloid-vector (gsl-vector)
+(defun paraboloid-vector (mpointer)
   "A paraboloid function of two arguments, given in GSL manual Sec. 35.4.
    This version takes a vector-double-float argument."
-  (let ((x (grid:gref gsl-vector 0))
-	(y (grid:gref gsl-vector 1))
+  ;; An alternative access to the passed-in vector would be to
+  ;; bind a variable to
+  ;; (make-foreign-array-from-mpointer mpointer 'double-float :vector)
+  ;; and then call grid:gref on it.
+  (let ((x (get-value 'grid:vector-double-float mpointer 0))
+	(y (get-value 'grid:vector-double-float mpointer 1))
 	(dp0 (aref *paraboloid-center* 0))
 	(dp1 (aref *paraboloid-center* 1)))
     (+ (* 10 (expt (- x dp0) 2))
@@ -410,13 +414,13 @@
 
 (defun paraboloid-derivative
     (arguments-gv-pointer derivative-gv-pointer)
-  (let ((x (grid:gref arguments-gv-pointer 0))
-	(y (grid:gref arguments-gv-pointer 1))
+  (let ((x (get-value 'grid:vector-double-float arguments-gv-pointer 0))
+	(y (get-value 'grid:vector-double-float arguments-gv-pointer 1))
 	(dp0 (aref *paraboloid-center* 0))
 	(dp1 (aref *paraboloid-center* 1)))
-    (setf (grid:gref derivative-gv-pointer 0)
+    (setf (get-value 'grid:vector-double-float derivative-gv-pointer 0)
 	  (* 20 (- x dp0))
-	  (grid:gref derivative-gv-pointer 1)
+	  (get-value 'grid:vector-double-float derivative-gv-pointer 1)
 	  (* 40 (- y dp1)))))
 
 (defun paraboloid-and-derivative

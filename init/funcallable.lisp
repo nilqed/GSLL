@@ -1,6 +1,6 @@
 ;; Generate a lambda that calls the user function; will be called by callback.
 ;; Liam Healy 
-;; Time-stamp: <2010-07-11 18:12:29EDT funcallable.lisp>
+;; Time-stamp: <2010-07-12 21:09:21EDT funcallable.lisp>
 ;;
 ;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -65,39 +65,18 @@
 ;;;; Reference foreign elements and make multiple-value-bind form
 ;;;;****************************************************************************
 
-(defun gref-mpointer-form
-    (mpointer index &optional value (category 'vector) (element-type 'double-float))
-  "Create the call that will return an element from a GSL array mpointer, 
-   or set it to value if value is non-NIL."
-  (ffexpand
-   nil
-   (actual-gsl-function-name
-    `("gsl_" :category :type ,(if value "_set" "_get"))
-    category element-type)
-   (if value
-       `(:pointer ,mpointer sizet ,index ,element-type ,value :void)
-       `(:pointer ,mpointer sizet ,index ,element-type))))
-
 (defun reference-foreign-element
     (foreign-variable-name linear-index argspec dimension-values)
   "Form to reference, for getting or setting, the element of a foreign
    array, or a scalar."
   (if (parse-callback-argspec argspec 'dimensions)
       (if (eql (parse-callback-argspec argspec 'array-type) :foreign-array)
-	  (if (= (length (value-from-dimensions argspec dimension-values)) 2) ; matrix
-	      (error "Not ready for matrices yet!")
-	      #+(or)
-	      (gref-mpointer-form
-	       foreign-variable-name
-	       (multiple-value-list
-		(floor linear-index
-		       (first dims)))
-	       'matrix
-	       (parse-callback-argspec argspec 'element-type))
-	      ;; A vector
-	      (gref-mpointer-form
-	       foreign-variable-name linear-index nil 'vector
-	       (parse-callback-argspec argspec 'element-type)))
+	  `(get-value
+	    ',(grid:data-class-name
+	       (length (value-from-dimensions argspec dimension-values))
+	       (grid:cffi-cl (parse-callback-argspec argspec 'element-type)))
+	    ,foreign-variable-name
+	    ,linear-index)
 	  `(cffi:mem-aref
 	    ,foreign-variable-name
 	    ',(parse-callback-argspec argspec 'element-type)
