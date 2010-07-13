@@ -1,6 +1,6 @@
 ;; Multivariate minimization.
 ;; Liam Healy  <Tue Jan  8 2008 - 21:28>
-;; Time-stamp: <2010-07-12 21:28:04EDT minimization-multi.lisp>
+;; Time-stamp: <2010-07-13 10:33:06EDT minimization-multi.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -397,42 +397,47 @@
 ;;; vector-double-float.  They could as well have been written to
 ;;; accept the correct number of scalar double-floats.
 
-(defun paraboloid-vector (mpointer)
+(defun paraboloid-vector (xy)
   "A paraboloid function of two arguments, given in GSL manual Sec. 35.4.
    This version takes a vector-double-float argument."
   ;; An alternative access to the passed-in vector would be to
   ;; bind a variable to
   ;; (make-foreign-array-from-mpointer mpointer 'double-float :vector)
   ;; and then call grid:gref on it.
-  (let ((x (get-value 'grid:vector-double-float mpointer 0))
-	(y (get-value 'grid:vector-double-float mpointer 1))
+  (let ((x (grid:gref xy 0))
+	(y (grid:gref xy 1))
 	(dp0 (aref *paraboloid-center* 0))
 	(dp1 (aref *paraboloid-center* 1)))
     (+ (* 10 (expt (- x dp0) 2))
        (* 20 (expt (- y dp1) 2))
        30)))
 
-(defun paraboloid-derivative
-    (arguments-gv-pointer derivative-gv-pointer)
-  (let ((x (get-value 'grid:vector-double-float arguments-gv-pointer 0))
-	(y (get-value 'grid:vector-double-float arguments-gv-pointer 1))
+(defun paraboloid-derivative (xy output)
+  (let ((x (grid:gref xy 0))
+	(y (grid:gref xy 1))
 	(dp0 (aref *paraboloid-center* 0))
 	(dp1 (aref *paraboloid-center* 1)))
-    (setf (get-value 'grid:vector-double-float derivative-gv-pointer 0)
+    (setf (grid:gref output 0)
 	  (* 20 (- x dp0))
-	  (get-value 'grid:vector-double-float derivative-gv-pointer 1)
+	  (grid:gref output 1)
 	  (* 40 (- y dp1)))))
 
 (defun paraboloid-and-derivative
     (arguments-gv-pointer value-pointer derivative-gv-pointer)
+  (lu:print-variables arguments-gv-pointer value-pointer derivative-gv-pointer)
   (prog1
-      (setf (grid:dcref value-pointer)
+      (setf (grid:gref value-pointer 0)
 	    (paraboloid-vector arguments-gv-pointer))
     (paraboloid-derivative
      arguments-gv-pointer derivative-gv-pointer)))
 
 (defun multimin-example-derivative
     (&optional (method +conjugate-fletcher-reeves+) (print-steps t))
+  "This is an example solving the multidimensional minimization problem
+   of a paraboloid using the derivative.  The callback functions
+   paraboloid-vector and paraboloid-derivative expect vectors.
+   Contrast this with multimin-example-derivative-scalars, which
+   expects and returns the scalar components."
   (let* ((initial #m(5.0d0 7.0d0))
 	 (minimizer
 	  (make-multi-dimensional-minimizer-fdf
@@ -472,6 +477,11 @@
 
 (defun multimin-example-derivative-scalars
     (&optional (method +conjugate-fletcher-reeves+) (print-steps t))
+  "This is an example solving the multidimensional minimization problem
+   of a paraboloid using the derivative.  The callback functions
+   paraboloid-scalar and paraboloid-derivative-scalar expect scalars.
+   Contrast this with multimin-example-derivative, which
+   expects and returns vectors."
   (let* ((initial #m(5.0d0 7.0d0))
 	 (minimizer
 	  (make-multi-dimensional-minimizer-fdf
@@ -496,8 +506,6 @@
        (return
 	 (let ((x (solution minimizer)))
 	   (values (grid:gref x 0) (grid:gref x 1) (function-value minimizer)))))))
-
-
 
 (save-test minimization-multi
  (multimin-example-no-derivative +simplex-nelder-mead-on2+ nil)

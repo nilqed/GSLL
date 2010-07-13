@@ -1,6 +1,6 @@
 ;; Generate a lambda that calls the user function; will be called by callback.
 ;; Liam Healy 
-;; Time-stamp: <2010-07-12 21:09:21EDT funcallable.lisp>
+;; Time-stamp: <2010-07-13 10:37:28EDT funcallable.lisp>
 ;;
 ;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -60,6 +60,21 @@
 	      (if array-only (parse-callback-argspec arg 'dimensions) t))
        arg))
    argspecs))
+
+(defun faify-form (ptr argspec)
+  "Make the form that turns the mpointer into a foreign-array."
+  (ecase (parse-callback-argspec argspec 'array-type)
+    (:foreign-array			; a GSL mpointer
+     `(make-foreign-array-from-mpointer
+       ,ptr
+       ',(grid:cffi-cl (parse-callback-argspec argspec 'element-type))
+       ,(length (parse-callback-argspec argspec 'dimensions))))
+    (:cvector				; a raw C vector
+     `(grid:make-foreign-array-from-pointer
+       ,ptr
+       ',(parse-callback-argspec argspec 'dimensions)
+       ',(grid:cffi-cl (parse-callback-argspec argspec 'element-type))
+       t))))
 
 ;;;;****************************************************************************
 ;;;; Reference foreign elements and make multiple-value-bind form
@@ -168,9 +183,10 @@
 		  call-form))
 	    `(funcall ,function-designator
 		      ,@(if outarrayp
-			    (append inargs-names outargs-names)
+			    (append (mapcar 'faify-form inargs-names inargs-specs)
+				    (mapcar 'faify-form outargs-names outarrayp))
 			    ;; no arrays to return, just return the value
-			    inargs-names)))
+			    (mapcar 'faify-form inargs-names inargs-specs))))
        ,@(case
 	  (parse-callback-fnspec fnspec 'return-spec)
 	  (:success-failure

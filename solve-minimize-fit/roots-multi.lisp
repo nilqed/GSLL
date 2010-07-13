@@ -1,6 +1,6 @@
 ;;; Multivariate roots.                
 ;;; Liam Healy 2008-01-12 12:49:08
-;;; Time-stamp: <2010-06-30 19:57:28EDT roots-multi.lisp>
+;;; Time-stamp: <2010-07-13 09:52:54EDT roots-multi.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -376,6 +376,13 @@
 ;;;; Examples
 ;;;;****************************************************************************
 
+;;; This is the example given in GSL manual, Sec. 35.8.
+;;; http://www.gnu.org/software/gsl/manual/html_node/Example-programs-for-Multidimensional-Root-finding.html
+
+;;; These examples use use scalarsp=T in the
+;;; multi-dimensional-root-solver argument.  To see how vectors would
+;;; be used, see minimization-multi.
+
 (defparameter *powell-A* 1.0d4)
 (defun powell (arg0 arg1)
   "Powell's test function."
@@ -383,8 +390,6 @@
    (- (* *powell-A* arg0 arg1) 1)
    (+ (exp (- arg0)) (exp (- arg1)) (- (1+ (/ *powell-A*))))))
 ;; not used?
-
-;;; This is the example given in Sec. 34.8.
 
 (defparameter *rosenbrock-a* 1.0d0)
 (defparameter *rosenbrock-b* 10.0d0)

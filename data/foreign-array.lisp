@@ -1,6 +1,6 @@
 ;; A grid:foreign-array with added metadata for GSL.
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2010-07-01 19:38:35EDT foreign-array.lisp>
+;; Time-stamp: <2010-07-13 10:24:43EDT foreign-array.lisp>
 ;;
 ;; Copyright 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -80,16 +80,16 @@
    gsl-vector-c or gsl-matrix-c is given."
   (let* ((cstruct
 	  (case category
-	    (:vector 'gsl-vector-c)
-	    (:matrix 'gsl-matrix-c)
+	    ((vector :vector 1) 'gsl-vector-c)
+	    ((matrix :matrix 2) 'gsl-matrix-c)
 	    (t (error "Unrecognized category ~a" category))))
 	 (fa
 	  (grid:make-grid
 	   (case category
-	     (:vector
+	     ((vector :vector 1)
 	      `((foreign-array ,(cffi:foreign-slot-value mpointer cstruct 'size))
 		,element-type))
-	     (:matrix
+	     ((matrix :matrix 2)
 	      `((foreign-array
 		 ,(cffi:foreign-slot-value mpointer cstruct 'size0)
 		 ,(cffi:foreign-slot-value mpointer cstruct 'size1))
