@@ -1,6 +1,6 @@
 ;; Generate a lambda that calls the user function; will be called by callback.
 ;; Liam Healy 
-;; Time-stamp: <2010-07-13 10:37:28EDT funcallable.lisp>
+;; Time-stamp: <2010-07-13 12:06:01EDT funcallable.lisp>
 ;;
 ;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -68,7 +68,8 @@
      `(make-foreign-array-from-mpointer
        ,ptr
        ',(grid:cffi-cl (parse-callback-argspec argspec 'element-type))
-       ,(length (parse-callback-argspec argspec 'dimensions))))
+       ,(length (parse-callback-argspec argspec 'dimensions))
+       t))
     (:cvector				; a raw C vector
      `(grid:make-foreign-array-from-pointer
        ,ptr

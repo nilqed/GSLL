@@ -1,6 +1,6 @@
 ;; A grid:foreign-array with added metadata for GSL.
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2010-07-13 10:24:43EDT foreign-array.lisp>
+;; Time-stamp: <2010-07-13 12:06:45EDT foreign-array.lisp>
 ;;
 ;; Copyright 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -75,7 +75,8 @@
 ;; foreign-array.  
 
 (defun make-foreign-array-from-mpointer
-    (mpointer &optional (element-type 'double-float) (category :vector))
+    (mpointer
+     &optional (element-type 'double-float) (category :vector) finalize)
   "Make the foreign array when a GSL pointer to a
    gsl-vector-c or gsl-matrix-c is given."
   (let* ((cstruct
@@ -95,6 +96,7 @@
 		 ,(cffi:foreign-slot-value mpointer cstruct 'size1))
 		,element-type)))
 	   :foreign-pointer
-	   (cffi:foreign-slot-value mpointer cstruct 'data))))
+	   (cffi:foreign-slot-value mpointer cstruct 'data)
+	   :finalizer finalize)))
     (setf (grid:metadata-slot fa 'mpointer) mpointer)
     fa))
