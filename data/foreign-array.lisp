@@ -1,6 +1,6 @@
 ;; A grid:foreign-array with added metadata for GSL.
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2010-07-13 12:06:45EDT foreign-array.lisp>
+;; Time-stamp: <2010-07-13 22:53:02EDT foreign-array.lisp>
 ;;
 ;; Copyright 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -76,21 +76,25 @@
 
 (defun make-foreign-array-from-mpointer
     (mpointer
-     &optional (element-type 'double-float) (category :vector) finalize)
+     &optional (element-type 'double-float) (category-or-rank 'vector) finalize)
   "Make the foreign array when a GSL pointer to a
    gsl-vector-c or gsl-matrix-c is given."
-  (let* ((cstruct
+  (let* ((category
+	  (case category-or-rank
+	    ((vector :vector 1) 'vector)
+	    ((matrix :matrix 2) 'matrix)
+	    (t (error "Unrecognized category ~a" category-or-rank))))
+	 (cstruct
 	  (case category
-	    ((vector :vector 1) 'gsl-vector-c)
-	    ((matrix :matrix 2) 'gsl-matrix-c)
-	    (t (error "Unrecognized category ~a" category))))
+	    (vector 'gsl-vector-c)
+	    (matrix 'gsl-matrix-c)))
 	 (fa
 	  (grid:make-grid
 	   (case category
-	     ((vector :vector 1)
+	     (vector
 	      `((foreign-array ,(cffi:foreign-slot-value mpointer cstruct 'size))
 		,element-type))
-	     ((matrix :matrix 2)
+	     (matrix
 	      `((foreign-array
 		 ,(cffi:foreign-slot-value mpointer cstruct 'size0)
 		 ,(cffi:foreign-slot-value mpointer cstruct 'size1))
