@@ -1,6 +1,6 @@
 ;; Generate a lambda that calls the user function; will be called by callback.
 ;; Liam Healy 
-;; Time-stamp: <2010-07-13 12:06:01EDT funcallable.lisp>
+;; Time-stamp: <2010-07-13 21:05:37EDT funcallable.lisp>
 ;;
 ;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -63,19 +63,20 @@
 
 (defun faify-form (ptr argspec)
   "Make the form that turns the mpointer into a foreign-array."
+  ;; No finalizer, because pointer might be reused by GSL.
   (ecase (parse-callback-argspec argspec 'array-type)
     (:foreign-array			; a GSL mpointer
      `(make-foreign-array-from-mpointer
        ,ptr
        ',(grid:cffi-cl (parse-callback-argspec argspec 'element-type))
        ,(length (parse-callback-argspec argspec 'dimensions))
-       t))
+       nil))				; no finalizer
     (:cvector				; a raw C vector
      `(grid:make-foreign-array-from-pointer
        ,ptr
        ',(parse-callback-argspec argspec 'dimensions)
        ',(grid:cffi-cl (parse-callback-argspec argspec 'element-type))
-       t))))
+       nil))))
 
 ;;;;****************************************************************************
 ;;;; Reference foreign elements and make multiple-value-bind form

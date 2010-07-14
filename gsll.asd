@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2010-07-07 09:55:58EDT gsll.asd>
+;; Time-stamp: <2010-07-13 21:07:57EDT gsll.asd>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -36,8 +36,8 @@
 	    :components
 	    ((:file "init")
 	     (cffi-grovel:grovel-file "libgsl" :pathname #+unix "libgsl-unix")
-	     (:file "utility")
-	     (:file "forms")
+	     (:file "utility" :depends-on ("init"))
+	     (:file "forms" :depends-on ("init"))
 	     (:file "conditions" :depends-on ("init" "libgsl"))
 	     (:file "callback-compile-defs" :depends-on ("init"))
 	     (:file "mobject" :depends-on ("init" "callback-compile-defs"))
@@ -49,15 +49,15 @@
 	     (:file "types" :depends-on ("init" "libgsl"))
 	     (cffi-grovel:grovel-file "callback-struct"
 				      :depends-on ("types" "libgsl"))
-	     (:file "funcallable" :depends-on ("utility"))
+	     (:file "funcallable" :depends-on ("init" "utility"))
 	     (:file "interface"
 		    :depends-on ("init" "conditions"))
 	     (:file "defmfun" :depends-on ("init" "forms" "interface"))
 	     (:file "defmfun-array"
-		    :depends-on ("defmfun" "callback-included"))
+		    :depends-on ("init" "defmfun" "callback-included"))
 	     (:file "defmfun-single"
-		    :depends-on ("defmfun" "mobject" "callback"))
-	     (:file "body-expand" :depends-on ("defmfun" "mobject" "callback"))
+		    :depends-on ("init" "defmfun" "mobject" "callback"))
+	     (:file "body-expand" :depends-on ("init" "defmfun" "mobject" "callback"))
 	     (:file "generate-examples" :depends-on ("init"))))
    (:module floating-point
 	    :depends-on (init)
