@@ -79,7 +79,7 @@
     (LET ((M1
 	   (GRID:MAKE-FOREIGN-ARRAY
 	    '(SIGNED-BYTE 8)
-	    :INITIAL-CONTETS
+	    :INITIAL-CONTENTS
 	    '((-64 -68 71)
 	      (-91 52 -10)
 	      (73 -5 123))))
@@ -131,7 +131,7 @@
     (LET ((M1
 	   (GRID:MAKE-FOREIGN-ARRAY
 	    '(SIGNED-BYTE 32)
-	    :INITIAL-CONTETS
+	    :INITIAL-CONTENTS
 	    '((-64 -68 71)
 	      (-91 52 -10)
 	      (73 -5 123))))

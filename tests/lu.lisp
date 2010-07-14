@@ -139,4 +139,4 @@
      (INVERT-MATRIX
       (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS '(2 2)
 			       :INITIAL-CONTENTS
-			       '(1.0d0 2.0d0 3.0d0 4.0d0)))))))
+			       '((1.0d0 2.0d0) (3.0d0 4.0d0))))))))

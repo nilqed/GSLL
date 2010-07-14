@@ -1,6 +1,6 @@
 ;; Functions for both vectors and matrices.
 ;; Liam Healy 2008-04-26 20:48:44EDT both.lisp
-;; Time-stamp: <2010-07-12 12:45:15EDT both.lisp>
+;; Time-stamp: <2010-07-13 21:46:11EDT both.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -78,10 +78,16 @@
   "Exchange the elements of a and b
    by copying.  The two must have the same dimensions.")
 
-;;; For matrix functions, there should be another index argument
-(defmfun get-value ((class-name (eql vector)) mpointer index)
+;;;;****************************************************************************
+;;;; Array elements; used in callbacks scalarsp=T only
+;;;;****************************************************************************
+;;; Normal foreign array access is with grid:gref, but in order to
+;;; avoid the overhead of instantiating a foreign-array object to
+;;; access components, we use these functions.
+
+(defmfun get-value ((class-name (eql vector)) mpointer &rest indices)
   ("gsl_"  :category :type "_get")
-  ((mpointer :pointer) (index sizet))
+  ((mpointer :pointer) ((first indices) sizet))
   :definition :generic
   :c-return :element-c-type
   :export nil
@@ -89,11 +95,35 @@
   "Get the single element of the GSL vector.  This is used
    in callbacks.")
 
+(defmfun get-value ((class-name (eql matrix)) mpointer &rest indices)
+  ("gsl_"  :category :type "_get")
+  ((mpointer :pointer) ((first indices) sizet) ((second indices) sizet))
+  :definition :methods
+  :c-return :element-c-type
+  :export nil
+  :documentation
+  "Get the single element of the GSL matrix.  This is used
+   in callbacks.")
+
 (defmfun (setf get-value)
-    (value (class-name (eql vector)) mpointer index)
+    (value (class-name (eql vector)) mpointer &rest indices)
   ("gsl_"  :category :type "_set")
-  ((value :element-c-type) (mpointer :pointer) (index sizet))
+  ((value :element-c-type) (mpointer :pointer) ((first indices) sizet))
   :definition :generic
+  :element-types #+fsbv t #-fsbv :no-complex
+  :c-return :void
+  :return (value)
+  :export nil
+  :documentation
+  "Set the single element of the GSL vector to the value.  This is
+   used in callbacks.")
+
+(defmfun (setf get-value)
+    (value (class-name (eql matrix)) mpointer &rest indices)
+  ("gsl_"  :category :type "_set")
+  ((value :element-c-type) (mpointer :pointer)
+   ((first indices) sizet) ((second indices) sizet))
+  :definition :methods
   :element-types #+fsbv t #-fsbv :no-complex
   :c-return :void
   :return (value)

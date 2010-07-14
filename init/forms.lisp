@@ -1,6 +1,6 @@
 ;; Lisp forms
 ;; Liam Healy 2009-03-07 15:49:25EST forms.lisp
-;; Time-stamp: <2010-07-12 12:28:48EDT forms.lisp>
+;; Time-stamp: <2010-07-13 22:32:44EDT forms.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -24,7 +24,7 @@
 ;;;; Arglists
 ;;;;****************************************************************************
 
-(defparameter *defmfun-llk* '(&optional &key &aux)
+(defparameter *defmfun-llk* '(&optional &key &aux &rest)
   "Possible lambda-list keywords.")
 
 (defparameter *defmfun-optk* '(&optional &key)

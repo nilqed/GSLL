@@ -1,6 +1,6 @@
 ;; Generate a lambda that calls the user function; will be called by callback.
 ;; Liam Healy 
-;; Time-stamp: <2010-07-13 21:05:37EDT funcallable.lisp>
+;; Time-stamp: <2010-07-13 21:59:01EDT funcallable.lisp>
 ;;
 ;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -76,7 +76,8 @@
        ,ptr
        ',(parse-callback-argspec argspec 'dimensions)
        ',(grid:cffi-cl (parse-callback-argspec argspec 'element-type))
-       nil))))
+       nil))
+    ((nil) ptr)))
 
 ;;;;****************************************************************************
 ;;;; Reference foreign elements and make multiple-value-bind form
@@ -93,7 +94,9 @@
 	       (length (value-from-dimensions argspec dimension-values))
 	       (grid:cffi-cl (parse-callback-argspec argspec 'element-type)))
 	    ,foreign-variable-name
-	    ,linear-index)
+	    ,@(affi::delinearize-index
+	       (affi:make-affi (value-from-dimensions argspec dimension-values))
+	       linear-index))
 	  `(cffi:mem-aref
 	    ,foreign-variable-name
 	    ',(parse-callback-argspec argspec 'element-type)
