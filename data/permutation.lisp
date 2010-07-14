@@ -1,6 +1,6 @@
 ;; Permutations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2010-07-07 14:30:06EDT permutation.lisp>
+;; Time-stamp: <2010-07-14 10:27:05EDT permutation.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -339,13 +339,12 @@
    (set-identity perm-1)
    (grid:contents (permutation-reverse perm-1)))
  (let				;permutation-next, permutation-inverse
-     ((perm-1 (make-permutation 4 t)) (perm-2 (make-permutation 4 t)))
+     ((perm-1 (make-permutation 4 t)))
    (set-identity perm-1)
    (permutation-next perm-1)
    (permutation-next perm-1)
    (permutation-next perm-1)
-   (permutation-inverse perm-2 perm-1)
-   (grid:contents perm-2))
+   (grid:contents (permutation-inverse perm-1)))
  (let ((perm-1 (make-permutation 4 t)))	;swap-elements
    (set-identity perm-1)
    (swap-elements perm-1 1 3)
