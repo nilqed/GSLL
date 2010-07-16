@@ -1,6 +1,6 @@
 ;; Combinations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2010-07-15 23:06:33EDT combination.lisp>
+;; Time-stamp: <2010-07-16 17:14:03EDT combination.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -108,12 +108,11 @@
   combination destination.  The two combinations must have the same size.")
 
 (defmethod grid:copy
-    ((source combination) &rest args &key grid-type destination &allow-other-keys)
+    ((source combination) &key grid-type destination &allow-other-keys)
   (if grid-type
       (call-next-method)
       (comb-copy
        source
-       :destination
        (or destination
 	   (make-combination (combination-range source) (size source))))))
 

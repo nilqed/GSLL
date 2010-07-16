@@ -1,6 +1,6 @@
 ;; Generators of random numbers.
 ;; Liam Healy, Sat Jul 15 2006 - 14:43
-;; Time-stamp: <2010-07-15 22:43:39EDT generators.lisp>
+;; Time-stamp: <2010-07-16 17:11:25EDT generators.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -197,8 +197,8 @@
 (defmethod grid:copy
     ((source random-number-generator) &key destination &allow-other-keys)
   (if destination
-      (rng-clone destination)
-      (rng-copy source)))
+      (rng-copy source destination)
+      (rng-clone source)))
 
 ;;;;****************************************************************************
 ;;;; Examples and unit test

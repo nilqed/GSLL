@@ -1,6 +1,6 @@
 ;; Permutations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2010-07-15 23:05:04EDT permutation.lisp>
+;; Time-stamp: <2010-07-16 17:14:45EDT permutation.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -93,11 +93,11 @@
    permutation destination.  The two permutations must have the same size.")
 
 (defmethod grid:copy
-    ((source permutation) &rest args &key grid-type destination &allow-other-keys)
+    ((source permutation) &key grid-type destination &allow-other-keys)
   (if grid-type
       (call-next-method)
       (perm-copy
-       source :destination (or destination (make-permutation (size source))))))
+       source (or destination (make-permutation (size source))))))
 
 (defmfun swap-elements ((p permutation) i j)
   "gsl_permutation_swap"

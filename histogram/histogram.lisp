@@ -1,6 +1,6 @@
 ;; The histogram structure
 ;; Liam Healy, Mon Jan  1 2007 - 11:32
-;; Time-stamp: <2010-07-15 22:27:24EDT histogram.lisp>
+;; Time-stamp: <2010-07-16 17:10:12EDT histogram.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -101,8 +101,8 @@
 
 (defmethod grid:copy ((source histogram) &key destination &allow-other-keys)
   (if destination
-      (histo-clone destination)
-      (histo-copy source)))
+      (histo-copy destination source)
+      (histo-clone destination)))
 
 (defmfun histo2d-copy (source destination)
   "gsl_histogram2d_memcpy"
@@ -126,5 +126,5 @@
 
 (defmethod grid:copy ((source histogram2d) &key destination &allow-other-keys)
   (if destination
-      (histo2d-clone destination)
-      (histo2d-copy source)))
+      (histo2d-copy destination source)
+      (histo2d-clone destination)))
