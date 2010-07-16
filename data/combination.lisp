@@ -1,8 +1,8 @@
 ;; Combinations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2010-07-07 14:30:07EDT combination.lisp>
+;; Time-stamp: <2010-07-15 23:06:33EDT combination.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -94,18 +94,28 @@
   "Initialize the combination c to the lexicographically
    last combination, i.e. (n-k,n-k+1,...,n-1).")
 
-(defmfun grid::copy-to-destination ((source combination) (destination combination))
+(defmfun comb-copy (source destination)
   "gsl_combination_memcpy"
   (((mpointer destination) :pointer)
    ((mpointer source) :pointer))
-  :definition :method
   :inputs (source)
   :outputs (destination)
   :return (destination)
-  :index copy
+  :export nil
+  :index grid:copy
   :documentation			; FDL
   "Copy the elements of the combination source into the
   combination destination.  The two combinations must have the same size.")
+
+(defmethod grid:copy
+    ((source combination) &rest args &key grid-type destination &allow-other-keys)
+  (if grid-type
+      (call-next-method)
+      (comb-copy
+       source
+       :destination
+       (or destination
+	   (make-combination (combination-range source) (size source))))))
 
 ;;;;****************************************************************************
 ;;;; Combination properties

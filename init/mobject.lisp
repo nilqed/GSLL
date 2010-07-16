@@ -1,6 +1,6 @@
 ;; Definition of GSL objects and ways to use them.
 ;; Liam Healy, Sun Dec  3 2006 - 10:21
-;; Time-stamp: <2010-07-11 17:07:40EDT mobject.lisp>
+;; Time-stamp: <2010-07-15 22:33:56EDT mobject.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -345,29 +345,3 @@
 (export 'order)
 (defgeneric order (object)
   (:documentation "The order of the GSL object."))
-
-;;;;****************************************************************************
-;;;; Making objects from existing objects
-;;;;****************************************************************************
-
-#|
-(defmethod grid::copy-making-destination :around ((object mobject))
-  (if (next-method-p)
-      ;; The subclass method should only return the malloced
-      ;; mpointer (as from a "_clone" function); it will be put into
-      ;; the CL object here.  The initial-instance method for these
-      ;; objects must be written to do nothing if the mpointer is
-      ;; already defined.
-      ;; Defined for
-      ;; histogram, histogram2d, 
-      ;; random-number-generator, quasi-random-number-generator,
-      (if (typep object 'grid:foreign-array)
-	  (call-next-method)
-	  (make-instance (class-of object) :mpointer (call-next-method)))
-      ;; The subclass does not supply a method, so this will be called
-      ;; by default.  We can only try to make something from the load form.
-      (eval (make-load-form object))))
-
-(defmethod grid:clone :around ((object mobject))
-  (make-instance (class-of object) :mpointer (call-next-method)))
-|#
