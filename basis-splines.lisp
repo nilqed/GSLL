@@ -1,6 +1,6 @@
 ;; Basis splines.
 ;; Liam Healy 2008-02-18 14:43:20EST basis-splines.lisp
-;; Time-stamp: <2010-01-17 10:41:03EST basis-splines.lisp>
+;; Time-stamp: <2010-06-30 19:57:28EDT basis-splines.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -56,7 +56,7 @@
 
 (defmfun evaluate
     ((workspace basis-spline) x
-     &key (B (make-marray 'double-float
+     &key (B (grid:make-foreign-array 'double-float
 			  :dimensions (number-of-coefficients workspace))))
   "gsl_bspline_eval"
   ((x :double) ((mpointer B) :pointer) ((mpointer workspace) :pointer))
@@ -112,31 +112,31 @@
 	 (bw (make-basis-spline order nbreak))
 	 (mw (make-fit-workspace ndata ncoeffs))
 	 (rng (make-random-number-generator +mt19937+ 0))
-	 (B (make-marray 'double-float :dimensions ncoeffs))
-	 (c (make-marray 'double-float :dimensions ncoeffs))
-	 (cov (make-marray 'double-float :dimensions (list ncoeffs ncoeffs)))
-	 (w (make-marray 'double-float :dimensions ndata))
-	 (x (make-marray 'double-float :dimensions ndata))
-	 (y (make-marray 'double-float :dimensions ndata))
-	 (Xmatrix (make-marray 'double-float :dimensions (list ndata ncoeffs)))
+	 (B (grid:make-foreign-array 'double-float :dimensions ncoeffs))
+	 (c (grid:make-foreign-array 'double-float :dimensions ncoeffs))
+	 (cov (grid:make-foreign-array 'double-float :dimensions (list ncoeffs ncoeffs)))
+	 (w (grid:make-foreign-array 'double-float :dimensions ndata))
+	 (x (grid:make-foreign-array 'double-float :dimensions ndata))
+	 (y (grid:make-foreign-array 'double-float :dimensions ndata))
+	 (Xmatrix (grid:make-foreign-array 'double-float :dimensions (list ndata ncoeffs)))
 	 (sigma 0.1d0))
     ;; The data to be fitted.
     (dotimes (i ndata)
       (let* ((xi (coerce (* i (/ 15 (1- ndata))) 'double-float))
 	     (yi (+ (* (cos xi) (exp (* -0.1d0 xi)))
 		    (sample rng :gaussian :sigma sigma))))
-	(setf (maref x i) xi
-	      (maref y i) yi
-	      (maref w i) (/ (expt sigma 2)))))
+	(setf (grid:gref x i) xi
+	      (grid:gref y i) yi
+	      (grid:gref w i) (/ (expt sigma 2)))))
     ;; Uniform breakpoints [0, 15]
     (uniform-knots 0.0d0 15.0d0 bw)
     ;; Fit matrix
     (dotimes (i ndata)
       ;; Compute B_j
-      (evaluate bw (maref x i) :b B)
+      (evaluate bw (grid:gref x i) :b B)
       ;; Fill in row i of X
       (dotimes (j ncoeffs)
-	(setf (maref Xmatrix i j) (maref B j))))
+	(setf (grid:gref Xmatrix i j) (grid:gref B j))))
     ;; Do the fit
     (linear-mfit Xmatrix y c w nil cov mw)
     ;; Return the smoothed curve

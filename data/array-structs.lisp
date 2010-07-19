@@ -1,6 +1,6 @@
 ;; CFFI-Grovel definitions for unix systems.
 ;; Liam Healy 2009-06-06 09:36:29EDT array-structs.lisp
-;; Time-stamp: <2010-05-23 11:36:42EDT array-structs.lisp>
+;; Time-stamp: <2010-07-18 22:52:48EDT array-structs.lisp>
 ;;
 ;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -62,6 +62,6 @@
 (include "gsl/gsl_combination.h")
 
 (cstruct gsl-combination-c "gsl_combination"
-  (choice-of "n" :type sizet)
+  (range "n" :type sizet)
   (size "k" :type sizet)
   (data "data" :type :pointer))

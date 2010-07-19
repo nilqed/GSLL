@@ -1,6 +1,6 @@
 ;; Interpolation allocation, initialization, and freeing.
 ;; Liam Healy, Sun Nov  4 2007 - 17:24
-;; Time-stamp: <2009-12-27 09:52:14EST interpolation.lisp>
+;; Time-stamp: <2010-06-27 18:13:56EDT interpolation.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -37,7 +37,7 @@
   strictly ordered; the behavior for other arrangements is not defined."
   :initialize-suffix "init"
   :initialize-args
-  (((c-pointer xa) :pointer) ((c-pointer ya) :pointer) ((dim0 xa) sizet))
+  (((foreign-pointer xa) :pointer) ((foreign-pointer ya) :pointer) ((dim0 xa) sizet))
   :arglists-function
   (lambda (set)
     `((type &optional xa-or-size (ya nil ,set))
@@ -51,7 +51,7 @@
   "Make an interpolation object of type for size data-points."
   :initialize-suffix "init"
   :initialize-args
-  (((c-pointer xa) :pointer) ((c-pointer ya) :pointer) ((dim0 xa) sizet))
+  (((foreign-pointer xa) :pointer) ((foreign-pointer ya) :pointer) ((dim0 xa) sizet))
   :inputs (xa ya)
   :arglists-function
   (lambda (set)

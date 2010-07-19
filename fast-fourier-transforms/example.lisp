@@ -1,6 +1,6 @@
 ;; Example FFT: transform a pulse (using the "clean" fft interface)
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 00:24
-;; Time-stamp: <2009-12-27 09:45:34EST example.lisp>
+;; Time-stamp: <2010-07-07 14:21:55EDT example.lisp>
 ;;
 ;; Copyright 2009 Sumant Oemrawsingh, Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -40,12 +40,12 @@
 
 (defun fft-pulse-test (element-type dimension)
   (assert (and (integerp dimension) (> dimension 20)))
-  (let ((pulse (make-marray element-type :dimensions dimension))
+  (let ((pulse (grid:make-foreign-array element-type :dimensions dimension))
         (init-value (coerce 1 element-type)))
-    (setf (maref pulse 0) init-value)
+    (setf (grid:gref pulse 0) init-value)
     (loop for i from 1 to 10
-          do (setf (maref pulse i) init-value
-                   (maref pulse (- dimension i)) init-value))
+          do (setf (grid:gref pulse i) init-value
+                   (grid:gref pulse (- dimension i)) init-value))
     (forward-fourier-transform pulse)))
 
 (save-test
@@ -76,11 +76,11 @@
 ;; (make-urand-vector '(complex double-float) 5)
 (defun make-urand-vector (element-type dimension &key (stride 1))
   "Make a vector with random elements."
-  (let ((vec (make-marray `(complex ,(c-array:component-float-type element-type))
+  (let ((vec (grid:make-foreign-array `(complex ,(grid:component-float-type element-type))
 			  :dimensions (list (* stride dimension)))))
     (loop for i from 0 below (* stride dimension) by stride
        do
-       (setf (maref vec i)
+       (setf (grid:gref vec i)
 	     (if (subtypep element-type 'complex)
 		 (coerce (complex (urand) (urand)) element-type)
 		 (complex (coerce (urand) element-type)))))
@@ -89,12 +89,12 @@
 (defun realpart-vector (complex-vector)
   "The real vector consisting of the real part of the complex vector."
   (let ((real-vector
-	 (make-marray
-	  (c-array:component-float-type (element-type complex-vector))
+	 (grid:make-foreign-array
+	  (grid:component-float-type (element-type complex-vector))
 	  :dimensions (dimensions complex-vector))))
-    (loop for i below (total-size complex-vector) do
-	 (setf (maref real-vector i)
-	       (realpart (maref complex-vector i))))
+    (loop for i below (size complex-vector) do
+	 (setf (grid:gref real-vector i)
+	       (realpart (grid:gref complex-vector i))))
     real-vector))
 
 (defun size-vector-real (vector &key (stride 1))
@@ -141,13 +141,13 @@
 	   (if (and (have-at-least-gsl-version '(1 12)) #+fsbv t #-fsbv nil)
 	       (elt/ (copy backward) (size-vector-real backward :stride stride))
 	       ;; Hack for old GSL version without complex vector math
-	       (make-marray
+	       (grid:make-foreign-array
 		(element-type backward)
 		:dimensions (dimensions backward)
 		:initial-contents
 		(map 'list
 		     (lambda (x) (/ x (floor (size backward) stride)))
-		     (copy backward 'array))))))
+		     (grid:copy-to backward))))))
 	(multiple-value-bind (forward inverse)
 	    (test-real-fft-noise random-vector :stride stride)
 	  (values dft-random-vector forward random-vector inverse)))))

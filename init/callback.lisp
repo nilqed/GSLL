@@ -1,6 +1,6 @@
 ;; Foreign callback functions.               
 ;; Liam Healy 
-;; Time-stamp: <2009-12-27 09:50:33EST callback.lisp>
+;; Time-stamp: <2010-07-11 19:01:17EDT callback.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -37,14 +37,13 @@
 ;;; they are defined with those tasks.  The macro #'defmcallback can
 ;;; specify that the CL function is to expect in arglist and return as
 ;;; multiple values scalar quantities that come from and will be bound
-;;; to either marrays or C vectors.  This is done with a list of the
+;;; to either grid:foreign-arrays.  This is done with a list of the
 ;;; type and size, e.g. (:double 3), and for setting :set, type size,
-;;; e.g. (:set :double 3).  If the 'marray argument is nil, it will
-;;; expand to read or set a C vector; if it is T, it will expand to
-;;; read or set a marray.  This allows the user to define ordinary CL
+;;; e.g. (:set :double 3).  These can read either :cvector or
+;;; :foreign-array.  This allows the user to define ordinary CL
 ;;; functions with scalars as input and output.  However, it may be
-;;; desirable to read and set marrays, in which case :pointer is the
-;;; right specification.
+;;; desirable to read and set grid:foreign-arrays, in which case
+;;; :pointer is the right specification.
 
 ;;;;****************************************************************************
 ;;;; Setting slots
@@ -125,7 +124,7 @@
   (ecase component
     (io (first argspec))		; :input or :output
     (element-type (second argspec))	; :double
-    (array-type (third argspec))	; :marray or :cvector
+    (array-type (third argspec))	; :foreign-array or :cvector
     (dimensions (nthcdr 3 argspec))))
 
 ;;;;****************************************************************************
@@ -236,4 +235,4 @@
        ;; CL specials to do the same job.
        (declare ,@(when (member :slug args) `((ignore ,slug)))
 		(special ,dynamic-variable))
-       (funcall ,dynamic-variable ,@(mapcar 'c-array:st-symbol (remove :slug args))))))
+       (funcall ,dynamic-variable ,@(mapcar 'grid:st-symbol (remove :slug args))))))

@@ -1,8 +1,8 @@
 ;; Mathieu functions
 ;; Liam Healy 2009-02-16 16:30:59EST mathieu.lisp
-;; Time-stamp: <2009-12-27 10:10:01EST mathieu.lisp>
+;; Time-stamp: <2010-07-15 10:35:18EDT mathieu.lisp>
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -58,14 +58,14 @@
 	(make-mathieu (+ minimum-order (vdf-size size-or-array)) q))
        &aux (size (vdf-size size-or-array)) (result-array (vdf size)))
   "gsl_sf_mathieu_a_array"
-  ((minimum-order :int) ((+ minimum-order size) :int) (q :double)
-   ((mpointer workspace) :pointer) ((c-pointer result-array) :pointer))
+  ((minimum-order :int) ((+ minimum-order size -1) :int) (q :double)
+   ((mpointer workspace) :pointer) ((foreign-pointer result-array) :pointer))
   :gsl-version (1 9)
   :outputs (result-array)
   :return (result-array)
   :documentation			; FDL
   "Compute a series of Mathieu characteristic values a_n(q) for n from
-    minimum-order to minimum-order + size inclusive, where size
+    minimum-order to minimum-order + size - 1 inclusive, where size
     is either the numerical value supplied in size-or-array, or the
     the length of the vector supplied there.")
 
@@ -77,14 +77,14 @@
 	(make-mathieu (+ minimum-order (vdf-size size-or-array)) q))
        &aux (size (vdf-size size-or-array)) (result-array (vdf size)))
   "gsl_sf_mathieu_b_array"
-  ((minimum-order :int) ((+ minimum-order size) :int) (q :double)
-   ((mpointer workspace) :pointer) ((c-pointer result-array) :pointer))
+  ((minimum-order :int) ((+ minimum-order size -1) :int) (q :double)
+   ((mpointer workspace) :pointer) ((foreign-pointer result-array) :pointer))
   :gsl-version (1 9)
   :outputs (result-array)
   :return (result-array)
   :documentation			; FDL
   "Compute a series of Mathieu characteristic values b_n(q) for n from
-    minimum-order to minimum-order + size inclusive, where size
+    minimum-order to minimum-order + size - 1 inclusive, where size
     is either the numerical value supplied in size-or-array, or the
     the length of the vector supplied there.")
 
@@ -114,15 +114,15 @@
 	(make-mathieu (+ minimum-order (vdf-size size-or-array)) q))
        &aux (size (vdf-size size-or-array)) (result-array (vdf size)))
   "gsl_sf_mathieu_ce_array"
-  ((minimum-order :int) ((+ minimum-order size) :int)
+  ((minimum-order :int) ((+ minimum-order size -1) :int)
    (q :double) (x :double)
-   ((mpointer workspace) :pointer) ((c-pointer result-array) :pointer))
+   ((mpointer workspace) :pointer) ((foreign-pointer result-array) :pointer))
   :gsl-version (1 9)
   :outputs (result-array)
   :return (result-array)
   :documentation			; FDL
   "Compute a series of the angular Mathieu function ce_n(q) for n from
-    minimum-order to minimum-order + size inclusive, where size
+    minimum-order to minimum-order + size - 1 inclusive, where size
     is either the numerical value supplied in size-or-array, or the
     the length of the vector supplied there.")
 
@@ -134,15 +134,15 @@
 	(make-mathieu (+ minimum-order (vdf-size size-or-array)) q))
        &aux (size (vdf-size size-or-array)) (result-array (vdf size)))
   "gsl_sf_mathieu_se_array"
-  ((minimum-order :int) ((+ minimum-order size) :int)
+  ((minimum-order :int) ((+ minimum-order size -1) :int)
    (q :double) (x :double)
-   ((mpointer workspace) :pointer) ((c-pointer result-array) :pointer))
+   ((mpointer workspace) :pointer) ((foreign-pointer result-array) :pointer))
   :gsl-version (1 9)
   :outputs (result-array)
   :return (result-array)
   :documentation			; FDL
   "Compute a series of the angular Mathieu function se_n(q) for n from
-    minimum-order to minimum-order + size inclusive, where size
+    minimum-order to minimum-order + size - 1 inclusive, where size
     is either the numerical value supplied in size-or-array, or the
     the length of the vector supplied there.")
 
@@ -182,7 +182,7 @@
   "gsl_sf_mathieu_Mc_array"
   ((j :int) (minimum-order :int) ((+ minimum-order size) :int)
    (q :double) (x :double)
-   ((mpointer workspace) :pointer) ((c-pointer result-array) :pointer))
+   ((mpointer workspace) :pointer) ((foreign-pointer result-array) :pointer))
   :gsl-version (1 9)
   :outputs (result-array)
   :return (result-array)
@@ -202,7 +202,7 @@
   "gsl_sf_mathieu_Ms_array"
   ((j :int) (minimum-order :int) ((+ minimum-order size) :int)
    (q :double) (x :double)
-   ((mpointer workspace) :pointer) ((c-pointer result-array) :pointer))
+   ((mpointer workspace) :pointer) ((foreign-pointer result-array) :pointer))
   :gsl-version (1 9)
   :outputs (result-array)
   :return (result-array)
@@ -290,6 +290,6 @@
 	   (mathieu-se 15 15.0d0 (/ pi 2))
 	   (mathieu-se 15 20.0d0 (/ pi 2))
 	   (mathieu-se 15 25.0d0 (/ pi 2))
-	   (cl-array (mathieu-ce-array 0.0d0 (/ pi 2) 6))
-	   (cl-array (mathieu-ce-array 20.0d0 0.0d0 16))
-	   (cl-array (mathieu-se-array 20.0d0 (/ pi 2) 15 1)))
+	   (grid:copy-to (mathieu-ce-array 0.0d0 (/ pi 2) 6))
+	   (grid:copy-to (mathieu-ce-array 20.0d0 0.0d0 16))
+	   (grid:copy-to (mathieu-se-array 20.0d0 (/ pi 2) 15 1)))

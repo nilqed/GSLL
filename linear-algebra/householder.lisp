@@ -1,6 +1,6 @@
 ;; Householder Transformations
 ;; Liam Healy, Wed May 10 2006 - 10:03
-;; Time-stamp: <2009-12-27 09:54:59EST householder.lisp>
+;; Time-stamp: <2010-06-29 22:51:21EDT householder.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -87,7 +87,7 @@
 (defmfun householder-solve
     (A b &optional x-spec
        &aux
-       (x (make-marray-or-default x-spec (dimensions b) t)))
+       (x (grid:make-foreign-array-or-default x-spec (dimensions b) t)))
   ("gsl_linalg_HH_svx" "gsl_linalg_HH_solve")
   ((((mpointer A) :pointer) ((mpointer b) :pointer))
    (((mpointer A) :pointer) ((mpointer b) :pointer)
@@ -99,7 +99,7 @@
   "Solve the system A x = b directly using Householder
    transformations. If x-spec is NIL (default), the solution will
    replace b.  If x-spec is T, then an array will be created and the
-   solution returned in it.  If x-spec is a marray, the solution will
+   solution returned in it.  If x-spec is a grid:foreign-array, the solution will
    be returned in it.  If x-spec is non-NIL, on output the solution is
    stored in x and b is not modified.  The matrix A is destroyed by
    the Householder transformations.  The solution is returned from the

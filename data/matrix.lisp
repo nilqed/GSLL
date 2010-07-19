@@ -1,6 +1,6 @@
 ;; Matrices
 ;; Liam Healy 2008-04-15 21:57:52EDT matrix.lisp
-;; Time-stamp: <2009-12-27 09:42:04EST matrix.lisp>
+;; Time-stamp: <2010-06-29 22:10:48EDT matrix.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -21,38 +21,6 @@
 (in-package :gsl)
 
 ;;; /usr/include/gsl/gsl_matrix_double.h
-
-;;;;****************************************************************************
-;;;; Matrix structure and CL object
-;;;;****************************************************************************
-
-(export 'matrix)
-(defclass matrix (marray)
-  ()
-  (:documentation "GSL matrices."))
-
-;;; Define all supported matrix subclasses
-#.(data-defclass 'matrix 'matrix)
-
-(defmethod contents-from-pointer
-    (pointer (struct-type (eql 'gsl-matrix-c))
-     &optional (element-type 'double-float))
-  (let ((dim0 (cffi:foreign-slot-value pointer struct-type 'size0))
-	(dim1 (cffi:foreign-slot-value pointer struct-type 'size1)))
-    ;; Copy over from the C side
-    (loop for i below dim0
-       collect (loop for j below dim1
-		  collect (maref pointer i j element-type)))))
-
-(defmethod c-array:copy-to-destination
-    ((object matrix) (pointer #.+foreign-pointer-class+))
-  (foreign-pointer-method
-   pointer
-   (loop for i below (dim0 object)
-      do (loop for j below (dim1 object)
-	    do
-	    (setf (maref pointer i j (element-type object))
-		  (maref object i j))))))
 
 ;;;;****************************************************************************
 ;;;; Mathematical
@@ -77,7 +45,7 @@
 
 (defmfun row
     ((matrix matrix) i
-     &optional (vector (make-marray element-type :dimensions (dim1 matrix))))
+     &optional (vector (grid:make-foreign-array element-type :dimensions (dim1 matrix))))
   ("gsl_matrix" :type "_get_row")
   (((mpointer vector) :pointer) ((mpointer matrix) :pointer) (i sizet))
   :definition :generic
@@ -102,7 +70,7 @@
 
 (defmfun column
     ((matrix matrix) i
-     &optional (vector (make-marray element-type :dimensions (dim0 matrix))))
+     &optional (vector (grid:make-foreign-array element-type :dimensions (dim0 matrix))))
   ("gsl_matrix" :type "_get_col")
   (((mpointer vector) :pointer) ((mpointer matrix) :pointer) (i sizet))
   :definition :generic
@@ -177,7 +145,7 @@
     ((source matrix)
      &optional
      (destination
-      (make-marray element-type :dimensions (reverse (dimensions source)))))
+      (grid:make-foreign-array element-type :dimensions (reverse (dimensions source)))))
   ("gsl_matrix" :type "_transpose_memcpy")
   (((mpointer destination) :pointer) ((mpointer source) :pointer))
   :definition :generic

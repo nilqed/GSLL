@@ -1,6 +1,6 @@
 ;; Quasi-random sequences in arbitrary dimensions.
 ;; Liam Healy, Sun Jul 16 2006 - 15:54
-;; Time-stamp: <2009-12-27 10:03:51EST quasi.lisp>
+;; Time-stamp: <2010-07-16 17:10:54EDT quasi.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -36,7 +36,7 @@
 
 (defmfun qrng-get (generator return-vector)
   "gsl_qrng_get"
-  (((mpointer generator) :pointer) ((c-pointer return-vector) :pointer))
+  (((mpointer generator) :pointer) ((foreign-pointer return-vector) :pointer))
   :outputs (return-vector)
   :return (return-vector)
   :documentation			; FDL
@@ -64,23 +64,28 @@
   :export nil
   :index gsl-random-state)
 
-(defmfun c-array:copy-to-destination
-    ((source quasi-random-number-generator)
-     (destination quasi-random-number-generator))
+(defmfun quasi-copy (source destination)
   "gsl_qrng_memcpy"
   (((mpointer destination) :pointer) ((mpointer source) :pointer))
-  :definition :method
-  :index copy
+  :export nil
+  :index grid:copy
   :documentation			; FDL
   "Copy the quasi-random sequence generator src into the
    pre-existing generator dest, making dest into an exact copy
    of src.  The two generators must be of the same type.")
 
-(defmfun c-array:copy-making-destination ((instance quasi-random-number-generator))
+(defmfun quasi-clone (instance)
   "gsl_qrng_clone" (((mpointer instance) :pointer))
-  :definition :method
-  :c-return :pointer
-  :index copy)
+  :c-return (crtn :pointer)
+  :return ((make-instance 'quasi-random-number-generator :mpointer crtn))
+  :export nil
+  :index grid:copy)
+
+(defmethod grid:copy
+    ((source quasi-random-number-generator) &key destination &allow-other-keys)
+  (if destination
+      (quasi-copy source destination)
+      (quasi-clone source)))
 
 (def-rng-type +niederreiter2+
     ;; FDL
@@ -118,7 +123,7 @@
 (save-test quasi-random-number-generators
   ;; This example is given in the GSL documentation
   (let ((gen (make-quasi-random-number-generator +sobol+ 2))
-	  (vec (make-marray 'double-float :dimensions 2)))
+	  (vec (grid:make-foreign-array 'double-float :dimensions 2)))
      (loop repeat 5
 	   do (qrng-get gen vec)
-	   append (coerce (cl-array vec) 'list))))
+	   append (coerce (grid:copy-to vec) 'list))))

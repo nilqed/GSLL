@@ -1,6 +1,6 @@
 ;; Discrete Fourier Transforms
 ;; Liam Healy 2009-11-07 14:24:07EST
-;; Time-stamp: <2009-12-27 09:45:34EST discrete.lisp>
+;; Time-stamp: <2010-06-29 22:15:25EDT discrete.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -29,10 +29,10 @@
 (defmfun forward-discrete-fourier-transform
     ((vector vector)
      &key (stride 1)
-     (result (make-marray element-type :dimensions (dimensions vector))))
+     (result (grid:make-foreign-array element-type :dimensions (dimensions vector))))
   ("gsl_dft" :type "_forward")
-  (((c-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
-   ((c-pointer result) :pointer))
+  (((foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
+   ((foreign-pointer result) :pointer))
   :definition :generic
   :element-types :complex
   :inputs (vector)
@@ -45,10 +45,10 @@
 (defmfun backward-discrete-fourier-transform
     ((vector vector)
      &key (stride 1)
-     (result (make-marray element-type :dimensions (dimensions vector))))
+     (result (grid:make-foreign-array element-type :dimensions (dimensions vector))))
   ("gsl_dft" :type "_backward")
-  (((c-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
-   ((c-pointer result) :pointer))
+  (((foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
+   ((foreign-pointer result) :pointer))
   :definition :generic
   :element-types :complex
   :inputs (vector)
@@ -61,10 +61,10 @@
 (defmfun inverse-discrete-fourier-transform
     ((vector vector)
      &key (stride 1)
-     (result (make-marray element-type :dimensions (dimensions vector))))
+     (result (grid:make-foreign-array element-type :dimensions (dimensions vector))))
   ("gsl_dft" :type "_inverse")
-  (((c-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
-   ((c-pointer result) :pointer))
+  (((foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
+   ((foreign-pointer result) :pointer))
   :definition :generic
   :element-types :complex
   :inputs (vector)
@@ -77,10 +77,10 @@
 (defmfun discrete-fourier-transform
     ((vector vector)
      &key (stride 1)
-     (result (make-marray element-type :dimensions (dimensions vector))))
+     (result (grid:make-foreign-array element-type :dimensions (dimensions vector))))
   ("gsl_dft" :type "_transform")
-  (((c-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
-   ((c-pointer result) :pointer))
+  (((foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
+   ((foreign-pointer result) :pointer))
   :definition :generic
   :element-types :complex
   :inputs (vector)

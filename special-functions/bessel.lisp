@@ -1,6 +1,6 @@
 ;; Bessel functions
 ;; Liam Healy, Fri Mar 17 2006 - 18:42
-;; Time-stamp: <2009-12-27 10:10:07EST bessel.lisp>
+;; Time-stamp: <2010-07-07 14:24:57EDT bessel.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -49,7 +49,7 @@
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_Jn_array"
   ((nmin :int) ((+ nmin (dim0 array) -1) :int) (x :double)
-   ((c-pointer array) :pointer))
+   ((foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "The values of the regular cylindrical Bessel functions J_n(x)
@@ -65,7 +65,7 @@
 
 (defmfun cylindrical-bessel-J-array-x (nu v &optional (mode :double))
   "gsl_sf_bessel_sequence_Jnu_e"
-  ((nu :double) (mode sf-mode) ((dim0 v) :int) ((c-pointer v) :pointer))
+  ((nu :double) (mode sf-mode) ((dim0 v) :int) ((foreign-pointer v) :pointer))
   :inputs (v)
   :outputs (v)
   :documentation			; FDL
@@ -106,7 +106,7 @@
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_Yn_array"
   ((nmin :int) ((+ nmin (dim0 array) -1) :int) (x :double)
-   ((c-pointer array) :pointer))
+   ((foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "The values of the irregular cylindrical Bessel functions
@@ -150,7 +150,7 @@
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_In_array"
   ((nmin :int) ((+ nmin (dim0 array) -1) :int) (x :double)
-   ((c-pointer array) :pointer))
+   ((foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "The values of the regular modified cylindrical Bessel functions
@@ -188,7 +188,7 @@
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_In_scaled_array"
   ((nmin :int) ((+ nmin (dim0 array) -1) :int) (x :double)
-   ((c-pointer array) :pointer))
+   ((foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   ;; Bug in original documentation?  doesn't say "modified"
@@ -243,7 +243,7 @@
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_Kn_array"
   ((nmin :int) ((+ nmin (dim0 array) -1) :int) (x :double)
-   ((c-pointer array) :pointer))
+   ((foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "The values of the irregular modified cylindrical Bessel functions
@@ -278,7 +278,7 @@
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_Kn_scaled_array"
   ((nmin :int) ((+ nmin (dim0 array) -1) :int) (x :double)
-   ((c-pointer array) :pointer))
+   ((foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "The values of the scaled irregular cylindrical
@@ -342,7 +342,7 @@
     (x &optional (size-or-array *default-sf-array-size*)
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_jl_array"
-  (((1- (dim0 array)) :int) (x :double) ((c-pointer array) :pointer))
+  (((1- (dim0 array)) :int) (x :double) ((foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "The values of the regular spherical Bessel
@@ -354,7 +354,7 @@
     (x &optional (size-or-array *default-sf-array-size*)
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_jl_steed_array"
-  (((1- (dim0 array)) :int) (x :double) ((c-pointer array) :pointer))
+  (((1- (dim0 array)) :int) (x :double) ((foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "Uses Steed's method to compute the values of the regular spherical
@@ -395,7 +395,7 @@
     (x &optional (size-or-array *default-sf-array-size*)
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_yl_array"
-  (((1- (dim0 array)) :int) (x :double) ((c-pointer array) :pointer))
+  (((1- (dim0 array)) :int) (x :double) ((foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "The irregular spherical Bessel functions y_l(x) for l
@@ -435,7 +435,7 @@
     (x &optional (size-or-array *default-sf-array-size*)
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_il_scaled_array"
-  (((1- (dim0 array)) :int) (x :double) ((c-pointer array) :pointer))
+  (((1- (dim0 array)) :int) (x :double) ((foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "The values of the scaled regular modified cylindrical Bessel
@@ -475,7 +475,7 @@
     (x &optional (size-or-array *default-sf-array-size*)
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_kl_scaled_array"
-  (((1- (dim0 array)) :int) (x :double) ((c-pointer array) :pointer))
+  (((1- (dim0 array)) :int) (x :double) ((foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "The values of the scaled irregular modified spherical Bessel
@@ -515,75 +515,75 @@
 	   (cylindrical-bessel-J0 4.0d0)
 	   (cylindrical-bessel-J1 4.0d0)
 	   (cylindrical-bessel-J 2 4.0d0)
-	   (cl-array (cylindrical-bessel-J-array-order 2.0d0 4 2))
+	   (grid:copy-to (cylindrical-bessel-J-array-order 2.0d0 4 2))
 	   (cylindrical-bessel-Y0 4.0d0)
 	   (cylindrical-bessel-Y1 4.0d0)
 	   (cylindrical-bessel-Y 3 4.0d0)
-	   (let ((besarr (make-marray 'double-float :dimensions 4)))
+	   (let ((besarr (grid:make-foreign-array 'double-float :dimensions 4)))
 	     (cylindrical-bessel-Yn-array 2.0d0 besarr 2)
-	     (cl-array besarr))
+	     (grid:copy-to besarr))
 	   (cylindrical-bessel-I0 4.0d0)
 	   (cylindrical-bessel-I1 4.0d0)
 	   (cylindrical-bessel-I 3 4.0d0)
 	   (cylindrical-bessel-I 3.0d0 4.0d0)
-	   (let ((besarr (make-marray 'double-float :dimensions 4)))
+	   (let ((besarr (grid:make-foreign-array 'double-float :dimensions 4)))
 	     (cylindrical-bessel-In-array 2.0d0 besarr 2)
-	     (cl-array besarr))
+	     (grid:copy-to besarr))
 	   (cylindrical-bessel-I0-scaled 4.0d0)
 	   (cylindrical-bessel-I1-scaled 4.0d0)
 	   (cylindrical-bessel-I-scaled 3 4.0d0)
 	   (cylindrical-bessel-I-scaled 3.0d0 4.0d0)
-	   (let ((besarr (make-marray 'double-float :dimensions 4)))
+	   (let ((besarr (grid:make-foreign-array 'double-float :dimensions 4)))
 	     (cylindrical-bessel-In-scaled-array 2.0d0 besarr 2)
-	     (cl-array besarr))
+	     (grid:copy-to besarr))
 	   (cylindrical-bessel-K0 4.0d0)
 	   (cylindrical-bessel-K1 4.0d0)
 	   (cylindrical-bessel-K 2 4.0d0)
 	   (cylindrical-bessel-K 3.0d0 4.0d0)
-	   (let ((besarr (make-marray 'double-float :dimensions 4)))
+	   (let ((besarr (grid:make-foreign-array 'double-float :dimensions 4)))
 	     (cylindrical-bessel-Kn-array 2.0d0 besarr 2)
-	     (cl-array besarr))
+	     (grid:copy-to besarr))
 	   (cylindrical-bessel-K0-scaled 4.0d0)
 	   (cylindrical-bessel-K1-scaled 4.0d0)
 	   (cylindrical-bessel-K-scaled 2 4.0d0)
 	   (cylindrical-bessel-K-scaled 3.0d0 4.0d0)
-	   (let ((besarr (make-marray 'double-float :dimensions 4)))
+	   (let ((besarr (grid:make-foreign-array 'double-float :dimensions 4)))
 	     (cylindrical-bessel-Kn-array 2.0d0 besarr 2)
-	     (cl-array besarr))
+	     (grid:copy-to besarr))
 	   (spherical-bessel-j0 4.0d0)
 	   (spherical-bessel-j1 4.0d0)
 	   (spherical-bessel-j2 4.0d0)
 	   (spherical-bessel-jl 3 4.0d0)
-	   (let ((besarr (make-marray 'double-float :dimensions 4)))
+	   (let ((besarr (grid:make-foreign-array 'double-float :dimensions 4)))
 	     (spherical-bessel-jl-array 4.0d0 besarr)
-	     (cl-array besarr))
-	   (let ((besarr (make-marray 'double-float :dimensions 4)))
+	     (grid:copy-to besarr))
+	   (let ((besarr (grid:make-foreign-array 'double-float :dimensions 4)))
 	     (spherical-bessel-jl-steed-array 4.0d0 besarr)
-	     (cl-array besarr))
+	     (grid:copy-to besarr))
 	   (spherical-bessel-y0 4.0d0)
 	   (spherical-bessel-y1 4.0d0)
 	   (spherical-bessel-y2 4.0d0)
 	   (spherical-bessel-yl 2 4.0d0)
-	   (let ((besarr (make-marray 'double-float :dimensions 4)))
+	   (let ((besarr (grid:make-foreign-array 'double-float :dimensions 4)))
 	     (spherical-bessel-yl-array 4.0d0 besarr)
-	     (cl-array besarr))
+	     (grid:copy-to besarr))
 	   (spherical-bessel-i0-scaled 4.0d0)
 	   (spherical-bessel-i1-scaled 4.0d0)
 	   (spherical-bessel-i2-scaled 4.0d0)
 	   (spherical-bessel-il-scaled 3 4.0d0)
-	   (let ((besarr (make-marray 'double-float :dimensions 4)))
+	   (let ((besarr (grid:make-foreign-array 'double-float :dimensions 4)))
 	     (spherical-bessel-il-scaled-array 4.0d0 besarr)
-	     (cl-array besarr))
+	     (grid:copy-to besarr))
 	   (spherical-bessel-k0-scaled 4.0d0)
 	   (spherical-bessel-k1-scaled 4.0d0)
 
 	   (spherical-bessel-k2-scaled 4.0d0)
 	   (spherical-bessel-kl-scaled 3 4.0d0)
-	   (let ((besarr (make-marray 'double-float :dimensions 4)))
+	   (let ((besarr (grid:make-foreign-array 'double-float :dimensions 4)))
 	     (spherical-bessel-kl-scaled-array 4.0d0 besarr)
-	     (cl-array besarr))
+	     (grid:copy-to besarr))
 	   (cylindrical-bessel-J 3.0d0 4.0d0)
-	   (cl-array (cylindrical-bessel-J-array-x 0.5d0 #m(1.0d0 2.0d0 3.0d0)))
+	   (grid:copy-to (cylindrical-bessel-J-array-x 0.5d0 #m(1.0d0 2.0d0 3.0d0)))
 	   (cylindrical-bessel-Y 3.0d0 4.0d0)
 	   (bessel-lnKnu 3.0d0 4.0d0)
 	   (bessel-zero-J0 5)

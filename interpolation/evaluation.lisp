@@ -1,6 +1,6 @@
 ;; Evaluation of interpolation functions.
 ;; Liam Healy Sun Nov  4 2007 - 18:40
-;; Time-stamp: <2010-03-28 16:40:16EDT evaluation.lisp>
+;; Time-stamp: <2010-06-27 18:13:56EDT evaluation.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -27,8 +27,8 @@
      &key xa ya (acceleration (make-acceleration)))
   "gsl_interp_eval"
   (((mpointer interpolation) :pointer)
-   ((c-pointer xa) :pointer)
-   ((c-pointer ya) :pointer)
+   ((foreign-pointer xa) :pointer)
+   ((foreign-pointer ya) :pointer)
    (x :double)
    ((mpointer acceleration) :pointer))
   :definition :method
@@ -51,8 +51,8 @@
      &key xa ya (acceleration (make-acceleration)))
   "gsl_interp_eval_deriv"
   (((mpointer interpolation) :pointer)
-   ((c-pointer xa) :pointer)
-   ((c-pointer ya) :pointer)
+   ((foreign-pointer xa) :pointer)
+   ((foreign-pointer ya) :pointer)
    (x :double)
    ((mpointer acceleration) :pointer))
   :definition :method
@@ -70,8 +70,8 @@
     ((interpolation interpolation) x &key xa ya (acceleration (make-acceleration)))
   "gsl_interp_eval_deriv2"
   (((mpointer interpolation) :pointer)
-   ((c-pointer xa) :pointer)
-   ((c-pointer ya) :pointer)
+   ((foreign-pointer xa) :pointer)
+   ((foreign-pointer ya) :pointer)
    (x :double)
    ((mpointer acceleration) :pointer))
   :definition :method
@@ -90,8 +90,8 @@
      &key xa ya (acceleration (make-acceleration)))
   "gsl_interp_eval_integ"
   (((mpointer interpolation) :pointer)
-   ((c-pointer xa) :pointer)
-   ((c-pointer ya) :pointer)
+   ((foreign-pointer xa) :pointer)
+   ((foreign-pointer ya) :pointer)
    (low :double) (high :double) ((mpointer acceleration) :pointer))
   :definition :method
   :inputs (xa ya)

@@ -22,7 +22,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST 1.0d0)
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((VEC
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    'DOUBLE-FLOAT
                                                                    :INITIAL-CONTENTS
                                                                    '(-3.21d0
@@ -32,7 +32,7 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST 1.85d0)
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((VEC
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    'DOUBLE-FLOAT
                                                                    :INITIAL-CONTENTS
                                                                    '(-18.0d0

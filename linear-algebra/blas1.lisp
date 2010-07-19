@@ -1,6 +1,6 @@
 ;; BLAS level 1, Vector operations
 ;; Liam Healy, Wed Apr 26 2006 - 15:23
-;; Time-stamp: <2009-12-27 09:55:01EST blas1.lisp>
+;; Time-stamp: <2010-07-07 14:25:01EDT blas1.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -112,7 +112,7 @@
 (defmfun axpy
     (alpha (x vector)
 	   &optional
-	   (y (make-marray element-type :dimensions (dimensions x))))
+	   (y (grid:make-foreign-array element-type :dimensions (dimensions x))))
   ;; This gets an error for complex types because you can't pass a
   ;; struct in CFFI yet.
   ("gsl_blas_" :type "axpy")
@@ -153,8 +153,8 @@
 
 (defmfun givens-rotation ((x vector) (y vector) (c vector) (s vector))
   ("gsl_blas_" :type "rotg")
-  (((c-pointer x) :pointer) ((c-pointer y) :pointer)
-   ((c-pointer c) :pointer) ((c-pointer s) :pointer))
+  (((foreign-pointer x) :pointer) ((foreign-pointer y) :pointer)
+   ((foreign-pointer c) :pointer) ((foreign-pointer s) :pointer))
   :definition :generic
   :element-types :float
   :inputs (x y c s)
@@ -182,9 +182,9 @@
 (defmfun modified-givens-rotation
     ((d1 vector) (d2 vector) (b1 vector) b2 (P vector))
   ("gsl_blas_" :type "rotmg")
-  (((c-pointer d1) :pointer) ((c-pointer d2) :pointer)
-   ((c-pointer b1) :pointer) (b2 :element-c-type)
-   ((c-pointer P) :pointer))
+  (((foreign-pointer d1) :pointer) ((foreign-pointer d2) :pointer)
+   ((foreign-pointer b1) :pointer) (b2 :element-c-type)
+   ((foreign-pointer P) :pointer))
   :definition :generic
   :element-types :float
   :inputs (d1 d2 b1 P)
@@ -233,29 +233,29 @@
  (let ((v1 (array-default 3))
 	(v2 (array-default 3)))
    (blas-swap v2 v1)
-   (list (cl-array v1) (cl-array v2))))
+   (list (grid:copy-to v1) (grid:copy-to v2))))
 
 (generate-all-array-tests blas-copy :float-complex
  (let ((v1 (array-default 3))
 	(v2 (array-default 3 t)))
    (blas-copy v1 v2)
-   (cl-array v2)))
+   (grid:copy-to v2)))
 
 (generate-all-array-tests axpy :float-complex
  (let ((v1 (array-default 8))
 	(v2 (array-default 8))
 	(scalar (scalar-default)))
-   (cl-array (axpy scalar v1 v2))))
+   (grid:copy-to (axpy scalar v1 v2))))
 
 (generate-all-array-tests scale #+fsbv :float-complex #-fsbv :float
  (let ((v1 (array-default 8))
 	(scalar (scalar-default)))
-   (cl-array (scale scalar v1))))
+   (grid:copy-to (scale scalar v1))))
 
 (generate-all-array-tests scale :complex
  (let ((v1 (array-default 8))
        (scalar (scalar-default t)))
-   (cl-array (scale scalar v1))))
+   (grid:copy-to (scale scalar v1))))
 
 (generate-all-array-tests givens :float
  (let ((v1 (array-default 8))
@@ -264,7 +264,7 @@
        (sines (array-default 8 t))
        (cosines (array-default 8 t)))
    (loop for i below 8 do
-	(setf (maref sines i) (sin (maref angles i)))
-	(setf (maref cosines i) (cos (maref angles i))))
+	(setf (grid:gref sines i) (sin (grid:gref angles i)))
+	(setf (grid:gref cosines i) (cos (grid:gref angles i))))
    (givens-rotation v1 v2 cosines sines)
-   (list (cl-array v1) (cl-array v2))))
+   (list (grid:copy-to v1) (grid:copy-to v2))))

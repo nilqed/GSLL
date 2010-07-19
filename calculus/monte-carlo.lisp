@@ -1,6 +1,6 @@
 ;; Monte Carlo Integration
 ;; Liam Healy Sat Feb  3 2007 - 17:42
-;; Time-stamp: <2009-12-27 09:42:11EST monte-carlo.lisp>
+;; Time-stamp: <2010-06-29 22:15:24EDT monte-carlo.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -51,7 +51,7 @@
 	      (scalars t))
   "gsl_monte_plain_integrate"
   ((callback :pointer)
-   ((c-pointer lower-limits) :pointer) ((c-pointer upper-limits) :pointer)
+   ((foreign-pointer lower-limits) :pointer) ((foreign-pointer upper-limits) :pointer)
    ((dim0 lower-limits) sizet) (number-of-samples sizet)
    ((mpointer generator) :pointer)
    ((mpointer state) :pointer)
@@ -112,7 +112,7 @@
 	      (scalars t))
   "gsl_monte_miser_integrate"
   ((callback :pointer)
-   ((c-pointer lower-limits) :pointer) ((c-pointer upper-limits) :pointer)
+   ((foreign-pointer lower-limits) :pointer) ((foreign-pointer upper-limits) :pointer)
    ((dim0 lower-limits) sizet) (number-of-samples sizet)
    ((mpointer generator) :pointer)
    ((mpointer state) :pointer)
@@ -173,7 +173,7 @@
 	      (scalars t))
   "gsl_monte_vegas_integrate"
   ((callback :pointer)
-   ((c-pointer lower-limits) :pointer) ((c-pointer upper-limits) :pointer)
+   ((foreign-pointer lower-limits) :pointer) ((foreign-pointer upper-limits) :pointer)
    ((dim0 lower-limits) sizet) (number-of-samples sizet)
    ((mpointer generator) :pointer)
    ((mpointer state) :pointer)
@@ -211,7 +211,7 @@
 (defparameter *mc-lower* #m(0.0d0 0.0d0 0.0d0))
 
 (defparameter *mc-upper*
-  (make-marray 'double-float :initial-contents (list pi pi pi)))
+  (grid:make-foreign-array 'double-float :initial-contents (list pi pi pi)))
 
 (defun random-walk-plain-example (&optional (nsamples 500000))
   (monte-carlo-integrate-plain 'mcrw *mc-lower* *mc-upper* nsamples))

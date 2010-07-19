@@ -1,6 +1,6 @@
 ;; Gamma functions
 ;; Liam Healy, Thu Apr 27 2006 - 22:06
-;; Time-stamp: <2009-12-27 10:10:03EST gamma.lisp>
+;; Time-stamp: <2010-06-27 18:03:15EDT gamma.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -52,7 +52,7 @@
 (defmfun log-gamma-sign (x)
   "gsl_sf_lngamma_sgn_e"
   ((x :double) (ret sf-result) (sign (:pointer :double)))
-  :return ((val ret) (c-array:dcref sign) (err ret))
+  :return ((val ret) (grid:dcref sign) (err ret))
   :documentation			; FDL
   "Compute the sign of the gamma function and the logarithm of
   its magnitude, subject to x not being a negative integer.  The
@@ -151,7 +151,7 @@
   The computed parameters are result =
   log(|(a)_x|) and sgn = sgn((a)_x) where (a)_x :=
   Gamma(a + x)/Gamma(a), subject to a, a+x not being negative integers."
-  :return ((val ret) (c-array:dcref sign) (err ret)))
+  :return ((val ret) (grid:dcref sign) (err ret)))
 
 (defmfun relative-pochammer (a x)
   "gsl_sf_pochrel_e" ((a :double) (x :double) (ret sf-result))

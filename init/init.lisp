@@ -1,6 +1,6 @@
 ;; Load GSL
 ;; Liam Healy Sat Mar  4 2006 - 18:53
-;; Time-stamp: <2010-06-24 09:57:20EDT init.lisp>
+;; Time-stamp: <2010-07-18 22:53:17EDT init.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -22,12 +22,14 @@
   (:nicknames :gsl)
   (:use :common-lisp :cffi)
   (:import-from
-   :c-array
-   #:cl-array #:dimensions #:total-size #:element-type #:dim0 #:dim1
-   #:c-pointer #:copy #:clone)
+   :grid
+   #:cl-array #:dimensions #:element-type
+   #:foreign-array #:matrix #:dim0 #:dim1 #:^
+   #:copy)
+  (:shadowing-import-from :grid #:foreign-pointer)
   (:export
-   #:cl-array #:dimensions #:total-size #:element-type #:dim0 #:dim1
-   #:copy #:clone))
+   #:cl-array #:dimensions #:element-type #:dim0 #:dim1
+   #:copy))
 
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun gsl-config (arg)

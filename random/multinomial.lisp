@@ -1,6 +1,6 @@
 ;; Multinomial distribution
 ;; Liam Healy, Sat Nov 25 2006 - 16:00
-;; Time-stamp: <2010-01-17 10:28:22EST multinomial.lisp>
+;; Time-stamp: <2010-07-07 14:24:58EDT multinomial.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -25,15 +25,15 @@
 (defmfun sample
     ((generator random-number-generator) (type (eql :multinomial))
      &key sum probabilities
-     (n (make-marray
+     (n (grid:make-foreign-array
 	 '(signed-byte 32) :dimensions (dim0 probabilities))))
   "gsl_ran_multinomial"
   (((mpointer generator) :pointer) 
    ((dim0 probabilities) sizet)
    (sum sizet)
-   ((c-pointer probabilities) :pointer)
+   ((foreign-pointer probabilities) :pointer)
    ;; technically, n should be a uint array, but integers work
-   ((c-pointer n) :pointer))
+   ((foreign-pointer n) :pointer))
   :definition :method
   :inputs (p)
   :outputs (n)
@@ -56,7 +56,7 @@
 
 (defmfun multinomial-pdf (p n)
   "gsl_ran_multinomial_pdf"
-  (((dim0 p) sizet) ((c-pointer p) :pointer) ((c-pointer n) :pointer))
+  (((dim0 p) sizet) ((foreign-pointer p) :pointer) ((foreign-pointer n) :pointer))
   :inputs (p n)
   :c-return :double
   :documentation			; FDL
@@ -66,7 +66,7 @@
 
 (defmfun multinomial-log-pdf (p n)
   "gsl_ran_multinomial_lnpdf"
-  (((dim0 p) sizet) ((c-pointer p) :pointer) ((c-pointer n) :pointer))
+  (((dim0 p) sizet) ((foreign-pointer p) :pointer) ((foreign-pointer n) :pointer))
   :inputs (p n)
   :c-return :double
   :documentation			; FDL
@@ -78,7 +78,7 @@
 (save-test multinomial
  (let ((rng (make-random-number-generator +mt19937+ 0))
        (p #m(0.1d0 0.2d0 0.3d0 0.4d0)))
-   (cl-array (sample rng :multinomial :sum 8 :probabilities p)))
+   (grid:copy-to (sample rng :multinomial :sum 8 :probabilities p)))
  (let ((p #m(0.1d0 0.2d0 0.3d0 0.4d0))
        (n #31m(5 0 1 2)))
    (multinomial-pdf p N))

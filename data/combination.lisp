@@ -1,8 +1,8 @@
 ;; Combinations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2009-12-27 09:42:06EST combination.lisp>
+;; Time-stamp: <2010-07-16 17:14:03EDT combination.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -26,27 +26,22 @@
 ;;;; Combination structure and CL object
 ;;;;****************************************************************************
 
-(defclass combination (mobject c-array:foreign-array)
-  ((element-type
-    :initform
-    #+int64 '(unsigned-byte 64)
-    #+int32 '(unsigned-byte 32)
-    :reader element-type :allocation :class)
-   (choice-of :initarg :choice-of :reader choice-of :type (integer 0)
-	      :documentation "Maximum possible value; n in the (n k) notation."))
+(defclass combination 
+    (#+int64 grid:vector-unsigned-byte-64 #+int32 grid:vector-unsigned-byte-32)
+  ()
   (:documentation "GSL combinations."))
 
 (defmethod initialize-instance :after
-    ((object combination) &key choice-of dimensions &allow-other-keys)
+    ((object combination) &key range dimensions &allow-other-keys)
   (let ((mptr (cffi:foreign-alloc 'gsl-combination-c)))
-    (setf (slot-value object 'mpointer)
+    (setf (grid:metadata-slot object 'mpointer)
 	  mptr
 	  (cffi:foreign-slot-value mptr 'gsl-combination-c 'data)
-	  (c-pointer object)
-	  (cffi:foreign-slot-value mptr 'gsl-combination-c 'choice-of)
-	  choice-of
+	  (foreign-pointer object)
+	  (cffi:foreign-slot-value mptr 'gsl-combination-c 'range)
+	  range
 	  (cffi:foreign-slot-value mptr 'gsl-combination-c 'size)
-	  dimensions)
+	  (first dimensions))
     (tg:finalize object (lambda () (cffi:foreign-free mptr)))))
 
 (export 'make-combination)
@@ -59,13 +54,23 @@
   (let ((comb
 	 (if (typep n 'combination)
 	     (make-instance
-	      'combination :choice-of (choice-of n) :dimensions (dimensions k))
-	     (make-instance 'combination :choice-of n :dimensions k))))
+	      'combination
+	      :element-type '(unsigned-byte #+int64 64 #+int32 32)
+	      :range (combination-range n) :dimensions (dimensions k))
+	     (make-instance
+	      'combination
+	      :element-type '(unsigned-byte #+int64 64 #+int32 32)
+	      :range n :dimensions (list k)))))
     (when initialize
       (if (typep n 'combination)
-	  (copy comb n)
+	  (error "not available yet")	; (copy comb n)
 	  (init-first comb)))
     comb))
+
+(defmethod print-object ((object combination) stream)
+  (print-unreadable-object (object stream :type t)
+    (format stream "range ~d: " (combination-range object))
+    (princ (grid:contents object) stream)))
 
 ;;;;****************************************************************************
 ;;;; Setting values
@@ -89,18 +94,27 @@
   "Initialize the combination c to the lexicographically
    last combination, i.e. (n-k,n-k+1,...,n-1).")
 
-(defmfun c-array:copy-to-destination ((source combination) (destination combination))
+(defmfun comb-copy (source destination)
   "gsl_combination_memcpy"
   (((mpointer destination) :pointer)
    ((mpointer source) :pointer))
-  :definition :method
   :inputs (source)
   :outputs (destination)
   :return (destination)
-  :index copy
+  :export nil
+  :index grid:copy
   :documentation			; FDL
   "Copy the elements of the combination source into the
   combination destination.  The two combinations must have the same size.")
+
+(defmethod grid:copy
+    ((source combination) &key grid-type destination &allow-other-keys)
+  (if grid-type
+      (call-next-method)
+      (comb-copy
+       source
+       (or destination
+	   (make-combination (combination-range source) (size source))))))
 
 ;;;;****************************************************************************
 ;;;; Combination properties
@@ -112,7 +126,8 @@
   :c-return sizet
   :inputs (c)
   :documentation			; FDL
-  "The range (n) of the combination c.")
+  "The range (n), or maximum possible value (n in the (n k) notation)
+   of the combination c.")
 
 (defmfun size ((c combination))
   "gsl_combination_k"
@@ -148,28 +163,28 @@
 
 (defmfun combination-next (c)
   "gsl_combination_next" (((mpointer c) :pointer))
-  :c-return :success-failure
+  :c-return (crtn :int)
   :inputs (c)
   :outputs (c)
+  :return ((when (success-failure crtn) c))
   :documentation			; FDL
-  "Advance the combination c to the next combination
-   in lexicographic order and return T and c.  If no further
-   combinations are available it return NIL and c with
-   c unmodified.  Starting with the first combination and
-   repeatedly applying this function will iterate through all possible
+  "Advance the combination c to the next combination in lexicographic
+   order and return c.  If no further combinations are available
+   it returns NIL.  Starting with the first combination and repeatedly
+   applying this function will iterate through all possible
    combinations of a given order.")
 
 (defmfun combination-previous (c)
   "gsl_combination_prev"
   (((mpointer c) :pointer))
-  :c-return :success-failure
+  :c-return (crtn :int)
   :inputs (c)
   :outputs (c)
+  :return ((when (success-failure crtn) c))
   :documentation			; FDL
-  "Step backwards from the combination c to the
-   previous combination in lexicographic order, returning
-   T and c.  If no previous combination is available it returns
-   NIL and c with c unmodified.")
+  "Step backwards from the combination c to the previous combination
+   in lexicographic order, returning c.  If no previous combination is
+   available it returns NIL with c unmodified.")
 
 ;;;;****************************************************************************
 ;;;; Examples and unit test
@@ -182,15 +197,15 @@
    (size comb))
  (let ((comb (make-combination 4 2)))	; init-first, combination-next
    (init-first comb)
-   (loop collect (copy-seq (cl-array comb))
+   (loop collect (grid:contents comb)
 	 while (combination-next comb)))
  (let ((comb (make-combination 4 2)))  ; init-last, combination-previous
    (init-last comb)
-   (loop collect (copy-seq (cl-array comb))
+   (loop collect (grid:contents comb)
 	 while (combination-previous comb)))
  (loop for i from 0 to 4		; combination-next
        append
        (let ((comb (make-combination 4 i)))
 	 (init-first comb)
-	 (loop collect (copy-seq (cl-array comb))
+	 (loop collect (grid:contents comb)
 	       while (combination-next comb)))))

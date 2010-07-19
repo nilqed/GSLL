@@ -38,9 +38,9 @@
                          #(0.6617816138326813d0 0.3614128577450535d0
                            0.13267757609917497d0))
                         (MULTIPLE-VALUE-LIST
-                         (LET ((ARR (MAKE-MARRAY 'DOUBLE-FLOAT :DIMENSIONS 3)))
+                         (LET ((ARR (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 3)))
                            (COULOMB-WAVE-F-ARRAY 0.0d0 1.0d0 2.0d0 ARR)
-                           (CL-ARRAY ARR))))
+                           (GRID:COPY-TO ARR))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST 0.07161779967468254d0 0.1278101031568499d0
                               2.2510703464871114d0 -1.4245543587641651d0 0.0d0
@@ -55,19 +55,19 @@
                                7.116955601984411d-4 6.471726496134135d0
                                27.57457472159366d0 170.56037293106908d0))
                         (MULTIPLE-VALUE-LIST
-                         (LET ((FARR (MAKE-MARRAY 'DOUBLE-FLOAT :DIMENSIONS 3))
-                               (GARR (MAKE-MARRAY 'DOUBLE-FLOAT :DIMENSIONS 3)))
+                         (LET ((FARR (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 3))
+                               (GARR (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 3)))
                            (COULOMB-WAVE-FG-ARRAY 1.5d0 1.0d0 1.0d0 FARR GARR)
-                           (APPEND (COERCE (CL-ARRAY FARR) 'LIST)
-                                   (COERCE (CL-ARRAY GARR) 'LIST)))))
+                           (APPEND (COERCE (GRID:COPY-TO FARR) 'LIST)
+                                   (COERCE (GRID:COPY-TO GARR) 'LIST)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST
                          #(0.33089080691634065d0 0.18070642887252675d0
                            0.06633878804958748d0))
                         (MULTIPLE-VALUE-LIST
-                         (LET ((ARR (MAKE-MARRAY 'DOUBLE-FLOAT :DIMENSIONS 3)))
+                         (LET ((ARR (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 3)))
                            (COULOMB-WAVE-SPHF-ARRAY 0.0d0 1.0d0 2.0d0 ARR)
-                           (CL-ARRAY ARR))))
+                           (GRID:COPY-TO ARR))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST 0.0013809146441856027d0 2.759621819430441d-17)
                         (MULTIPLE-VALUE-LIST (COULOMB-CL 1.0d0 2.5d0)))
@@ -76,7 +76,7 @@
                          #(0.10842251310207264d0 0.05111086283184191d0
                            0.011428736368066591d0))
                         (MULTIPLE-VALUE-LIST
-                         (LET ((CL (MAKE-MARRAY 'DOUBLE-FLOAT :DIMENSIONS 3)))
-                           (COULOMB-CL-ARRAY 0.0d0 1.0d0 CL)
-                           (CL-ARRAY CL)))))
+                         (LET ((CL (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 3)))
+                           (COULOMB-cl-array 0.0d0 1.0d0 CL)
+                           (GRID:COPY-TO CL)))))
 

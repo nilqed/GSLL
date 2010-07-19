@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2010-05-25 11:54:09EDT gsll.asd>
+;; Time-stamp: <2010-07-13 21:07:57EDT gsll.asd>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -30,14 +30,14 @@
   :version "0"
   :author "Liam M. Healy"
   :licence "GPL v3"
-  :depends-on (c-array grid cffi cffi-grovel trivial-garbage cl-utilities #+fsbv fsbv)
+  :depends-on (foreign-array grid cffi cffi-grovel trivial-garbage #+fsbv fsbv)
   :components
   ((:module init
 	    :components
 	    ((:file "init")
 	     (cffi-grovel:grovel-file "libgsl" :pathname #+unix "libgsl-unix")
-	     (:file "utility")
-	     (:file "forms")
+	     (:file "utility" :depends-on ("init"))
+	     (:file "forms" :depends-on ("init"))
 	     (:file "conditions" :depends-on ("init" "libgsl"))
 	     (:file "callback-compile-defs" :depends-on ("init"))
 	     (:file "mobject" :depends-on ("init" "callback-compile-defs"))
@@ -49,15 +49,15 @@
 	     (:file "types" :depends-on ("init" "libgsl"))
 	     (cffi-grovel:grovel-file "callback-struct"
 				      :depends-on ("types" "libgsl"))
-	     (:file "funcallable" :depends-on ("utility"))
+	     (:file "funcallable" :depends-on ("init" "utility"))
 	     (:file "interface"
 		    :depends-on ("init" "conditions"))
 	     (:file "defmfun" :depends-on ("init" "forms" "interface"))
 	     (:file "defmfun-array"
-		    :depends-on ("defmfun" "callback-included"))
+		    :depends-on ("init" "defmfun" "callback-included"))
 	     (:file "defmfun-single"
-		    :depends-on ("defmfun" "mobject" "callback"))
-	     (:file "body-expand" :depends-on ("defmfun" "mobject" "callback"))
+		    :depends-on ("init" "defmfun" "mobject" "callback"))
+	     (:file "body-expand" :depends-on ("init" "defmfun" "mobject" "callback"))
 	     (:file "generate-examples" :depends-on ("init"))))
    (:module floating-point
 	    :depends-on (init)
@@ -74,15 +74,13 @@
 	    :depends-on (init)
 	    :components
 	    ((cffi-grovel:grovel-file "array-structs")
-	     (:file "marray" :depends-on ("array-structs"))
-	     (:file "vector" :depends-on ("marray" "array-structs"))
-	     (:file "matrix" :depends-on ("marray" "vector" "array-structs"))
-	     (:file "maref" :depends-on ("marray" "vector" "matrix"))
-	     (:file "both" :depends-on ("marray" "vector" "matrix"))
-	     (:file "copy-cl")
+	     (:file "foreign-array" :depends-on ("array-structs"))
+	     (:file "vector" :depends-on ("foreign-array" "array-structs"))
+	     (:file "matrix" :depends-on ("foreign-array" "vector" "array-structs"))
+	     (:file "both" :depends-on ("foreign-array" "vector" "matrix"))
 	     (:file "array-tests" :depends-on ("both"))
-	     (:file "permutation" :depends-on ("marray" "array-structs"))
-	     (:file "combination" :depends-on ("marray" "array-structs"))))
+	     (:file "permutation" :depends-on ("foreign-array" "array-structs"))
+	     (:file "combination" :depends-on ("foreign-array" "array-structs"))))
    (:file "polynomial" :depends-on (init data))
    (:module special-functions
 	    :depends-on (init)

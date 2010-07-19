@@ -1,8 +1,8 @@
 ;; Permutations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2009-12-27 09:42:03EST permutation.lisp>
+;; Time-stamp: <2010-07-16 17:14:45EDT permutation.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -27,23 +27,20 @@
 ;;;; Permutation structure and CL object
 ;;;;****************************************************************************
    
-(defclass permutation (mobject c-array:foreign-array)
-  ((element-type
-    :initform
-    #+int64 '(unsigned-byte 64)
-    #+int32 '(unsigned-byte 32)
-    :reader element-type :allocation :class))
+(defclass permutation
+    (#+int64 grid:vector-unsigned-byte-64 #+int32 grid:vector-unsigned-byte-32)
+  ()
   (:documentation "GSL permutations."))
 
 (defmethod initialize-instance :after
     ((object permutation) &key dimensions &allow-other-keys)
   (let ((mptr (cffi:foreign-alloc 'gsl-permutation-c)))
-    (setf (slot-value object 'mpointer)
+    (setf (grid:metadata-slot object 'mpointer)
 	  mptr
 	  (cffi:foreign-slot-value mptr 'gsl-permutation-c 'data)
-	  (c-pointer object)
+	  (foreign-pointer object)
 	  (cffi:foreign-slot-value mptr 'gsl-permutation-c 'size)
-	  dimensions)
+	  (first dimensions))
     (tg:finalize object (lambda () (cffi:foreign-free mptr)))))
 
 (export 'make-permutation)
@@ -55,12 +52,17 @@
   (let ((perm
 	 (make-instance
 	  'permutation
-	  :dimensions (if (typep n 'permutation) (dimensions n) n))))
+	  :element-type '(unsigned-byte #+int64 64 #+int32 32)
+	  :dimensions (if (typep n 'permutation) (dimensions n) (list n)))))
     (when initialize
       (if (typep n 'permutation)
-	  (copy perm n)
+	  (error "not available yet")	; (copy perm n)
 	  (set-identity perm)))
     perm))
+
+(defmethod print-object ((object permutation) stream)
+  (print-unreadable-object (object stream :type t)
+    (princ (grid:contents object) stream)))
 
 ;;;;****************************************************************************
 ;;;; Setting values
@@ -77,18 +79,25 @@
   "Initialize the permutation p to the identity, i.e.
    (0,1,2,...,n-1).")
 
-(defmfun c-array:copy-to-destination ((source permutation) (destination permutation))
+(defmfun perm-copy (source destination)
   "gsl_permutation_memcpy"
   (((mpointer destination) :pointer)
    ((mpointer source) :pointer))
-  :definition :method
   :inputs (source)
   :outputs (destination)
   :return (destination)
-  :index copy
+  :export nil
+  :index grid:copy
   :documentation			; FDL
   "Copy the elements of the permutation source into the
    permutation destination.  The two permutations must have the same size.")
+
+(defmethod grid:copy
+    ((source permutation) &key grid-type destination &allow-other-keys)
+  (if grid-type
+      (call-next-method)
+      (perm-copy
+       source (or destination (make-permutation (size source))))))
 
 (defmfun swap-elements ((p permutation) i j)
   "gsl_permutation_swap"
@@ -152,7 +161,7 @@
   :documentation			; FDL
   "Reverse the order of the elements of the permutation p.")
 
-(defmfun permutation-inverse (inv p)
+(defmfun permutation-inverse (p &optional (inv (make-permutation (size p))))
   "gsl_permutation_inverse"
   (((mpointer inv) :pointer) ((mpointer p) :pointer))
   :inputs (p)
@@ -265,7 +274,7 @@
 ;;;; Permutations in cyclic form
 ;;;;****************************************************************************
 
-(defmfun linear-to-canonical (q p)
+(defmfun linear-to-canonical (p &optional (q (make-permutation (size p))))
   "gsl_permutation_linear_to_canonical"
   (((mpointer q) :pointer) ((mpointer p) :pointer))
   :inputs (p)
@@ -274,7 +283,7 @@
   "Compute the canonical form of the permutation p and
    stores it in the output argument q.")
 
-(defmfun canonical-to-linear (p q)
+(defmfun canonical-to-linear (q &optional (p (make-permutation (size q))))
   "gsl_permutation_canonical_to_linear"
   (((mpointer p) :pointer) ((mpointer q) :pointer))
   :inputs (q)
@@ -317,44 +326,43 @@
   "Generate all the permutations of n objects."
   (let ((perm (make-permutation n)))
     (set-identity perm)
-    (loop collect (copy-seq (cl-array perm))
-	  while (permutation-next perm))))
+    (loop collect (grid:contents perm)
+       while (nth-value 1 (permutation-next perm)))))
 
 (defun generate-all-permutations-backwards (n)
   "Generate all the permutations of n objects."
   (let ((perm (make-permutation n)))
     (set-identity perm)
     (permutation-reverse perm)
-    (loop collect (copy-seq (cl-array perm))
-	  while (permutation-previous perm))))
+    (loop collect (grid:contents perm)
+       while (nth-value 1 (permutation-previous perm)))))
 
 (save-test permutation
- (let ((perm-1 (make-permutation 4 t)))	;maref
+ (let ((perm-1 (make-permutation 4 t)))
    (grid:gref perm-1 2))
- (let ((perm-1 (make-permutation 4 t)))	;cl-array
-   (cl-array perm-1))
+ (let ((perm-1 (make-permutation 4 t)))	;grid:contents
+   (grid:contents perm-1))
  (let ((perm-1 (make-permutation 4 t)))	;permutation-reverse
    (set-identity perm-1)
-   (cl-array (permutation-reverse perm-1)))
+   (grid:contents (permutation-reverse perm-1)))
  (let				;permutation-next, permutation-inverse
-     ((perm-1 (make-permutation 4 t)) (perm-2 (make-permutation 4 t)))
+     ((perm-1 (make-permutation 4 t)))
    (set-identity perm-1)
    (permutation-next perm-1)
    (permutation-next perm-1)
    (permutation-next perm-1)
-   (permutation-inverse perm-2 perm-1)
-   (cl-array perm-2))
+   (grid:contents (permutation-inverse perm-1)))
  (let ((perm-1 (make-permutation 4 t)))	;swap-elements
    (set-identity perm-1)
    (swap-elements perm-1 1 3)
-   (cl-array perm-1))
+   (grid:contents perm-1))
  (let ((perm-1 (make-permutation 4 t))	;permute-vector
        (intvec #31m(11 22 33 44)))
    (set-identity perm-1)
    (swap-elements perm-1 1 3)
    (swap-elements perm-1 0 2)
    (permute perm-1 intvec)
-   (cl-array intvec))
+   (grid:contents intvec))
  (let ((perm-1 (make-permutation 4 t)))	;inversions
    (set-identity perm-1)
    (swap-elements perm-1 1 3)

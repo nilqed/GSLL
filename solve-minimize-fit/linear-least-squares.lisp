@@ -1,6 +1,6 @@
 ;; Linear least squares, or linear regression
 ;; Liam Healy <2008-01-21 12:41:46EST linear-least-squares.lisp>
-;; Time-stamp: <2010-01-17 10:40:22EST linear-least-squares.lisp>
+;; Time-stamp: <2010-06-30 19:57:28EDT linear-least-squares.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -36,15 +36,15 @@
 (defmfun linear-fit
     (x y &optional weight (x-stride 1) (y-stride 1) (weight-stride 1))
   ("gsl_fit_linear" "gsl_fit_wlinear")
-  ((((c-pointer x) :pointer) (x-stride sizet)
-    ((c-pointer y) :pointer) (y-stride sizet)
+  ((((foreign-pointer x) :pointer) (x-stride sizet)
+    ((foreign-pointer y) :pointer) (y-stride sizet)
     ((dim0 x) sizet)
     (c0 (:pointer :double)) (c1 (:pointer :double))
     (cov00 (:pointer :double)) (cov01 (:pointer :double))
     (cov11 (:pointer :double)) (sumsq (:pointer :double)))
-   (((c-pointer x) :pointer) (x-stride sizet)
-    ((c-pointer weight) :pointer) (weight-stride sizet)
-    ((c-pointer y) :pointer) (y-stride sizet)
+   (((foreign-pointer x) :pointer) (x-stride sizet)
+    ((foreign-pointer weight) :pointer) (weight-stride sizet)
+    ((foreign-pointer y) :pointer) (y-stride sizet)
     ((dim0 x) sizet)
     (c0 (:pointer :double)) (c1 (:pointer :double))
     (cov00 (:pointer :double)) (cov01 (:pointer :double))
@@ -85,14 +85,14 @@
 (defmfun multiplier-fit
     (x y &optional weight (x-stride 1) (y-stride 1) (weight-stride 1))
   ("gsl_fit_mul" "gsl_fit_wmul")
-  ((((c-pointer x) :pointer) (x-stride sizet)
-    ((c-pointer y) :pointer) (y-stride sizet)
+  ((((foreign-pointer x) :pointer) (x-stride sizet)
+    ((foreign-pointer y) :pointer) (y-stride sizet)
     ((dim0 x) sizet)
     (c1 (:pointer :double)) (cov11 (:pointer :double))
     (sumsq (:pointer :double)))
-   (((c-pointer x) :pointer) (x-stride sizet)
-    ((c-pointer weight) :pointer) (weight-stride sizet)
-    ((c-pointer y) :pointer) (y-stride sizet)
+   (((foreign-pointer x) :pointer) (x-stride sizet)
+    ((foreign-pointer weight) :pointer) (weight-stride sizet)
+    ((foreign-pointer y) :pointer) (y-stride sizet)
     ((dim0 x) sizet)
     (c1 (:pointer :double)) (cov11 (:pointer :double))
     (sumsq (:pointer :double))))
@@ -138,7 +138,7 @@
       (dim0 array-or-size)))
 
 (defun default-covariance (parameters-or-size)
-  (make-marray
+  (grid:make-foreign-array
    'double-float
    :dimensions
    (let ((s (size-array parameters-or-size))) (list s s))))
@@ -202,7 +202,7 @@
   :inputs (model weight observations)
   :outputs (parameters covariance)
   :switch (weight)
-  :return (parameters covariance (c-array:dcref chisq))
+  :return (parameters covariance (grid:dcref chisq))
   :export nil
   :index linear-mfit
   :documentation			; FDL
@@ -247,7 +247,7 @@
   :inputs (model weight observations)
   :outputs (parameters covariance)
   :switch (weight)
-  :return ((c-array:dcref chisq) (scref rank))
+  :return ((grid:dcref chisq) (scref rank))
   :export nil
   :index linear-mfit
   :documentation			; FDL
@@ -284,7 +284,7 @@
     (x observations coefficients
        &optional
        (residuals
-	(make-marray 'double-float :dimensions (dimensions observations))))
+	(grid:make-foreign-array 'double-float :dimensions (dimensions observations))))
   "gsl_multifit_linear_residuals"
   (((mpointer x) :pointer) ((mpointer observations) :pointer)
    ((mpointer coefficients) :pointer) ((mpointer residuals) :pointer))
@@ -315,15 +315,15 @@
 	(loop for i from 0 below (dim0 x)
 	   do
 	   (format t "data: ~12,5f ~12,5f ~12,5f~&"
-		   (maref x i)
-		   (maref y i)
-		   (/ (maref w i))))
+		   (grid:gref x i)
+		   (grid:gref y i)
+		   (/ (grid:gref w i))))
 	(loop for i from -30 below 130 by 10 ; don't print everything
 	   for
-	   xf = (+ (maref x 0)
+	   xf = (+ (grid:gref x 0)
 		   (* (/ i 100)
-		      (- (maref x (1- (dim0 x)))
-			 (maref x 0))))
+		      (- (grid:gref x (1- (dim0 x)))
+			 (grid:gref x 0))))
 	   do
 	   (multiple-value-bind (yf yferr)
 	       (linear-estimate xf c0 c1 cov00 cov01 cov11)
@@ -348,31 +348,31 @@
    coefficients of x^0, x^1, x^2 for the best fit, and the chi
    squared."
   (let* ((n (length data))
-	 (x (make-marray 'double-float :dimensions (list n 3)))
-	 (y (make-marray 'double-float :dimensions n))
-	 (w (make-marray 'double-float :dimensions n)))
+	 (x (grid:make-foreign-array 'double-float :dimensions (list n 3)))
+	 (y (grid:make-foreign-array 'double-float :dimensions n))
+	 (w (grid:make-foreign-array 'double-float :dimensions n)))
     (loop for i from 0
        for row in data do
-       (setf (maref X i 0) 1.0d0
-	     (maref X i 1) (first row)
-	     (maref X i 2) (expt (first row) 2)
-	     (maref y i) (second row)
-	     (maref w i) (/ (expt (third row) 2))))
+       (setf (grid:gref X i 0) 1.0d0
+	     (grid:gref X i 1) (first row)
+	     (grid:gref X i 2) (expt (first row) 2)
+	     (grid:gref y i) (second row)
+	     (grid:gref w i) (/ (expt (third row) 2))))
     (multiple-value-bind (parameters cov chisq)
 	(linear-mfit X y 3 w)
       (when print-details
 	(format t "Best fit: Y = ~10,8f + ~10,8f X + ~10,8f X^2~&"
-		(maref parameters 0) (maref parameters 1) (maref parameters 2))
+		(grid:gref parameters 0) (grid:gref parameters 1) (grid:gref parameters 2))
 	(format t "Covariance matrix:~&")
 	(format t "~10,8f ~10,8f ~10,8f~&"
-		(maref cov 0 0) (maref cov 0 1) (maref cov 0 2))
+		(grid:gref cov 0 0) (grid:gref cov 0 1) (grid:gref cov 0 2))
 	(format t "~10,8f ~10,8f ~10,8f~&"
-		(maref cov 1 0) (maref cov 1 1) (maref cov 1 2))
+		(grid:gref cov 1 0) (grid:gref cov 1 1) (grid:gref cov 1 2))
 	(format t "~10,8f ~10,8f ~10,8f~&"
-		(maref cov 2 0) (maref cov 2 1) (maref cov 2 2))
+		(grid:gref cov 2 0) (grid:gref cov 2 1) (grid:gref cov 2 2))
 	(format t "Chisq = ~10,6f~&" chisq))
       (values
-       (maref parameters 0) (maref parameters 1) (maref parameters 2)
+       (grid:gref parameters 0) (grid:gref parameters 1) (grid:gref parameters 2)
        chisq))))
 
 (save-test linear-least-squares

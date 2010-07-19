@@ -25,7 +25,7 @@
                                                                   (MAKE-COMBINATION
                                                                    8 3 NIL))
                                                                  (V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    'SINGLE-FLOAT
                                                                    :INITIAL-CONTENTS
                                                                    '(-34.5 8.24
@@ -34,7 +34,7 @@
                                                                      -6.15
                                                                      49.27
                                                                      -13.49))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-LARGEST-INDEX
                                                                COMB V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(6 4 1))
@@ -43,7 +43,7 @@
                                                                   (MAKE-COMBINATION
                                                                    8 3 NIL))
                                                                  (V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    'DOUBLE-FLOAT
                                                                    :INITIAL-CONTENTS
                                                                    '(-34.5d0
@@ -54,7 +54,7 @@
                                                                      -6.15d0
                                                                      49.27d0
                                                                      -13.49d0))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-LARGEST-INDEX
                                                                COMB V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(6 2 4))
@@ -63,14 +63,14 @@
                                                                   (MAKE-COMBINATION
                                                                    8 3 NIL))
                                                                  (V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(SIGNED-BYTE
                                                                      8)
                                                                    :INITIAL-CONTENTS
                                                                    '(-64 -68 71
                                                                      -91 52 -10
                                                                      73 -5))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-LARGEST-INDEX
                                                                COMB V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(7 2 4))
@@ -79,7 +79,7 @@
                                                                   (MAKE-COMBINATION
                                                                    8 3 NIL))
                                                                  (V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(UNSIGNED-BYTE
                                                                      8)
                                                                    :INITIAL-CONTENTS
@@ -87,7 +87,7 @@
                                                                      116 163
                                                                      140 161
                                                                      215))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-LARGEST-INDEX
                                                                COMB V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(6 2 4))
@@ -96,14 +96,14 @@
                                                                   (MAKE-COMBINATION
                                                                    8 3 NIL))
                                                                  (V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(SIGNED-BYTE
                                                                      16)
                                                                    :INITIAL-CONTENTS
                                                                    '(-64 -68 71
                                                                      -91 52 -10
                                                                      73 -5))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-LARGEST-INDEX
                                                                COMB V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(7 2 4))
@@ -112,7 +112,7 @@
                                                                   (MAKE-COMBINATION
                                                                    8 3 NIL))
                                                                  (V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(UNSIGNED-BYTE
                                                                      16)
                                                                    :INITIAL-CONTENTS
@@ -120,7 +120,7 @@
                                                                      116 163
                                                                      140 161
                                                                      215))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-LARGEST-INDEX
                                                                COMB V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(6 2 4))
@@ -129,14 +129,14 @@
                                                                   (MAKE-COMBINATION
                                                                    8 3 NIL))
                                                                  (V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(SIGNED-BYTE
                                                                      32)
                                                                    :INITIAL-CONTENTS
                                                                    '(-64 -68 71
                                                                      -91 52 -10
                                                                      73 -5))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-LARGEST-INDEX
                                                                COMB V1)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(7 2 4))
@@ -145,7 +145,7 @@
                                                                   (MAKE-COMBINATION
                                                                    8 3 NIL))
                                                                  (V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(UNSIGNED-BYTE
                                                                      32)
                                                                    :INITIAL-CONTENTS
@@ -153,7 +153,7 @@
                                                                      116 163
                                                                      140 161
                                                                      215))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-LARGEST-INDEX
                                                                COMB V1)))))
 		       #+int64
@@ -163,14 +163,14 @@
                                                                   (MAKE-COMBINATION
                                                                    8 3 NIL))
                                                                  (V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(SIGNED-BYTE
                                                                      64)
                                                                    :INITIAL-CONTENTS
                                                                    '(-64 -68 71
                                                                      -91 52 -10
                                                                      73 -5))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-LARGEST-INDEX
                                                                COMB V1)))))
 		       #+int64
@@ -180,7 +180,7 @@
                                                                   (MAKE-COMBINATION
                                                                    8 3 NIL))
                                                                  (V1
-                                                                  (MAKE-MARRAY
+                                                                  (GRID:MAKE-FOREIGN-ARRAY
                                                                    '(UNSIGNED-BYTE
                                                                      64)
                                                                    :INITIAL-CONTENTS
@@ -188,7 +188,7 @@
                                                                      116 163
                                                                      140 161
                                                                      215))))
-                                                             (CL-ARRAY
+                                                             (GRID:COPY-TO
                                                               (SORT-VECTOR-LARGEST-INDEX
                                                                COMB V1))))))
 

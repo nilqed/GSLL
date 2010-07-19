@@ -1,6 +1,6 @@
 ;; Legendre functions
 ;; Liam Healy, Sat Apr 29 2006 - 19:16
-;; Time-stamp: <2009-12-27 10:10:01EST legendre.lisp>
+;; Time-stamp: <2010-07-07 14:24:57EDT legendre.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -54,7 +54,7 @@
     (x &optional (size-or-array *default-sf-array-size*)
        &aux (array (vdf size-or-array)))
   "gsl_sf_legendre_Pl_array"
-  (((1- (dim0 array)) :int) (x :double) ((c-pointer array) :pointer))
+  (((1- (dim0 array)) :int) (x :double) ((foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "Compute an array of Legendre polynomials
@@ -64,7 +64,7 @@
     (x &optional (size-or-array *default-sf-array-size*)
        &aux (array (vdf size-or-array)))
   "gsl_sf_legendre_Pl_deriv_array"
-  (((1- (dim0 array)) :int) (x :double) ((c-pointer array) :pointer))
+  (((1- (dim0 array)) :int) (x :double) ((foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "Compute an array of Legendre polynomials derivatives
@@ -115,7 +115,7 @@
        &aux (array (vdf size-or-array)))
   "gsl_sf_legendre_Plm_array"
   (((+ (dim0 array) m -1) :int) (m :int) (x :double)
-   ((c-pointer array) :pointer))
+   ((foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "An array of Legendre polynomials
@@ -129,7 +129,7 @@
        (derivatives (vdf derivatives-size-or-array)))
   "gsl_sf_legendre_Plm_deriv_array"
   (((+ (dim0 values) m -1) :int) (m :int) (x :double)
-   ((c-pointer values) :pointer) ((c-pointer derivatives) :pointer))
+   ((foreign-pointer values) :pointer) ((foreign-pointer derivatives) :pointer))
   :outputs (values derivatives)
   :documentation			; FDL
   "An array of Legendre polynomials
@@ -150,7 +150,7 @@
        &aux (array (vdf size-or-array)))
   "gsl_sf_legendre_sphPlm_array"
   (((+ (dim0 array) m -1) :int) (m :int) (x :double)
-   ((c-pointer array) :pointer))
+   ((foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "An array of normalized associated Legendre functions
@@ -164,7 +164,7 @@
        (derivatives (vdf derivatives-size-or-array)))
   "gsl_sf_legendre_sphPlm_deriv_array"
   (((+ (dim0 values) m -1) :int) (m :int) (x :double)
-   ((c-pointer values) :pointer) ((c-pointer derivatives) :pointer))
+   ((foreign-pointer values) :pointer) ((foreign-pointer derivatives) :pointer))
   :outputs (values derivatives)
   :documentation			; FDL
   "An array of normalized associated Legendre functions
@@ -270,7 +270,7 @@
 	    &aux (array (vdf size-or-array)))
   "gsl_sf_legendre_H3d_array"
   (((1- (dim0 array)) :int) (lambda :double) (eta :double)
-   ((c-pointer array) :pointer))
+   ((foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "An array of radial eigenfunctions
@@ -287,28 +287,28 @@
   (legendre-Pl -4 0.3d0)
   (legendre-Pl 4 3.0d0)
   (legendre-Pl 4 0.3d0)
-  (let ((arr (make-marray 'double-float :dimensions 4)))
+  (let ((arr (grid:make-foreign-array 'double-float :dimensions 4)))
       (legendre-Pl-array 0.5d0 arr)
-      (cl-array arr))
+      (grid:copy-to arr))
   (legendre-Q0 3.3d0)
   (legendre-Q1 3.3d0)
   (legendre-Ql 2 3.3d0)
   (legendre-Plm 4 3 0.5d0)
-  (let ((arr (make-marray 'double-float :dimensions 4)))
+  (let ((arr (grid:make-foreign-array 'double-float :dimensions 4)))
       (legendre-Plm-array 2 0.5d0 arr)
-      (cl-array arr))
-  (let ((val (make-marray 'double-float :dimensions 4))
-	(deriv (make-marray 'double-float :dimensions 4)))
+      (grid:copy-to arr))
+  (let ((val (grid:make-foreign-array 'double-float :dimensions 4))
+	(deriv (grid:make-foreign-array 'double-float :dimensions 4)))
       (legendre-Plm-deriv-array 2 0.5d0 val deriv)
-      (cl-array deriv))
+      (grid:copy-to deriv))
   (legendre-sphplm 1200 1100 0.3d0)
-  (let ((arr (make-marray 'double-float :dimensions 4)))
+  (let ((arr (grid:make-foreign-array 'double-float :dimensions 4)))
       (legendre-sphPlm-array 4 0.5d0 arr)
-      (cl-array arr))
-  (let ((val (make-marray 'double-float :dimensions 4))
-	   (deriv (make-marray 'double-float :dimensions 4)))
+      (grid:copy-to arr))
+  (let ((val (grid:make-foreign-array 'double-float :dimensions 4))
+	   (deriv (grid:make-foreign-array 'double-float :dimensions 4)))
 	(legendre-sphPlm-deriv-array 4 0.5d0 val deriv)
-	(cl-array deriv))
+	(grid:copy-to deriv))
   (legendre-conicalp-half 3.5d0 10.0d0)
   (legendre-conicalp-mhalf 3.5d0 10.0d0)
   (legendre-conicalp-0 3.5d0 10.0d0)
@@ -318,6 +318,6 @@
   (legendre-h3d-0 1.0d0 0.5d0)
   (legendre-h3d-1 1.0d0 0.5d0)
   (legendre-h3d 4 1.0d0 0.5d0)
-  (let ((arr (make-marray 'double-float :dimensions 4)))
+  (let ((arr (grid:make-foreign-array 'double-float :dimensions 4)))
       (legendre-h3d-array 1.0d0 0.5d0 arr)
-      (cl-array arr)))
+      (grid:copy-to arr)))

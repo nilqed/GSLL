@@ -1,8 +1,8 @@
 ;; Generate a lambda that calls the user function; will be called by callback.
 ;; Liam Healy 
-;; Time-stamp: <2009-12-27 09:50:30EST funcallable.lisp>
+;; Time-stamp: <2010-07-13 21:59:01EDT funcallable.lisp>
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -61,6 +61,24 @@
        arg))
    argspecs))
 
+(defun faify-form (ptr argspec)
+  "Make the form that turns the mpointer into a foreign-array."
+  ;; No finalizer, because pointer might be reused by GSL.
+  (ecase (parse-callback-argspec argspec 'array-type)
+    (:foreign-array			; a GSL mpointer
+     `(make-foreign-array-from-mpointer
+       ,ptr
+       ',(grid:cffi-cl (parse-callback-argspec argspec 'element-type))
+       ,(length (parse-callback-argspec argspec 'dimensions))
+       nil))				; no finalizer
+    (:cvector				; a raw C vector
+     `(grid:make-foreign-array-from-pointer
+       ,ptr
+       ',(parse-callback-argspec argspec 'dimensions)
+       ',(grid:cffi-cl (parse-callback-argspec argspec 'element-type))
+       nil))
+    ((nil) ptr)))
+
 ;;;;****************************************************************************
 ;;;; Reference foreign elements and make multiple-value-bind form
 ;;;;****************************************************************************
@@ -70,16 +88,15 @@
   "Form to reference, for getting or setting, the element of a foreign
    array, or a scalar."
   (if (parse-callback-argspec argspec 'dimensions)
-      (if (eql (parse-callback-argspec argspec 'array-type) :marray)
-	  `(maref
+      (if (eql (parse-callback-argspec argspec 'array-type) :foreign-array)
+	  `(get-value
+	    ',(grid:data-class-name
+	       (length (value-from-dimensions argspec dimension-values))
+	       (grid:cffi-cl (parse-callback-argspec argspec 'element-type)))
 	    ,foreign-variable-name
-	    ,@(let ((dims (value-from-dimensions argspec dimension-values)))
-		   (if (= (length dims) 2) ; matrix
-		       (multiple-value-list
-			(floor linear-index
-			       (first dims)))
-		       (list linear-index nil)))
-	    ',(c-array:cffi-cl (parse-callback-argspec argspec 'element-type)))
+	    ,@(affi::delinearize-index
+	       (affi:make-affi (value-from-dimensions argspec dimension-values))
+	       linear-index))
 	  `(cffi:mem-aref
 	    ,foreign-variable-name
 	    ',(parse-callback-argspec argspec 'element-type)
@@ -171,9 +188,10 @@
 		  call-form))
 	    `(funcall ,function-designator
 		      ,@(if outarrayp
-			    (append inargs-names outargs-names)
+			    (append (mapcar 'faify-form inargs-names inargs-specs)
+				    (mapcar 'faify-form outargs-names outarrayp))
 			    ;; no arrays to return, just return the value
-			    inargs-names)))
+			    (mapcar 'faify-form inargs-names inargs-specs))))
        ,@(case
 	  (parse-callback-fnspec fnspec 'return-spec)
 	  (:success-failure

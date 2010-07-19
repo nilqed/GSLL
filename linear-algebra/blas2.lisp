@@ -1,6 +1,6 @@
 ;; BLAS level 2, Matrix-vector operations
 ;; Liam Healy, Wed Apr 26 2006 - 21:08
-;; Time-stamp: <2009-12-27 09:55:01EST blas2.lisp>
+;; Time-stamp: <2010-07-07 14:25:00EDT blas2.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -53,7 +53,7 @@
      (alpha 1) (beta 1) (TransA :notrans) TransB
      &aux
      (yarr
-      (make-marray-or-default
+      (grid:make-foreign-array-or-default
        y (matrix-product-dimensions A x) nil element-type 0)))
   ("gsl_blas_" :type "gemv")
   ((transa cblas-transpose) (alpha :element-c-type) ((mpointer A) :pointer)
@@ -143,7 +143,7 @@
      &aux
      (yarr
       (or y
-	  (make-marray element-type :dimensions (matrix-product-dimensions A x)
+	  (grid:make-foreign-array element-type :dimensions (matrix-product-dimensions A x)
 		       :initial-element 0))))
   ("gsl_blas_" :type "symv")
   ((uplo cblas-uplo) (alpha :element-c-type) ((mpointer A) :pointer)
@@ -172,7 +172,7 @@
 (defmfun matrix-product-hermitian
     ((A matrix) (x vector)
      &optional
-     (y (make-marray element-type :dimensions (matrix-product-dimensions A x)
+     (y (grid:make-foreign-array element-type :dimensions (matrix-product-dimensions A x)
 		     :initial-element 0))
      (alpha 1) (beta 1) (uplo :upper) (side :left))
   ("gsl_blas_" :type "hemv")
@@ -340,21 +340,21 @@
        (v2 (array-default 3))
        (s1 (scalar-default))
        (s2 (scalar-default)))
-   (cl-array (matrix-product m1 v1 v2 s1 s2))))
+   (grid:copy-to (matrix-product m1 v1 v2 s1 s2))))
 
 (generate-all-array-tests matrix-product-triangular
 			  #+fsbv :float-complex #-fsbv :float
  (let ((m1 (array-default '(3 3)))
        (v1 (array-default 3))
        (s1 (scalar-default)))
-   (cl-array (matrix-product-triangular m1 v1 s1))))
+   (grid:copy-to (matrix-product-triangular m1 v1 s1))))
 
 (generate-all-array-tests inverse-matrix-product
 			  #+fsbv :float-complex #-fsbv :float
  (let ((m1 (array-default '(3 3)))
        (v1 (array-default 3))
        (s1 (scalar-default)))
-   (cl-array (inverse-matrix-product m1 v1 s1))))
+   (grid:copy-to (inverse-matrix-product m1 v1 s1))))
 
 (generate-all-array-tests matrix-product-symmetric :float
  (let ((m1 (array-default '(3 3)))
@@ -362,7 +362,7 @@
 	(v3 (array-default 3))
 	(s1 (scalar-default))
 	(s2 (scalar-default)))
-   (cl-array (matrix-product-symmetric m1 v1 v3 s1 s2))))
+   (grid:copy-to (matrix-product-symmetric m1 v1 v3 s1 s2))))
 
 #+fsbv
 (generate-all-array-tests matrix-product-hermitian :complex
@@ -371,7 +371,7 @@
        (v2 (array-default 3))
        (s1 (scalar-default))
        (s2 (scalar-default)))
-   (cl-array (matrix-product-hermitian m1 v1 v2 s1 s2))))
+   (grid:copy-to (matrix-product-hermitian m1 v1 v2 s1 s2))))
 
 #|
 ;;; Error, needs to be tracked down
@@ -383,5 +383,5 @@
 	(v1 (array-default 3))
 	(v2 (array-default 3))
 	(s1 (scalar-default)))
-   (cl-array (rank-1-update s1 v1 v2 m1))))
+   (grid:copy-to (rank-1-update s1 v1 v2 m1))))
 |#

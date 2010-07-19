@@ -1,6 +1,6 @@
 ;; Vectors
 ;; Liam Healy 2008-04-13 09:39:02EDT vector.lisp
-;; Time-stamp: <2009-12-27 09:42:03EST vector.lisp>
+;; Time-stamp: <2010-06-28 11:03:32EDT vector.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -21,32 +21,6 @@
 (in-package :gsl)
 
 ;;; /usr/include/gsl/gsl_vector_double.h
-
-;;;;****************************************************************************
-;;;; Vector structure, CL object, and allocation
-;;;;****************************************************************************
-
-(export 'mvector)
-(defclass mvector (marray)
-  ()
-  (:documentation "GSL vectors."))
-
-;;; Define all supported mvector subclasses
-#.(data-defclass 'vector 'mvector)
-
-(defmethod contents-from-pointer
-    (pointer (struct-type (eql 'gsl-vector-c))
-     &optional (element-type 'double-float))
-  (loop for i below (cffi:foreign-slot-value pointer struct-type 'size)
-     collect (maref pointer i nil element-type)))
-
-(defmethod c-array:copy-to-destination
-    ((object mvector) (pointer #.+foreign-pointer-class+))
-  (foreign-pointer-method
-   pointer
-   (loop for i below (dim0 object)
-      do (setf (maref pointer i nil (element-type object))
-	       (maref object i)))))
 
 ;;;;****************************************************************************
 ;;;; Function definitions

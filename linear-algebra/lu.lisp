@@ -1,6 +1,6 @@
 ;; LU decomposition
 ;; Liam Healy, Thu Apr 27 2006 - 12:42
-;; Time-stamp: <2010-02-05 09:39:38EST lu.lisp>
+;; Time-stamp: <2010-07-07 14:24:59EDT lu.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -56,7 +56,7 @@
     ((A matrix) (b vector) permutation &optional x-spec
      &aux
      (x (if (eq x-spec t)
-	    (make-marray element-type :dimensions (dimensions b))
+	    (grid:make-foreign-array element-type :dimensions (dimensions b))
 	    x-spec)))
   (("gsl_linalg" :complex "_LU_svx")
    ("gsl_linalg" :complex "_LU_solve"))
@@ -79,7 +79,7 @@
 
 (defmfun LU-refine
     ((A matrix) LU p (b vector) (x vector)
-     &optional (residual (make-marray element-type :dimensions (dim0 A))))
+     &optional (residual (grid:make-foreign-array element-type :dimensions (dim0 A))))
   ("gsl_linalg" :complex "_LU_refine")
   (((mpointer A) :pointer) ((mpointer LU) :pointer)
    ((mpointer p) :pointer)
@@ -154,7 +154,7 @@
   "Invert the matrix."
   (let* ((dim (first (dimensions mat)))
 	 (per (make-permutation dim))
-	 (inv (make-marray 'double-float :dimensions (list dim dim))))
+	 (inv (grid:make-foreign-array 'double-float :dimensions (list dim dim))))
     (LU-decomposition mat per)
     (lu-invert mat per inv)))
 
@@ -164,9 +164,9 @@
 
 (save-test
  lu
- (cl-array
+ (grid:copy-to
   (invert-matrix
-   (make-marray 'double-float
+   (grid:make-foreign-array 'double-float
 		:dimensions  '(2 2)
 		:initial-contents '(1.0d0 2.0d0 3.0d0 4.0d0)))))
 
@@ -176,7 +176,7 @@
    (multiple-value-bind (matrix perm)
        (lu-decomposition matrix)
     (let ((x (lu-solve matrix vec perm)))
-      (cl-array
+      (grid:copy-to
        (permute-inverse
 	perm
 	(matrix-product-triangular

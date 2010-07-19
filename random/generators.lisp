@@ -1,6 +1,6 @@
 ;; Generators of random numbers.
 ;; Liam Healy, Sat Jul 15 2006 - 14:43
-;; Time-stamp: <2010-01-17 10:21:31EST generators.lisp>
+;; Time-stamp: <2010-07-16 17:11:25EDT generators.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -176,23 +176,29 @@
 ;;;; Copying state
 ;;;;****************************************************************************
 
-(defmfun c-array:copy-to-destination
-    ((source random-number-generator) (destination random-number-generator))
+(defmfun rng-copy (source destination)
   "gsl_rng_memcpy"
   (((mpointer destination) :pointer) ((mpointer source) :pointer))
-  :definition :method
-  :index copy
+  :export nil
+  :index grid:copy
   :documentation			; FDL
   "Copy the random number generator source into the
    pre-existing generator destination,
    making destination into an exact copy
    of source.  The two generators must be of the same type.")
 
-(defmfun c-array:copy-making-destination ((instance random-number-generator))
-  "gsl_rng_clone" (((mpointer instance) :pointer))
-  :definition :method
-  :c-return :pointer
-  :index copy)
+(defmfun rng-clone (source)
+  "gsl_rng_clone" (((mpointer source) :pointer))
+  :c-return (crtn :pointer)
+  :return ((make-instance 'random-number-generator :mpointer crtn))
+  :export nil
+  :index grid:copy)
+
+(defmethod grid:copy
+    ((source random-number-generator) &key destination &allow-other-keys)
+  (if destination
+      (rng-copy source destination)
+      (rng-clone source)))
 
 ;;;;****************************************************************************
 ;;;; Examples and unit test

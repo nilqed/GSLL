@@ -1,6 +1,6 @@
 ;; Mean, standard deviation, and variance    
 ;; Liam Healy, Sat Dec  2 2006 - 22:15
-;; Time-stamp: <2009-12-27 10:11:27EST mean-variance.lisp>
+;; Time-stamp: <2010-06-30 19:57:28EDT mean-variance.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -29,7 +29,7 @@
 
 (defmfun mean ((array both))
   ("gsl_stats" :type "_mean")
-  (((c-pointer array) :pointer) (1 :int) ((size array) sizet))
+  (((foreign-pointer array) :pointer) (1 :int) ((size array) sizet))
   :definition :generic
   :element-types :no-complex
   :c-return :double
@@ -41,8 +41,8 @@
 
 (defmfun weighted-mean ((array both) (weights both))
   ("gsl_stats" :type "_wmean")
-  (((c-pointer weights) :pointer) (1 :int)
-   ((c-pointer array) :pointer) (1 :int)
+  (((foreign-pointer weights) :pointer) (1 :int)
+   ((foreign-pointer array) :pointer) (1 :int)
    ((size array) sizet))
   :definition :generic
   :element-types :float
@@ -60,8 +60,8 @@
 (defmfun variance ((array both) &optional mean)
   (("gsl_stats" :type "_variance")
    ("gsl_stats" :type "_variance_m"))
-  ((((c-pointer array) :pointer) (1 :int) ((size array) sizet))
-   (((c-pointer array) :pointer) (1 :int)
+  ((((foreign-pointer array) :pointer) (1 :int) ((size array) sizet))
+   (((foreign-pointer array) :pointer) (1 :int)
    ((size array) sizet) (mean :double)))
   :definition :generic
   :element-types :no-complex
@@ -82,11 +82,11 @@
 (defmfun weighted-variance ((array both) (weights both) &optional mean)
   (("gsl_stats" :type "_wvariance")
    ("gsl_stats" :type "_wvariance_m"))
-  ((((c-pointer weights) :pointer) (1 :int)
-    ((c-pointer array) :pointer) (1 :int)
+  ((((foreign-pointer weights) :pointer) (1 :int)
+    ((foreign-pointer array) :pointer) (1 :int)
     ((size array) sizet))
-   (((c-pointer weights) :pointer) (1 :int)
-    ((c-pointer array) :pointer) (1 :int)
+   (((foreign-pointer weights) :pointer) (1 :int)
+    ((foreign-pointer array) :pointer) (1 :int)
     ((size array) sizet) (mean :double)))
   :definition :generic
   :element-types :float
@@ -108,8 +108,8 @@
 (defmfun standard-deviation ((array both) &optional mean)
   (("gsl_stats" :type "_sd")
    ("gsl_stats" :type "_sd_m"))
-  ((((c-pointer array) :pointer) (1 :int) ((size array) sizet))
-   (((c-pointer array) :pointer) (1 :int)
+  ((((foreign-pointer array) :pointer) (1 :int) ((size array) sizet))
+   (((foreign-pointer array) :pointer) (1 :int)
    ((size array) sizet) (mean :double)))
   :definition :generic
   :element-types :no-complex
@@ -123,11 +123,11 @@
 (defmfun weighted-standard-deviation ((array both) (weights both) &optional mean)
   (("gsl_stats" :type "_wsd")
    ("gsl_stats" :type "_wsd_m"))
-  ((((c-pointer weights) :pointer) (1 :int)
-    ((c-pointer array) :pointer) (1 :int)
+  ((((foreign-pointer weights) :pointer) (1 :int)
+    ((foreign-pointer array) :pointer) (1 :int)
     ((size array) sizet))
-   (((c-pointer weights) :pointer) (1 :int)
-    ((c-pointer array) :pointer) (1 :int)
+   (((foreign-pointer weights) :pointer) (1 :int)
+    ((foreign-pointer array) :pointer) (1 :int)
     ((size array) sizet) (mean :double)))
   :definition :generic
   :element-types :float
@@ -144,7 +144,7 @@
 
 (defmfun variance-with-fixed-mean ((array both) mean)
   ("gsl_stats" :type "_variance_with_fixed_mean")
-  (((c-pointer array) :pointer) (1 :int)
+  (((foreign-pointer array) :pointer) (1 :int)
    ((size array) sizet) (mean :double))
   :definition :generic
   :element-types :no-complex
@@ -160,7 +160,7 @@
 
 (defmfun standard-deviation-with-fixed-mean ((array both) mean)
   ("gsl_stats" :type "_sd_with_fixed_mean")
-  (((c-pointer array) :pointer) (1 :int)
+  (((foreign-pointer array) :pointer) (1 :int)
    ((size array) sizet) (mean :double))
   :definition :generic
   :element-types :no-complex
@@ -178,8 +178,8 @@
 (defmfun weighted-variance-with-fixed-mean
     ((array both) (weights both) mean)
   ("gsl_stats" :type "_wvariance_with_fixed_mean")
-  (((c-pointer weights) :pointer) (1 :int)
-   ((c-pointer array) :pointer) (1 :int)
+  (((foreign-pointer weights) :pointer) (1 :int)
+   ((foreign-pointer array) :pointer) (1 :int)
    ((size array) sizet) (mean :double))
   :definition :generic
   :element-types :float
@@ -196,8 +196,8 @@
 (defmfun weighted-standard-deviation-with-fixed-mean
     ((array both) (weights both) mean)
   ("gsl_stats" :type "_wsd_with_fixed_mean")
-  (((c-pointer weights) :pointer) (1 :int)
-   ((c-pointer array) :pointer) (1 :int)
+  (((foreign-pointer weights) :pointer) (1 :int)
+   ((foreign-pointer array) :pointer) (1 :int)
    ((size array) sizet) (mean :double))
   :definition :generic
   :element-types :float
@@ -274,7 +274,7 @@
  (let ((v1 (array-default 8))
 	(v2 (array-default 8)))
    (loop for i below (first (dimensions v2))
-      do (setf (maref v2 i) (abs (maref v2 i))))
+      do (setf (grid:gref v2 i) (abs (grid:gref v2 i))))
    (weighted-mean v1 v2)))
 |#
 

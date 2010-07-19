@@ -1,6 +1,6 @@
 ;; Helpers for defining GSL functions on arrays
 ;; Liam Healy 2009-01-07 22:01:16EST defmfun-array.lisp
-;; Time-stamp: <2009-12-27 09:50:32EST defmfun-array.lisp>
+;; Time-stamp: <2010-07-12 12:28:57EDT defmfun-array.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -85,6 +85,7 @@
   ;; are defaulted if not supplied and a single GSL function called,
   ;; or the presence/absence of optional arguments switches between two
   ;; GSL functions.
+  (unless category (error "category is nil"))
   (with-defmfun-key-args key-args
     (mapcar (lambda (eltype)
 	      (flet ((actual-gfn (gslname)
@@ -95,9 +96,9 @@
 			 gsl-function-name)))
 		(remf key-args :documentation)
 		(when (eq c-return :element-c-type)
-		  (setf (getf key-args :c-return) (c-array:cl-cffi eltype)))
+		  (setf (getf key-args :c-return) (grid:cl-cffi eltype)))
 		(when (eq c-return :component-float-type)
-		  (setf (getf key-args :c-return) (c-array:component-type eltype)))
+		  (setf (getf key-args :c-return) (grid:component-type eltype)))
 		(if (optional-args-to-switch-gsl-functions arglist gsl-name)
 		    ;; The methods have optional argument(s) and
 		    ;; multiple GSL functions for presence/absence of
@@ -119,7 +120,7 @@
 		     (actual-gfn gsl-name)
 		     (actual-element-c-type eltype c-arguments)
 		     key-args))))
-	    (c-array:element-types element-types))))
+	    (grid:element-types element-types))))
 
 (defun actual-gsl-function-name (base-name category type)
   "Create the GSL or BLAS function name for data from the base name
@@ -130,7 +131,7 @@
   (if (listp base-name)
       (if (symbolp (first base-name))
 	  ;; An explicit listing of types with function names
-	  (getf base-name (c-array:cl-single type :gsl))
+	  (getf base-name (grid:cl-single type :gsl))
 	  (let ((blas (search "blas" (first base-name) :test 'string-equal)))
 	    (apply #'concatenate 'string
 		   (substitute
@@ -141,11 +142,25 @@
 		      (cl-gsl type (not blas) blas) :type
 		      (substitute
 		       (if (subtypep type 'complex)
-			   (cl-gsl (c-array:component-float-type type) nil blas)
+			   (cl-gsl (grid:component-float-type type) nil blas)
 			   "") :component-float-type
 		       (substitute
 			(string-downcase (symbol-name category)) :category
 			base-name))))))))))
+
+(defun actual-array-class (category element-type &optional replace-both)
+  "From the category ('vector, 'matrix, or 'both) and element type,
+   find the class name."
+  (case category
+    (:element-type (grid:number-class element-type))
+    (:component-float-type
+     (grid:number-class (grid:component-float-type element-type)))
+    (otherwise
+     (grid:data-class-name
+      (if (and (eq category 'both) replace-both)
+	  replace-both
+	  category)
+      element-type))))
 
 (defun actual-class-arglist
     (arglist element-type c-arguments &optional replace-both)
@@ -159,25 +174,21 @@
      collect
      (if (and replacing (listp arg))
 	 (list (first arg)
-	       (case (second arg)
-		 (:element-type (c-array:number-class element-type))
-		 (:component-float-type
-		  (c-array:number-class (c-array:component-float-type element-type)))
-		 (otherwise
-		  (data-class-name
-		   (if (and (eq (second arg) 'both) replace-both)
-		       replace-both
-		       (second arg))
-		   element-type))))
+	       (if (eql-specializer arg)
+		   ;; eql specializer on class name
+		   `(eql
+		     ',(actual-array-class
+			(eql-specializer arg) element-type replace-both))
+		   (actual-array-class (second arg) element-type replace-both)))
 	 ;; Default values for optional/key arguments are treated
 	 ;; specially for array methods.
 	 (if (and (listp arg) (numberp (second arg)))
 	     (let ((actual-type
-		    (c-array:cffi-cl
-		     (c-array:st-type (find (first arg) carg-actual :key 'c-array:st-symbol)))))
+		    (grid:cffi-cl
+		     (grid:st-type (find (first arg) carg-actual :key 'grid:st-symbol)))))
 	       (list (first arg) ; Optional arg default numerical value
 		     (if actual-type
-		     ;; coerce to the right type
+			 ;; coerce to the right type
 			 (coerce (second arg) actual-type)
 			 (second arg))))
 	     (if (listp arg)
@@ -213,6 +224,6 @@
    actual element type."
   (mapcar 
    (lambda (v)
-     (subst (c-array:cl-cffi element-type) :element-c-type
-	    (subst (c-array:component-type element-type) :component-float-type v)))
+     (subst (grid:cl-cffi element-type) :element-c-type
+	    (subst (grid:component-type element-type) :component-float-type v)))
    c-arguments))

@@ -1,6 +1,6 @@
 ;; Unpack functions for FFT vectors.
 ;; Sumant Oemrawsingh, Sun Oct 25 2009 - 16:35
-;; Time-stamp: <2009-12-27 09:45:32EST unpack.lisp>
+;; Time-stamp: <2010-06-29 22:12:06EDT unpack.lisp>
 ;;
 ;; Copyright 2009 Sumant Oemrawsingh, Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -30,12 +30,12 @@
      &key (stride 1)
      (output
 	 (eltcase single-float
-		  (make-marray '(complex single-float) :dimensions (size vector))
+		  (grid:make-foreign-array '(complex single-float) :dimensions (size vector))
 		  t
-		  (make-marray '(complex double-float) :dimensions (size vector)))))
+		  (grid:make-foreign-array '(complex double-float) :dimensions (size vector)))))
   ("gsl_fft_real" :type "_unpack")
-  (((c-pointer vector) :pointer)
-   ((c-pointer output) :pointer)
+  (((foreign-pointer vector) :pointer)
+   ((foreign-pointer output) :pointer)
    (stride sizet) ((floor (size vector) stride) sizet))
   :definition :generic
   :element-types :float
@@ -54,12 +54,12 @@
      &key (stride 1)
      (output
 	 (eltcase single-float
-		  (make-marray '(complex single-float) :dimensions (size vector))
+		  (grid:make-foreign-array '(complex single-float) :dimensions (size vector))
 		  t
-		  (make-marray '(complex double-float) :dimensions (size vector)))))
+		  (grid:make-foreign-array '(complex double-float) :dimensions (size vector)))))
   ("gsl_fft_halfcomplex" :type "_radix2_unpack")
-  (((c-pointer vector) :pointer)
-   ((c-pointer output) :pointer)
+  (((foreign-pointer vector) :pointer)
+   ((foreign-pointer output) :pointer)
    (stride sizet) ((floor (size vector) stride) sizet))
   :definition :generic
   :element-types :float
@@ -77,12 +77,12 @@
      &key (stride 1)
      (output
 	 (eltcase single-float
-		  (make-marray '(complex single-float) :dimensions (size vector))
+		  (grid:make-foreign-array '(complex single-float) :dimensions (size vector))
 		  t
-		  (make-marray '(complex double-float) :dimensions (size vector)))))
+		  (grid:make-foreign-array '(complex double-float) :dimensions (size vector)))))
   ("gsl_fft_halfcomplex" :type "_unpack")
-  (((c-pointer vector) :pointer)
-   ((c-pointer output) :pointer)
+  (((foreign-pointer vector) :pointer)
+   ((foreign-pointer output) :pointer)
    (stride sizet) ((floor (size vector) stride) sizet))
   :definition :generic
   :element-types :float

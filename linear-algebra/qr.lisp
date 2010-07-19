@@ -1,6 +1,6 @@
 ;; QR decomposition
 ;; Liam Healy 2008-02-17 11:05:20EST qr.lisp
-;; Time-stamp: <2009-12-27 09:54:58EST qr.lisp>
+;; Time-stamp: <2010-06-30 19:57:28EDT qr.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -38,7 +38,7 @@
 (defmfun QR-decomposition
     (A
      &optional
-     (tau (make-marray 'double-float :dimensions (min (dim0 A) (dim1 A)))))
+     (tau (grid:make-foreign-array 'double-float :dimensions (min (dim0 A) (dim1 A)))))
   "gsl_linalg_QR_decomp"
   (((mpointer A) :pointer) ((mpointer tau) :pointer))
   :inputs (A)
@@ -62,7 +62,7 @@
 (defmfun QR-solve
     (QR tau b &optional x-spec
 	&aux
-	(x (make-marray-or-default x-spec (dimensions b) t)))
+	(x (grid:make-foreign-array-or-default x-spec (dimensions b) t)))
   ("gsl_linalg_QR_svx" "gsl_linalg_QR_solve")
   ((((mpointer QR) :pointer) ((mpointer tau) :pointer)
     ((mpointer b) :pointer))
@@ -77,15 +77,15 @@
    rectangular systems can be found using QR-lssolve.  If x-spec is
    NIL (default), the solution will replace b.  If x-spec is T, then
    an array will be created and the solution returned in it.  If
-   x-spec is a marray, the solution will be returned in it.  If x-spec
+   x-spec is a grid:foreign-array, the solution will be returned in it.  If x-spec
    is non-NIL, on output the solution is stored in x and b is not
    modified.  The solution is returned from the function call.")
 
 (defmfun QR-solve-least-squares
     (QR tau b
 	&optional
-	 (x (make-marray 'double-float :dimensions (dim1 QR)))
-	 (residual (make-marray 'double-float :dimensions (dim0 QR))))
+	 (x (grid:make-foreign-array 'double-float :dimensions (dim1 QR)))
+	 (residual (grid:make-foreign-array 'double-float :dimensions (dim0 QR))))
   "gsl_linalg_QR_lssolve"
   (((mpointer QR) :pointer) ((mpointer tau) :pointer)
    ((mpointer b) :pointer) ((mpointer x) :pointer)
@@ -129,7 +129,7 @@
 (defmfun QR-Rsolve
     (QR b &optional x-spec
        &aux
-       (x (make-marray-or-default x-spec (dimensions b) t)))
+       (x (grid:make-foreign-array-or-default x-spec (dimensions b) t)))
   ("gsl_linalg_QR_Rsvx" "gsl_linalg_QR_Rsolve")
   ((((mpointer QR) :pointer) ((mpointer b) :pointer))
    (((mpointer QR) :pointer) ((mpointer b) :pointer) ((mpointer x) :pointer)))
@@ -141,15 +141,15 @@
    product b' = Q^T b has already been computed using QR-QTvec.  If
    x-spec is NIL (default), the solution will replace b.  If x-spec is
    T, then an array will be created and the solution returned in it.
-   If x-spec is a marray, the solution will be returned in it.  If
+   If x-spec is a grid:foreign-array, the solution will be returned in it.  If
    x-spec is non-NIL, on output the solution is stored in x and b is
    not modified.  The solution is returned from the function call.")
 
 (defmfun QR-unpack
     (QR tau
      &optional
-     (Q (make-marray 'double-float :dimensions (list (dim0 QR) (dim0 QR))))
-     (R (make-marray 'double-float :dimensions (dimensions QR))))
+     (Q (grid:make-foreign-array 'double-float :dimensions (list (dim0 QR) (dim0 QR))))
+     (R (grid:make-foreign-array 'double-float :dimensions (dimensions QR))))
   "gsl_linalg_QR_unpack"
   (((mpointer QR) :pointer) ((mpointer tau) :pointer)
    ((mpointer Q) :pointer) ((mpointer R) :pointer))
@@ -161,7 +161,7 @@
   Q is M-by-M and R is M-by-N.")
 
 (defmfun QR-QRsolve
-    (Q R b &optional (x (make-marray 'double-float :dimensions (dim0 b))))
+    (Q R b &optional (x (grid:make-foreign-array 'double-float :dimensions (dim0 b))))
   "gsl_linalg_QR_QRsolve"
   (((mpointer Q) :pointer) ((mpointer R) :pointer)
    ((mpointer b) :pointer) ((mpointer x) :pointer))
@@ -189,7 +189,7 @@
 (defmfun R-solve
     (R b &optional x-spec
        &aux
-       (x (make-marray-or-default x-spec (dimensions b) t)))
+       (x (grid:make-foreign-array-or-default x-spec (dimensions b) t)))
   ("gsl_linalg_R_svx" "gsl_linalg_R_solve")
   ((((mpointer R) :pointer) ((mpointer b) :pointer))
    (((mpointer R) :pointer) ((mpointer b) :pointer) ((mpointer x) :pointer)))
@@ -201,7 +201,7 @@
   contain the right-hand side b, which is replaced by the solution on
   output.  If x-spec is NIL (default), the solution will replace b.
   If x-spec is T, then an array will be created and the solution
-  returned in it.  If x-spec is a marray, the solution will be
+  returned in it.  If x-spec is a grid:foreign-array, the solution will be
   returned in it.  If x-spec is non-NIL, on output the solution is
   stored in x and b is not modified.  The solution is returned from
   the function call.")
@@ -258,10 +258,10 @@
 	     dim1 nil))
 	 (qr1
 	  (create-matrix
-	   (lambda (i j) (+ (maref matrix i j) (* (maref u i) (maref v j))))
+	   (lambda (i j) (+ (grid:gref matrix i j) (* (grid:gref u i) (grid:gref v j))))
 	   dim0 dim1))
 	 (qr2 (copy matrix))
-	 (w (make-marray 'double-float :dimensions dim0 :initial-element 0)))
+	 (w (grid:make-foreign-array 'double-float :dimensions dim0 :initial-element 0)))
     (multiple-value-bind (QR2 tau)
 	(QR-decomposition qr2)
       (multiple-value-bind (Q2 R2)

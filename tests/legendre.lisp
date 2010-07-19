@@ -39,9 +39,9 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST #(1.0d0 0.5d0 -0.125d0 -0.4375d0))
                         (MULTIPLE-VALUE-LIST
-                         (LET ((ARR (MAKE-MARRAY 'DOUBLE-FLOAT :DIMENSIONS 4)))
+                         (LET ((ARR (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 4)))
                            (LEGENDRE-PL-ARRAY 0.5d0 ARR)
-                           (CL-ARRAY ARR))))
+                           (GRID:COPY-TO ARR))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST 0.3128529498822064d0 1.3893461931245028d-16)
                         (MULTIPLE-VALUE-LIST (LEGENDRE-Q0 3.3d0)))
@@ -57,17 +57,17 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST #(2.25d0 5.625d0 4.21875d0 -4.921875d0))
                         (MULTIPLE-VALUE-LIST
-                         (LET ((ARR (MAKE-MARRAY 'DOUBLE-FLOAT :DIMENSIONS 4)))
+                         (LET ((ARR (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 4)))
                            (LEGENDRE-PLM-ARRAY 2 0.5d0 ARR)
-                           (CL-ARRAY ARR))))
+                           (GRID:COPY-TO ARR))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST #(-3.0d0 3.75d0 33.75d0 55.78125d0))
                         (MULTIPLE-VALUE-LIST
-                         (LET ((VAL (MAKE-MARRAY 'DOUBLE-FLOAT :DIMENSIONS 4))
+                         (LET ((VAL (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 4))
                                (DERIV
-                                (MAKE-MARRAY 'DOUBLE-FLOAT :DIMENSIONS 4)))
+                                (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 4)))
                            (LEGENDRE-PLM-DERIV-ARRAY 2 0.5d0 VAL DERIV)
-                           (CL-ARRAY DERIV))))
+                           (GRID:COPY-TO DERIV))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST 0.30366280894310793d0 3.5267592419993454d-14)
                         (MULTIPLE-VALUE-LIST
@@ -77,19 +77,19 @@
                          #(0.24892463950030283d0 0.4127948151484927d0
                            0.35120655562190445d0 0.051599351893561574d0))
                         (MULTIPLE-VALUE-LIST
-                         (LET ((ARR (MAKE-MARRAY 'DOUBLE-FLOAT :DIMENSIONS 4)))
+                         (LET ((ARR (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 4)))
                            (LEGENDRE-SPHPLM-ARRAY 4 0.5d0 ARR)
-                           (CL-ARRAY ARR))))
+                           (GRID:COPY-TO ARR))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST
                          #(-0.6637990386674741d0 -0.2751965434323283d0
                            1.2710332489173686d0 2.648766730536161d0))
                         (MULTIPLE-VALUE-LIST
-                         (LET ((VAL (MAKE-MARRAY 'DOUBLE-FLOAT :DIMENSIONS 4))
+                         (LET ((VAL (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 4))
                                (DERIV
-                                (MAKE-MARRAY 'DOUBLE-FLOAT :DIMENSIONS 4)))
+                                (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 4)))
                            (LEGENDRE-SPHPLM-DERIV-ARRAY 4 0.5d0 VAL DERIV)
-                           (CL-ARRAY DERIV))))
+                           (GRID:COPY-TO DERIV))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST -0.1255299048878925d0 1.3395992025650077d-15)
                         (MULTIPLE-VALUE-LIST
@@ -129,7 +129,7 @@
                          #(0.9200342692589379d0 0.21694026450392115d0
                            0.04795066048830776d0 0.010663769096144337d0))
                         (MULTIPLE-VALUE-LIST
-                         (LET ((ARR (MAKE-MARRAY 'DOUBLE-FLOAT :DIMENSIONS 4)))
+                         (LET ((ARR (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 4)))
                            (LEGENDRE-H3D-ARRAY 1.0d0 0.5d0 ARR)
-                           (CL-ARRAY ARR)))))
+                           (GRID:COPY-TO ARR)))))
 

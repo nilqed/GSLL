@@ -1,8 +1,8 @@
 ;; Chebyshev Approximations
 ;; Liam Healy Sat Nov 17 2007 - 20:36
-;; Time-stamp: <2010-04-26 09:48:32EDT chebyshev.lisp>
+;; Time-stamp: <2010-06-29 21:47:34EDT chebyshev.lisp>
 ;;
-;; Copyright 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -60,7 +60,8 @@
   :c-return (crtn :pointer)
   :documentation
   "The Chebyshev coefficient array as a CL array (foreign-friendly)."
-  :return ((c-array:copy-foreign-vector crtn (size chebyshev)))
+  :return ((grid:make-foreign-array-from-pointer
+	    crtn (list (size chebyshev)) 'double-float t))
   :gsl-version (1 12))
 
 ;;;;****************************************************************************

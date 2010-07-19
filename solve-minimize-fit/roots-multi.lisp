@@ -1,6 +1,6 @@
 ;;; Multivariate roots.                
 ;;; Liam Healy 2008-01-12 12:49:08
-;;; Time-stamp: <2009-12-27 10:05:32EST roots-multi.lisp>
+;;; Time-stamp: <2010-07-13 09:52:54EDT roots-multi.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -24,9 +24,9 @@
 
 ;;; Currently, functions defined for root solving will be passed
 ;;; scalars and should return scalars as multiple values.  A possible
-;;; future enhancement is to optionally pass marrays and return
-;;; marrays instead.  This would allow directly manipulation of
-;;; marrays by the user function.  Notes Mon Jan 19 2009.
+;;; future enhancement is to optionally pass grid:foreign-arrays and return
+;;; grid:foreign-arrays instead.  This would allow directly manipulation of
+;;; grid:foreign-arrays by the user function.  Notes Mon Jan 19 2009.
 
 ;;;;****************************************************************************
 ;;;; Initialization
@@ -47,8 +47,8 @@
   (callback fnstruct-dimension (dimension)
 	    (function
 	     :success-failure
-	     (:input :double :marray dim0) :slug
-	     (:output :double :marray dim0)))
+	     (:input :double :foreign-array dim0) :slug
+	     (:output :double :foreign-array dim0)))
   :arglists-function
   (lambda (set)
     `((type &optional function-or-dimension (initial nil ,set) (scalarsp t))
@@ -73,18 +73,18 @@
   :callbacks
   (callback fnstruct-dimension-fdf (dimension)
 	    (function :success-failure
-		      (:input :double :marray dim0)
+		      (:input :double :foreign-array dim0)
 		      :slug
-		      (:output :double :marray dim0))
+		      (:output :double :foreign-array dim0))
 	    (df :success-failure
-		(:input :double :marray dim0)
+		(:input :double :foreign-array dim0)
 		:slug
-		(:output :double :marray dim0 dim0))
+		(:output :double :foreign-array dim0 dim0))
 	    (fdf :success-failure
-		 (:input :double :marray dim0)
+		 (:input :double :foreign-array dim0)
 		 :slug
-		 (:output :double :marray dim0)
-		 (:output :double :marray dim0 dim0)))
+		 (:output :double :foreign-array dim0)
+		 (:output :double :foreign-array dim0 dim0)))
   :arglists-function
   (lambda (set)
     `((type &optional function-or-dimension (initial nil ,set) 
@@ -147,7 +147,7 @@
   :definition :method
   :callback-object solver
   :c-return (crtn :pointer)
-  :return ((copy crtn))
+  :return ((make-foreign-array-from-mpointer crtn))
   :documentation			; FDL
   "The current estimate of the root for the solver.")
 
@@ -157,7 +157,7 @@
   :definition :method
   :callback-object solver
   :c-return (crtn :pointer)
-  :return ((copy crtn))
+  :return ((make-foreign-array-from-mpointer crtn))
   :documentation
   "The current estimate of the root for the solver.")
 
@@ -166,7 +166,7 @@
   (((mpointer solver) :pointer))
   :definition :method
   :c-return (crtn :pointer)
-  :return ((copy crtn))
+  :return ((make-foreign-array-from-mpointer crtn))
   :documentation			; FDL
   "The function value f(x) at the current estimate x of the root for the solver.")
 
@@ -175,7 +175,7 @@
   (((mpointer solver) :pointer))
   :definition :method
   :c-return (crtn :pointer)
-  :return ((copy crtn))
+  :return ((make-foreign-array-from-mpointer crtn))
   :documentation			; FDL
   "The function value f(x) at the current estimate x of the root for the solver.")
 
@@ -184,7 +184,7 @@
   (((mpointer solver) :pointer))
   :definition :method
   :c-return (crtn :pointer)
-  :return ((copy crtn))
+  :return ((make-foreign-array-from-mpointer crtn))
   :documentation			; FDL
   "The last step dx taken by the solver.")
 
@@ -193,7 +193,7 @@
   (((mpointer solver) :pointer))
   :definition :method
   :c-return (crtn :pointer)
-  :return ((copy crtn))
+  :return ((make-foreign-array-from-mpointer crtn))
   :documentation			; FDL
   "The last step dx taken by the solver.")
 
@@ -376,6 +376,13 @@
 ;;;; Examples
 ;;;;****************************************************************************
 
+;;; This is the example given in GSL manual, Sec. 35.8.
+;;; http://www.gnu.org/software/gsl/manual/html_node/Example-programs-for-Multidimensional-Root-finding.html
+
+;;; These examples use use scalarsp=T in the
+;;; multi-dimensional-root-solver argument.  To see how vectors would
+;;; be used, see minimization-multi.
+
 (defparameter *powell-A* 1.0d4)
 (defun powell (arg0 arg1)
   "Powell's test function."
@@ -383,8 +390,6 @@
    (- (* *powell-A* arg0 arg1) 1)
    (+ (exp (- arg0)) (exp (- arg1)) (- (1+ (/ *powell-A*))))))
 ;; not used?
-
-;;; This is the example given in Sec. 34.8.
 
 (defparameter *rosenbrock-a* 1.0d0)
 (defparameter *rosenbrock-b* 10.0d0)
@@ -413,15 +418,15 @@
        (when print-steps
 	 (format t "iter=~d~8tx0=~12,8g~24tx1=~12,8g~38tf0=~12,8g~52tf1=~12,8g~&"
 		 iter
-		 (maref argval 0)
-		 (maref argval 1)
-		 (maref fnval 0)
-		 (maref fnval 1)))
+		 (grid:gref argval 0)
+		 (grid:gref argval 1)
+		 (grid:gref fnval 0)
+		 (grid:gref fnval 1)))
        finally (return
-		 (values (maref argval 0)
-			 (maref argval 1)
-			 (maref fnval 0)
-			 (maref fnval 1))))))
+		 (values (grid:gref argval 0)
+			 (grid:gref argval 1)
+			 (grid:gref fnval 0)
+			 (grid:gref fnval 1))))))
 
 (defun rosenbrock-df (arg0 arg1)
   "The partial derivatives of the Rosenbrock functions."
@@ -447,10 +452,10 @@
 	   (when print-steps
 	     (format t "iter=~d~8tx0=~12,8g~24tx1=~12,8g~38tf0=~12,8g~52tf1=~12,8g~&"
 		     iter
-		     (maref argval 0)
-		     (maref argval 1)
-		     (maref fnval 0)
-		     (maref fnval 1)))))
+		     (grid:gref argval 0)
+		     (grid:gref argval 1)
+		     (grid:gref fnval 0)
+		     (grid:gref fnval 1)))))
     (let ((max-iter 1000)
 	  (solver (make-multi-dimensional-root-solver-fdf
 		   method
@@ -468,10 +473,10 @@
 	       argval (solution solver))
 	 (print-state iter argval fnval)
 	 finally (return
-		   (values (maref argval 0)
-			   (maref argval 1)
-			   (maref fnval 0)
-			   (maref fnval 1)))))))
+		   (values (grid:gref argval 0)
+			   (grid:gref argval 1)
+			   (grid:gref fnval 0)
+			   (grid:gref fnval 1)))))))
 
 ;; To see step-by-step information as the solution progresses, make
 ;; the last argument T.

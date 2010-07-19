@@ -1,6 +1,6 @@
 ;; Spherical Vector distribution
 ;; Liam Healy, Sun Oct  22 2006
-;; Time-stamp: <2010-01-17 10:35:25EST spherical-vector.lisp>
+;; Time-stamp: <2010-06-27 18:13:44EDT spherical-vector.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -68,7 +68,7 @@
     ((generator random-number-generator) (type (eql :direction-Nd)) &key vector)
   "gsl_ran_dir_nd"
   (((mpointer generator) :pointer) ((dim0 vector) sizet)
-   ((c-pointer vector) :pointer))
+   ((foreign-pointer vector) :pointer))
   :definition :method
   :c-return :void
   :outputs (vector)

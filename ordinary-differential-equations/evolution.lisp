@@ -1,6 +1,6 @@
 ;; Evolution functions for ODE integration.
 ;; Liam Healy, Sun Sep 30 2007 - 14:31
-;; Time-stamp: <2009-12-27 09:56:56EST evolution.lisp>
+;; Time-stamp: <2010-06-27 18:13:51EDT evolution.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -32,9 +32,9 @@
   "gsl_odeiv_evolve_apply"
   (((mpointer evolution) :pointer) ((mpointer control) :pointer)
    ((mpointer stepper) :pointer)
-   ((callback-struct stepper) :pointer) ((c-pointer time) :pointer)
+   ((callback-struct stepper) :pointer) ((foreign-pointer time) :pointer)
    (max-time :double)
-   ((c-pointer step-size) :pointer) ((c-pointer y) :pointer))
+   ((foreign-pointer step-size) :pointer) ((foreign-pointer y) :pointer))
   :inputs (time step-size y)
   :outputs (time step-size y)
   :callback-object ((stepper ode-stepper))

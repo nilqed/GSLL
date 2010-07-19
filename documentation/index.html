@@ -88,12 +88,6 @@ complex conjugate scalar product</a> of two complex vectors of length 3:
       #2m(#c(49.27d0 -13.49d0) #c(32.5d0 42.73d0) #c(-17.24d0 43.31d0)))
 #C(-2940.2118d0 1861.9380999999998d0)
 </pre>
-<p>or equivalently the vector arguments may be specified with reals,
-<pre>
-(cdot #2m(-34.5d0 8.24d0 3.29d0 -8.93d0 34.12d0 -6.15d0)
-      #2m(49.27d0 -13.49d0 32.5d0 42.73d0 -17.24d0 43.31d0))
-#C(-2940.2118d0 1861.9380999999998d0)
-</pre>
 <p>There are over 1500 examples available from within GSLL with the
 function <code>examples</code>.  There is also a suite of over
 4000 tests; many of the examples also serve as tests, and most others
@@ -113,7 +107,7 @@ combination for which the following are supported:</p>
 </li>
 <li><a href="http://www.cliki.net/trivial-garbage">trivial-garbage</a>
 <li><a href="http://repo.or.cz/w/gsd.git">GSD</a>, the <i>Grid Structured Data</i>; in particular,
-  the <code>c-array</code> and <code>grid</code> systems</li>
+  the <code>foreign-array</code> and <code>grid</code> systems</li>
 <li><a href="http://common-lisp.net/project/cl-utilities/">cl-utilities</a>
 </li>
 <li><a href="http://www.cliki.net/asdf">ASDF</a></li>
@@ -161,7 +155,7 @@ can be used to browse or retrieve a compressed tarball (click the most
 recent "snapshot" link).
 You will need to make a link
   of <code>gsll.asd</code>, <code>grid.asd</code>,
-  <code>c-array.asd</code>, and
+  <code>foreign-array.asd</code>, and
   optionally <code>gsll-tests.asd</code> and
   <code>fsbv.asd</code>
   to some directory known to ASDF.
@@ -283,98 +277,11 @@ GSLL has many functions that work on vectors (one-dimensional arrays)
 and matrices (two-dimensional arrays).  GSLL supports all array
 element types that are supported by CFFI, the CL implementation,
 GSL, and the platform.  This list is available in the
-variable <code>c-array:*array-element-types*</code>.  On implementations that
-support it (currently only SBCL), the contents are directly available
-to the GSL functions without copying between the Lisp area and the C
-area of memory.</p>
+variable <code>grid:*array-element-types*</code>.
 <p>
-  The <a href="http://repo.or.cz/w/gsd.git">GSD</a> suite provides
-  many functions for construction, transformation, and composition of
-  GSL marrays.  When using grid functions for this purpose,
-  the <code>grid:specification</code> will
-  contain <code>gsl:marray</code> as the type; for example,
-</p>
-<pre>
-(grid:make-grid '((gsl:marray 3 3) double-float) :initial-element 0)
-</pre>
-<p>
-  will make a 3x3 <code>matrix-double-float</code>.
-  The functions that the <code>grid</code> system provides such
-  as <code>transpose</code> as <code>subgrid</code>, are documented
-  in that collection.
-  </p>
-<p>
- Common Lisp arrays should be created with <code>make-marray</code> or
- <code>#m</code>:
- The #m reader macro in the default form creates a vector or matrix of
- element type double-float, which is the most common type needed for
- GSL functions.  It optionally takes a numeric argument prefix as in
- the example above to make an array with a different element type; a
- guide to the numeric argument is given below.  It should be 
- followed by a list; this list will be evaluated.  If the list
- contains <code>^</code>, the object created will be a matrix
- and each row is ended with that symbol.
- <p>
- Classes of vectors and matrices are named by appending the element
- type as hypenated words to "vector" or "matrix".  The following table
- shows the classes available on a 64-bit platform:
- <center>
-  <table border=5 frame=all cellpadding=4 cellspacing=4 cols=6>
-    <caption align=top>Element types, vector and matrix
-    classes</caption>
-    <thead>
-      <tr><th><b>Element type</b><td><b>Vector class name</b>
-	  <td><b>Matrix class name</b><td><b>#m prefix</b></thead>
-	<tbody>
-	  <tr><td>double-float<td>vector-double-float<td>matrix-double-float
-	    <td>1 or empty
-	  <tr><td>(complex double-float)<td>vector-complex-double-float<td>matrix-complex-double-float<td>2
-	  <tr><td>single-float<td>vector-single-float<td>matrix-single-float<td>3
-	  <tr><td>(complex single-float)<td>vector-complex-single-float<td>matrix-complex-single-float<td>4
-	  <tr><td>(signed-byte 8)<td>vector-signed-byte-8<td>matrix-signed-byte-8<td>7
-	  <tr><td>(unsigned-byte 8)<td>vector-unsigned-byte-8<td>matrix-unsigned-byte-8<td>8
-	  <tr><td>(signed-byte 16)<td>vector-signed-byte-16<td>matrix-signed-byte-16<td>15
-	  <tr><td>(unsigned-byte 16)<td>vector-unsigned-byte-16<td>matrix-unsigned-byte-16<td>16
-	  <tr><td>(signed-byte 32)<td>vector-signed-byte-32<td>matrix-signed-byte-32<td>31
-	  <tr><td>(unsigned-byte 32)<td>vector-unsigned-byte-32<td>matrix-unsigned-byte-32<td>32
-	  <tr><td>(signed-byte 64)<td>vector-signed-byte-64<td>matrix-signed-byte-64<td>63
-	  <tr><td>(unsigned-byte 64)<td>vector-unsigned-byte-64<td>matrix-unsigned-byte-64<td>64
-	</tbody>
-      </table>
-    </center>
-<p>
- Individual elements are obtained using <code>maref</code> (analogous
- to Lisp's <code>aref</code>), and are set
- with <code>setf maref</code>.  A complete CL array may
- be extracted with the function <code>#'cl-array</code>.
-</p>
-<p>Copying marrays is performed with the function <code>copy</code>.
-  This works between marrays, pointers, and CL arrays.  It is useful
-  for functions intended to be passed to GSL functions (for
-  e.g. solving, minimizing or fitting) that need to set a GSL vector
-  or matrix, because one can simply copy into the passed-in pointer.
-</p>
-<p>There are two functions provided to extract the dimensions of a
-  vector or array: <code>dim0</code> and <code>dim1</code>; the latter
-  is applicable only for matrices.
-</p>  
-<p>If you
-  use <a href="http://common-lisp.net/project/iterate/">iterate</a>,
-  there are extensions defined that make it easier to iterate over
-  marrays.  These are:
-  <ul>
-    <li><code>matrix-row</code>, <code>matrix-row-index</code></li>
-    <li><code>matrix-column</code>, <code>matrix-column-index</code></li>
-    <li><code>vector-element</code>, <code>vector-element-index</code></li>
-    <li><code>matrix-element</code>, <code>matrix-element-index</code></li>
-  </ul>
-  <p>For example,
-<pre>
-(defparameter m1 #m(1 2 3 ^ 0 6 8))
-(iter:iter (iter:for e :matrix-element m1) (princ e) (princ " "))
-1.0 2.0 3.0 0.0 0.0 6.0 8.0
-</pre>
- <h3>Passing functions</h3>
+See the documentation for GSD for more information.
+
+<h3>Passing functions</h3>
  <p>
  Functions that are passed to GSL functions (known as <i>callbacks</i>
  in C) are specified with a
@@ -472,7 +379,7 @@ and arrays used internally or for function return.
 <!-- Created: Feb 25 2005 -->
 <!-- hhmts start -->
 <small>
-Time-stamp: <2010-06-08 12:58:19EDT index.html>
+Time-stamp: <2010-07-18 22:13:28EDT index.html>
 </small>
 <!-- hhmts end -->
  </div>
