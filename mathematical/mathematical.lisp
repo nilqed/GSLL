@@ -1,8 +1,8 @@
 ;; Mathematical functions
 ;; Liam Healy, Wed Mar  8 2006 - 22:09
-;; Time-stamp: <2010-05-22 16:48:47EDT mathematical.lisp>
+;; Time-stamp: <2010-07-19 12:33:44EDT mathematical.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -53,14 +53,19 @@
 (map-name '+negative-infinity+ "gsl_neginf")
 (map-name '+nan+ "gsl_nan")
 
+;; CCL gives a bizarre error when trying to compile these, even though
+;; loading them works fine.
+#-ccl 					
 (defconstant +nan+
   (ignore-errors
     (cffi:foreign-funcall "gsl_nan" :double)))
 
+#-ccl
 (defconstant +positive-infinity+
   (ignore-errors
     (cffi:foreign-funcall "gsl_posinf" :double)))
 
+#-ccl
 (defconstant +negative-infinity+
   (ignore-errors
     (cffi:foreign-funcall "gsl_neginf" :double)))
@@ -105,7 +110,7 @@
 
 (defmfun hypotenuse* (x y)
   ;; This is redundant; there is "gsl_sf_hypot_e" defined as
-  ;; #'hyptoenuse.
+  ;; #'hypotenuse.
   "gsl_hypot" ((x :double) (y :double))
   :c-return :double
   :documentation			;FDL
