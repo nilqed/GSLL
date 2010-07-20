@@ -1,6 +1,6 @@
 ;; GSL errors                                
 ;; Liam Healy Sat Mar  4 2006 - 18:33
-;; Time-stamp: <2009-12-27 09:50:32EST conditions.lisp>
+;; Time-stamp: <2010-07-20 17:55:56EDT conditions.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -85,8 +85,8 @@
 (define-gsl-condition input-range +erange+ "Output range error")
 (define-gsl-condition invalid-pointer +efault+ "Invalid pointer")
 (define-gsl-condition invalid-argument +einval+ "Invalid argument")
-(define-gsl-condition generic-failure +efailed+ "Generic failure")
-(define-gsl-condition generic-failure +failure+ "Generic failure")
+(define-gsl-condition generic-failure-1 +efailed+ "Generic failure")
+(define-gsl-condition generic-failure-2 +failure+ "Generic failure")
 (define-gsl-condition factorization-failure +efactor+ "Factorization failed")
 (define-gsl-condition sanity-check-failure
     +esanity+ "Sanity check failed - shouldn't happen")
