@@ -1,9 +1,9 @@
 ;; Convert the GSL tests
 ;; Liam Healy 2010-05-22 13:03:53EDT convert.lisp
-;; Time-stamp: <2010-05-30 10:29:38EDT convert.lisp>
+;; Time-stamp: <2010-07-21 13:27:06EDT convert.lisp>
 
 ;;; This file is not normally loaded; it is only used to convert the
-;;; GSL tests in C to CL tests.  It requires cl-ppcre, lisp-util, and iterate.
+;;; GSL tests in C to CL tests.  It requires cl-ppcre, alexandria, and iterate.
 ;;; (convert-tests-in-file "/home/liam/mathematics/gsl/cdf/test.c")
 
 ;;; Things it won't do yet:
@@ -34,7 +34,7 @@
 		  (remove-return-value
 		   (replace-function-name (translate-c-numbers (replace-tolerance string))))))
 		select-args)))
-	  (if (and (numberp (lu:last1 ppcre-convert)) (zerop (lu:last1 ppcre-convert)))
+	  (if (and (numberp (alexandria:lastcar ppcre-convert)) (zerop (alexandria:lastcar ppcre-convert)))
 	      (append (butlast ppcre-convert) (list '+dbl-epsilon+))
 	      ppcre-convert))))
 
