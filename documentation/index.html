@@ -107,9 +107,15 @@ combination for which the following are supported:</p>
 </li>
 <li><a href="http://www.cliki.net/trivial-garbage">trivial-garbage</a>
 <li><a href="http://repo.or.cz/w/gsd.git">GSD</a>, the <i>Grid Structured Data</i>; in particular,
-  the <code>foreign-array</code> and <code>grid</code> systems</li>
-<li><a href="http://common-lisp.net/project/cl-utilities/">cl-utilities</a>
-</li>
+  the <code>foreign-array</code> and <code>grid</code> systems, which
+  uses
+  <ul>
+  <li><a href="http://common-lisp.net/project/alexandria/">Alexandria</a>,</li>
+  <li><a href="http://www.cliki.net/SPLIT-SEQUENCE">split-sequence</a>,</li>
+  <li><a href="http://gitorious.org/iolib/static-vectors">static-vectors</a>
+    <i>(Optional)</i>, provides direct access to foreign arrays from
+    Lisp on some implementations.</li>
+  </ul>  
 <li><a href="http://www.cliki.net/asdf">ASDF</a></li>
 <li><a href="http://repo.or.cz/w/lisp-unit.git">lisp-unit</a>, <i>(Optional)</i> necessary 
    to run <code>gsll-tests</code>
@@ -138,89 +144,36 @@ combination for which the following are supported:</p>
 </p>
 
 <h2>Download and Install</h2>
- <h3>With <a href="http://git.or.cz">git</a> and asdf</h3>
-<a name="getit"/>
-<p>Download/update:
+ <h3>Download</h3>
   <ul>
     <li><code>git clone git://repo.or.cz/gsll.git</code></li>
-    <li><code>git clone git://repo.or.cz/fsbv.git</code></li>
     <li><code>git clone git://repo.or.cz/gsd.git</code></li>
+    <li><code>darcs get http://www.common-lisp.net/project/cffi/darcs/cffi/</code></li>
     <li><code>darcs get http://common-lisp.net/~loliveira/darcs/trivial-garbage</code></li>
-    <li><code>git pull</code> in the <code>gsll</code> and
-      <code>fsbv</code>, and <code>gsd</code> directories
-    afterwards to update</li> 
+    <li><code>git clone git://common-lisp.net/projects/alexandria/alexandria.git</code></li>
+    <li><code>wget http://ftp.linux.org.uk/pub/lisp/experimental/cclan/split-sequence.tar.gz -O - | tar zxv </code></li
+    <li><code>git clone git://repo.or.cz/lisp-unit.git</code></li>
+    <li><code>git clone git://gitorious.org/iolib/static-vectors.git</code></li>
+    <li><code>git clone git://repo.or.cz/fsbv.git</code></li>
   </ul>
 <p>The <a href="http://repo.or.cz/w/gsll.git"> repository web page</a>
 can be used to browse or retrieve a compressed tarball (click the most
-recent "snapshot" link).
-You will need to make a link
-  of <code>gsll.asd</code>, <code>grid.asd</code>,
-  <code>foreign-array.asd</code>, and
-  optionally <code>gsll-tests.asd</code> and
-  <code>fsbv.asd</code>
-  to some directory known to ASDF.
+recent "snapshot" link).  You will need to make a link of all
+the <code>.asd</code> files in the downloaded repositories to some
+directory known to ASDF.  Then make sure that 
+the C packages <code>libgsl0-dev</code> and <code>libffi-dev</code>
+(if using FSBV) are installed.
 Then in Lisp, load the system:
   <ul>
     <li><code>(asdf:operate 'asdf:load-op :gsll)</code></li>
-  </ul>
- <p>If you wish to run the test suite, you must get lisp-unit and make
- it known to ASDF:
-  <ul>
-    <li><code>git clone git://repo.or.cz/lisp-unit.git</code></li>
-  </ul>
-  <p>The test suite may be run with
-  <ul>
-    <li><code>(asdf:operate 'asdf:load-op :gsll-tests)</code></li>
-    <li><code>(in-package :gsl)</code></li>
-    <li><code>(lisp-unit:run-tests)</code></li>
-  </ul>
-  <p>Please see <a href="status.text">status.text</a> for known failures.
- <h3>With <a href="http://common-lisp.net/project/clbuild/">clbuild</a></h3>
-<p>
-  First, make sure that the development versions of GSL and libffi are
- loaded, e.g. in Debian/Ubuntu <code>libgsl0-dev</code>
- and <code>libffi-dev</code>. 
-<p>
- Add the following to <code>wnpp-projects</code>:
-  <ul>
-    <li><code>gsll get_git git://repo.or.cz/gsll.git</code></li>
-    <li><code>fsbv get_git git://repo.or.cz/fsbv.git</code></li>
-    <li><code>gsd get_git git://repo.or.cz/gsd.git</code></li>
-    <li><code>lisp-unit get_git git://repo.or.cz/lisp-unit.git</code></li>
-  </ul>
-<p>and add
-  <ul>
-    <li><code>gsll gsd cffi trivial-garbage cl-utilities lisp-unit fsbv iterate asdf-system-connections</code></li>
-  </ul>
-<p>
-to <code>dependencies</code> and execute
-from within the clbuild directory:
-  <ul>
-    <li><code>sudo ./clbuild update gsll</code></li>
-  </ul>
- <h3>With Debian or Ubuntu</h3>
-  <ul>
-    <li><code>sudo aptitude install libgsl0-dev cl-cffi cl-utilities libffi-dev cl-iterate</code></li>
-    <li><code>git clone git://repo.or.cz/gsll.git</code></li>
-    <li><code>git clone git://repo.or.cz/fsbv.git</code></li>
-    <li><code>darcs get http://common-lisp.net/~loliveira/darcs/trivial-garbage</code></li>
-    <li><code>darcs get http://common-lisp.net/project/asdf-system-connections</code></li>
-    <li><code>clc-register-user-package gsll/gsll.asd</code></li>
-    <li><code>clc-register-user-package gsll/gsll-tests.asd</code></li>
-    <li><code>clc-register-user-package trivial-garbage/trivial-garbage.asd</code></li>
-    <li><code>clc-register-user-package fsbv/fsbv.asd</code></li>
-    <li><code>clc-register-user-package asdf-system-connections/asdf-system-connections.asd</li>
-  </ul>
-<p>
-  After starting your Lisp implementation,
-  <ul>
-    <li><code>(clc:clc-require :gsll-tests)</code></li>
   </ul>
  <h3>License</h3>
 <p>
 This software is distributed under
 the <a href="http://www.gnu.org/licenses/gpl.html">GPL</a>
-and <a href="http://www.gnu.org/copyleft/fdl.html">FDL</a>; see
+<!--and <a href="http://www.gnu.org/copyleft/fdl.html">FDL</a>
+	-->
+; see
 the file COPYING.  There is absolutely no warranty.</p>
 
 <h2>Documentation</h2>
@@ -274,12 +227,13 @@ T
  <h3>Arrays</h3>
 <p>
 GSLL has many functions that work on vectors (one-dimensional arrays)
-and matrices (two-dimensional arrays).  GSLL supports all array
-element types that are supported by CFFI, the CL implementation,
-GSL, and the platform.  This list is available in the
-variable <code>grid:*array-element-types*</code>.
+and matrices (two-dimensional arrays).  Foreign arrays are defined and
+manipulated using the GSD collection which defines generic operations
+on array-like objects; see the GSD documentation for more information.
+GSLL supports all array element types that are supported by CFFI, the
+CL implementation, GSL, and the platform.  This list is available in
+the variable <code>grid:*array-element-types*</code>.
 <p>
-See the documentation for GSD for more information.
 
 <h3>Passing functions</h3>
  <p>
@@ -379,7 +333,7 @@ and arrays used internally or for function return.
 <!-- Created: Feb 25 2005 -->
 <!-- hhmts start -->
 <small>
-Time-stamp: <2010-07-18 22:13:28EDT index.html>
+Time-stamp: <2010-07-22 15:38:19EDT index.html>
 </small>
 <!-- hhmts end -->
  </div>
