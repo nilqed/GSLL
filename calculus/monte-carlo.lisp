@@ -1,6 +1,6 @@
 ;; Monte Carlo Integration
 ;; Liam Healy Sat Feb  3 2007 - 17:42
-;; Time-stamp: <2010-06-29 22:15:24EDT monte-carlo.lisp>
+;; Time-stamp: <2010-08-07 21:41:14EDT monte-carlo.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -205,13 +205,14 @@
 
 (defun mcrw (x y z)
   "Example function for Monte Carlo used in random walk studies."
-  (* (/ (expt pi 3))
+  (* (/ (expt dpi 3))
      (/ (- 1 (* (cos x) (cos y) (cos z))))))
 
 (defparameter *mc-lower* #m(0.0d0 0.0d0 0.0d0))
 
 (defparameter *mc-upper*
-  (grid:make-foreign-array 'double-float :initial-contents (list pi pi pi)))
+  (grid:make-foreign-array
+   'double-float :initial-contents (make-list 3 :initial-element dpi)))
 
 (defun random-walk-plain-example (&optional (nsamples 500000))
   (monte-carlo-integrate-plain 'mcrw *mc-lower* *mc-upper* nsamples))

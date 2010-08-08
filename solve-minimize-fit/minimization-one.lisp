@@ -1,6 +1,6 @@
 ;; Univariate minimization
 ;; Liam Healy Tue Jan  8 2008 - 21:02
-;; Time-stamp: <2010-07-01 11:55:38EDT minimization-one.lisp>
+;; Time-stamp: <2010-08-07 21:41:13EDT minimization-one.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -226,14 +226,14 @@
         (when print-steps
           (format t "~d~6t~10,6f~18t~10,6f~28t~12,9f ~44t~10,4g ~10,4g~&"
                   iter lower upper
-                  min (- min pi)
+                  min (- min dpi)
                   (- upper lower)))
 
         while  (and (< iter max-iter)
                     ;; abs and rel error swapped in example?
                     (not (min-test-interval lower upper 0.001d0 0.0d0)))
         finally
-        (return (values iter lower upper min (- min pi) (- upper lower)))))))
+        (return (values iter lower upper min (- min dpi) (- upper lower)))))))
 
 (save-test minimization-one
  (minimization-one-example +brent-fminimizer+ nil nil)

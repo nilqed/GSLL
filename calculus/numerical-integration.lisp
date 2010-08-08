@@ -1,8 +1,8 @@
 ;; Numerical integration
 ;; Liam Healy, Wed Jul  5 2006 - 23:14
-;; Time-stamp: <2010-07-07 14:21:55EDT numerical-integration.lisp>
+;; Time-stamp: <2010-08-07 21:46:21EDT numerical-integration.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -321,9 +321,9 @@
   (lambda (x) (exp (* alpha x))))
 
 (save-test numerical-integration
- (integration-qng 'sin 0.0d0 pi)
- (integration-QAG 'sin 0.0d0 pi :gauss15 20)
- (integration-QAG 'sin 0.0d0 pi :gauss21 40)
+ (integration-qng 'sin 0.0d0 dpi)
+ (integration-QAG 'sin 0.0d0 dpi :gauss15 20)
+ (integration-QAG 'sin 0.0d0 dpi :gauss21 40)
  ;; Tests from gsl-1.11/integration/test.c
  ;; Functions defined in gsl-1.11/integration/tests.c
  (integration-QNG (integration-test-f1 2.6d0) 0.0d0 1.0d0 0.1d0 0.0d0)

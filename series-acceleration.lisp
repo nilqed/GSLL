@@ -1,6 +1,6 @@
 ;; Series acceleration.
 ;; Liam Healy, Wed Nov 21 2007 - 18:41
-;; Time-stamp: <2010-06-30 19:57:28EDT series-acceleration.lisp>
+;; Time-stamp: <2010-08-07 21:41:14EDT series-acceleration.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -91,7 +91,7 @@
 (defun acceleration-example (&optional (print-explanation t))
   (let ((maxterms 20)
 	(sum 0.0d0)
-	(zeta2 (/ (expt pi 2) 6)))
+	(zeta2 (/ (expt dpi 2) 6)))
     (let ((levin (make-levin maxterms))
 	  (array (grid:make-foreign-array 'double-float :dimensions maxterms)))
       (dotimes (n maxterms)

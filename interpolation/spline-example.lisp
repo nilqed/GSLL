@@ -1,6 +1,6 @@
 ;; Example spline
 ;; Liam Healy, Sat Nov 10 2007 - 21:18
-;; Time-stamp: <2010-06-30 19:57:28EDT spline-example.lisp>
+;; Time-stamp: <2010-08-07 21:37:07EDT spline-example.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -43,7 +43,7 @@
    over a 0-2pi interval and interpolated with
    +periodic-cubic-spline-interpolation+"
   (let* ((xarr 
-	  (loop with step = (/ (* 2.0 pi) intervals)
+	  (loop with step = (/ (* 2.0 dpi) intervals)
 	     for i from 0 upto intervals
 	     collect (* i step)))
 	 (xmarr (grid:make-foreign-array 'double-float :initial-contents xarr))
@@ -51,9 +51,7 @@
 	  (grid:make-foreign-array 'double-float :initial-contents (mapcar 'sin xarr)))
 	 (spline
 	  (make-spline +periodic-cubic-spline-interpolation+ xmarr ymarr)))
-    (evaluate-integral spline 0d0
-		       #+clisp (coerce pi 'double-float) ;; pi=3.14..L0 on clisp
-		       #-clisp pi)))
+    (evaluate-integral spline 0d0 dpi)))
 
 (save-test interpolation
  (spline-example 0.1d0)

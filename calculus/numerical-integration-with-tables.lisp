@@ -1,6 +1,6 @@
 ;; Numerical integration techniques that require tables
 ;; Liam Healy 2009-04-04 15:24:05EDT 
-;; Time-stamp: <2009-12-27 09:42:09EST numerical-integration-with-tables.lisp>
+;; Time-stamp: <2010-08-07 21:41:16EDT numerical-integration-with-tables.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -256,11 +256,11 @@
  ;; point overflow in making the table.  Setting to 100 works and
  ;; gives the result given in test.c.
  (integration-QAWO
-  'integration-test-f456 0.0d0 (* 10 pi) 1.0d0 :sine 100 0.0d0 1.0d-7)
+  'integration-test-f456 0.0d0 (* 10 dpi) 1.0d0 :sine 100 0.0d0 1.0d-7)
  ;; For the negative interval, it was necessary to have the function
  ;; takethe absolute value of the argument and then transfer the sign of
  ;;  x to the answer.
  (integration-QAWO
-  'integration-test-f456 0.0d0 (* 10 pi) -1.0d0 :sine 100 0.0d0 1.0d-7)
+  'integration-test-f456 0.0d0 (* 10 dpi) -1.0d0 :sine 100 0.0d0 1.0d-7)
  (integration-QAWF
-  'integration-test-f457 0.0d0 (/ pi 2) 1.0d0 :cosine 1000 1.0d-7))
+  'integration-test-f457 0.0d0 (/ dpi 2) 1.0d0 :cosine 1000 1.0d-7))
