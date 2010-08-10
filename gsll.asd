@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2010-07-13 21:07:57EDT gsll.asd>
+;; Time-stamp: <2010-08-09 22:21:41EDT gsll.asd>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -83,7 +83,7 @@
 	     (:file "combination" :depends-on ("foreign-array" "array-structs"))))
    (:file "polynomial" :depends-on (init data))
    (:module special-functions
-	    :depends-on (init)
+	    :depends-on (init mathematical)
 	    :components
 	    ((cffi-grovel:grovel-file "sf-result")
 	     (:file "return-structures" :depends-on ("sf-result"))
@@ -214,7 +214,7 @@
 	     (:file "probability-distribution" :depends-on ("histogram"))
 	     (:file "ntuple")))
    (:module calculus
-	    :depends-on (init data random)
+	    :depends-on (init mathematical data random)
 	    :components
 	    ((:file "numerical-integration")
 	     (:file "numerical-integration-with-tables"
@@ -232,7 +232,7 @@
 	     (:file "evolution")
 	     (:file "ode-example" :depends-on ("ode-system" "stepping"))))
    (:module interpolation
-	    :depends-on (init)
+	    :depends-on (init mathematical)
 	    :components
 	    ((:file "interpolation")
 	     (:file "types" :depends-on ("interpolation"))
@@ -241,11 +241,11 @@
 	     (:file "spline-example" :depends-on ("types"))))
    (:file "chebyshev" :depends-on (init))
    (cffi-grovel:grovel-file "series-struct")
-   (:file "series-acceleration" :depends-on (init "series-struct"))
+   (:file "series-acceleration" :depends-on (init mathematical "series-struct"))
    (:file "wavelet" :depends-on (init data))
    (:file "hankel" :depends-on (init data))
    (:module solve-minimize-fit
-	    :depends-on (init data random)
+	    :depends-on (init mathematical data random)
 	    :components
 	    ((:file "generic")
 	     (cffi-grovel:grovel-file "solver-struct")
