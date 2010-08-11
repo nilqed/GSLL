@@ -1,6 +1,6 @@
 ;; Macro for defining GSL functions.
 ;; Liam Healy 2008-04-16 20:49:50EDT defmfun.lisp
-;; Time-stamp: <2010-06-27 18:03:23EDT defmfun.lisp>
+;; Time-stamp: <2010-08-11 09:07:31EDT defmfun.lisp>
 ;;
 ;; Copyright 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -166,7 +166,7 @@
 			  (mapcar #'mapnfn gsl-name)
 			  (list (mapnfn gsl-name)))))
 		(when export `((export ',name))))))))
-      `(progn
+      `(let ()			 ; no progn here because of CLISP bug
 	 ,@(if (symbolp (first expanded-body)) (list expanded-body) expanded-body)
 	 ,@(make-defmcallbacks
 	    cbinfo
