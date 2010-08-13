@@ -1,8 +1,8 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2010-08-09 22:21:41EDT gsll.asd>
+;; Time-stamp: <2010-08-13 11:36:52EDT gsll.asd>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -35,7 +35,9 @@
   ((:module init
 	    :components
 	    ((:file "init")
-	     (cffi-grovel:grovel-file "libgsl" :pathname #+unix "libgsl-unix")
+	     (cffi-grovel:grovel-file
+	      "libgsl" :pathname #+unix "libgsl-unix" #-unix "nothing-here"
+	      :depends-on ("init"))
 	     (:file "utility" :depends-on ("init"))
 	     (:file "forms" :depends-on ("init"))
 	     (:file "conditions" :depends-on ("init" "libgsl"))
