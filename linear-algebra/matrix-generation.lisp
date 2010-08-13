@@ -1,6 +1,6 @@
 ;; Generate matrices used in tests of linear algebra functions
 ;; Liam Healy 2009-09-19 18:28:31EDT matrix-generation.lisp
-;; Time-stamp: <2010-07-06 23:57:49EDT matrix-generation.lisp>
+;; Time-stamp: <2010-08-12 22:48:01EDT matrix-generation.lisp>
 ;;
 ;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -87,7 +87,7 @@
 (defun create-complex-matrix (dim)
   (create-matrix
    (lambda (i j)
-     (complex (/ (+ 1 i j)) (+ 1/2 (expt i 2) (expt j 2))))
+     (complex (/ (+ 1 i j)) (/ (+ 1/2 (expt i 2) (expt j 2)))))
    dim dim '(complex double-float)))
 
 (defun create-rhs-vector (dim &optional (element-type 'double-float))
