@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2010-07-06 23:52:30EDT gsll-tests.asd>
+;; Time-stamp: <2010-08-14 18:30:13EDT gsll-tests.asd>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -76,6 +76,7 @@
 	     (:file "exponential-integrals")
 	     (:file "exponential")
 	     (:file "exponential-power")
+	     (:file "fast-fourier-transform")
 	     (:file "fdist")
 	     (:file "fermi-dirac")
 	     (:file "flat")

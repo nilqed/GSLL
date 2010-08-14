@@ -1,6 +1,6 @@
 ;; Example FFT: transform a pulse (using the "clean" fft interface)
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 00:24
-;; Time-stamp: <2010-07-07 14:21:55EDT example.lisp>
+;; Time-stamp: <2010-08-14 16:08:02EDT example.lisp>
 ;;
 ;; Copyright 2009 Sumant Oemrawsingh, Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -99,7 +99,7 @@
 
 (defun size-vector-real (vector &key (stride 1))
   "Return the size of a vector while taking the stride into account."
-  (coerce (floor (size vector) stride) (element-type vector)))
+  (coerce (floor (size vector) stride) 'double-float))
 
 (defun vector/length (vector stride)
   (elt/ vector (size-vector-real vector :stride stride)))
@@ -134,10 +134,10 @@
 	(multiple-value-bind (forward inverse backward)
 	    (test-complex-fft-noise random-vector :stride stride)
 	  (values
-	   dft-random-vector
-	   forward
-	   random-vector
-	   inverse
+	   dft-random-vector		; DFT forward result for reference
+	   forward			; FFT forward result; should check
+	   random-vector		; The original vector for reference
+	   inverse			; The inverse FFT applied to the forward result
 	   (if (and (have-at-least-gsl-version '(1 12)) #+fsbv t #-fsbv nil)
 	       (elt/ (copy backward) (size-vector-real backward :stride stride))
 	       ;; Hack for old GSL version without complex vector math
