@@ -1,6 +1,6 @@
 ;; Simulated Annealing
 ;; Liam Healy Sun Feb 11 2007 - 17:23
-;; Time-stamp: <2010-06-30 19:57:28EDT simulated-annealing.lisp>
+;; Time-stamp: <2010-08-19 15:51:55EDT simulated-annealing.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -249,7 +249,8 @@
    'trivial-test-energy
    'trivial-example-step
    'trivial-example-metric
-   'copy))
+   (lambda (source destination) 	; needs to take a destination
+     (grid:copy source :destination destination))))
 
 #|
 ;;; These tests should all come out within 1.0e-3 relative of the true
