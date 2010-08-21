@@ -1,6 +1,6 @@
 ;; Example FFT: transform a pulse (using the "clean" fft interface)
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 00:24
-;; Time-stamp: <2010-08-14 16:08:02EDT example.lisp>
+;; Time-stamp: <2010-08-21 17:25:00EDT example.lisp>
 ;;
 ;; Copyright 2009 Sumant Oemrawsingh, Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -97,12 +97,15 @@
 	       (realpart (grid:gref complex-vector i))))
     real-vector))
 
-(defun size-vector-real (vector &key (stride 1))
+(defun size-vector-scalar (vector &key (stride 1))
   "Return the size of a vector while taking the stride into account."
-  (coerce (floor (size vector) stride) 'double-float))
+  (coerce (floor (size vector) stride)
+	  (if (subtypep (element-type vector) 'complex)
+	      (element-type vector)
+	      'double-float)))
 
 (defun vector/length (vector stride)
-  (elt/ vector (size-vector-real vector :stride stride)))
+  (elt/ vector (size-vector-scalar vector :stride stride)))
 
 (defun test-real-fft-noise (vector &key (stride 1))
   "Test forward and inverse FFT for a real vector, and return both results in unpacked form."
@@ -139,7 +142,7 @@
 	   random-vector		; The original vector for reference
 	   inverse			; The inverse FFT applied to the forward result
 	   (if (and (have-at-least-gsl-version '(1 12)) #+fsbv t #-fsbv nil)
-	       (elt/ (copy backward) (size-vector-real backward :stride stride))
+	       (elt/ (copy backward) (size-vector-scalar backward :stride stride))
 	       ;; Hack for old GSL version without complex vector math
 	       (grid:make-foreign-array
 		(element-type backward)
