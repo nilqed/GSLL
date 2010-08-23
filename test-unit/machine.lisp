@@ -1,6 +1,6 @@
 ;; Constants specifying limits of floating point calculations in hardware 
 ;; Liam Healy
-;; Time-stamp: <2010-06-24 09:54:03EDT machine.lisp>
+;; Time-stamp: <2010-08-22 21:19:38EDT machine.lisp>
 ;;
 ;; Copyright 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -31,5 +31,6 @@
 (include "gsl/gsl_machine.h")
 
 (constant (+dbl-epsilon+ "GSL_DBL_EPSILON") :type double-float)
+(constant (+sgl-epsilon+ "GSL_FLT_EPSILON") :type double-float)
 (constant (+sqrt-dbl-epsilon+ "GSL_SQRT_DBL_EPSILON") :type double-float)
 (constant (+log-dbl-max+ "GSL_LOG_DBL_MAX") :type double-float)
