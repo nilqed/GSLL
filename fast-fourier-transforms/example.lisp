@@ -195,22 +195,19 @@
 	   random-vector		; The original vector for reference
 	   inverse			; The inverse FFT applied to the forward result
 	   (if (and (have-at-least-gsl-version '(1 12)) #+fsbv t #-fsbv nil)
-	       (elt/ (copy backward) (size-vector-scalar backward :stride stride))
+	       (vector/length backward :stride stride)
 	       ;; Hack for old GSL version without complex vector math
-	       (grid:make-foreign-array
-		(element-type backward)
-		:dimensions (dimensions backward)
-		:initial-contents
-		(map 'list
-		     (lambda (x) (/ x (floor (size backward) stride)))
-		     (grid:copy-to backward))))))
+	       (vector/length (grid:make-foreign-array
+                                (element-type backward)
+                                :dimensions (dimensions backward)
+                                :initial-contents (grid:copy-to backward))
+                              :stride stride))))
 	(multiple-value-bind (forward inverse)
 	    (test-real-fft-noise random-vector :stride stride)
 	  (values dft-random-vector forward random-vector inverse)))))
 
-(test-fft-noise 'double-float 10 :stride 2)
-(test-fft-noise '(complex double-float) 10 :stride 2)
-
+;; (test-fft-noise '(complex double-float) 2 :stride 2)
+;; (test-fft-noise '(complex double-float) 10 :stride 2)
 ;; (test-fft-noise 'double-float 10 :stride 1)
 ;; (test-fft-noise '(complex double-float) 10 :stride 1)
 
