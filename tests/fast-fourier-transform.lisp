@@ -1,6 +1,6 @@
 ;; Fast fourier transform tests
 ;; Liam Healy 2010-08-14 11:58:26EDT fast-fourier-transform.lisp
-;; Time-stamp: <2010-08-22 21:36:01EDT fast-fourier-transform.lisp>
+;; Time-stamp: <2010-09-04 17:07:32EDT fast-fourier-transform.lisp>
 ;;
 ;; Copyright 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -21,6 +21,16 @@
 (in-package :gsl)
 
 (defvar *allowed-ticks* 1000000)
+
+(defun off-stride (array stride)
+  "Make a grid that is all of the original array except that the
+   stride points are excluded."
+  (grid:make-foreign-array
+   (element-type array)
+   :initial-contents
+   (loop for i from 0 below (grid:total-size array)
+      unless (zerop (mod i stride))
+      collect (grid:gref* array i))))
 
 (defmacro fft-complex-result-check (form element-component-type)
   "T if all FFT tests pass."
@@ -77,5 +87,4 @@
 
 
 ;;; (all-fft-test-forms 9 3 (64 99))
-;;; Tests commented out because they come out not so good:
-;;; FAST-FOURIER-TRANSFORM: 235 assertions passed, 55 failed.; No value
+;;; Tests commented out because they come out not so good.
