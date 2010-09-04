@@ -1,6 +1,6 @@
 ;; Example FFT: transform a pulse (using the "clean" fft interface)
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 00:24
-;; Time-stamp: <2010-08-21 17:25:00EDT example.lisp>
+;; Time-stamp: <2010-09-04 08:44:35EDT example.lisp>
 ;;
 ;; Copyright 2009 Sumant Oemrawsingh, Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -194,14 +194,7 @@
 	   forward			; FFT forward result; should check
 	   random-vector		; The original vector for reference
 	   inverse			; The inverse FFT applied to the forward result
-	   (if (and (have-at-least-gsl-version '(1 12)) #+fsbv t #-fsbv nil)
-	       (vector/length backward :stride stride)
-	       ;; Hack for old GSL version without complex vector math
-	       (vector/length (grid:make-foreign-array
-                                (element-type backward)
-                                :dimensions (dimensions backward)
-                                :initial-contents (grid:copy-to backward))
-                              :stride stride))))
+	   (vector/length backward :stride stride)))
 	(multiple-value-bind (forward inverse)
 	    (test-real-fft-noise random-vector :stride stride)
 	  (values dft-random-vector forward random-vector inverse)))))
