@@ -37,7 +37,7 @@
   (loop with size = (size vector)
 	for i from 0 below size
 	unless (zerop (mod i stride))
-	unless (lisp-unit:assert-numerical-equal
+	unless (lisp-unit:numerical-equal
 		 (complex (+ offset (* 2 i))
 			  (+ offset (* 2 i) 1))
 		 (grid:gref vector i))
@@ -57,9 +57,9 @@
 		    '+dbl-epsilon+)))
 	   (lisp-unit:*measure* :infinity))
        (when (> ,stride 1)
-	 (fft-complex-off-stride-check fft ,stride 2000)
-	 (fft-complex-off-stride-check fft-roundtrip ,stride 0)
-	 (fft-complex-off-stride-check fft-reverse ,stride 2000)
+	 (lisp-unit:assert-true (fft-complex-off-stride-check fft ,stride 2000))
+	 (lisp-unit:assert-true (fft-complex-off-stride-check fft-roundtrip ,stride 0))
+	 (lisp-unit:assert-true (fft-complex-off-stride-check fft-reverse ,stride 2000))
 	 (setf dft (grid:stride dft ,stride)
 	       fft (grid:stride fft ,stride)
 	       original (grid:stride original ,stride)
