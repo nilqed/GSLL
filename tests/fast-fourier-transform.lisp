@@ -58,7 +58,7 @@
 	   (lisp-unit:*measure* :infinity))
        (when (> ,stride 1)
 	 (fft-complex-off-stride-check fft ,stride 2000)
-	 (fft-complex-off-stride-check fft-roundtrip ,stride 2000)
+	 (fft-complex-off-stride-check fft-roundtrip ,stride 0)
 	 (fft-complex-off-stride-check fft-reverse ,stride 2000)
 	 (setf dft (grid:stride dft ,stride)
 	       fft (grid:stride fft ,stride)
@@ -113,5 +113,5 @@
 		(fft-test-forms size 1)))))
 
 
-;;; (all-fft-test-forms 20 3)
+(all-fft-test-forms 20 3)
 ;;; Tests commented out because they come out not so good.

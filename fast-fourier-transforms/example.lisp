@@ -163,7 +163,7 @@
             (copy-with-stride vector :stride stride :init-offset 2000)
             :stride stride)))
     (values forward
-	    (inverse-fourier-transform (copy-with-stride forward :init-offset 0)
+	    (inverse-fourier-transform (copy-with-stride forward :stride stride :init-offset 0)
                                        :stride stride)
             ;; in backward-fourier-transform, we could use copy instead of ;;
             ;; copy-with-stride
