@@ -201,8 +201,8 @@
 
 (defmfun rank-1-update (alpha (x vector) (y vector) (A matrix))
   ("gsl_blas_" :type "ger" :suffix)
-  ((alpha :element-c-type) ((mpointer A) :pointer)
-   ((mpointer x) :pointer) ((mpointer y) :pointer))
+  ((alpha :element-c-type) ((mpointer x) :pointer)
+   ((mpointer y) :pointer) ((mpointer A) :pointer))
   :definition :generic
   :element-types #+fsbv :float-complex #-fsbv :float
   :inputs (x y A)
@@ -213,8 +213,8 @@
 #+fsbv
 (defmfun conjugate-rank-1-update (alpha (x vector) (y vector) (A matrix))
   ("gsl_blas_" :type "gerc")
-  ((alpha :element-c-type) ((mpointer A) :pointer)
-   ((mpointer x) :pointer) ((mpointer y) :pointer))
+  ((alpha :element-c-type) ((mpointer x) :pointer)
+   ((mpointer y) :pointer) ((mpointer A) :pointer))
   :definition :generic
   :element-types :complex
   :inputs (x y A)
@@ -373,15 +373,10 @@
        (s2 (scalar-default)))
    (grid:copy-to (matrix-product-hermitian m1 v1 v2 s1 s2))))
 
-#|
-;;; Error, needs to be tracked down
-;;; Matrix, vector lengths are not conformant invalid length in blas.c at line 1013
-;;;   [Condition of type EBADLEN]
-
 (generate-all-array-tests rank-1-update :float-complex
  (let ((m1 (array-default '(3 3)))
 	(v1 (array-default 3))
 	(v2 (array-default 3))
 	(s1 (scalar-default)))
    (grid:copy-to (rank-1-update s1 v1 v2 m1))))
-|#
+
