@@ -146,32 +146,33 @@
           (setf (grid:gref vector i) (coerce (/ (grid:gref vector i) length) element-type)))
   vector))
 
-(defun test-real-fft-noise (vector &key (stride 1))
+(defun test-real-fft-noise (vector &key (stride 1) non-radix-2)
   "Test forward and inverse FFT for a real vector, and return both results in unpacked form."
   (let* ((forward
 	  (forward-fourier-transform (realpart-vector vector :stride stride :init-offset 0)
-                                     :stride stride))
+                                     :stride stride :non-radix-2 non-radix-2))
          (inverse
-	  (forward-fourier-transform (copy forward) :half-complex t :stride stride)))
+	  (forward-fourier-transform (copy forward) :half-complex t :stride stride
+				     :non-radix-2 non-radix-2)))
     (values (unpack forward :unpack-type 'complex :stride stride)
             (unpack (vector/length inverse :stride stride) :stride stride))))
 
-(defun test-complex-fft-noise (vector &key (stride 1))
+(defun test-complex-fft-noise (vector &key (stride 1) non-radix-2)
   "Test forward, inverse and backward FFT for a complex vector and return all three results."
   (let ((forward
           (forward-fourier-transform
             (copy-with-stride vector :stride stride :init-offset 2000)
-            :stride stride)))
+            :stride stride :non-radix-2 non-radix-2)))
     (values forward
 	    (inverse-fourier-transform (copy-with-stride forward :stride stride :init-offset 0)
-                                       :stride stride)
+                                       :stride stride :non-radix-2 non-radix-2)
             ;; in backward-fourier-transform, we could use copy instead of ;;
             ;; copy-with-stride
             (backward-fourier-transform (copy-with-stride forward :init-offset
                                                           2000)
-                                        :stride stride))))
+                                        :stride stride :non-radix-2 non-radix-2))))
 
-(defun test-fft-noise (element-type size &key (stride 1))
+(defun test-fft-noise (element-type size &key (stride 1) non-radix-2)
   "A test of real forward and complex forward, reverse, and inverse FFT
    on random noise.  Returns the result of the DFT forward Fourier transformation
    and the forward FFT, which should be the same, and the original vector and the
@@ -188,7 +189,8 @@
                                                          :init-offset 3000))))
     (if (subtypep element-type 'complex)
 	(multiple-value-bind (forward inverse backward)
-	    (test-complex-fft-noise random-vector :stride stride)
+	    (test-complex-fft-noise random-vector :stride stride
+				    :non-radix-2 non-radix-2)
 	  (values
 	   dft-random-vector		; DFT forward result for reference
 	   forward			; FFT forward result; should check
@@ -196,7 +198,8 @@
 	   inverse			; The inverse FFT applied to the forward result
 	   (vector/length backward :stride stride)))
 	(multiple-value-bind (forward inverse)
-	    (test-real-fft-noise random-vector :stride stride)
+	    (test-real-fft-noise random-vector :stride stride
+				 :non-radix-2 non-radix-2)
 	  (values dft-random-vector forward random-vector inverse)))))
 
 ;; (test-fft-noise '(complex double-float) 2 :stride 2)

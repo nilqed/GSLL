@@ -136,16 +136,19 @@
 (export 'forward-fourier-transform)
 (defun forward-fourier-transform
     (vector &rest args
-     &key half-complex decimation-in-frequency (stride 1) &allow-other-keys)
+     &key half-complex decimation-in-frequency (stride 1) non-radix-2 &allow-other-keys)
   "Perform a forward fast Fourier transform on the given vector. If
   the length of the vector is not a power of 2, and the user has a
   suitable wavetable and/or workspace, these can be supplied as
   keyword arguments.  If the (real) vector is in half-complex form,
-  then the key argument :half-complex should be non-NIL."
+  then the key argument :half-complex should be non-NIL. If the
+  length of the vector is a power of 2, use of a non-radix-2 transform
+  can be forced."
   (let ((pass-on-args (copy-list args)))
     (remf pass-on-args :half-complex)
     (remf pass-on-args :decimation-in-frequency)
-    (if (power-of-2-p (floor (size vector) stride))
+    (remf pass-on-args :non-radix-2)
+    (if (and (not non-radix-2) (power-of-2-p (floor (size vector) stride)))
 	(if half-complex
 	    (apply 'forward-fourier-transform-halfcomplex-radix2
 		   vector pass-on-args)

@@ -91,15 +91,21 @@
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun fft-test-forms (size stride)
     `((fft-real-result-check
-       (test-fft-noise 'double-float ,size :stride ,stride) double-float ,stride)
+       (test-fft-noise 'double-float ,size :stride ,stride :non-radix-2 t) double-float ,stride)
       (fft-real-result-check
-       (test-fft-noise 'single-float ,size :stride ,stride) single-float ,stride)
+       (test-fft-noise 'single-float ,size :stride ,stride :non-radix-2 t) single-float ,stride)
       (fft-complex-result-check
        (test-fft-noise
-	'(complex double-float) ,size :stride ,stride) double-float ,stride)
+	'(complex double-float) ,size :stride ,stride :non-radix-2 t) double-float ,stride)
       (fft-complex-result-check
        (test-fft-noise
-	'(complex single-float) ,size :stride ,stride) single-float ,stride))))
+	'(complex single-float) ,size :stride ,stride :non-radix-2 t) single-float ,stride)
+      (when (power-of-2-p (floor ,size ,stride))
+	(fft-real-result-check
+	  (test-fft-noise 'double-float ,size :stride ,stride :non-radix-2 nil) double-float ,stride)
+	(fft-complex-result-check
+	  (test-fft-noise
+	    '(complex double-float) ,size :stride ,stride :non-radix-2 nil) double-float ,stride)))))
 
 (defmacro all-fft-test-forms (size-max stride-max &optional additional-single-stride)
   `(lisp-unit:define-test fast-fourier-transform
@@ -113,5 +119,5 @@
 		(fft-test-forms size 1)))))
 
 
-(all-fft-test-forms 20 3)
+;(all-fft-test-forms 20 3)
 ;;; Tests commented out because they come out not so good.

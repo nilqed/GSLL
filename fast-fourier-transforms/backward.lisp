@@ -126,16 +126,18 @@
 (export 'backward-fourier-transform)
 (defun backward-fourier-transform
     (vector &rest args
-     &key decimation-in-frequency (stride 1) &allow-other-keys)
+     &key decimation-in-frequency (stride 1) non-radix-2 &allow-other-keys)
   "Perform a backward fast Fourier transform on the given vector. If
   the length of the vector is not a power of 2, and the user has a
   suitable wavetable and/or workspace, these can be supplied as
-  keyword arguments.  If the vector is real, it is assumed to be
-  in half-complex form."
+  keyword arguments. If the vector is real, it is assumed to be in
+  half-complex form. If the length of the vector is a power of 2, use
+  of a non-radix-2 transform can be forced."
   (let ((pass-on-args (copy-list args)))
     (remf pass-on-args :half-complex)
     (remf pass-on-args :decimation-in-frequency)
-    (if (power-of-2-p (floor (size vector) stride))
+    (remf pass-on-args :non-radix-2)
+    (if (and (not non-radix-2) (power-of-2-p (floor (size vector) stride)))
 	(if (subtypep (element-type vector) 'real)
 	    (apply 'backward-fourier-transform-halfcomplex-radix2
 		   vector pass-on-args)
