@@ -22,6 +22,7 @@
 
 (defvar *allowed-ticks* 1000000)
 
+#+nil
 (defun off-stride (array stride)
   "Make a grid that is all of the original array except that the
    stride points are excluded."
@@ -32,7 +33,19 @@
       unless (zerop (mod i stride))
       collect (grid:gref* array i))))
 
-(defmacro fft-complex-result-check (form element-component-type)
+(defun fft-complex-off-stride-check (vector stride offset)
+  (loop with size = (size vector)
+	for i from 0 below size
+	unless (zerop (mod i stride))
+	unless (lisp-unit:numerical-equal
+		 (complex (+ offset (* 2 i))
+			  (+ offset (* 2 i) 1))
+		 (grid:gref vector i))
+	return nil
+	finally
+	(return t)))
+
+(defmacro fft-complex-result-check (form element-component-type stride)
   "T if all FFT tests pass."
   `(multiple-value-bind
 	 (dft fft original fft-roundtrip fft-reverse)
@@ -43,15 +56,29 @@
 		    '+sgl-epsilon+
 		    '+dbl-epsilon+)))
 	   (lisp-unit:*measure* :infinity))
+       (when (> ,stride 1)
+	 (lisp-unit:assert-true (fft-complex-off-stride-check fft ,stride 2000))
+	 (lisp-unit:assert-true (fft-complex-off-stride-check fft-roundtrip ,stride 0))
+	 (lisp-unit:assert-true (fft-complex-off-stride-check fft-reverse ,stride 2000))
+	 (setf dft (grid:stride dft ,stride)
+	       fft (grid:stride fft ,stride)
+	       original (grid:stride original ,stride)
+	       fft-roundtrip (grid:stride fft-roundtrip ,stride)
+	       fft-reverse (grid:stride fft-reverse ,stride)))
        (lisp-unit:assert-norm-equal dft fft)
        (lisp-unit:assert-norm-equal original fft-roundtrip)
        (lisp-unit:assert-norm-equal original fft-reverse))))
 
-(defmacro fft-real-result-check (form element-type)
+(defmacro fft-real-result-check (form element-type stride)
   "T if all FFT tests pass."
   `(multiple-value-bind
 	 (dft fft original fft-roundtrip)
        (progn (reset-urand) ,form)
+     (when (> ,stride 1)
+       (setf dft (grid:stride dft ,stride)
+             fft (grid:stride fft ,stride)
+             original (grid:stride original ,stride)
+             fft-roundtrip (grid:stride fft-roundtrip ,stride)))
      (let ((lisp-unit:*epsilon*
 	    (* *allowed-ticks*
 	       ,(if (eq element-type 'single-float)
@@ -64,15 +91,21 @@
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun fft-test-forms (size stride)
     `((fft-real-result-check
-       (test-fft-noise 'double-float ,size :stride ,stride) double-float)
+       (test-fft-noise 'double-float ,size :stride ,stride :non-radix-2 t) double-float ,stride)
       (fft-real-result-check
-       (test-fft-noise 'single-float ,size :stride ,stride) single-float)
+       (test-fft-noise 'single-float ,size :stride ,stride :non-radix-2 t) single-float ,stride)
       (fft-complex-result-check
        (test-fft-noise
-	'(complex double-float) ,size :stride ,stride) double-float)
+	'(complex double-float) ,size :stride ,stride :non-radix-2 t) double-float ,stride)
       (fft-complex-result-check
        (test-fft-noise
-	'(complex single-float) ,size :stride ,stride) single-float))))
+	'(complex single-float) ,size :stride ,stride :non-radix-2 t) single-float ,stride)
+      (when (power-of-2-p (floor ,size ,stride))
+	(fft-real-result-check
+	  (test-fft-noise 'double-float ,size :stride ,stride :non-radix-2 nil) double-float ,stride)
+	(fft-complex-result-check
+	  (test-fft-noise
+	    '(complex double-float) ,size :stride ,stride :non-radix-2 nil) double-float ,stride)))))
 
 (defmacro all-fft-test-forms (size-max stride-max &optional additional-single-stride)
   `(lisp-unit:define-test fast-fourier-transform
@@ -86,5 +119,5 @@
 		(fft-test-forms size 1)))))
 
 
-;;; (all-fft-test-forms 9 3 (64 99))
+;(all-fft-test-forms 20 3)
 ;;; Tests commented out because they come out not so good.
