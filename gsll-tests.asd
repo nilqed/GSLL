@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2010-08-22 19:18:30EDT gsll-tests.asd>
+;; Time-stamp: <2010-10-03 18:11:16EDT gsll-tests.asd>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -161,6 +161,7 @@
 	     (:file "qrpt")
 	     (:file "quasi-random-number-generators")
 	     (:file "random-number-generators")
+	     (:file "rank-1-update")
 	     (:file "rayleigh")
 	     (:file "rayleigh-tail")
 	     (:file "roots-multi")
