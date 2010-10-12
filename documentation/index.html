@@ -131,42 +131,40 @@ combination for which the following are supported:</p>
   provides a convenient way to iterate over elements or indices of
   vectors or matrices.
 </ul>
-
-<p>GSLL has been tested with
-  <a href="http://sbcl.sourceforge.net/">SBCL</a>
-  and
-  <a href="http://trac.clozure.com/openmcl">CCL</a>
-  on Debian amd64, and
-  <a href="http://sbcl.sourceforge.net/">SBCL</a>
-  and
-  <a href="http://clisp.cons.org/">CLISP</a> on Debian i386.  There
-  are some known failures; see <a href="status.text">status.text</a>.
+<p>Most users will not need to worry about their implementation and
+  operating system, as all these are supported if the needed libraries
+  are installed (see below).  The use of CLISP, however, is not
+  recommended.
 </p>
 
 <h2>Download and Install</h2>
  <h3>Download</h3>
-  <ul>
-    <li><code>git clone git://repo.or.cz/gsll.git</code></li>
-    <li><code>git clone git://repo.or.cz/gsd.git</code></li>
-    <li><code>darcs get http://www.common-lisp.net/project/cffi/darcs/cffi/</code></li>
-    <li><code>darcs get http://common-lisp.net/~loliveira/darcs/trivial-garbage</code></li>
-    <li><code>git clone git://common-lisp.net/projects/alexandria/alexandria.git</code></li>
-    <li><code>wget http://ftp.linux.org.uk/pub/lisp/experimental/cclan/split-sequence.tar.gz -O - | tar zxv </code></li
-    <li><code>git clone git://repo.or.cz/lisp-unit.git</code></li>
-    <li><code>git clone git://gitorious.org/iolib/static-vectors.git</code></li>
-    <li><code>git clone git://repo.or.cz/fsbv.git</code></li>
-  </ul>
-<p>The <a href="http://repo.or.cz/w/gsll.git"> repository web page</a>
-can be used to browse or retrieve a compressed tarball (click the most
-recent "snapshot" link).  You will need to make a link of all
-the <code>.asd</code> files in the downloaded repositories to some
-directory known to ASDF.  Then make sure that 
-the C packages <code>libgsl0-dev</code> and <code>libffi-dev</code>
-(if using FSBV) are installed.
-Then in Lisp, load the system:
-  <ul>
-    <li><code>(asdf:operate 'asdf:load-op :gsll)</code></li>
-  </ul>
+ <p>Use <a href="http://www.quicklisp.org/">quicklisp</a> and follow the
+ instructions.  You will need to make sure that the libraries and
+ header files associated with <a href="http://www.gnu.org/software/gsl/">GNU Scientific Library
+(GSL)</a> and <a href="http://sourceware.org/libffi/">libffi</a> are
+ installed; your distribution may name these <code>libgsl0-dev</code>
+ and <code>libffi-dev</code>.  Once they are installed and you have
+ loaded the quicklisp file:
+ <pre>
+   (ql:quickload "gsll-tests")</pre>
+ <p>To test your installation:
+ <pre>
+   (in-package :gsl)
+   (lisp-unit:run-tests)</pre>
+ <p>The result should look something like:
+ <pre>
+ABSOLUTE-DEVIATION: 1 assertions passed, 0 failed.
+ABSOLUTE-SUM: 4 assertions passed, 0 failed.
+AIRY: 73 assertions passed, 0 failed.</pre>
+<p>... (many lines deleted) ...
+<pre>
+VECTOR-VARIANCE-WITH-MEAN: 10 assertions passed, 0 failed.
+WEIBULL: 60 assertions passed, 0 failed.
+ZETA: 6 assertions passed, 0 failed.
+TOTAL: 4019 assertions passed, 1 failed, 0 execution errors.</pre>
+ <p>You may see more failures.
+
  <h3>License</h3>
 <p>
 This software is distributed under
@@ -325,6 +323,11 @@ and arrays used internally or for function return.
  list</a> for all aspects of this project, including bug reports.  In
  addition, I am frequently on #lisp IRC channel as LiamH.
 </p>
+<p>For bug reports, please use the mailing list.  If you have
+patch(es) and use git, please commit your changes and do: 
+<pre>git format-patch origin</pre>
+<p>This will produce one or more files whose names start with a
+four-digit number; please attach them all to your email.
 </div>
 <!-- Page published by Emacs Muse ends here -->
 <div class="footer">
@@ -333,7 +336,7 @@ and arrays used internally or for function return.
 <!-- Created: Feb 25 2005 -->
 <!-- hhmts start -->
 <small>
-Time-stamp: <2010-07-22 15:38:19EDT index.html>
+Time-stamp: <2010-10-12 17:46:29EDT index.html>
 </small>
 <!-- hhmts end -->
  </div>
