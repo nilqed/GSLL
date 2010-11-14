@@ -1,6 +1,6 @@
 ;; Updating and accessing histogram elements.
 ;; Liam Healy, Mon Jan  1 2007 - 14:43
-;; Time-stamp: <2010-11-13 19:26:08EST updating-accessing.lisp>
+;; Time-stamp: <2010-11-14 17:46:45EST updating-accessing.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -42,9 +42,9 @@
    histograms for a small range of a larger dataset, ignoring the values
    outside the range of interest.")
 
-(defmfun grid:gref* ((histogram histogram) index)
+(defmfun grid:gref ((histogram histogram) &rest indices)
   "gsl_histogram_get"
-  (((mpointer histogram) :pointer) (index sizet))
+  (((mpointer histogram) :pointer) ((first indices) sizet))
   :definition :method 
   :c-return :double
   :index grid:gref
