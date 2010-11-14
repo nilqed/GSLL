@@ -1,6 +1,6 @@
 ;; The histogram structure
 ;; Liam Healy, Mon Jan  1 2007 - 11:32
-;; Time-stamp: <2010-07-16 17:10:12EDT histogram.lisp>
+;; Time-stamp: <2010-11-13 19:24:22EST histogram.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -28,7 +28,7 @@
 (defmobject histogram
     "gsl_histogram"
   ((number-of-bins sizet))
-  "one-dimensional histogram, including bin boundaries and bin contents."
+  "one-dimensional histogram, including bin boundaries and bin contents"
   :initialize-suffix "set_ranges"
   :initialize-args (((foreign-pointer ranges) :pointer) ((dim0 ranges) sizet)))
 

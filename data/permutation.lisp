@@ -1,6 +1,6 @@
 ;; Permutations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2010-07-16 17:14:45EDT permutation.lisp>
+;; Time-stamp: <2010-11-13 18:44:09EST permutation.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -218,7 +218,7 @@
    have the same length.")
 
 (defmfun permute
-    (p (data #.+foreign-pointer-class+) &optional (size 1) (stride 1))
+    (p (data #.grid:+foreign-pointer-class+) &optional (size 1) (stride 1))
   "gsl_permute"
   (((mpointer p) :pointer) (data :pointer) (stride sizet) (size sizet))
   :definition :method
@@ -246,7 +246,7 @@
    have the same length.")
 
 (defmfun permute-inverse
-    (p (data #.+foreign-pointer-class+) &optional (size 1) (stride 1))
+    (p (data #.grid:+foreign-pointer-class+) &optional (size 1) (stride 1))
   "gsl_permute_inverse"
   (((mpointer p) :pointer) (data :pointer) (stride sizet) (stride sizet))
   :definition :method

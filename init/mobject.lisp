@@ -1,6 +1,6 @@
 ;; Definition of GSL objects and ways to use them.
 ;; Liam Healy, Sun Dec  3 2006 - 10:21
-;; Time-stamp: <2010-07-15 22:33:56EDT mobject.lisp>
+;; Time-stamp: <2010-11-13 18:22:18EST mobject.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -317,29 +317,22 @@
 (defgeneric evaluate (object point &key #+sbcl &allow-other-keys)
   (:documentation "Evaluate the GSL object."))
 
-;;; Pointer type
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (defconstant +foreign-pointer-class+ (class-name (class-of (cffi:null-pointer)))
-    "The class in which foreign pointers fall.")
-  (defconstant +foreign-pointer-type+ (type-of (cffi:null-pointer))
-    "The type of foreign pointers."))
-
 ;;; Note: clisp has a foreign pointer class = T, so it would be best
 ;;; to narrow down methods that dispatch on this class.
 (defmacro foreign-pointer-method (pointer form)
-  "Execute this form only if the pointer is of +foreign-pointer-type+;
+  "Execute this form only if the pointer is of grid:+foreign-pointer-type+;
    otherwise call the next method."
   #-clisp (declare (ignore pointer))
   #+clisp
-  `(if (typep ,pointer +foreign-pointer-type+)
+  `(if (typep ,pointer grid:+foreign-pointer-type+)
        ,form
        (call-next-method))
   #-clisp
   form)
 
 ;;; Is this obsolete?  We no longer handle raw pointers.
-(defmethod mpointer ((object #.+foreign-pointer-class+))
-  #+clisp (check-type object #.+foreign-pointer-type+)
+(defmethod mpointer ((object #.grid:+foreign-pointer-class+))
+  #+clisp (check-type object #.grid:+foreign-pointer-type+)
   object)
 
 (export 'order)
