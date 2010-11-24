@@ -1,8 +1,8 @@
 ;; Functions for both vectors and matrices.
 ;; Liam Healy 2008-04-26 20:48:44EDT both.lisp
-;; Time-stamp: <2010-07-13 21:46:11EDT both.lisp>
+;; Time-stamp: <2010-11-24 15:12:33EST both.lisp>
 ;;
-;; Copyright 2008, 2009 Liam M. Healy
+;; Copyright 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -84,6 +84,33 @@
 ;;; Normal foreign array access is with grid:gref, but in order to
 ;;; avoid the overhead of instantiating a foreign-array object to
 ;;; access components, we use these functions.
+
+(defmacro access-value (mpointer class-name value &rest indices)
+  "Access the GSL array value from the mpointer.  If value is not nil,
+   set the value; otherwise, get the value."
+  ;; (access-value ptr grid:vector-unsigned-byte-16 45 3)
+  ;; (FOREIGN-FUNCALL "gsl_vector_ushort_set" :POINTER PTR SIZET 3 :UNSIGNED-SHORT 45 :VOID)
+  ;; (access-value ptr grid:matrix-unsigned-byte-16 nil 45 3)
+  ;; (FOREIGN-FUNCALL "gsl_matrix_ushort_get" :POINTER PTR SIZET 45 SIZET 3 :UNSIGNED-SHORT)
+  ;; (access-value ptr grid:matrix-unsigned-byte-16 45 3)
+  ;; => error
+  (let ((element-type (grid::farray-element-type class-name))
+	(matrixp (subtypep class-name 'grid:matrix)))
+    (unless (or (and matrixp (eql 2 (length indices)))
+		(and (not matrixp) (eql 1 (length indices))))
+      (error "The number of indices, ~a, is not correct for an array of class ~a"
+	     (length indices)
+	     class-name))
+    `(cffi:foreign-funcall
+      ,(actual-gsl-function-name
+	`("gsl_" :category :type ,(if value "_set" "_get"))
+	(if matrixp 'matrix 'vector)
+	element-type)
+      :pointer ,mpointer
+      sizet ,(first indices)
+      ,@(when matrixp (list 'sizet (second indices)))
+      ,(grid:cl-cffi element-type)
+      ,@(when value `(,value :void)))))
 
 (defmfun get-value ((class-name (eql vector)) mpointer &rest indices)
   ("gsl_"  :category :type "_get")
