@@ -1,6 +1,6 @@
 ;; Functions for both vectors and matrices.
 ;; Liam Healy 2008-04-26 20:48:44EDT both.lisp
-;; Time-stamp: <2010-11-24 15:12:33EST both.lisp>
+;; Time-stamp: <2010-11-24 23:26:40EST both.lisp>
 ;;
 ;; Copyright 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -83,17 +83,19 @@
 ;;;;****************************************************************************
 ;;; Normal foreign array access is with grid:gref, but in order to
 ;;; avoid the overhead of instantiating a foreign-array object to
-;;; access components, we use these functions.
+;;; access components, we use these macros which expand to gsl_*_get
+;;; and gsl_*_set.
 
-(defmacro access-value (mpointer class-name value &rest indices)
+(export 'maref)
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+(defun access-value-int (mpointer class-name value indices)
   "Access the GSL array value from the mpointer.  If value is not nil,
    set the value; otherwise, get the value."
-  ;; (access-value ptr grid:vector-unsigned-byte-16 45 3)
+  ;; (access-value-int 'ptr 'grid:vector-unsigned-byte-16 45 '(3))
   ;; (FOREIGN-FUNCALL "gsl_vector_ushort_set" :POINTER PTR SIZET 3 :UNSIGNED-SHORT 45 :VOID)
-  ;; (access-value ptr grid:matrix-unsigned-byte-16 nil 45 3)
+  ;; (access-value-int 'ptr 'grid:matrix-unsigned-byte-16 nil '(45 3))
   ;; (FOREIGN-FUNCALL "gsl_matrix_ushort_get" :POINTER PTR SIZET 45 SIZET 3 :UNSIGNED-SHORT)
-  ;; (access-value ptr grid:matrix-unsigned-byte-16 45 3)
-  ;; => error
   (let ((element-type (grid::farray-element-type class-name))
 	(matrixp (subtypep class-name 'grid:matrix)))
     (unless (or (and matrixp (eql 2 (length indices)))
@@ -111,53 +113,26 @@
       ,@(when matrixp (list 'sizet (second indices)))
       ,(grid:cl-cffi element-type)
       ,@(when value `(,value :void)))))
+)
 
-(defmfun get-value ((class-name (eql vector)) mpointer &rest indices)
-  ("gsl_"  :category :type "_get")
-  ((mpointer :pointer) ((first indices) sizet))
-  :definition :generic
-  :c-return :element-c-type
-  :export nil
-  :documentation
-  "Get the single element of the GSL vector.  This is used
-   in callbacks.")
+(defmacro maref (mpointer class-name &rest indices)
+  "Get or set the array element from the GSL pointer."
+  (access-value-int mpointer class-name nil indices))
 
-(defmfun get-value ((class-name (eql matrix)) mpointer &rest indices)
-  ("gsl_"  :category :type "_get")
-  ((mpointer :pointer) ((first indices) sizet) ((second indices) sizet))
-  :definition :methods
-  :c-return :element-c-type
-  :export nil
-  :documentation
-  "Get the single element of the GSL matrix.  This is used
-   in callbacks.")
+(defmacro set-maref (mpointer class-name &rest indices-value)
+  (alexandria:once-only ((value (alexandria:lastcar indices-value)))
+    `(progn
+       ,(access-value-int
+	 mpointer
+	 class-name
+	 value
+	 (butlast indices-value))
+       ,value)))
 
-(defmfun (setf get-value)
-    (value (class-name (eql vector)) mpointer &rest indices)
-  ("gsl_"  :category :type "_set")
-  ((value :element-c-type) (mpointer :pointer) ((first indices) sizet))
-  :definition :generic
-  :element-types #+fsbv t #-fsbv :no-complex
-  :c-return :void
-  :return (value)
-  :export nil
-  :documentation
-  "Set the single element of the GSL vector to the value.  This is
-   used in callbacks.")
+(defsetf maref set-maref)
 
-(defmfun (setf get-value)
-    (value (class-name (eql matrix)) mpointer &rest indices)
-  ("gsl_"  :category :type "_set")
-  ((value :element-c-type) (mpointer :pointer)
-   ((first indices) sizet) ((second indices) sizet))
-  :definition :methods
-  :element-types #+fsbv t #-fsbv :no-complex
-  :c-return :void
-  :return (value)
-  :export nil
-  :documentation
-  "Set the single element of the GSL vector to the value.  This is
-   used in callbacks.")
+;;; (maref ptr grid:vector-double-float 3)
+;;; (setf (maref ptr grid:vector-double-float 3) 45.0d0)
 
 ;;;;****************************************************************************
 ;;;; Elementwise arithmetic operations overwriting an array

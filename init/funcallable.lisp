@@ -1,6 +1,6 @@
 ;; Generate a lambda that calls the user function; will be called by callback.
 ;; Liam Healy 
-;; Time-stamp: <2010-07-13 21:59:01EDT funcallable.lisp>
+;; Time-stamp: <2010-11-24 22:01:05EST funcallable.lisp>
 ;;
 ;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -89,11 +89,11 @@
    array, or a scalar."
   (if (parse-callback-argspec argspec 'dimensions)
       (if (eql (parse-callback-argspec argspec 'array-type) :foreign-array)
-	  `(get-value
-	    ',(grid:data-class-name
-	       (length (value-from-dimensions argspec dimension-values))
-	       (grid:cffi-cl (parse-callback-argspec argspec 'element-type)))
+	  `(maref
 	    ,foreign-variable-name
+	    ,(grid:data-class-name
+	      (length (value-from-dimensions argspec dimension-values))
+	      (grid:cffi-cl (parse-callback-argspec argspec 'element-type)))
 	    ,@(affi::delinearize-index
 	       (affi:make-affi (value-from-dimensions argspec dimension-values))
 	       linear-index))
