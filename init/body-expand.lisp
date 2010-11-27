@@ -1,6 +1,6 @@
 ;; Expand the body of a defmfun
 ;; Liam Healy 2009-04-13 22:07:13EDT body-expand.lisp
-;; Time-stamp: <2010-06-27 18:25:27EDT body-expand.lisp>
+;; Time-stamp: <2010-11-27 13:54:41EST body-expand.lisp>
 ;;
 ;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -84,19 +84,24 @@
 
 (defun cl-convert-form (decl)
   "Generate a form that calls the appropriate converter from C/GSL to CL."
-  (case (grid:st-actual-type decl)
-    (sf-result 
-     `((val ,(grid:st-symbol decl))
-       (err ,(grid:st-symbol decl))))
-    (sf-result-e10
-     `((val ,(grid:st-symbol decl) 'sf-result-e10)
-       (e10 ,(grid:st-symbol decl))
-       (err ,(grid:st-symbol decl) 'sf-result-e10)))
-    (grid:complex-double-c
-     `((grid:complex-to-cl ,(grid:st-symbol decl) 0 'grid:complex-double-c)))
-    (grid:complex-float-c
-     `((grid:complex-to-cl ,(grid:st-symbol decl) 0 'grid:complex-float-c)))
-    (t `((cffi:mem-aref ,(grid:st-symbol decl) ',(grid:st-actual-type decl))))))
+  (or 
+   #+fsbv
+   (if (member (grid:st-actual-type decl) fsbv::*libffi-struct-defs*)
+       `((fsbv:object ,(grid:st-symbol decl) ',(grid:st-actual-type decl))))
+   #-fsbv nil
+   (case (grid:st-actual-type decl)
+     (sf-result 
+      `((val ,(grid:st-symbol decl))
+	(err ,(grid:st-symbol decl))))
+     (sf-result-e10
+      `((val ,(grid:st-symbol decl) 'sf-result-e10)
+	(e10 ,(grid:st-symbol decl))
+	(err ,(grid:st-symbol decl) 'sf-result-e10)))
+     (grid:complex-double-c
+      `((grid:complex-to-cl ,(grid:st-symbol decl) 'grid:complex-double-c)))
+     (grid:complex-float-c
+      `((grid:complex-to-cl ,(grid:st-symbol decl) 'grid:complex-float-c)))
+     (t `((cffi:mem-aref ,(grid:st-symbol decl) ',(grid:st-actual-type decl)))))))
 
 (defun body-expand (name arglist gsl-name c-arguments key-args)
   "Expand the body (computational part) of the defmfun."
