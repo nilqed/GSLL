@@ -1,6 +1,6 @@
 ;; Generate a lambda that calls the user function; will be called by callback.
 ;; Liam Healy 
-;; Time-stamp: <2010-11-24 22:01:05EST funcallable.lisp>
+;; Time-stamp: <2010-11-25 09:09:40EST funcallable.lisp>
 ;;
 ;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -84,13 +84,13 @@
 ;;;;****************************************************************************
 
 (defun reference-foreign-element
-    (foreign-variable-name linear-index argspec dimension-values)
-  "Form to reference, for getting or setting, the element of a foreign
-   array, or a scalar."
+    (foreign-pointer-name linear-index argspec dimension-values)
+  "Create the form to reference the element of a foreign
+   array, or a scalar, for getting or setting."
   (if (parse-callback-argspec argspec 'dimensions)
       (if (eql (parse-callback-argspec argspec 'array-type) :foreign-array)
 	  `(maref
-	    ,foreign-variable-name
+	    ,foreign-pointer-name
 	    ,(grid:data-class-name
 	      (length (value-from-dimensions argspec dimension-values))
 	      (grid:cffi-cl (parse-callback-argspec argspec 'element-type)))
@@ -98,11 +98,11 @@
 	       (affi:make-affi (value-from-dimensions argspec dimension-values))
 	       linear-index))
 	  `(cffi:mem-aref
-	    ,foreign-variable-name
+	    ,foreign-pointer-name
 	    ',(parse-callback-argspec argspec 'element-type)
 	    ,linear-index))
       ;; not setfable if it's a scalar
-      foreign-variable-name))
+      foreign-pointer-name))
 
 (defun array-element-refs (names argspecs dimension-values)
   "A list of forms reference each array element in succession.

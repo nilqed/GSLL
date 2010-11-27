@@ -1,6 +1,6 @@
 ;; Functions for both vectors and matrices.
 ;; Liam Healy 2008-04-26 20:48:44EDT both.lisp
-;; Time-stamp: <2010-11-24 23:26:40EST both.lisp>
+;; Time-stamp: <2010-11-25 09:31:17EST both.lisp>
 ;;
 ;; Copyright 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -86,11 +86,18 @@
 ;;; access components, we use these macros which expand to gsl_*_get
 ;;; and gsl_*_set.
 
+;;; It's unlikely users will need maref directly, because when using
+;;; the GSL library, we use the grid functions to get elements.  The
+;;; main use in the GSL library is user-defined callbacks (e.g. in
+;;; solve-minimize-fit) when scalarsp = T is specified; in that case
+;;; the generated wrapper function includes maref.  However, if
+;;; another foreign library which used the GSL library provided an
+;;; mpointer, the maref macro saves the time of creating an object
+;;; around it.
 (export 'maref)
 
-(eval-when (:compile-toplevel :load-toplevel :execute)
 (defun access-value-int (mpointer class-name value indices)
-  "Access the GSL array value from the mpointer.  If value is not nil,
+  "Create a form to access the GSL array value from the mpointer.  If value is not nil,
    set the value; otherwise, get the value."
   ;; (access-value-int 'ptr 'grid:vector-unsigned-byte-16 45 '(3))
   ;; (FOREIGN-FUNCALL "gsl_vector_ushort_set" :POINTER PTR SIZET 3 :UNSIGNED-SHORT 45 :VOID)
@@ -113,10 +120,11 @@
       ,@(when matrixp (list 'sizet (second indices)))
       ,(grid:cl-cffi element-type)
       ,@(when value `(,value :void)))))
-)
 
 (defmacro maref (mpointer class-name &rest indices)
-  "Get or set the array element from the GSL pointer."
+  "Get or set (setf maref) the array element from the GSL mpointer.
+   The class-name is the specific subclass name of
+   grid:foreign-array."
   (access-value-int mpointer class-name nil indices))
 
 (defmacro set-maref (mpointer class-name &rest indices-value)
