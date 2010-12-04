@@ -1,6 +1,6 @@
 ;; Expand the body of a defmfun
 ;; Liam Healy 2009-04-13 22:07:13EDT body-expand.lisp
-;; Time-stamp: <2010-11-27 22:08:19EST body-expand.lisp>
+;; Time-stamp: <2010-12-04 09:48:48EST body-expand.lisp>
 ;;
 ;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -99,6 +99,12 @@
 	  (err ,(grid:st-symbol decl) 'sf-result-e10)))
      (t `((cffi:mem-aref ,(grid:st-symbol decl) ',(grid:st-actual-type decl)))))))
 
+(defun values-unless-singleton (forms)
+  (unless (listp forms) (error "Values are not a list."))
+  (if (rest forms)
+    `(values ,@forms)
+    (first forms)))
+
 (defun body-expand (name arglist gsl-name c-arguments key-args)
   "Expand the body (computational part) of the defmfun."
   (with-defmfun-key-args key-args
@@ -115,8 +121,8 @@
 	      (variables-used-in-c-arguments c-arguments))))
 	   (pbv				; passed by value
 	    #+fsbv
-	    (variables-passed-by-value (cons creturn-st c-arguments))
-	    #-fsbv nil)
+	     (variables-passed-by-value (cons creturn-st c-arguments))
+	     #-fsbv nil)
 	   (clret (or			; better as a symbol macro
 		   (substitute
 		    (grid:st-symbol creturn-st) :c-return
@@ -169,12 +175,12 @@
 			,(grid:st-symbol creturn-st)
 			,@'('memory-allocation-failure "No memory allocated."))))
 	     ,@after
-	     (values
-	      ,@(defmfun-return
-		 c-return (grid:st-symbol creturn-st) clret
-		 allocated-return
-		 return return-supplied-p
-		 enumeration outputs))))))))
+	     ,(values-unless-singleton
+	       (defmfun-return
+		   c-return (grid:st-symbol creturn-st) clret
+		   allocated-return
+		   return return-supplied-p
+		   enumeration outputs))))))))
 
 (defun defmfun-return
     (c-return cret-name clret allocated return return-supplied-p enumeration outputs)
