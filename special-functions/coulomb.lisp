@@ -1,8 +1,8 @@
 ;; Coulumb functions
 ;; Liam Healy, Sat Mar 18 2006 - 23:23
-;; Time-stamp: <2010-07-07 14:24:53EDT coulomb.lisp>
+;; Time-stamp: <2010-12-04 11:49:53EST coulomb.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -52,9 +52,13 @@
    (F sf-result) (Fp sf-result) (G sf-result) (Gp sf-result)
    (exp-F (:pointer :double)) (exp-G (:pointer :double)))
   :return
-  ((val F) (val Fp) (val G) (val Gp)
-   (grid:dcref exp-F) (grid:dcref exp-G)
-   (err F) (err Fp) (err G) (err Gp))
+  ((let ((vl (multiple-value-list (values-with-errors F Fp G Gp))))
+     (values-list
+      (append (subseq vl 0 4)
+	      (list
+	       (fsbv:object exp-F :double)
+	       (fsbv:object exp-G :double))
+	      (subseq vl 4)))))
   :documentation			; FDL
   "The Coulomb wave functions F_L(\eta,x),
   G_{L-k}(\eta,x) and their derivatives F'_L(\eta,x), G'_{L-k}(\eta,x)

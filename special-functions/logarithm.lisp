@@ -1,6 +1,6 @@
 ;; Logarithm
 ;; Liam Healy, Sun Apr 30 2006 - 22:08
-;; Time-stamp: <2009-12-27 10:10:01EST logarithm.lisp>
+;; Time-stamp: <2010-12-04 11:41:14EST logarithm.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -35,8 +35,7 @@
   (((realpart x) :double) ((imagpart x) :double)
    (re-ret sf-result) (im-ret sf-result))
   :definition :method
-  :return
-  ((complex (val re-ret) (val im-ret)) (complex (err re-ret) (err im-ret)))
+  :return ((complex-with-error re-ret im-ret))
   :documentation			; FDL
   "Results are returned as lnr, theta such that
   exp(lnr + i \theta) = z_r + i z_i, where theta lies in the range [-\pi,\pi].")
