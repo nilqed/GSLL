@@ -1,6 +1,6 @@
 ;; Expand the body of a defmfun
 ;; Liam Healy 2009-04-13 22:07:13EDT body-expand.lisp
-;; Time-stamp: <2010-12-04 17:24:31EST body-expand.lisp>
+;; Time-stamp: <2010-12-12 00:21:04EST body-expand.lisp>
 ;;
 ;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -84,9 +84,8 @@
 
 (defun cl-convert-form (decl)
   "Generate a form that calls the appropriate converter from C/GSL to CL."
-  (if (fsbv:converter-defined-p (grid:st-actual-type decl))
-      `((fsbv:object ,(grid:st-symbol decl) ',(grid:st-actual-type decl)))
-      `((cffi:mem-aref ,(grid:st-symbol decl) ',(grid:st-actual-type decl)))))
+  (list
+   (fsbv:convert-from-pointer (grid:st-symbol decl) (grid:st-actual-type decl))))
 
 (defun values-unless-singleton (forms)
   (unless (listp forms) (error "Values are not a list."))
