@@ -1,8 +1,8 @@
 ;; BLAS level 2, Matrix-vector operations
 ;; Liam Healy, Wed Apr 26 2006 - 21:08
-;; Time-stamp: <2010-07-07 14:25:00EDT blas2.lisp>
+;; Time-stamp: <2010-12-19 11:24:07EST blas2.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -27,14 +27,12 @@
 ;;;; Options
 ;;;;****************************************************************************
 
-#+fsbv
-(fsbv:defcenum-aux cblas-transpose)
+#+fsbv (fsbv:defenumeration cblas-transpose)
+;;; Eventually, #-fsbv (cffi:defconvert-cenum cblas-transpose)
 
-#+fsbv
-(fsbv:defcenum-aux cblas-uplo)
+#+fsbv (fsbv:defenumeration cblas-uplo)
 
-#+fsbv
-(fsbv:defcenum-aux cblas-diag)
+#+fsbv (fsbv:defenumeration cblas-diag)
 
 ;;;;****************************************************************************
 ;;;; Functions

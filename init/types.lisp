@@ -1,8 +1,8 @@
 ;; Number types used by GSL functions, and specification conversion
 ;; Liam Healy 2008-12-31 21:06:34EST types.lisp
-;; Time-stamp: <2010-06-27 18:03:22EDT types.lisp>
+;; Time-stamp: <2010-12-19 11:42:56EST types.lisp>
 ;;
-;; Copyright 2008, 2009 Liam M. Healy
+;; Copyright 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -24,13 +24,15 @@
 ;;;; Unsigned address types size_t
 ;;;;****************************************************************************
 
+(fsbv:defconvert (sizet :constructor values))
+
 (case (cffi:foreign-type-size :long)
   (8
    (push :int64 *features*)
-   #+fsbv (fsbv:defsynonym sizet :uint64))
+   #+fsbv (fsbv:define-equivalent-type sizet :uint64))
   (4
    (push :int32 *features*)
-   #+fsbv (fsbv:defsynonym sizet :uint32)))
+   #+fsbv (fsbv:define-equivalent-type sizet :uint32)))
 
 ;;;;****************************************************************************
 ;;;; Type specification conversion
