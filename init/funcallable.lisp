@@ -1,6 +1,6 @@
 ;; Generate a lambda that calls the user function; will be called by callback.
 ;; Liam Healy 
-;; Time-stamp: <2010-11-25 09:09:40EST funcallable.lisp>
+;; Time-stamp: <2010-12-19 16:04:33EST funcallable.lisp>
 ;;
 ;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -97,7 +97,7 @@
 	    ,@(affi::delinearize-index
 	       (affi:make-affi (value-from-dimensions argspec dimension-values))
 	       linear-index))
-	  `(cffi:mem-aref
+	  `(fsbv:object
 	    ,foreign-pointer-name
 	    ',(parse-callback-argspec argspec 'element-type)
 	    ,linear-index))

@@ -1,8 +1,8 @@
 ;; Structures returned by special functions.
 ;; Liam Healy, Mon Jan  1 2007 - 11:35
-;; Time-stamp: <2010-12-04 17:37:57EST return-structures.lisp>
+;; Time-stamp: <2010-12-19 16:09:12EST return-structures.lisp>
 ;;
-;; Copyright 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -44,8 +44,7 @@
 ;;; up by cffi-grovel.  For the time being, FSBV is required.
 
 #+fsbv
-(fsbv:defconvert
-    (sf-result :constructor values)
+(fsbv:defconvert (sf-result :constructor values)
   (val :double)
   (err :double))
 
@@ -53,8 +52,7 @@
   (values val e10 err))
 
 #+fsbv
-(fsbv:defconvert
-    (sf-result-e10 :constructor values-e10)
+(fsbv:defconvert (sf-result-e10 :constructor values-e10)
   (val :double)
   (err :double)
   (e10 :int))
