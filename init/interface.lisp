@@ -1,8 +1,8 @@
 ;; Macros to interface GSL functions, including definitions necessary for defmfun.
 ;; Liam Healy 
-;; Time-stamp: <2010-06-29 19:42:14EDT interface.lisp>
+;; Time-stamp: <2010-12-19 15:58:10EST interface.lisp>
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -40,10 +40,6 @@
 ;;;;****************************************************************************
 ;;;; Declare foreign objects
 ;;;;****************************************************************************
-
-(defmacro scref (size &optional (index 0))
-  "Reference C size(s)."
-  `(cffi:mem-aref ,size 'sizet ,index))
 
 (defun wfo-declare (d cbinfo)
   `(,(grid:st-symbol d)
