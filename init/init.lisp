@@ -1,8 +1,8 @@
 ;; Load GSL
 ;; Liam Healy Sat Mar  4 2006 - 18:53
-;; Time-stamp: <2010-08-16 23:08:13EDT init.lisp>
+;; Time-stamp: <2011-01-01 16:14:55EST init.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,19 @@
   (:export
    #:cl-array #:dimensions #:element-type #:dim0 #:dim1
    #:copy))
+
+;;; Where there is a symbol conflict, take the other one.
+(shadow '#:row :antik-user) ; conflict with grid:row; they are equivalent
+(shadow '#:column :antik-user) ; conflict with grid:column; they are equivalent
+(shadow '#:sum :antik-user) ; conflict of histogram function with iterate:sum, both pretty obscure
+(shadow '#:multiply :antik-user) ; conflict if GSL's duplicate '* with iterate:multiply
+(shadow '#:si :antik-user) ; si units symbol-macro vs. GSLL's sine integral; technically not a conflict
+(shadow '#:polar-to-rectangular :antik-user) ; GSLL's doesn't use vectors
+(shadow '#:rectangular-to-polar :antik-user) ; GSLL's doesn't use vectors
+;;; Where there is a symbol conflict, take GSLL's
+(shadowing-import 'gsl::iterate :antik-user) ; conflict with iterate:iterate, but iterate:iter is a synonym
+
+(use-package :gsll :antik-user)
 
 (in-package :gsl)
 
