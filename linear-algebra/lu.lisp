@@ -1,8 +1,8 @@
 ;; LU decomposition
 ;; Liam Healy, Thu Apr 27 2006 - 12:42
-;; Time-stamp: <2010-07-07 14:24:59EDT lu.lisp>
+;; Time-stamp: <2011-01-01 11:47:45EST lu.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -147,28 +147,6 @@
   :documentation 			; FDL
   "Compute the sign or phase factor of the determinant of a matrix A,
   det(A)/|det(A)|, from its LU decomposition, LU.")
-
-;;; Invert a matrix using LU
-(export 'invert-matrix)
-(defun invert-matrix (mat)
-  "Invert the matrix."
-  (let* ((dim (first (dimensions mat)))
-	 (per (make-permutation dim))
-	 (inv (grid:make-foreign-array 'double-float :dimensions (list dim dim))))
-    (LU-decomposition mat per)
-    (lu-invert mat per inv)))
-
-;;; Examples and unit test
-
-;;; These are direct tests of matrix inversion
-
-(save-test
- lu
- (grid:copy-to
-  (invert-matrix
-   (grid:make-foreign-array 'double-float
-		:dimensions  '(2 2)
-		:initial-contents '(1.0d0 2.0d0 3.0d0 4.0d0)))))
 
 (generate-all-array-tests lu :doubles
  (let ((matrix (array-default '(4 4)))
