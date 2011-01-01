@@ -1,8 +1,8 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2010-08-13 11:36:52EDT gsll.asd>
+;; Time-stamp: <2011-01-01 10:57:50EST gsll.asd>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@
   :version "0"
   :author "Liam M. Healy"
   :licence "GPL v3"
-  :depends-on (foreign-array grid cffi cffi-grovel trivial-garbage #+fsbv fsbv)
+  :depends-on (antik cffi-grovel trivial-garbage #+fsbv fsbv)
   :components
   ((:module init
 	    :components
@@ -266,4 +266,8 @@
 	    :components
 	    ((cffi-grovel:grovel-file "mksa")
 	     (cffi-grovel:grovel-file "cgsm")
-	     (:file export)))))
+	     (:file export)))
+   (:module antik
+	    :depends-on (init linear-algebra)
+	    :components
+	    ((:file "linear-algebra")))))
