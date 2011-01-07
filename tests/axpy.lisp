@@ -1,6 +1,6 @@
 ;; Regression test AXPY for GSLL, automatically generated
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -21,18 +21,18 @@
 (LISP-UNIT:DEFINE-TEST AXPY
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
-    #(1400.77 -284.0684 -147.7214 397.47382 -1369.3191
-      235.659 -1932.6083 485.93335))
+    #(1400.77f0 -284.0684f0 -147.7214f0 397.47382f0 -1369.3191f0
+      235.659f0 -1932.6083f0 485.93335f0))
    (MULTIPLE-VALUE-LIST
     (LET ((V1
 	   (GRID:MAKE-FOREIGN-ARRAY
 	    'SINGLE-FLOAT :INITIAL-CONTENTS
-	    '(-34.5 8.24 3.29 -8.93 34.12 -6.15 49.27 -13.49)))
+	    '(-34.5f0 8.24f0 3.29f0 -8.93f0 34.12f0 -6.15f0 49.27f0 -13.49f0)))
 	  (V2
 	   (GRID:MAKE-FOREIGN-ARRAY
 	    'SINGLE-FLOAT :INITIAL-CONTENTS
-	    '(32.5 42.73 -17.24 43.31 -16.12 -8.25 21.44 -49.08)))
-	  (SCALAR -39.66))
+	    '(32.5f0 42.73f0 -17.24f0 43.31f0 -16.12f0 -8.25f0 21.44f0 -49.08f0)))
+	  (SCALAR -39.66f0))
       (grid:copy-to (AXPY SCALAR V1 V2)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -59,27 +59,27 @@
   #+fsbv
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
-    #(#C(1808.3204 1422.3015) #C(-589.3992 234.75043)
-      #C(-1673.498 -1451.916) #C(-2599.8237 -1950.9608)
-      #C(784.81586 -3351.5815) #C(2845.531 -870.5343)
-      #C(222.45422 1149.8602) #C(-3308.3872 917.76044)))
+    #(#C(1808.3204f0 1422.3015f0) #C(-589.3992f0 234.75043f0)
+      #C(-1673.498f0 -1451.916f0) #C(-2599.8237f0 -1950.9608f0)
+      #C(784.81586f0 -3351.5815f0) #C(2845.531f0 -870.5343f0)
+      #C(222.45422f0 1149.8602f0) #C(-3308.3872f0 917.76044f0)))
    (MULTIPLE-VALUE-LIST
     (LET ((V1
 	   (GRID:MAKE-FOREIGN-ARRAY
 	    '(COMPLEX SINGLE-FLOAT)
 	    :INITIAL-CONTENTS
-	    '(#C(-34.5 8.24) #C(3.29 -8.93)
-	      #C(34.12 -6.15) #C(49.27 -13.49) #C(32.5 42.73)
-	      #C(-17.24 43.31) #C(-16.12 -8.25) #C(21.44 -49.08))))
+	    '(#C(-34.5f0 8.24f0) #C(3.29f0 -8.93f0)
+	      #C(34.12f0 -6.15f0) #C(49.27f0 -13.49f0) #C(32.5f0 42.73f0)
+	      #C(-17.24f0 43.31f0) #C(-16.12f0 -8.25f0) #C(21.44f0 -49.08f0))))
 	  (V2
 	   (GRID:MAKE-FOREIGN-ARRAY
 	    '(COMPLEX SINGLE-FLOAT)
 	    :INITIAL-CONTENTS
-	    '(#C(32.5 42.73) #C(-17.24 43.31) #C(-16.12 -8.25)
-	      #C(21.44 -49.08) #C(-39.66 -49.46)
-	      #C(19.68 -5.55) #C(-8.82 25.37)
-	      #C(-30.58 31.67))))
-	  (SCALAR #C(-39.66 -49.46)))
+	    '(#C(32.5f0 42.73f0) #C(-17.24f0 43.31f0) #C(-16.12f0 -8.25f0)
+	      #C(21.44f0 -49.08f0) #C(-39.66f0 -49.46f0)
+	      #C(19.68f0 -5.55f0) #C(-8.82f0 25.37f0)
+	      #C(-30.58f0 31.67f0))))
+	  (SCALAR #C(-39.66f0 -49.46f0)))
       (GRID:COPY-TO (AXPY SCALAR V1 V2)))))
   #+fsbv
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL

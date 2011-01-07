@@ -1,6 +1,6 @@
 ;; Regression test SETF-ROW for GSLL, automatically generated
 ;;
-;; Copyright 2009, 2010 Liam M. Healy
+;; Copyright 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -21,21 +21,21 @@
 (LISP-UNIT:DEFINE-TEST SETF-ROW
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
-    #2A((-34.5 8.24 3.29)
-	(-8.93 34.12 -6.15)
-	(42.73 -17.24 43.31)))
+    #2A((-34.5f0 8.24f0 3.29f0)
+	(-8.93f0 34.12f0 -6.15f0)
+	(42.73f0 -17.24f0 43.31f0)))
    (MULTIPLE-VALUE-LIST
     (LET ((M1
 	   (GRID:MAKE-FOREIGN-ARRAY
 	    'SINGLE-FLOAT
 	    :INITIAL-CONTENTS
-	    '((-34.5 8.24 3.29)
-	      (-8.93 34.12 -6.15)
-	      (49.27 -13.49 32.5))))
+	    '((-34.5f0 8.24f0 3.29f0)
+	      (-8.93f0 34.12f0 -6.15f0)
+	      (49.27f0 -13.49f0 32.5f0))))
 	  (ROW
 	   (GRID:MAKE-FOREIGN-ARRAY
 	    'SINGLE-FLOAT
-	    :INITIAL-CONTENTS '(42.73 -17.24 43.31))))
+	    :INITIAL-CONTENTS '(42.73f0 -17.24f0 43.31f0))))
       (SETF (ROW M1 2) ROW)
       (GRID:COPY-TO M1))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
@@ -59,22 +59,21 @@
       (GRID:COPY-TO M1))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
-    #2A((#C(-34.5 8.24) #C(3.29 -8.93) #C(34.12 -6.15))
-	(#C(-8.93 34.12) #C(-6.15 49.27) #C(-13.49 32.5))
-	(#C(42.73 -17.24) #C(43.31 -16.12)
-	   #C(-8.25 21.44))))
+    #2A((#C(-34.5f0 8.24f0) #C(3.29f0 -8.93f0) #C(34.12f0 -6.15f0))
+	(#C(-8.93f0 34.12f0) #C(-6.15f0 49.27f0) #C(-13.49f0 32.5f0))
+	(#C(42.73f0 -17.24f0) #C(43.31f0 -16.12f0) #C(-8.25f0 21.44f0))))
    (MULTIPLE-VALUE-LIST
     (LET ((M1
 	   (GRID:MAKE-FOREIGN-ARRAY
 	    '(COMPLEX SINGLE-FLOAT)
 	    :INITIAL-CONTENTS
-	    '((#C(-34.5 8.24) #C(3.29 -8.93) #C(34.12 -6.15))
-	      (#C(-8.93 34.12) #C(-6.15 49.27) #C(-13.49 32.5))
-	      (#C(49.27 -13.49) #C(32.5 42.73) #C(-17.24 43.31)))))
+	    '((#C(-34.5f0 8.24f0) #C(3.29f0 -8.93f0) #C(34.12f0 -6.15f0))
+	      (#C(-8.93f0 34.12f0) #C(-6.15f0 49.27f0) #C(-13.49f0 32.5f0))
+	      (#C(49.27f0 -13.49f0) #C(32.5f0 42.73f0) #C(-17.24f0 43.31f0)))))
 	  (ROW
 	   (GRID:MAKE-FOREIGN-ARRAY
 	    '(COMPLEX SINGLE-FLOAT)
-	    :INITIAL-CONTENTS '(#C(42.73 -17.24) #C(43.31 -16.12) #C(-8.25 21.44)))))
+	    :INITIAL-CONTENTS '(#C(42.73f0 -17.24f0) #C(43.31f0 -16.12f0) #C(-8.25f0 21.44f0)))))
       (SETF (ROW M1 2) ROW)
       (GRID:COPY-TO M1))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL

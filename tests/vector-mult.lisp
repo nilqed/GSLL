@@ -1,6 +1,6 @@
 ;; Regression test VECTOR-MULT for GSLL, automatically generated
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -20,14 +20,14 @@
 
 (LISP-UNIT:DEFINE-TEST VECTOR-MULT
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-                        (LIST #(308.08502 281.14877 -20.2335))
+                        (LIST #(308.08502f0 281.14877f0 -20.2335f0))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
                                 (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
-                                             '(-34.5 8.24 3.29)))
+                                             '(-34.5f0 8.24f0 3.29f0)))
                                (V2
                                 (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
-                                             '(-8.93 34.12 -6.15))))
+                                             '(-8.93f0 34.12f0 -6.15f0))))
                            (GRID:COPY-TO (ELT* V1 V2)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST #(308.085d0 281.1488d0 -20.233500000000003d0))

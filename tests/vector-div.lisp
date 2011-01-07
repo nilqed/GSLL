@@ -20,14 +20,14 @@
 
 (LISP-UNIT:DEFINE-TEST VECTOR-DIV
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-                        (LIST #(3.8633816 0.24150059 -0.5349593))
+                        (LIST #(3.8633816f0 0.24150059f0 -0.5349593f0))
                         (MULTIPLE-VALUE-LIST
                          (LET ((V1
                                 (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
-                                             '(-34.5 8.24 3.29)))
+                                             '(-34.5f0 8.24f0 3.29f0)))
                                (V2
                                 (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
-                                             '(-8.93 34.12 -6.15))))
+                                             '(-8.93f0 34.12f0 -6.15f0))))
                            (GRID:COPY-TO (ELT/ V1 V2)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST

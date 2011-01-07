@@ -1,6 +1,6 @@
 ;; Regression test VECTOR-SET-ALL for GSLL, automatically generated
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -20,10 +20,10 @@
 
 (LISP-UNIT:DEFINE-TEST VECTOR-SET-ALL
   (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
-   (LIST #(-34.5 -34.5 -34.5))
+   (LIST #(-34.5f0 -34.5f0 -34.5f0))
    (MULTIPLE-VALUE-LIST
     (LET ((V1 (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :DIMENSIONS '3)))
-      (GRID:COPY-TO (SET-ALL V1 -34.5)))))
+      (GRID:COPY-TO (SET-ALL V1 -34.5f0)))))
   (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
    (LIST #(-34.5d0 -34.5d0 -34.5d0))
    (MULTIPLE-VALUE-LIST
@@ -31,12 +31,12 @@
       (GRID:COPY-TO (SET-ALL V1 -34.5d0)))))
   #+fsbv
   (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
-   (LIST #(#C(-34.5 8.24) #C(-34.5 8.24) #C(-34.5 8.24)))
+   (LIST #(#C(-34.5f0 8.24f0) #C(-34.5f0 8.24f0) #C(-34.5f0 8.24f0)))
    (MULTIPLE-VALUE-LIST
     (LET ((V1
 	   (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX SINGLE-FLOAT)
 			:DIMENSIONS '3)))
-      (GRID:COPY-TO (SET-ALL V1 #C(-34.5 8.24))))))
+      (GRID:COPY-TO (SET-ALL V1 #C(-34.5f0 8.24f0))))))
   #+fsbv
   (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
    (LIST
