@@ -1,8 +1,8 @@
 ;; Polynomials
 ;; Liam Healy, Tue Mar 21 2006 - 18:33
-;; Time-stamp: <2010-07-07 14:18:55EDT polynomial.lisp>
+;; Time-stamp: <2011-01-10 10:29:48EST polynomial.lisp>
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -213,8 +213,10 @@
  ;; Example from GSL manual
  (grid:copy-to (polynomial-solve #m(-1.0d0 0.0d0 0.0d0 0.0d0 0.0d0 1.0d0)))
  ;; tests from gsl-1.11/poly/test.c
- (evaluate #m(1 0.5 0.3) 0.5d0)
- (evaluate #m(1 -1 1 -1 1 -1 1 -1 1 -1 1) 1.0d0)
+ (evaluate #m(1.0d0 0.5d0 0.3d0) 0.5d0)
+ (evaluate
+  #m(1.0d0 -1.0d0 1.0d0 -1.0d0 1.0d0 -1.0d0 1.0d0 -1.0d0 1.0d0 -1.0d0 1.0d0)
+  1.0d0)
  (solve-quadratic 4.0d0 -20.0d0 26.0d0)		  ; no roots
  (solve-quadratic 4.0d0 -20.0d0 25.0d0)		  ; one root
  (solve-quadratic 4.0d0 -20.0d0 21.0d0)		  ; two roots
@@ -242,10 +244,10 @@
  (solve-cubic-complex -57.0d0 1071.0d0 -6647.0d0)
  (solve-cubic-complex -11.0d0 -493.0d0 +6647.0d0)
  (solve-cubic-complex -143.0d0 5087.0d0 -50065.0d0)
- (grid:copy-to (polynomial-solve #m(-120 274 -225 85 -15 1.0)))
- (grid:copy-to (polynomial-solve #m(1 0 0 0 1 0 0 0 1)))
- (let* ((xa #m(0.16 0.97 1.94 2.74 3.58 3.73 4.70))
-	(ya #m(0.73 1.11 1.49 1.84 2.30 2.41 3.07))
+ (grid:copy-to (polynomial-solve #m(-120.0d0 274.0d0 -225.0d0 85.0d0 -15.0d0 1.0d0)))
+ (grid:copy-to (polynomial-solve #m(1.0d0 0.0d0 0.0d0 0.0d0 1.0d0 0.0d0 0.0d0 0.0d0 1.0d0)))
+ (let* ((xa #m(0.16d0 0.97d0 1.94d0 2.74d0 3.58d0 3.73d0 4.70d0))
+	(ya #m(0.73d0 1.11d0 1.49d0 1.84d0 2.30d0 2.41d0 3.07d0))
 	(dd (divided-difference xa ya)))
    (list
     (grid:copy-to dd)
