@@ -1,6 +1,6 @@
 ;; LU decomposition
 ;; Liam Healy, Thu Apr 27 2006 - 12:42
-;; Time-stamp: <2011-01-01 11:47:45EST lu.lisp>
+;; Time-stamp: <2011-01-10 18:16:19EST lu.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -56,7 +56,7 @@
     ((A matrix) (b vector) permutation &optional x-spec
      &aux
      (x (if (eq x-spec t)
-	    (grid:make-foreign-array element-type :dimensions (dimensions b))
+	    (grid:make-foreign-array element-type :dimensions (grid:dimensions b))
 	    x-spec)))
   (("gsl_linalg" :complex "_LU_svx")
    ("gsl_linalg" :complex "_LU_solve"))

@@ -1,6 +1,6 @@
 ;; Discrete Fourier Transforms
 ;; Liam Healy 2009-11-07 14:24:07EST
-;; Time-stamp: <2011-01-10 17:59:23EST discrete.lisp>
+;; Time-stamp: <2011-01-10 18:16:24EST discrete.lisp>
 ;;
 ;; Copyright 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -29,7 +29,7 @@
 (defmfun forward-discrete-fourier-transform
     ((vector vector)
      &key (stride 1)
-     (result (grid:make-foreign-array element-type :dimensions (dimensions vector))))
+     (result (grid:make-foreign-array element-type :dimensions (grid:dimensions vector))))
   ("gsl_dft" :type "_forward")
   (((grid:foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
    ((grid:foreign-pointer result) :pointer))
@@ -45,7 +45,7 @@
 (defmfun backward-discrete-fourier-transform
     ((vector vector)
      &key (stride 1)
-     (result (grid:make-foreign-array element-type :dimensions (dimensions vector))))
+     (result (grid:make-foreign-array element-type :dimensions (grid:dimensions vector))))
   ("gsl_dft" :type "_backward")
   (((grid:foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
    ((grid:foreign-pointer result) :pointer))
@@ -61,7 +61,7 @@
 (defmfun inverse-discrete-fourier-transform
     ((vector vector)
      &key (stride 1)
-     (result (grid:make-foreign-array element-type :dimensions (dimensions vector))))
+     (result (grid:make-foreign-array element-type :dimensions (grid:dimensions vector))))
   ("gsl_dft" :type "_inverse")
   (((grid:foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
    ((grid:foreign-pointer result) :pointer))
@@ -77,7 +77,7 @@
 (defmfun discrete-fourier-transform
     ((vector vector)
      &key (stride 1)
-     (result (grid:make-foreign-array element-type :dimensions (dimensions vector))))
+     (result (grid:make-foreign-array element-type :dimensions (grid:dimensions vector))))
   ("gsl_dft" :type "_transform")
   (((grid:foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
    ((grid:foreign-pointer result) :pointer))

@@ -1,8 +1,8 @@
 ;;; Multivariate roots.                
 ;;; Liam Healy 2008-01-12 12:49:08
-;;; Time-stamp: <2010-07-13 09:52:54EDT roots-multi.lisp>
+;;; Time-stamp: <2011-01-10 18:19:07EST roots-multi.lisp>
 ;;
-;; Copyright 2008, 2009 Liam M. Healy
+;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -54,7 +54,7 @@
     `((type &optional function-or-dimension (initial nil ,set) (scalarsp t))
       (:type type
 	     :dimensions
-	     (if ,set (dimensions initial) function-or-dimension))
+	     (if ,set (grid:dimensions initial) function-or-dimension))
       (:functions
        (list function-or-dimension) :initial initial :scalarsp scalarsp)))
   :inputs (initial))
@@ -91,7 +91,7 @@
 	    (scalarsp t))
       (:type type
 	     :dimensions
-	     (if ,set (dimensions initial) function-or-dimension))
+	     (if ,set (grid:dimensions initial) function-or-dimension))
       (:functions function-or-dimension :initial initial :scalarsp scalarsp)))
   :inputs (initial))
 

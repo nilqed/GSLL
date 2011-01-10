@@ -1,8 +1,8 @@
 ;; Matrices
 ;; Liam Healy 2008-04-15 21:57:52EDT matrix.lisp
-;; Time-stamp: <2010-06-29 22:10:48EDT matrix.lisp>
+;; Time-stamp: <2011-01-10 18:17:17EST matrix.lisp>
 ;;
-;; Copyright 2008, 2009 Liam M. Healy
+;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -145,7 +145,7 @@
     ((source matrix)
      &optional
      (destination
-      (grid:make-foreign-array element-type :dimensions (reverse (dimensions source)))))
+      (grid:make-foreign-array element-type :dimensions (reverse (grid:dimensions source)))))
   ("gsl_matrix" :type "_transpose_memcpy")
   (((mpointer destination) :pointer) ((mpointer source) :pointer))
   :definition :generic

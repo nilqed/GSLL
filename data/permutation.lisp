@@ -1,6 +1,6 @@
 ;; Permutations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2011-01-10 17:59:22EST permutation.lisp>
+;; Time-stamp: <2011-01-10 18:16:26EST permutation.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -53,7 +53,7 @@
 	 (make-instance
 	  'permutation
 	  :element-type '(unsigned-byte #+int64 64 #+int32 32)
-	  :dimensions (if (typep n 'permutation) (dimensions n) (list n)))))
+	  :dimensions (if (typep n 'permutation) (grid:dimensions n) (list n)))))
     (when initialize
       (if (typep n 'permutation)
 	  (error "not available yet")	; (copy perm n)

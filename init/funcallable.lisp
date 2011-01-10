@@ -1,8 +1,8 @@
 ;; Generate a lambda that calls the user function; will be called by callback.
 ;; Liam Healy 
-;; Time-stamp: <2010-11-25 09:09:40EST funcallable.lisp>
+;; Time-stamp: <2011-01-10 18:19:11EST funcallable.lisp>
 ;;
-;; Copyright 2009, 2010 Liam M. Healy
+;; Copyright 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -214,7 +214,7 @@
     (lambda (fn fnspec)
       (compile
        nil
-       (make-funcallable-form fn fnspec (scalarsp object) (dimensions object))))
+       (make-funcallable-form fn fnspec (scalarsp object) (grid:dimensions object))))
     (functions object)
     (parse-callback-static (cbinfo object) 'functions))))
 

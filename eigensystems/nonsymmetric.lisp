@@ -1,8 +1,8 @@
 ;; Eigensystems for nonsymmetric real matrices
 ;; Liam Healy 2009-02-16 12:51:18EST nonsymmetric.lisp
-;; Time-stamp: <2010-06-29 22:15:24EDT nonsymmetric.lisp>
+;; Time-stamp: <2011-01-10 18:19:13EST nonsymmetric.lisp>
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -58,7 +58,7 @@
      &aux
      (sv
       (if (eql shur-vectors t)
-	  (grid:make-foreign-array 'double-float :dimensions (dimensions A))
+	  (grid:make-foreign-array 'double-float :dimensions (grid:dimensions A))
 	  shur-vectors)))
   ("gsl_eigen_nonsymm" "gsl_eigen_nonsymm_Z")
   ((((mpointer A) :pointer)
@@ -119,13 +119,13 @@
      (eigenvalues
       (grid:make-foreign-array '(complex double-float) :dimensions (dim0 A)))
      (eigenvectors
-      (grid:make-foreign-array  '(complex double-float) :dimensions (dimensions A)))
+      (grid:make-foreign-array  '(complex double-float) :dimensions (grid:dimensions A)))
      (ws (make-eigen-nonsymmv (dim0 A)))
      shur-vectors
      &aux
      (sv
       (if (eql shur-vectors t)
-	  (grid:make-foreign-array 'double-float :dimensions (dimensions A))
+	  (grid:make-foreign-array 'double-float :dimensions (grid:dimensions A))
 	  shur-vectors)))
   ("gsl_eigen_nonsymmv" "gsl_eigen_nonsymmv_Z")
   ((((mpointer A) :pointer)

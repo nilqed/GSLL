@@ -1,8 +1,8 @@
 ;; Eigenvectors and eigenvalues
 ;; Liam Healy, Sun May 21 2006 - 19:52
-;; Time-stamp: <2010-07-07 14:25:01EDT symmetric-hermitian.lisp>
+;; Time-stamp: <2011-01-10 18:19:13EST symmetric-hermitian.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -95,7 +95,7 @@
     ((A matrix)
      &optional
      (eigenvalues (grid:make-foreign-array element-type :dimensions (dim0 A)))
-     (eigenvectors (grid:make-foreign-array element-type :dimensions (dimensions A)))
+     (eigenvectors (grid:make-foreign-array element-type :dimensions (grid:dimensions A)))
      (ws (eltcase complex (make-eigen-hermv (dim0 A))
 		  t (make-eigen-symmv (dim0 A)))))
   (double-float "gsl_eigen_symmv"

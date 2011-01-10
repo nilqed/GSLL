@@ -1,8 +1,8 @@
 ;; Functions for both vectors and matrices.
 ;; Liam Healy 2008-04-26 20:48:44EDT both.lisp
-;; Time-stamp: <2010-11-25 09:31:17EST both.lisp>
+;; Time-stamp: <2011-01-10 18:17:02EST both.lisp>
 ;;
-;; Copyright 2008, 2009, 2010 Liam M. Healy
+;; Copyright 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -39,9 +39,9 @@
   ("gsl_" :category :type "_alloc_from_block")
   ((blockptr :pointer)
    (0 sizet)				; offset
-   ((first (dimensions object)) sizet)	; number of rows
-   ((second (dimensions object)) sizet)	; number of columns
-   ((second (dimensions object)) sizet))	; "tda" = number of columns for now
+   ((first (grid:dimensions object)) sizet)	; number of rows
+   ((second (grid:dimensions object)) sizet)	; number of columns
+   ((second (grid:dimensions object)) sizet))	; "tda" = number of columns for now
   :definition :methods
   :c-return :pointer
   :export nil)

@@ -1,8 +1,8 @@
 ;; Cholesky Decomposition
 ;; Liam Healy, Wed May  3 2006 - 16:38
-;; Time-stamp: <2010-06-30 19:57:28EDT cholesky.lisp>
+;; Time-stamp: <2011-01-10 18:19:09EST cholesky.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -53,7 +53,7 @@
 (defmfun cholesky-solve
     ((A matrix) (b vector) &optional x-spec
      &aux
-     (x (grid:make-foreign-array-or-default x-spec (dimensions b) t)))
+     (x (grid:make-foreign-array-or-default x-spec (grid:dimensions b) t)))
   (("gsl_linalg" :complex "_cholesky_svx")
    ("gsl_linalg" :complex "_cholesky_solve"))
   ((((mpointer A) :pointer) ((mpointer b) :pointer))

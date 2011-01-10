@@ -1,8 +1,8 @@
 ;; Definition of GSL objects and ways to use them.
 ;; Liam Healy, Sun Dec  3 2006 - 10:21
-;; Time-stamp: <2010-11-13 18:22:18EST mobject.lisp>
+;; Time-stamp: <2011-01-10 18:19:11EST mobject.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -102,7 +102,7 @@
     (if (have-at-least-gsl-version gsl-version)
 	`(progn
 	   ,(if cbinfo
-		`(,(if (member 'dimensions cl-alloc-args)
+		`(,(if (member 'grid:dimensions cl-alloc-args)
 		       'def-ci-subclass 'def-ci-subclass-1d)
 		   ,class
 		   ,superclasses

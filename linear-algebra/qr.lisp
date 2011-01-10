@@ -1,8 +1,8 @@
 ;; QR decomposition
 ;; Liam Healy 2008-02-17 11:05:20EST qr.lisp
-;; Time-stamp: <2010-06-30 19:57:28EDT qr.lisp>
+;; Time-stamp: <2011-01-10 18:19:08EST qr.lisp>
 ;;
-;; Copyright 2008, 2009 Liam M. Healy
+;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -62,7 +62,7 @@
 (defmfun QR-solve
     (QR tau b &optional x-spec
 	&aux
-	(x (grid:make-foreign-array-or-default x-spec (dimensions b) t)))
+	(x (grid:make-foreign-array-or-default x-spec (grid:dimensions b) t)))
   ("gsl_linalg_QR_svx" "gsl_linalg_QR_solve")
   ((((mpointer QR) :pointer) ((mpointer tau) :pointer)
     ((mpointer b) :pointer))
@@ -129,7 +129,7 @@
 (defmfun QR-Rsolve
     (QR b &optional x-spec
        &aux
-       (x (grid:make-foreign-array-or-default x-spec (dimensions b) t)))
+       (x (grid:make-foreign-array-or-default x-spec (grid:dimensions b) t)))
   ("gsl_linalg_QR_Rsvx" "gsl_linalg_QR_Rsolve")
   ((((mpointer QR) :pointer) ((mpointer b) :pointer))
    (((mpointer QR) :pointer) ((mpointer b) :pointer) ((mpointer x) :pointer)))
@@ -149,7 +149,7 @@
     (QR tau
      &optional
      (Q (grid:make-foreign-array 'double-float :dimensions (list (dim0 QR) (dim0 QR))))
-     (R (grid:make-foreign-array 'double-float :dimensions (dimensions QR))))
+     (R (grid:make-foreign-array 'double-float :dimensions (grid:dimensions QR))))
   "gsl_linalg_QR_unpack"
   (((mpointer QR) :pointer) ((mpointer tau) :pointer)
    ((mpointer Q) :pointer) ((mpointer R) :pointer))
@@ -189,7 +189,7 @@
 (defmfun R-solve
     (R b &optional x-spec
        &aux
-       (x (grid:make-foreign-array-or-default x-spec (dimensions b) t)))
+       (x (grid:make-foreign-array-or-default x-spec (grid:dimensions b) t)))
   ("gsl_linalg_R_svx" "gsl_linalg_R_solve")
   ((((mpointer R) :pointer) ((mpointer b) :pointer))
    (((mpointer R) :pointer) ((mpointer b) :pointer) ((mpointer x) :pointer)))

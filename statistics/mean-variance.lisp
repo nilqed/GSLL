@@ -1,6 +1,6 @@
 ;; Mean, standard deviation, and variance    
 ;; Liam Healy, Sat Dec  2 2006 - 22:15
-;; Time-stamp: <2011-01-10 17:59:35EST mean-variance.lisp>
+;; Time-stamp: <2011-01-10 18:16:17EST mean-variance.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -273,7 +273,7 @@
 (generate-all-array-tests weighted-mean :float
  (let ((v1 (array-default 8))
 	(v2 (array-default 8)))
-   (loop for i below (first (dimensions v2))
+   (loop for i below (first (grid:dimensions v2))
       do (setf (grid:gref v2 i) (abs (grid:gref v2 i))))
    (weighted-mean v1 v2)))
 |#

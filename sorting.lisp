@@ -1,6 +1,6 @@
 ;; Sorting
 ;; Liam Healy, Fri Apr 14 2006 - 20:20
-;; Time-stamp: <2011-01-10 17:59:31EST sorting.lisp>
+;; Time-stamp: <2011-01-10 18:16:18EST sorting.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -169,7 +169,7 @@
   (((grid:foreign-pointer combination) :pointer) ((size combination) sizet)
    ((mpointer v) :pointer)
    (1 sizet)				; stride, set to 1 for now
-   ((first (dimensions combination)) sizet))
+   ((first (grid:dimensions combination)) sizet))
   :definition :generic
   :element-types :no-complex
   :c-return :void
@@ -187,7 +187,7 @@
   (((grid:foreign-pointer combination) :pointer) ((size combination) sizet)
    ((grid:foreign-pointer v) :pointer)
    (1 sizet)				; stride, set to 1 for now
-   ((first (dimensions combination)) sizet))
+   ((first (grid:dimensions combination)) sizet))
   :definition :generic
   :element-types :no-complex
   :c-return :void
@@ -233,7 +233,7 @@
   (((grid:foreign-pointer combination) :pointer) ((size combination) sizet)
    ((mpointer v) :pointer)
    (1 sizet)				; stride, set to 1 for now
-   ((first (dimensions combination)) sizet))
+   ((first (grid:dimensions combination)) sizet))
   :definition :generic
   :element-types :no-complex
   :c-return :void
@@ -251,7 +251,7 @@
   (((grid:foreign-pointer combination) :pointer) ((size combination) sizet)
    ((grid:foreign-pointer v) :pointer)
    (1 sizet)				; stride, set to 1 for now
-   ((first (dimensions combination)) sizet))
+   ((first (grid:dimensions combination)) sizet))
   :element-types :no-complex
   :definition :generic
   :c-return :void

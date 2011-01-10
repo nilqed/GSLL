@@ -1,6 +1,6 @@
 ;; Load GSL
 ;; Liam Healy Sat Mar  4 2006 - 18:53
-;; Time-stamp: <2011-01-10 17:47:50EST init.lisp>
+;; Time-stamp: <2011-01-10 18:28:14EST init.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -22,14 +22,9 @@
   (:nicknames :gsl)
   (:use :common-lisp :cffi)
   (:import-from
-   :grid
-   #:cl-array #:dimensions #:element-type
-   #:foreign-array #:matrix #:dim0 #:dim1 #:^
-   #:copy)
-  ;;(:shadowing-import-from :grid #:foreign-pointer)
-  (:export
-   #:cl-array #:dimensions #:element-type #:dim0 #:dim1
-   #:copy))
+   :grid #:dimensions
+    #:element-type #:foreign-array #:matrix #:dim0 #:dim1 #:^ #:copy)
+  (:export #:element-type #:dim0 #:dim1  #:copy))
 
 ;;; Where there is a symbol conflict, take the other one.
 (shadow '#:row :antik-user) ; conflict with grid:row; they are equivalent

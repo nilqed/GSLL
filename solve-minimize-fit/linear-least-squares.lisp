@@ -1,6 +1,6 @@
 ;; Linear least squares, or linear regression
 ;; Liam Healy <2008-01-21 12:41:46EST linear-least-squares.lisp>
-;; Time-stamp: <2011-01-10 17:59:31EST linear-least-squares.lisp>
+;; Time-stamp: <2011-01-10 18:16:18EST linear-least-squares.lisp>
 ;;
 ;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -284,7 +284,7 @@
     (x observations coefficients
        &optional
        (residuals
-	(grid:make-foreign-array 'double-float :dimensions (dimensions observations))))
+	(grid:make-foreign-array 'double-float :dimensions (grid:dimensions observations))))
   "gsl_multifit_linear_residuals"
   (((mpointer x) :pointer) ((mpointer observations) :pointer)
    ((mpointer coefficients) :pointer) ((mpointer residuals) :pointer))

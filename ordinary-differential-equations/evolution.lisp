@@ -1,6 +1,6 @@
 ;; Evolution functions for ODE integration.
 ;; Liam Healy, Sun Sep 30 2007 - 14:31
-;; Time-stamp: <2011-01-10 17:59:27EST evolution.lisp>
+;; Time-stamp: <2011-01-10 18:16:19EST evolution.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -21,7 +21,7 @@
 (in-package :gsl)
 
 (defmobject ode-evolution "gsl_odeiv_evolve"
-  ((dimensions sizet))
+  ((grid:dimensions sizet))
   "evolution for ordinary differential equations"
   :documentation "Make an object to advance the ODE solution."
   :initialize-suffix "reset"
