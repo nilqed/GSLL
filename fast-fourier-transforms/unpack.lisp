@@ -1,8 +1,8 @@
 ;; Unpack functions for FFT vectors.
 ;; Sumant Oemrawsingh, Sun Oct 25 2009 - 16:35
-;; Time-stamp: <2010-06-29 22:12:06EDT unpack.lisp>
+;; Time-stamp: <2011-01-10 17:59:24EST unpack.lisp>
 ;;
-;; Copyright 2009 Sumant Oemrawsingh, Liam M. Healy
+;; Copyright 2009, 2011 Sumant Oemrawsingh, Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -34,8 +34,8 @@
 		  t
 		  (grid:make-foreign-array '(complex double-float) :dimensions (size vector)))))
   ("gsl_fft_real" :type "_unpack")
-  (((foreign-pointer vector) :pointer)
-   ((foreign-pointer output) :pointer)
+  (((grid:foreign-pointer vector) :pointer)
+   ((grid:foreign-pointer output) :pointer)
    (stride sizet) ((floor (size vector) stride) sizet))
   :definition :generic
   :element-types :float
@@ -58,8 +58,8 @@
 		  t
 		  (grid:make-foreign-array '(complex double-float) :dimensions (size vector)))))
   ("gsl_fft_halfcomplex" :type "_radix2_unpack")
-  (((foreign-pointer vector) :pointer)
-   ((foreign-pointer output) :pointer)
+  (((grid:foreign-pointer vector) :pointer)
+   ((grid:foreign-pointer output) :pointer)
    (stride sizet) ((floor (size vector) stride) sizet))
   :definition :generic
   :element-types :float
@@ -81,8 +81,8 @@
 		  t
 		  (grid:make-foreign-array '(complex double-float) :dimensions (size vector)))))
   ("gsl_fft_halfcomplex" :type "_unpack")
-  (((foreign-pointer vector) :pointer)
-   ((foreign-pointer output) :pointer)
+  (((grid:foreign-pointer vector) :pointer)
+   ((grid:foreign-pointer output) :pointer)
    (stride sizet) ((floor (size vector) stride) sizet))
   :definition :generic
   :element-types :float

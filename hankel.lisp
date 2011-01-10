@@ -1,8 +1,8 @@
 ;; Discrete Hankel Transforms.
 ;; Liam Healy, Sat Dec  8 2007 - 16:50
-;; Time-stamp: <2010-07-07 14:19:28EDT hankel.lisp>
+;; Time-stamp: <2011-01-10 17:59:25EST hankel.lisp>
 ;;
-;; Copyright 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -41,8 +41,8 @@
      &optional
      (array-out (grid:make-foreign-array 'double-float :dimensions (dimensions array-in))))
   "gsl_dht_apply"
-  (((mpointer hankel) :pointer) ((foreign-pointer array-in) :pointer)
-   ((foreign-pointer array-out) :pointer))
+  (((mpointer hankel) :pointer) ((grid:foreign-pointer array-in) :pointer)
+   ((grid:foreign-pointer array-out) :pointer))
   :inputs (array-in)
   :outputs (array-out)
   :return (array-out)

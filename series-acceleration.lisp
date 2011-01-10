@@ -1,8 +1,8 @@
 ;; Series acceleration.
 ;; Liam Healy, Wed Nov 21 2007 - 18:41
-;; Time-stamp: <2010-08-07 21:41:14EDT series-acceleration.lisp>
+;; Time-stamp: <2011-01-10 17:59:30EST series-acceleration.lisp>
 ;;
-;; Copyright 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@
 
 (defmfun accelerate (array levin)
   "gsl_sum_levin_u_accel"
-  (((foreign-pointer array) :pointer) ((dim0 array) sizet) ((mpointer levin) :pointer)
+  (((grid:foreign-pointer array) :pointer) ((dim0 array) sizet) ((mpointer levin) :pointer)
    (accelerated-sum (:pointer :double)) (abserr (:pointer :double)))
   :inputs (array)
   :documentation			; FDL
@@ -66,7 +66,7 @@
 
 (defmfun accelerate-truncated (array levin)
   "gsl_sum_levin_utrunc_accel"
-  (((foreign-pointer array) :pointer) ((dim0 array) sizet) ((mpointer levin) :pointer)
+  (((grid:foreign-pointer array) :pointer) ((dim0 array) sizet) ((mpointer levin) :pointer)
    (accelerated-sum (:pointer :double)) (abserr (:pointer :double)))
   :inputs (array)
   :documentation			; FDL

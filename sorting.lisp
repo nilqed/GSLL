@@ -1,8 +1,8 @@
 ;; Sorting
 ;; Liam Healy, Fri Apr 14 2006 - 20:20
-;; Time-stamp: <2010-07-07 14:24:54EDT sorting.lisp>
+;; Time-stamp: <2011-01-10 17:59:31EST sorting.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -75,7 +75,7 @@
 
 (defmfun msort ((v both))
   ("gsl_sort" :type)
-  (((foreign-pointer v) :pointer) (1 sizet) ((size v) sizet))
+  (((grid:foreign-pointer v) :pointer) (1 sizet) ((size v) sizet))
   :definition :generic
   :element-types :no-complex
   :c-return :void
@@ -99,7 +99,7 @@
 (defmfun sort-index ((permutation permutation) (vector vector))
   ("gsl_sort" :type "_index")
   (((mpointer permutation) :pointer)
-   ((foreign-pointer vector) :pointer)
+   ((grid:foreign-pointer vector) :pointer)
    (1 sizet) ((dim0 vector) sizet))
   :definition :generic
   :element-types :no-complex
@@ -138,7 +138,7 @@
 
 (defmfun sort-vector-smallest (dest (v vector))
   ("gsl_sort_vector" :type "_smallest")
-  (((foreign-pointer dest) :pointer) ((dim0 dest) sizet)
+  (((grid:foreign-pointer dest) :pointer) ((dim0 dest) sizet)
    ((mpointer v) :pointer))
   :definition :generic
   :element-types :no-complex
@@ -151,8 +151,8 @@
 
 (defmfun sort-smallest (dest (v both))
   ("gsl_sort" :type "_smallest")
-  (((foreign-pointer dest) :pointer) ((size dest) sizet)
-   ((foreign-pointer v) :pointer)
+  (((grid:foreign-pointer dest) :pointer) ((size dest) sizet)
+   ((grid:foreign-pointer v) :pointer)
    (1 sizet)				; stride, set to 1 for now
    ((size v) sizet))
   :definition :generic
@@ -166,7 +166,7 @@
 
 (defmfun sort-vector-smallest-index (combination (v vector))
   ("gsl_sort_vector" :type "_smallest_index")
-  (((foreign-pointer combination) :pointer) ((size combination) sizet)
+  (((grid:foreign-pointer combination) :pointer) ((size combination) sizet)
    ((mpointer v) :pointer)
    (1 sizet)				; stride, set to 1 for now
    ((first (dimensions combination)) sizet))
@@ -184,8 +184,8 @@
 
 (defmfun sort-smallest-index (combination (v vector))
   ("gsl_sort" :type "_smallest_index")
-  (((foreign-pointer combination) :pointer) ((size combination) sizet)
-   ((foreign-pointer v) :pointer)
+  (((grid:foreign-pointer combination) :pointer) ((size combination) sizet)
+   ((grid:foreign-pointer v) :pointer)
    (1 sizet)				; stride, set to 1 for now
    ((first (dimensions combination)) sizet))
   :definition :generic
@@ -202,7 +202,7 @@
 
 (defmfun sort-vector-largest (dest (v vector))
   ("gsl_sort_vector" :type "_largest")
-  (((foreign-pointer dest) :pointer) ((dim0 dest) sizet)
+  (((grid:foreign-pointer dest) :pointer) ((dim0 dest) sizet)
    ((mpointer v) :pointer))
   :definition :generic
   :element-types :no-complex
@@ -215,8 +215,8 @@
 
 (defmfun sort-largest (dest (v both))
   ("gsl_sort" :type "_largest")
-  (((foreign-pointer dest) :pointer) ((size dest) sizet)
-   ((foreign-pointer v) :pointer)
+  (((grid:foreign-pointer dest) :pointer) ((size dest) sizet)
+   ((grid:foreign-pointer v) :pointer)
    (1 sizet)				; stride, set to 1 for now
    ((size v) sizet))
   :definition :generic
@@ -230,7 +230,7 @@
 
 (defmfun sort-vector-largest-index (combination (v vector))
   ("gsl_sort_vector" :type "_largest_index")
-  (((foreign-pointer combination) :pointer) ((size combination) sizet)
+  (((grid:foreign-pointer combination) :pointer) ((size combination) sizet)
    ((mpointer v) :pointer)
    (1 sizet)				; stride, set to 1 for now
    ((first (dimensions combination)) sizet))
@@ -248,8 +248,8 @@
 
 (defmfun sort-largest-index (combination (v vector))
   ("gsl_sort" :type "_largest_index")
-  (((foreign-pointer combination) :pointer) ((size combination) sizet)
-   ((foreign-pointer v) :pointer)
+  (((grid:foreign-pointer combination) :pointer) ((size combination) sizet)
+   ((grid:foreign-pointer v) :pointer)
    (1 sizet)				; stride, set to 1 for now
    ((first (dimensions combination)) sizet))
   :element-types :no-complex

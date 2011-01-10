@@ -1,8 +1,8 @@
 ;; Backward FFT
 ;; Sumant Oemrawsingh, Sat Oct 24 2009 - 12:55
-;; Time-stamp: <2010-06-27 18:13:59EDT backward.lisp>
+;; Time-stamp: <2011-01-10 17:59:22EST backward.lisp>
 ;;
-;; Copyright 2009 Sumant Oemrawsingh, Liam M. Healy
+;; Copyright 2009, 2011 Sumant Oemrawsingh, Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,7 @@
 (defmfun backward-fourier-transform-radix2
   ((vector vector) &key (stride 1))
   ("gsl_fft" :type "_radix2_backward")
-  (((foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet))
+  (((grid:foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet))
   :definition :generic
   :element-types :complex
   :inputs (vector)
@@ -49,7 +49,7 @@
      (wavetable (make-fft-wavetable element-type (floor (size vector) stride)))
      (workspace (make-fft-workspace element-type (floor (size vector) stride))))
   ("gsl_fft" :type "_backward")
-  (((foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
+  (((grid:foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
    ((mpointer wavetable) :pointer) ((mpointer workspace) :pointer))
   :definition :generic
   :element-types :complex
@@ -69,7 +69,7 @@
 (defmfun backward-fourier-transform-halfcomplex-radix2
     ((vector vector) &key (stride 1))
   ("gsl_fft_halfcomplex" :type "_radix2_backward")
-  (((foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet))
+  (((grid:foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet))
   :definition :generic
   :element-types :float
   :inputs (vector)
@@ -86,7 +86,7 @@
      (wavetable (make-fft-wavetable element-type (floor (size vector) stride) t))
      (workspace (make-fft-workspace element-type (floor (size vector) stride))))
   ("gsl_fft_halfcomplex" :type "_backward")
-  (((foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
+  (((grid:foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
    ((mpointer wavetable) :pointer) ((mpointer workspace) :pointer))
   :definition :generic
   :element-types :float
@@ -106,7 +106,7 @@
 (defmfun backward-fourier-transform-dif-radix2
   ((vector vector) &key (stride 1))
   ("gsl_fft" :type "_radix2_dif_backward")
-  (((foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet))
+  (((grid:foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet))
   :definition :generic
   :element-types :complex
   :inputs (vector)

@@ -1,8 +1,8 @@
 ;; Numerical integration
 ;; Liam Healy, Wed Jul  5 2006 - 23:14
-;; Time-stamp: <2010-08-07 21:46:21EDT numerical-integration.lisp>
+;; Time-stamp: <2011-01-10 17:59:21EST numerical-integration.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -157,7 +157,7 @@
 	      (limit 1000) (workspace (make-integration-workspace limit)))
   "gsl_integration_qagp"
   ((callback :pointer)
-   ((foreign-pointer points) :pointer) ((dim0 points) sizet)
+   ((grid:foreign-pointer points) :pointer) ((dim0 points) sizet)
    (absolute-error :double) (relative-error :double) (limit sizet)
    ((mpointer workspace) :pointer)
    (result (:pointer :double)) (abserr (:pointer :double)))

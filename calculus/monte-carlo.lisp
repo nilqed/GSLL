@@ -1,8 +1,8 @@
 ;; Monte Carlo Integration
 ;; Liam Healy Sat Feb  3 2007 - 17:42
-;; Time-stamp: <2010-08-07 21:41:14EDT monte-carlo.lisp>
+;; Time-stamp: <2011-01-10 17:59:20EST monte-carlo.lisp>
 ;;
-;; Copyright 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -51,7 +51,7 @@
 	      (scalars t))
   "gsl_monte_plain_integrate"
   ((callback :pointer)
-   ((foreign-pointer lower-limits) :pointer) ((foreign-pointer upper-limits) :pointer)
+   ((grid:foreign-pointer lower-limits) :pointer) ((grid:foreign-pointer upper-limits) :pointer)
    ((dim0 lower-limits) sizet) (number-of-samples sizet)
    ((mpointer generator) :pointer)
    ((mpointer state) :pointer)
@@ -112,7 +112,7 @@
 	      (scalars t))
   "gsl_monte_miser_integrate"
   ((callback :pointer)
-   ((foreign-pointer lower-limits) :pointer) ((foreign-pointer upper-limits) :pointer)
+   ((grid:foreign-pointer lower-limits) :pointer) ((grid:foreign-pointer upper-limits) :pointer)
    ((dim0 lower-limits) sizet) (number-of-samples sizet)
    ((mpointer generator) :pointer)
    ((mpointer state) :pointer)
@@ -173,7 +173,7 @@
 	      (scalars t))
   "gsl_monte_vegas_integrate"
   ((callback :pointer)
-   ((foreign-pointer lower-limits) :pointer) ((foreign-pointer upper-limits) :pointer)
+   ((grid:foreign-pointer lower-limits) :pointer) ((grid:foreign-pointer upper-limits) :pointer)
    ((dim0 lower-limits) sizet) (number-of-samples sizet)
    ((mpointer generator) :pointer)
    ((mpointer state) :pointer)

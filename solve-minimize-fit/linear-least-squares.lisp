@@ -1,8 +1,8 @@
 ;; Linear least squares, or linear regression
 ;; Liam Healy <2008-01-21 12:41:46EST linear-least-squares.lisp>
-;; Time-stamp: <2010-06-30 19:57:28EDT linear-least-squares.lisp>
+;; Time-stamp: <2011-01-10 17:59:31EST linear-least-squares.lisp>
 ;;
-;; Copyright 2008, 2009 Liam M. Healy
+;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -36,15 +36,15 @@
 (defmfun linear-fit
     (x y &optional weight (x-stride 1) (y-stride 1) (weight-stride 1))
   ("gsl_fit_linear" "gsl_fit_wlinear")
-  ((((foreign-pointer x) :pointer) (x-stride sizet)
-    ((foreign-pointer y) :pointer) (y-stride sizet)
+  ((((grid:foreign-pointer x) :pointer) (x-stride sizet)
+    ((grid:foreign-pointer y) :pointer) (y-stride sizet)
     ((dim0 x) sizet)
     (c0 (:pointer :double)) (c1 (:pointer :double))
     (cov00 (:pointer :double)) (cov01 (:pointer :double))
     (cov11 (:pointer :double)) (sumsq (:pointer :double)))
-   (((foreign-pointer x) :pointer) (x-stride sizet)
-    ((foreign-pointer weight) :pointer) (weight-stride sizet)
-    ((foreign-pointer y) :pointer) (y-stride sizet)
+   (((grid:foreign-pointer x) :pointer) (x-stride sizet)
+    ((grid:foreign-pointer weight) :pointer) (weight-stride sizet)
+    ((grid:foreign-pointer y) :pointer) (y-stride sizet)
     ((dim0 x) sizet)
     (c0 (:pointer :double)) (c1 (:pointer :double))
     (cov00 (:pointer :double)) (cov01 (:pointer :double))
@@ -85,14 +85,14 @@
 (defmfun multiplier-fit
     (x y &optional weight (x-stride 1) (y-stride 1) (weight-stride 1))
   ("gsl_fit_mul" "gsl_fit_wmul")
-  ((((foreign-pointer x) :pointer) (x-stride sizet)
-    ((foreign-pointer y) :pointer) (y-stride sizet)
+  ((((grid:foreign-pointer x) :pointer) (x-stride sizet)
+    ((grid:foreign-pointer y) :pointer) (y-stride sizet)
     ((dim0 x) sizet)
     (c1 (:pointer :double)) (cov11 (:pointer :double))
     (sumsq (:pointer :double)))
-   (((foreign-pointer x) :pointer) (x-stride sizet)
-    ((foreign-pointer weight) :pointer) (weight-stride sizet)
-    ((foreign-pointer y) :pointer) (y-stride sizet)
+   (((grid:foreign-pointer x) :pointer) (x-stride sizet)
+    ((grid:foreign-pointer weight) :pointer) (weight-stride sizet)
+    ((grid:foreign-pointer y) :pointer) (y-stride sizet)
     ((dim0 x) sizet)
     (c1 (:pointer :double)) (cov11 (:pointer :double))
     (sumsq (:pointer :double))))
