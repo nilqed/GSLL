@@ -1,6 +1,6 @@
 ;; Cholesky Decomposition
 ;; Liam Healy, Wed May  3 2006 - 16:38
-;; Time-stamp: <2011-01-10 18:19:09EST cholesky.lisp>
+;; Time-stamp: <2011-01-12 00:29:25EST cholesky.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -34,7 +34,7 @@
 
 ;;; GSL version 1.10 introduced functions for complex matrices.
 
-(defmfun cholesky-decomposition ((A matrix))
+(defmfun cholesky-decomposition ((A grid:matrix))
   ("gsl_linalg" :complex "_cholesky_decomp")
   (((mpointer A) :pointer))
   :definition :generic
@@ -51,7 +51,7 @@
   returning the error input-domain.")
 
 (defmfun cholesky-solve
-    ((A matrix) (b vector) &optional x-spec
+    ((A grid:matrix) (b vector) &optional x-spec
      &aux
      (x (grid:make-foreign-array-or-default x-spec (grid:dimensions b) t)))
   (("gsl_linalg" :complex "_cholesky_svx")

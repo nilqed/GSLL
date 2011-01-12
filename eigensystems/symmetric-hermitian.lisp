@@ -1,6 +1,6 @@
 ;; Eigenvectors and eigenvalues
 ;; Liam Healy, Sun May 21 2006 - 19:52
-;; Time-stamp: <2011-01-10 18:19:13EST symmetric-hermitian.lisp>
+;; Time-stamp: <2011-01-12 00:09:43EST symmetric-hermitian.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -66,8 +66,7 @@
 ;;;; Eigenvalues and eigenvectors
 ;;;;****************************************************************************
 
-(defmfun eigenvalues
-    ((A matrix)
+(defmfun eigenvalues ((A grid:matrix)
      &optional
      (eigenvalues (grid:make-foreign-array element-type :dimensions (dim0 A)))
      (ws (eltcase complex (make-eigen-herm (dim0 A))
@@ -91,8 +90,7 @@
   referenced.  The eigenvalues are stored in the vector eigenvalues and
   are unordered.")
 
-(defmfun eigenvalues-eigenvectors
-    ((A matrix)
+(defmfun eigenvalues-eigenvectors ((A grid:matrix)
      &optional
      (eigenvalues (grid:make-foreign-array element-type :dimensions (dim0 A)))
      (eigenvectors (grid:make-foreign-array element-type :dimensions (grid:dimensions A)))
@@ -126,7 +124,7 @@
 ;;;;****************************************************************************
 
 (defmfun sort-eigenvalues-eigenvectors
-    ((eigenvalues vector) (eigenvectors matrix) sort-type)
+    ((eigenvalues vector) (eigenvectors grid:matrix) sort-type)
   (double-float "gsl_eigen_symmv_sort"
    complex-double-float "gsl_eigen_hermv_sort")
   (((mpointer eigenvalues) :pointer) ((mpointer eigenvectors) :pointer)

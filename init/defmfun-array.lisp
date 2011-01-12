@@ -1,8 +1,8 @@
 ;; Helpers for defining GSL functions on arrays
 ;; Liam Healy 2009-01-07 22:01:16EST defmfun-array.lisp
-;; Time-stamp: <2010-07-12 12:28:57EDT defmfun-array.lisp>
+;; Time-stamp: <2011-01-12 00:22:59EST defmfun-array.lisp>
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@
     (defn name arglist gsl-name c-arguments categories key-args)
   (setf categories
 	(remove-if-not
-	 (lambda (c) (member c '(both matrix vector)))
+	 (lambda (c) (member c '(both grid:matrix vector)))
 	 categories))
   (if (member 'both categories)
       (progn 
@@ -45,12 +45,12 @@
 	   (optional-args-to-switch-gsl-functions arglist gsl-name))
 	  (copy-list key-args) 'vector)
 	 (generate-methods
-	  defn 'matrix
+	  defn 'grid:matrix
 	  name arglist gsl-name
 	  (actual-array-c-type
-	   'matrix c-arguments
+	   'grid:matrix c-arguments
 	   (optional-args-to-switch-gsl-functions arglist gsl-name))
-	  (copy-list key-args) 'matrix)))
+	  (copy-list key-args) 'grid:matrix)))
       ;; Generate forms for one category
       (generate-methods
        defn (first categories)
@@ -149,7 +149,7 @@
 			base-name))))))))))
 
 (defun actual-array-class (category element-type &optional replace-both)
-  "From the category ('vector, 'matrix, or 'both) and element type,
+  "From the category ('vector, 'grid:matrix, or 'both) and element type,
    find the class name."
   (case category
     (:element-type (grid:number-class element-type))

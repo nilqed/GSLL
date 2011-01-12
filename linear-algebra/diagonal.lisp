@@ -1,8 +1,8 @@
 ;; Tridiagonal and Bidiagonal matrices
 ;; Liam Healy, Thu May  4 2006 - 15:43
-;; Time-stamp: <2010-06-30 19:57:28EDT diagonal.lisp>
+;; Time-stamp: <2011-01-12 00:49:45EST diagonal.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -35,7 +35,7 @@
 ;;; A = U T U^T where U is a unitary
 ;;; matrix and T is a real symmetric tridiagonal matrix.
 
-(defmfun tridiagonal-decomposition ((A matrix) tau)
+(defmfun tridiagonal-decomposition ((A grid:matrix) tau)
   (double-float "gsl_linalg_symmtd_decomp"
    complex-double-float "gsl_linalg_hermtd_decomp")
   (((mpointer A) :pointer) ((mpointer tau) :pointer))
@@ -53,7 +53,7 @@
    Q.  This storage scheme is the same as used by lapack.  The
    upper triangular part of A is not referenced.")
 
-(defmfun tridiagonal-unpack ((A matrix) tau Q diag subdiag)
+(defmfun tridiagonal-unpack ((A grid:matrix) tau Q diag subdiag)
   (double-float "gsl_linalg_symmtd_unpack"
    complex-double-float "gsl_linalg_hermtd_unpack")
   (((mpointer A) :pointer) ((mpointer tau) :pointer)
@@ -69,7 +69,7 @@
   orthogonal or unitary matrix Q, the vector of diagonal elements diag
   and the real vector of subdiagonal elements subdiag.")
 
-(defmfun tridiagonal-unpack-T ((A matrix) diag subdiag)
+(defmfun tridiagonal-unpack-T ((A grid:matrix) diag subdiag)
   (double-float "gsl_linalg_symmtd_unpack_T"
    complex-double-float "gsl_linalg_hermtd_unpack_T")
   (((mpointer A) :pointer) ((mpointer diag) :pointer)

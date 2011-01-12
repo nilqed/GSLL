@@ -1,8 +1,8 @@
 ;; Fast fourier transform tests
 ;; Liam Healy 2010-08-14 11:58:26EDT fast-fourier-transform.lisp
-;; Time-stamp: <2010-09-04 17:07:32EDT fast-fourier-transform.lisp>
+;; Time-stamp: <2011-01-12 00:50:11EST fast-fourier-transform.lisp>
 ;;
-;; Copyright 2010 Liam M. Healy
+;; Copyright 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@
   "Make a grid that is all of the original array except that the
    stride points are excluded."
   (grid:make-foreign-array
-   (element-type array)
+   (grid:element-type array)
    :initial-contents
    (loop for i from 0 below (grid:total-size array)
       unless (zerop (mod i stride))

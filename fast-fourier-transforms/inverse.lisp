@@ -1,6 +1,6 @@
 ;; Inverse FFT
 ;; Sumant Oemrawsingh, Sat Oct 24 2009 - 12:55
-;; Time-stamp: <2011-01-10 17:59:24EST inverse.lisp>
+;; Time-stamp: <2011-01-11 23:34:17EST inverse.lisp>
 ;;
 ;; Copyright 2009, 2011 Sumant Oemrawsingh, Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -138,13 +138,13 @@
     (remf pass-on-args :decimation-in-frequency)
     (remf pass-on-args :non-radix-2)
     (if (and (not non-radix-2) (power-of-2-p (floor (size vector) stride)))
-	(if (subtypep (element-type vector) 'real)
+	(if (subtypep (grid:element-type vector) 'real)
 	    (apply 'inverse-fourier-transform-halfcomplex-radix2
 		   vector pass-on-args)
 	    (if decimation-in-frequency
 		(apply 'inverse-fourier-transform-dif-radix2 vector pass-on-args)
 		(apply 'inverse-fourier-transform-radix2 vector pass-on-args)))
-	(if (subtypep (element-type vector) 'real)
+	(if (subtypep (grid:element-type vector) 'real)
 	    (apply 'inverse-fourier-transform-halfcomplex-nonradix2
 		   vector pass-on-args)
 	    (apply 'inverse-fourier-transform-nonradix2 vector pass-on-args)))))
