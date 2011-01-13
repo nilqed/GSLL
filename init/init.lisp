@@ -1,6 +1,6 @@
 ;; Load GSL
 ;; Liam Healy Sat Mar  4 2006 - 18:53
-;; Time-stamp: <2011-01-12 00:35:16EST init.lisp>
+;; Time-stamp: <2011-01-13 09:38:45EST init.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -19,23 +19,36 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 (defpackage gsll
-  (:nicknames :gsl)
+    (:nicknames :gsl)
   (:use :common-lisp :cffi)
   (:import-from :grid #:dim0 #:dim1 #:^ #:copy)
-  (:export #:dim0 #:dim1 #:copy))
+  (:export #:dim0 #:dim1 #:copy)
+  ;; No actual conflict due to different usage of symbols:
+  ;; antik:psi means "pounds per square inch" vs. function #'gsl:psi
+  ;; antik:knots means "nautical miles per hour" vs. function #'gsl:knots
+  ;; antik:acceleration refers to the time derivative of velocity vs. object 'gsl:acceleration.
+  ;; si units symbol-macro vs. GSLL's sine integral.
+  (:shadowing-import-from :antik #:psi #:knots #:acceleration #:si))
 
-;;; Where there is a symbol conflict, take the other one.
-(shadow '#:row :antik-user) ; conflict with grid:row; they are equivalent
-(shadow '#:column :antik-user) ; conflict with grid:column; they are equivalent
-(shadow '#:sum :antik-user) ; conflict of histogram function with iterate:sum, both pretty obscure
-(shadow '#:multiply :antik-user) ; conflict if GSL's duplicate '* with iterate:multiply
-(shadow '#:si :antik-user) ; si units symbol-macro vs. GSLL's sine integral; technically not a conflict
-(shadow '#:polar-to-rectangular :antik-user) ; GSLL's doesn't use vectors
-(shadow '#:rectangular-to-polar :antik-user) ; GSLL's doesn't use vectors
-;;; Where there is a symbol conflict, take GSLL's
-(shadowing-import 'gsl::iterate :antik-user) ; conflict with iterate:iterate, but iterate:iter is a synonym
+(setf
+ antik::*antik-user-shadow-symbols*
+ (append antik::*antik-user-shadow-symbols*
+	 ;; Where there is a symbol conflict between GSLL and other packages,
+	 '(
+	   ;; take from the other package
+	   grid:row			; GSLL alternate is equivalent
+	   grid:column			; GSLL alternate is equivalent
+	   iterate:sum ; GSLL histogram function, both pretty obscure
+	   iterate:multiply		; GSLL function duplicates '*
+	   antik:polar-to-rectangular	; GSLL's doesn't use vectors
+	   antik:rectangular-to-polar	; GSLL's doesn't use vectors
+	   ;; taken from GSLL
+	   gsll::iterate ; conflict with iterate:iterate, but iterate:iter is a synonym
+	   ))
+ antik::*antik-user-use-packages*
+ (cons '#:gsll antik::*antik-user-use-packages*))
 
-(use-package :gsll :antik-user)
+(antik:make-user-package :antik-user)	; Add the new use package and shadow symbols to :antik-user
 
 (in-package :gsl)
 

@@ -1,6 +1,6 @@
 ;; Psi (digamma) functions
 ;; Liam Healy, Mon May  1 2006 - 22:11
-;; Time-stamp: <2011-01-10 10:21:07EST psi.lisp>
+;; Time-stamp: <2011-01-13 10:25:00EST psi.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -19,11 +19,6 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 (in-package :gsl)
-
-;;; antik:psi means "pounds per square inch" but there's no conflict
-;;; here with the function #'gsl:psi, so we shadow import the symbol
-;;; from antik.
-(shadowing-import 'antik:psi)
 
 ;;;;****************************************************************************
 ;;;; Digamma Function

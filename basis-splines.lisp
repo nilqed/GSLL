@@ -1,6 +1,6 @@
 ;; Basis splines.
 ;; Liam Healy 2008-02-18 14:43:20EST basis-splines.lisp
-;; Time-stamp: <2011-01-10 10:30:07EST basis-splines.lisp>
+;; Time-stamp: <2011-01-13 10:24:59EST basis-splines.lisp>
 ;;
 ;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -19,11 +19,6 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 (in-package :gsl)
-
-;;; antik:knots means "nautical miles per hour" but there's no conflict
-;;; here with the function #'gsl:knots, so we shadow import the symbol
-;;; from antik.
-(shadowing-import 'antik:knots)
 
 ;;; /usr/include/gsl/gsl_bspline.h
 

@@ -1,6 +1,6 @@
 ;; Index lookup and acceleration
 ;; Liam Healy, Sun Nov  4 2007 - 18:09
-;; Time-stamp: <2011-01-10 10:29:57EST lookup.lisp>
+;; Time-stamp: <2011-01-13 10:24:57EST lookup.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -19,11 +19,6 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 (in-package :gsl)
-
-;;; antik:acceleration refers to the time derivative of velocity but
-;;; there's no conflict here with the object 'gsl:acceleration, so we
-;;; shadow import the symbol from antik.
-(shadowing-import 'antik:acceleration)
 
 (defmobject acceleration "gsl_interp_accel"
   ()
