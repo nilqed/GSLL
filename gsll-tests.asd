@@ -1,8 +1,8 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2010-10-03 18:11:16EDT gsll-tests.asd>
+;; Time-stamp: <2011-01-22 16:25:49EST gsll-tests.asd>
 ;;
-;; Copyright 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@
   :version "0"
   :author "Liam M. Healy"
   :licence "GPL v3"
-  :depends-on (gsll foreign-array-tests lisp-unit)
+  :depends-on (gsll lisp-unit)
   :components
   ((:module test-unit
 	    :components
