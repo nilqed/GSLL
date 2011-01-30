@@ -1,6 +1,6 @@
 ;; LU decomposition
 ;; Liam Healy, Thu Apr 27 2006 - 12:42
-;; Time-stamp: <2011-01-12 00:44:43EST lu.lisp>
+;; Time-stamp: <2011-01-30 11:00:48EST lu.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -95,7 +95,10 @@
   A x = b, using the LU decomposition of A into (LU,p). The initial
   residual r = A x - b is also computed and stored in residual. ")
 
-(defmfun LU-invert ((LU grid:matrix) p inverse)
+(defmfun LU-invert
+    ((LU grid:matrix) p
+     &optional (inverse
+		(grid:make-foreign-array element-type :dimensions (grid:dimensions LU))))
   ("gsl_linalg" :complex "_LU_invert")
   (((mpointer LU) :pointer) ((mpointer p) :pointer)
    ((mpointer inverse) :pointer))
@@ -112,7 +115,7 @@
    the same result more efficiently and reliably (consult any
    introductory textbook on numerical linear algebra for details).")
 
- (defmfun LU-determinant ((LU grid:matrix) signum)
+(defmfun LU-determinant ((LU grid:matrix) signum)
   ("gsl_linalg" :complex "_LU_det")
   (((mpointer LU) :pointer) (signum :int))
   :definition :generic

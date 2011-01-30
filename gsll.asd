@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2011-01-30 10:00:04EST gsll.asd>
+;; Time-stamp: <2011-01-30 10:41:57EST gsll.asd>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -266,11 +266,7 @@
 	    :components
 	    ((cffi-grovel:grovel-file "mksa")
 	     (cffi-grovel:grovel-file "cgsm")
-	     (:file export)))
-   (:module antik
-	    :depends-on (init linear-algebra)
-	    :components
-	    ((:file "linear-algebra")))))
+	     (:file export)))))
 
 (asdf:defsystem-connection GSLL-tests
   :name "GSLL-tests"
