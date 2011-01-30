@@ -1,6 +1,6 @@
 ;; Helpers for defining GSL functions on arrays
 ;; Liam Healy 2009-01-07 22:01:16EST defmfun-array.lisp
-;; Time-stamp: <2011-01-12 00:22:59EST defmfun-array.lisp>
+;; Time-stamp: <2011-01-29 21:40:31EST defmfun-array.lisp>
 ;;
 ;; Copyright 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -154,13 +154,15 @@
   (case category
     (:element-type (grid:number-class element-type))
     (:component-float-type
-     (grid:number-class (grid:component-float-type element-type)))
-    (otherwise
-     (grid:data-class-name
-      (if (and (eq category 'both) replace-both)
-	  replace-both
-	  category)
-      element-type))))
+       (grid:number-class (grid:component-float-type element-type)))
+    ((vector grid:matrix both)
+       (grid:data-class-name
+	(if (and (eq category 'both) replace-both)
+	    replace-both
+	    category)
+	element-type))
+    ;; an actual not-to-be-replaced class name
+    (otherwise category)))
 
 (defun actual-class-arglist
     (arglist element-type c-arguments &optional replace-both)
