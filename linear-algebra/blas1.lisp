@@ -1,6 +1,6 @@
 ;; BLAS level 1, Vector operations
 ;; Liam Healy, Wed Apr 26 2006 - 15:23
-;; Time-stamp: <2011-01-10 18:16:22EST blas1.lisp>
+;; Time-stamp: <2011-02-12 16:13:02EST blas1.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -22,11 +22,11 @@
 
 ;;; /usr/include/gsl/gsl_blas.h
 
-(defmfun dot ((vec1 vector) (vec2 vector))
+(defmfun grid:inner ((vec1 vector) (vec2 vector))
   ("gsl_blas_" :type "dot" :suffix)
   (((mpointer vec1) :pointer) ((mpointer vec2) :pointer)
    (result (:pointer :element-c-type)))
-  :definition :generic
+  :definition :methods
   :element-types :float-complex
   :inputs (vec1 vec2)
   :documentation			; FDL
