@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2010-08-13 11:36:52EDT gsll.asd>
+;; Time-stamp: <2011-02-26 20:44:27EST gsll.asd>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -30,6 +30,28 @@
   :version "0"
   :author "Liam M. Healy"
   :licence "GPL v3"
+  :description "An interface to the GNU Scientific Library (GSL) from Common Lisp."
+  :long-description
+  "The GNU Scientific Library for Lisp (GSLL) allows you to use the
+GNU Scientific Library (GSL) from Common Lisp.  This library provides
+a full range of common mathematical operations useful to scientific
+and engineering applications.  The design of the GSLL interface is
+such that access to most of the GSL library is possible in a
+Lisp-natural way; the intent is that the user not be hampered by the
+restrictions of the C language in which GSL has been written.  GSLL
+thus provides interactive use of GSL for getting quick answers, even
+for someone not intending to program in Lisp.
+      
+Topics include: roots of polynomials, special functions, vectors and
+matrices, permutations, sorting, BLAS (basic linear algebra
+subprograms), linear algebra, eigensystems, fast Fourier transforms,
+quadrature, random numbers, quasi-random sequences, random
+distributions, statistics, histograms, N-tuples, Monte Carlo
+integration, simulated annealing, differential equations,
+interpolation, numerical differentiation, Chebyshev approximation,
+series acceleration, discrete Hankel transforms, root-finding,
+minimization least-squares fitting, IEEE floating-point, discrete
+wavelet transforms."
   :depends-on (foreign-array grid cffi cffi-grovel trivial-garbage #+fsbv fsbv)
   :components
   ((:module init
