@@ -1,6 +1,6 @@
 ;; ODE system setup
 ;; Liam Healy, Sun Apr 15 2007 - 14:19
-;; Time-stamp: <2010-06-30 19:57:28EDT ode-system.lisp>
+;; Time-stamp: <2011-04-08 09:20:01EDT ode-system.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -20,7 +20,7 @@
 
 (in-package :gsl)
 
-(export '(with-ode-integration))
+(export '(with-ode-integration next-step))
 
 (defmacro with-ode-integration
     ((function time step-size max-time dependent dimensions
