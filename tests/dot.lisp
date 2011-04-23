@@ -32,7 +32,7 @@
 	    'SINGLE-FLOAT
 	    :INITIAL-CONTENTS
 	    '(32.5f0 42.73f0 -17.24f0 43.31f0 -16.12f0 -8.25f0 21.44f0 -49.08f0))))
-      (DOT V1 V2))))
+      (GRID:INNER V1 V2))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST 6.528400000000033d0)
    (MULTIPLE-VALUE-LIST
@@ -48,7 +48,7 @@
 	    '(32.5d0 42.73d0 -17.24d0 43.31d0
 	      -16.12d0 -8.25d0 21.44d0
 	      -49.08d0))))
-      (DOT V1 V2))))
+      (GRID:INNER V1 V2))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #C(625.9737f0 -4310.1177f0))
    (MULTIPLE-VALUE-LIST
@@ -66,7 +66,7 @@
 	    '(#C(32.5f0 42.73f0) #C(-17.24f0 43.31f0) #C(-16.12f0 -8.25f0)
 	      #C(21.44f0 -49.08f0) #C(-39.66f0 -49.46f0)
 	      #C(19.68f0 -5.55f0) #C(-8.82f0 25.37f0) #C(-30.58f0 31.67f0)))))
-      (DOT V1 V2))))
+      (GRID:INNER V1 V2))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #C(625.9736000000007d0 -4310.1183d0))
    (MULTIPLE-VALUE-LIST
@@ -87,4 +87,4 @@
 	      #C(-39.66d0 -49.46d0)
 	      #C(19.68d0 -5.55d0) #C(-8.82d0 25.37d0)
 	      #C(-30.58d0 31.67d0)))))
-      (DOT V1 V2)))))
+      (GRID:INNER V1 V2)))))

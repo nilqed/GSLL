@@ -1,6 +1,6 @@
 ;; QR decomposition
 ;; Liam Healy 2008-02-17 11:05:20EST qr.lisp
-;; Time-stamp: <2011-02-19 13:08:23EST qr.lisp>
+;; Time-stamp: <2011-04-23 17:14:30EDT qr.lisp>
 ;;
 ;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -62,7 +62,7 @@
 (defmfun QR-solve
     (QR tau b &optional x-spec
 	&aux
-	(x (grid:ensure-foreign-array x-spec (grid:dimensions b) t)))
+	(x (grid:ensure-foreign-array x-spec (grid:dimensions b))))
   ("gsl_linalg_QR_svx" "gsl_linalg_QR_solve")
   ((((mpointer QR) :pointer) ((mpointer tau) :pointer)
     ((mpointer b) :pointer))
@@ -129,7 +129,7 @@
 (defmfun QR-Rsolve
     (QR b &optional x-spec
        &aux
-       (x (grid:ensure-foreign-array x-spec (grid:dimensions b) t)))
+       (x (grid:ensure-foreign-array x-spec (grid:dimensions b))))
   ("gsl_linalg_QR_Rsvx" "gsl_linalg_QR_Rsolve")
   ((((mpointer QR) :pointer) ((mpointer b) :pointer))
    (((mpointer QR) :pointer) ((mpointer b) :pointer) ((mpointer x) :pointer)))
@@ -189,7 +189,7 @@
 (defmfun R-solve
     (R b &optional x-spec
        &aux
-       (x (grid:ensure-foreign-array x-spec (grid:dimensions b) t)))
+       (x (grid:ensure-foreign-array x-spec (grid:dimensions b))))
   ("gsl_linalg_R_svx" "gsl_linalg_R_solve")
   ((((mpointer R) :pointer) ((mpointer b) :pointer))
    (((mpointer R) :pointer) ((mpointer b) :pointer) ((mpointer x) :pointer)))

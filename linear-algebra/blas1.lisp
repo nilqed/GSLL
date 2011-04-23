@@ -1,6 +1,6 @@
 ;; BLAS level 1, Vector operations
 ;; Liam Healy, Wed Apr 26 2006 - 15:23
-;; Time-stamp: <2011-02-12 16:13:02EST blas1.lisp>
+;; Time-stamp: <2011-04-23 17:04:06EDT blas1.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -210,7 +210,7 @@
 (generate-all-array-tests dot :float-complex
  (let ((v1 (array-default 8))
        (v2 (array-default 8)))
-   (dot v1 v2)))
+   (grid:inner v1 v2)))
 
 (generate-all-array-tests cdot :complex
  (let ((v1 (array-default 8))

@@ -1,6 +1,6 @@
 ;; QR with column pivoting
 ;; Liam Healy, Fri Apr 28 2006 - 16:53
-;; Time-stamp: <2011-02-19 13:08:22EST qrpt.lisp>
+;; Time-stamp: <2011-04-23 17:15:46EDT qrpt.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -80,7 +80,7 @@
 (defmfun QRPT-solve
     (QR tau permutation b &optional x-spec
        &aux
-       (x (grid:ensure-foreign-array x-spec (grid:dimensions b) t)))
+       (x (grid:ensure-foreign-array x-spec (grid:dimensions b))))
   ("gsl_linalg_QRPT_svx" "gsl_linalg_QRPT_solve")
   ((((mpointer QR) :pointer) ((mpointer tau) :pointer)
     ((mpointer permutation) :pointer) ((mpointer b) :pointer))
@@ -131,7 +131,7 @@
 (defmfun QRPT-Rsolve
     (QR permutation b &optional x-spec
        &aux
-       (x (grid:ensure-foreign-array x-spec (grid:dimensions b) t)))
+       (x (grid:ensure-foreign-array x-spec (grid:dimensions b))))
   ("gsl_linalg_QRPT_Rsvx" "gsl_linalg_QRPT_Rsolve")
   ((((mpointer QR) :pointer) ((mpointer permutation) :pointer)
     ((mpointer b) :pointer))
