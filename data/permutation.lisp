@@ -1,6 +1,6 @@
 ;; Permutations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2011-01-10 18:16:26EST permutation.lisp>
+;; Time-stamp: <2011-05-26 12:37:36EDT permutation.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -339,7 +339,7 @@
 
 (save-test permutation
  (let ((perm-1 (make-permutation 4 t)))
-   (grid:gref perm-1 2))
+   (grid:aref perm-1 2))
  (let ((perm-1 (make-permutation 4 t)))	;grid:contents
    (grid:contents perm-1))
  (let ((perm-1 (make-permutation 4 t)))	;permutation-reverse

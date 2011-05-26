@@ -1,6 +1,6 @@
 ;; Fast fourier transform tests
 ;; Liam Healy 2010-08-14 11:58:26EDT fast-fourier-transform.lisp
-;; Time-stamp: <2011-01-12 00:50:11EST fast-fourier-transform.lisp>
+;; Time-stamp: <2011-05-26 12:37:30EDT fast-fourier-transform.lisp>
 ;;
 ;; Copyright 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -31,7 +31,7 @@
    :initial-contents
    (loop for i from 0 below (grid:total-size array)
       unless (zerop (mod i stride))
-      collect (grid:gref* array i))))
+      collect (grid:aref* array i))))
 
 (defun fft-complex-off-stride-check (vector stride offset)
   (loop with size = (size vector)
@@ -40,7 +40,7 @@
 	unless (lisp-unit:numerical-equal
 		 (complex (+ offset (* 2 i))
 			  (+ offset (* 2 i) 1))
-		 (grid:gref vector i))
+		 (grid:aref vector i))
 	return nil
 	finally
 	(return t)))

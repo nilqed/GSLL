@@ -1,6 +1,6 @@
 ;; BLAS level 1, Vector operations
 ;; Liam Healy, Wed Apr 26 2006 - 15:23
-;; Time-stamp: <2011-04-23 17:04:06EDT blas1.lisp>
+;; Time-stamp: <2011-05-26 12:37:34EDT blas1.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -264,7 +264,7 @@
        (sines (array-default 8 t))
        (cosines (array-default 8 t)))
    (loop for i below 8 do
-	(setf (grid:gref sines i) (sin (grid:gref angles i)))
-	(setf (grid:gref cosines i) (cos (grid:gref angles i))))
+	(setf (grid:aref sines i) (sin (grid:aref angles i)))
+	(setf (grid:aref cosines i) (cos (grid:aref angles i))))
    (givens-rotation v1 v2 cosines sines)
    (list (grid:copy-to v1) (grid:copy-to v2))))

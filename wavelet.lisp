@@ -1,6 +1,6 @@
 ;; Wavelet transforms.
 ;; Liam Healy, Mon Nov 26 2007 - 20:43
-;; Time-stamp: <2011-01-10 17:55:15EST wavelet.lisp>
+;; Time-stamp: <2011-05-26 12:37:28EDT wavelet.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -388,13 +388,13 @@
     (let ((absvector (grid:make-foreign-array 'double-float :dimensions n))
 	  (permutation (make-permutation n)))
       (dotimes (i n)
-	(setf (grid:gref absvector i) (abs (grid:gref vector i))))
+	(setf (grid:aref absvector i) (abs (grid:aref vector i))))
       ;; Sort and set to 0 all but the largest 20.
       (sort-vector-index permutation absvector)
       (dotimes (i (- n 20))
-	(setf (grid:gref vector (grid:gref permutation i))
+	(setf (grid:aref vector (grid:aref permutation i))
 	      0.0d0))) ;; Transform back
-    (dotimes (i n) (format t "~&~a" (grid:gref vector i)))
+    (dotimes (i n) (format t "~&~a" (grid:aref vector i)))
     (wavelet-transform-inverse wavelet vector 1 workspace)
     (grid:copy-to vector)))
 

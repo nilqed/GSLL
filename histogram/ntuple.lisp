@@ -1,6 +1,6 @@
 ;; N-tuples
 ;; Liam Healy Sat Feb  3 2007 - 12:53
-;; Time-stamp: <2010-06-30 19:57:28EDT ntuple.lisp>
+;; Time-stamp: <2011-05-26 12:37:35EDT ntuple.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -235,7 +235,7 @@
       (close-ntuple ntuple)
       ;; Check the histogram to see if it matches ntuple-example-values
       (dotimes (row 100 t)
-	(unless (= (grid:gref histo row) (aref answer row))
+	(unless (= (grid:aref histo row) (aref answer row))
 	  (return nil))))))
 
 (save-test ntuple

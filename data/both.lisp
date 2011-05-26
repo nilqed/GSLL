@@ -1,6 +1,6 @@
 ;; Functions for both vectors and matrices.
 ;; Liam Healy 2008-04-26 20:48:44EDT both.lisp
-;; Time-stamp: <2011-01-12 00:38:30EST both.lisp>
+;; Time-stamp: <2011-05-26 12:37:36EDT both.lisp>
 ;;
 ;; Copyright 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -81,7 +81,7 @@
 ;;;;****************************************************************************
 ;;;; Array elements; used in callbacks scalarsp=T only
 ;;;;****************************************************************************
-;;; Normal foreign array access is with grid:gref, but in order to
+;;; Normal foreign array access is with grid:aref, but in order to
 ;;; avoid the overhead of instantiating a foreign-array object to
 ;;; access components, we use these macros which expand to gsl_*_get
 ;;; and gsl_*_set.

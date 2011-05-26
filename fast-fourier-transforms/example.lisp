@@ -1,6 +1,6 @@
 ;; Example FFT: transform a pulse (using the "clean" fft interface)
 ;; Sumant Oemrawsingh, Sat Oct 31 2009 - 00:24
-;; Time-stamp: <2011-01-11 23:32:17EST example.lisp>
+;; Time-stamp: <2011-05-26 12:37:35EDT example.lisp>
 ;;
 ;; Copyright 2009, 2010, 2011 Sumant Oemrawsingh, Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -42,10 +42,10 @@
   (assert (and (integerp dimension) (> dimension 20)))
   (let ((pulse (grid:make-foreign-array element-type :dimensions dimension))
         (init-value (coerce 1 element-type)))
-    (setf (grid:gref pulse 0) init-value)
+    (setf (grid:aref pulse 0) init-value)
     (loop for i from 1 to 10
-          do (setf (grid:gref pulse i) init-value
-                   (grid:gref pulse (- dimension i)) init-value))
+          do (setf (grid:aref pulse i) init-value
+                   (grid:aref pulse (- dimension i)) init-value))
     (forward-fourier-transform pulse)))
 
 (save-test
@@ -82,7 +82,7 @@
     (when init-offset
       (loop for i from 0 below size
             do
-            (setf (grid:gref vec i)
+            (setf (grid:aref vec i)
                   (if (subtypep element-type 'complex)
                     (coerce (complex (+ (* 2 i) init-offset)
                                      (+ (* 2 i) init-offset 1))
@@ -97,7 +97,7 @@
                                    (* stride dimension) :init-offset init-offset)))
     (loop for i from 0 below (* stride dimension) by stride
        do
-       (setf (grid:gref vec i)
+       (setf (grid:aref vec i)
 	     (if (subtypep element-type 'complex)
 		 (coerce (complex (urand) (urand)) element-type)
 		 (complex (coerce (urand) element-type)))))
@@ -112,8 +112,8 @@
             :init-offset init-offset)))
     (loop for i below (size complex-vector) by stride
           do
-          (setf (grid:gref real-vector i)
-                (realpart (grid:gref complex-vector i))))
+          (setf (grid:aref real-vector i)
+                (realpart (grid:aref complex-vector i))))
     real-vector))
 
 (defun copy-with-stride (vector &key (stride 1) init-offset)
@@ -125,7 +125,7 @@
 	  :init-offset init-offset)))
     (loop for i below (size vector) by stride
           do
-       (setf (grid:gref vec i) (grid:gref vector i)))
+       (setf (grid:aref vec i) (grid:aref vector i)))
     vec))
 
 (defun size-vector-scalar (vector &key (stride 1))
@@ -144,7 +144,7 @@
     (loop with length = (size-vector-scalar vector :stride stride)
           for i from 0 below (size vector) by stride
           do
-          (setf (grid:gref vector i) (coerce (/ (grid:gref vector i) length) element-type)))
+          (setf (grid:aref vector i) (coerce (/ (grid:aref vector i) length) element-type)))
   vector))
 
 (defun test-real-fft-noise (vector &key (stride 1) non-radix-2)

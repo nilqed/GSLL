@@ -1,6 +1,6 @@
 ;; Series acceleration.
 ;; Liam Healy, Wed Nov 21 2007 - 18:41
-;; Time-stamp: <2011-01-10 17:59:30EST series-acceleration.lisp>
+;; Time-stamp: <2011-05-26 12:37:29EDT series-acceleration.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -95,8 +95,8 @@
     (let ((levin (make-levin maxterms))
 	  (array (grid:make-foreign-array 'double-float :dimensions maxterms)))
       (dotimes (n maxterms)
-	(setf (grid:gref array n) (coerce (/ (expt (1+ n) 2)) 'double-float))
-	(incf sum (grid:gref array n)))
+	(setf (grid:aref array n) (coerce (/ (expt (1+ n) 2)) 'double-float))
+	(incf sum (grid:aref array n)))
       (multiple-value-bind (accelerated-sum error)
 	  (accelerate array levin)
 	(when print-explanation

@@ -1,6 +1,6 @@
 ;; Linear least squares, or linear regression
 ;; Liam Healy <2008-01-21 12:41:46EST linear-least-squares.lisp>
-;; Time-stamp: <2011-01-10 18:16:18EST linear-least-squares.lisp>
+;; Time-stamp: <2011-05-26 12:37:31EDT linear-least-squares.lisp>
 ;;
 ;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -315,15 +315,15 @@
 	(loop for i from 0 below (dim0 x)
 	   do
 	   (format t "data: ~12,5f ~12,5f ~12,5f~&"
-		   (grid:gref x i)
-		   (grid:gref y i)
-		   (/ (grid:gref w i))))
+		   (grid:aref x i)
+		   (grid:aref y i)
+		   (/ (grid:aref w i))))
 	(loop for i from -30 below 130 by 10 ; don't print everything
 	   for
-	   xf = (+ (grid:gref x 0)
+	   xf = (+ (grid:aref x 0)
 		   (* (/ i 100)
-		      (- (grid:gref x (1- (dim0 x)))
-			 (grid:gref x 0))))
+		      (- (grid:aref x (1- (dim0 x)))
+			 (grid:aref x 0))))
 	   do
 	   (multiple-value-bind (yf yferr)
 	       (linear-estimate xf c0 c1 cov00 cov01 cov11)
@@ -353,26 +353,26 @@
 	 (w (grid:make-foreign-array 'double-float :dimensions n)))
     (loop for i from 0
        for row in data do
-       (setf (grid:gref X i 0) 1.0d0
-	     (grid:gref X i 1) (first row)
-	     (grid:gref X i 2) (expt (first row) 2)
-	     (grid:gref y i) (second row)
-	     (grid:gref w i) (/ (expt (third row) 2))))
+       (setf (grid:aref X i 0) 1.0d0
+	     (grid:aref X i 1) (first row)
+	     (grid:aref X i 2) (expt (first row) 2)
+	     (grid:aref y i) (second row)
+	     (grid:aref w i) (/ (expt (third row) 2))))
     (multiple-value-bind (parameters cov chisq)
 	(linear-mfit X y 3 w)
       (when print-details
 	(format t "Best fit: Y = ~10,8f + ~10,8f X + ~10,8f X^2~&"
-		(grid:gref parameters 0) (grid:gref parameters 1) (grid:gref parameters 2))
+		(grid:aref parameters 0) (grid:aref parameters 1) (grid:aref parameters 2))
 	(format t "Covariance matrix:~&")
 	(format t "~10,8f ~10,8f ~10,8f~&"
-		(grid:gref cov 0 0) (grid:gref cov 0 1) (grid:gref cov 0 2))
+		(grid:aref cov 0 0) (grid:aref cov 0 1) (grid:aref cov 0 2))
 	(format t "~10,8f ~10,8f ~10,8f~&"
-		(grid:gref cov 1 0) (grid:gref cov 1 1) (grid:gref cov 1 2))
+		(grid:aref cov 1 0) (grid:aref cov 1 1) (grid:aref cov 1 2))
 	(format t "~10,8f ~10,8f ~10,8f~&"
-		(grid:gref cov 2 0) (grid:gref cov 2 1) (grid:gref cov 2 2))
+		(grid:aref cov 2 0) (grid:aref cov 2 1) (grid:aref cov 2 2))
 	(format t "Chisq = ~10,6f~&" chisq))
       (values
-       (grid:gref parameters 0) (grid:gref parameters 1) (grid:gref parameters 2)
+       (grid:aref parameters 0) (grid:aref parameters 1) (grid:aref parameters 2)
        chisq))))
 
 (save-test linear-least-squares

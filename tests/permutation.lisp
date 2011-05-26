@@ -23,7 +23,7 @@
    (LIST 2)
    (MULTIPLE-VALUE-LIST
     (LET ((PERM-1 (MAKE-PERMUTATION 4 T)))
-      (grid:gref PERM-1 2))))
+      (grid:aref PERM-1 2))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(0 1 2 3))
    (MULTIPLE-VALUE-LIST

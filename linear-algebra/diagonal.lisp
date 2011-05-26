@@ -1,6 +1,6 @@
 ;; Tridiagonal and Bidiagonal matrices
 ;; Liam Healy, Thu May  4 2006 - 15:43
-;; Time-stamp: <2011-01-12 00:49:45EST diagonal.lisp>
+;; Time-stamp: <2011-05-26 12:37:34EDT diagonal.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -255,11 +255,11 @@
 	  (subdiag (mvec (1- n) :initial-element 0.5d0)))
       (setf
        ;; i=0 matrix elements
-       (grid:gref diag 0) 1d0
-       (grid:gref superdiag 0) 0d0
-       (grid:gref b 0) (coerce (expt (1- n) 2) 'double-float)
+       (grid:aref diag 0) 1d0
+       (grid:aref superdiag 0) 0d0
+       (grid:aref b 0) (coerce (expt (1- n) 2) 'double-float)
        ;; i=n-1 matrix elements
-       (grid:gref diag (1- n)) 1d0
-       (grid:gref subdiag (- n 2)) 0d0
-       (grid:gref b (1- n)) 0d0)
+       (grid:aref diag (1- n)) 1d0
+       (grid:aref subdiag (- n 2)) 0d0
+       (grid:aref b (1- n)) 0d0)
       (solve-tridiagonal diag superdiag subdiag b x))))
