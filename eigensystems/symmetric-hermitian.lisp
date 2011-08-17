@@ -1,6 +1,6 @@
 ;; Eigenvectors and eigenvalues
 ;; Liam Healy, Sun May 21 2006 - 19:52
-;; Time-stamp: <2011-01-12 00:09:43EST symmetric-hermitian.lisp>
+;; Time-stamp: <2011-08-17 00:18:16EDT symmetric-hermitian.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -159,9 +159,13 @@
 (defun eigenvalue-eigenvectors-example ()
   (let ((evecs (grid:make-foreign-array 'double-float :dimensions '(3 3)))
 	(evals (grid:make-foreign-array 'double-float :dimensions 3))
-	(mat #m(20.0d0 -10.0d0 0.0d0 ^
-		-10.0d0 30.0d0 0.0d0 ^
-		0.0d0 0.0d0 40.0d0)))
+	(mat
+	 (grid:make-foreign-array
+	  'double-float
+	  :initial-contents
+	  '((20.0d0 -10.0d0 0.0d0)
+	    (-10.0d0 30.0d0 0.0d0)
+	    (0.0d0 0.0d0 40.0d0)))))
     (eigenvalues-eigenvectors mat evals evecs)
     (values (grid:copy-to evals) (grid:copy-to evecs))))
 

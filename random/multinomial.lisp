@@ -1,6 +1,6 @@
 ;; Multinomial distribution
 ;; Liam Healy, Sat Nov 25 2006 - 16:00
-;; Time-stamp: <2011-01-10 17:59:29EST multinomial.lisp>
+;; Time-stamp: <2011-08-16 23:57:09EDT multinomial.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -77,11 +77,14 @@
 ;;; Examples and unit test
 (save-test multinomial
  (let ((rng (make-random-number-generator +mt19937+ 0))
-       (p #m(0.1d0 0.2d0 0.3d0 0.4d0)))
+       (p (grid:make-foreign-array
+	   'double-float :initial-contents '(0.1d0 0.2d0 0.3d0 0.4d0))))
    (grid:copy-to (sample rng :multinomial :sum 8 :probabilities p)))
- (let ((p #m(0.1d0 0.2d0 0.3d0 0.4d0))
+ (let ((p (grid:make-foreign-array
+	   'double-float :initial-contents '(0.1d0 0.2d0 0.3d0 0.4d0)))
        (n #31m(5 0 1 2)))
    (multinomial-pdf p N))
- (let ((p #m(0.1d0 0.2d0 0.3d0 0.4d0))
+ (let ((p (grid:make-foreign-array
+	   'double-float :initial-contents '(0.1d0 0.2d0 0.3d0 0.4d0)))
        (n #31m(5 0 1 2)))
    (multinomial-log-pdf p n)))

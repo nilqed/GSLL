@@ -50,8 +50,8 @@
 	    '((#C(19.68 -5.55) #C(-8.82 25.37) #C(-30.58 31.67))
 	      (#C(25.37 -30.58) #C(31.67 29.36) #C(-33.24 -27.03))
 	      (#C(29.36 -33.24) #C(-27.03 -41.67) #C(42.0 -20.81)))))
-	  (S1 #C(-41.67 42.0))
-	  (S2 #C(42.0 -20.81)))
+	  (S1 #C(-41.67f0 42.0f0))
+	  (S2 #C(42.0f0 -20.81f0)))
       (GRID:COPY-TO
        (MATRIX-PRODUCT-HERMITIAN M1 M2 M3 S1 S2)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
@@ -113,8 +113,8 @@
 	    '(COMPLEX SINGLE-FLOAT)
 	    :INITIAL-CONTENTS
 	    '(#C(-16.12 -8.25) #C(21.44 -49.08) #C(-39.66 -49.46))))
-	  (S1 #C(-49.08 -39.66))
-	  (S2 #C(-39.66 -49.46)))
+	  (S1 #C(-49.08f0 -39.66f0))
+	  (S2 #C(-39.66f0 -49.46f0)))
       (GRID:COPY-TO
        (MATRIX-PRODUCT-HERMITIAN M1 V1 V2 S1 S2)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL

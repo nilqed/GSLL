@@ -1,8 +1,8 @@
 ;; Nonlinear least squares fitting.
 ;; Liam Healy, 2008-02-09 12:59:16EST nonlinear-least-squares.lisp
-;; Time-stamp: <2011-05-26 12:37:32EDT nonlinear-least-squares.lisp>
+;; Time-stamp: <2011-08-17 00:50:45EDT nonlinear-least-squares.lisp>
 ;;
-;; Copyright 2008, 2009 Liam M. Healy
+;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -354,7 +354,8 @@
      (method +levenberg-marquardt+)
      (print-steps t))
   (let ((*nlls-example-data* (generate-nlls-data number-of-observations)))
-    (let* ((init #m(1.0d0 0.0d0 0.0d0))
+    (let* ((init
+	    (grid:make-foreign-array 'double-float :initial-contents '(1.0d0 0.0d0 0.0d0)))
 	   (number-of-parameters 3)
 	   covariance
 	   (fit (make-nonlinear-fdffit

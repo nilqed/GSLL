@@ -1,6 +1,6 @@
 ;; Linear least squares, or linear regression
 ;; Liam Healy <2008-01-21 12:41:46EST linear-least-squares.lisp>
-;; Time-stamp: <2011-05-26 12:37:31EDT linear-least-squares.lisp>
+;; Time-stamp: <2011-08-16 23:46:14EDT linear-least-squares.lisp>
 ;;
 ;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -302,9 +302,18 @@
 (defun linear-least-squares-univariate-example (&optional (print-steps t))
   "First example in Section 36.5 of the GSL manual."
   ;; Results not given in manual so not verified yet.
-  (let ((x #m(1970.0d0 1980.0d0 1990.0d0 2000.0d0))
-	(y #m(12.0d0 11.0d0 14.0d0 13.0d0))
-	(w #m(0.1d0 0.2d0 0.3d0 0.4d0)))
+  (let ((x
+	 (grid:make-foreign-array
+	  'double-float :initial-contents
+	  '(1970.0d0 1980.0d0 1990.0d0 2000.0d0)))
+	(y
+	 (grid:make-foreign-array
+	  'double-float :initial-contents
+	  '(12.0d0 11.0d0 14.0d0 13.0d0)))
+	(w
+	 (grid:make-foreign-array
+	  'double-float :initial-contents
+	  '(0.1d0 0.2d0 0.3d0 0.4d0))))
     (multiple-value-bind (c0 c1 cov00 cov01 cov11 chisq)
 	(linear-fit x y w)
       (when print-steps
@@ -313,18 +322,18 @@
 		cov00 cov01 cov01 cov11)
 	(format t "Chisq = ~g~&" chisq)
 	(loop for i from 0 below (dim0 x)
-	   do
+	      do
 	   (format t "data: ~12,5f ~12,5f ~12,5f~&"
-		   (grid:aref x i)
-		   (grid:aref y i)
-		   (/ (grid:aref w i))))
+		     (grid:aref x i)
+		     (grid:aref y i)
+		     (/ (grid:aref w i))))
 	(loop for i from -30 below 130 by 10 ; don't print everything
-	   for
-	   xf = (+ (grid:aref x 0)
-		   (* (/ i 100)
-		      (- (grid:aref x (1- (dim0 x)))
-			 (grid:aref x 0))))
-	   do
+	      for
+	      xf = (+ (grid:aref x 0)
+		      (* (/ i 100)
+			 (- (grid:aref x (1- (dim0 x)))
+			    (grid:aref x 0))))
+	      do
 	   (multiple-value-bind (yf yferr)
 	       (linear-estimate xf c0 c1 cov00 cov01 cov11)
 	     (format t "fit:~6t~g ~g~&" xf yf)

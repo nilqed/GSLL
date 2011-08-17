@@ -1,6 +1,6 @@
 ;; Monte Carlo Integration
 ;; Liam Healy Sat Feb  3 2007 - 17:42
-;; Time-stamp: <2011-01-10 17:59:20EST monte-carlo.lisp>
+;; Time-stamp: <2011-08-16 23:54:40EDT monte-carlo.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -208,7 +208,9 @@
   (* (/ (expt dpi 3))
      (/ (- 1 (* (cos x) (cos y) (cos z))))))
 
-(defparameter *mc-lower* #m(0.0d0 0.0d0 0.0d0))
+(defparameter *mc-lower*
+  (grid:make-foreign-array
+   'double-float :initial-contents '(0.0d0 0.0d0 0.0d0)))
 
 (defparameter *mc-upper*
   (grid:make-foreign-array

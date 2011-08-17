@@ -240,7 +240,10 @@
     #(0.6713967071418024d0 0.5130161365618323d0
       0.06500818287738516d0))
    (MULTIPLE-VALUE-LIST
-    (grid:copy-to (cylindrical-bessel-J-array-x 0.5d0 #m(1.0d0 2.0d0 3.0d0)))))
+    (grid:copy-to
+     (cylindrical-bessel-J-array-x
+      0.5d0
+      (grid:make-foreign-array 'double-float :initial-contents '(1.0d0 2.0d0 3.0d0))))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST -0.1820221159534852d0 2.020851441225493d-15)
    (MULTIPLE-VALUE-LIST (cylindrical-bessel-Y 3.0d0 4.0d0)))

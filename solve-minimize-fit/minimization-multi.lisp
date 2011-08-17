@@ -1,8 +1,8 @@
 ;; Multivariate minimization.
 ;; Liam Healy  <Tue Jan  8 2008 - 21:28>
-;; Time-stamp: <2011-05-26 12:37:32EDT minimization-multi.lisp>
+;; Time-stamp: <2011-08-17 00:50:24EDT minimization-multi.lisp>
 ;;
-;; Copyright 2008, 2009 Liam M. Healy
+;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -372,22 +372,24 @@
     (let ((minimizer
 	   (make-multi-dimensional-minimizer-f
 	    method 2 'paraboloid-scalar
-	    #m(5.0d0 7.0d0) step-size)))
+	    (grid:make-foreign-array
+	     'double-float :initial-contents '(5.0d0 7.0d0))
+	    step-size)))
       (loop with status = T and size
-	 for iter from 0 below 100
-	 while status
-	 do (iterate minimizer)
-	 (setf size
-	       (size minimizer)
-	       status
-	       (not (min-test-size size 1.0d-2)))
-	 (when print-steps
-	   (let ((x (solution minimizer)))
-	     (format t "~d~6t~10,6f~18t~10,6f~28t~12,9f~40t~8,3f~&"
-		     iter (grid:aref x 0) (grid:aref x 1)
-		     (function-value minimizer)
-		     size)))
-	 finally
+	    for iter from 0 below 100
+	    while status
+	    do (iterate minimizer)
+	       (setf size
+		     (size minimizer)
+		     status
+		     (not (min-test-size size 1.0d-2)))
+	       (when print-steps
+		 (let ((x (solution minimizer)))
+		   (format t "~d~6t~10,6f~18t~10,6f~28t~12,9f~40t~8,3f~&"
+			   iter (grid:aref x 0) (grid:aref x 1)
+			   (function-value minimizer)
+			   size)))
+	    finally
 	 (return
 	   (let ((x (solution minimizer)))
 	     (values (grid:aref x 0) (grid:aref x 1) (function-value minimizer))))))))
@@ -437,16 +439,18 @@
    paraboloid-vector and paraboloid-derivative expect vectors.
    Contrast this with multimin-example-derivative-scalars, which
    expects and returns the scalar components."
-  (let* ((initial #m(5.0d0 7.0d0))
+  (let* ((initial
+	  (grid:make-foreign-array
+	   'double-float :initial-contents '(5.0d0 7.0d0)))
 	 (minimizer
 	  (make-multi-dimensional-minimizer-fdf
 	   method 2
 	   '(paraboloid-vector paraboloid-derivative paraboloid-and-derivative)
 	   initial 0.01d0 1.0d-4 nil)))
     (loop with status = T
-       for iter from 0 below 100
-       while status
-       do
+	  for iter from 0 below 100
+	  while status
+	  do
        (iterate minimizer)
        (setf status
 	     (not (min-test-gradient
@@ -457,7 +461,7 @@
 	   (format t "~d~6t~10,6f~18t~10,6f~28t~12,9f~&"
 		   iter (grid:aref x 0) (grid:aref x 1)
 		   (function-value minimizer))))
-       finally
+	  finally
        (return
 	 (let ((x (solution minimizer)))
 	   (values (grid:aref x 0) (grid:aref x 1) (function-value minimizer)))))))
@@ -481,16 +485,18 @@
    paraboloid-scalar and paraboloid-derivative-scalar expect scalars.
    Contrast this with multimin-example-derivative, which
    expects and returns vectors."
-  (let* ((initial #m(5.0d0 7.0d0))
+  (let* ((initial
+	  (grid:make-foreign-array
+	   'double-float :initial-contents '(5.0d0 7.0d0)))
 	 (minimizer
 	  (make-multi-dimensional-minimizer-fdf
 	   method 2
 	   '(paraboloid-scalar paraboloid-derivative-scalar paraboloid-and-derivative-scalar)
 	   initial 0.01d0 1.0d-4 t)))
     (loop with status = T
-       for iter from 0 below 100
-       while status
-       do
+	  for iter from 0 below 100
+	  while status
+	  do
        (iterate minimizer)
        (setf status
 	     (not (min-test-gradient
@@ -501,7 +507,7 @@
 	   (format t "~d~6t~10,6f~18t~10,6f~28t~12,9f~&"
 		   iter (grid:aref x 0) (grid:aref x 1)
 		   (function-value minimizer))))
-       finally
+	  finally
        (return
 	 (let ((x (solution minimizer)))
 	   (values (grid:aref x 0) (grid:aref x 1) (function-value minimizer)))))))

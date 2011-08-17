@@ -1,6 +1,6 @@
 ;;; Multivariate roots.                
 ;;; Liam Healy 2008-01-12 12:49:08
-;;; Time-stamp: <2011-05-26 12:37:31EDT roots-multi.lisp>
+;;; Time-stamp: <2011-08-16 23:58:35EDT roots-multi.lisp>
 ;;
 ;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -405,13 +405,15 @@
   "Solving Rosenbrock, the example given in Sec. 34.8 of the GSL manual."
   (let ((max-iter 1000)
 	(solver (make-multi-dimensional-root-solver-f 
-		 method 'rosenbrock #m(-10.0d0 -5.0d0))))
+		 method 'rosenbrock
+		 (grid:make-foreign-array
+		  'double-float :initial-contents '(-10.0d0 -5.0d0)))))
     (loop for iter from 0
-       with fnval and argval
-       while (and (< iter max-iter)
-		  (or (zerop iter)
-		      (not (multiroot-test-residual solver 1.0d-7))))
-       do
+	  with fnval and argval
+	  while (and (< iter max-iter)
+		     (or (zerop iter)
+			 (not (multiroot-test-residual solver 1.0d-7))))
+	  do
        (iterate solver)
        (setf fnval (function-value solver)
 	     argval (solution solver))
@@ -422,11 +424,11 @@
 		 (grid:aref argval 1)
 		 (grid:aref fnval 0)
 		 (grid:aref fnval 1)))
-       finally (return
-		 (values (grid:aref argval 0)
-			 (grid:aref argval 1)
-			 (grid:aref fnval 0)
-			 (grid:aref fnval 1))))))
+	  finally (return
+		    (values (grid:aref argval 0)
+			    (grid:aref argval 1)
+			    (grid:aref fnval 0)
+			    (grid:aref fnval 1))))))
 
 (defun rosenbrock-df (arg0 arg1)
   "The partial derivatives of the Rosenbrock functions."
@@ -460,23 +462,24 @@
 	  (solver (make-multi-dimensional-root-solver-fdf
 		   method
 		   '(rosenbrock rosenbrock-df rosenbrock-fdf)
-		   #m(-10.0d0 -5.0d0))))
+		   (grid:make-foreign-array
+		    'double-float :initial-contents '(-10.0d0 -5.0d0)))))
       (loop for iter from 0
-	 with fnval = (function-value solver)
-	 and argval = (solution solver)
-	 while (and (< iter max-iter)
-		    (not (multiroot-test-residual solver 1.0d-7)))
-	 initially (print-state iter argval fnval)
-	 do
+	    with fnval = (function-value solver)
+	    and argval = (solution solver)
+	    while (and (< iter max-iter)
+		       (not (multiroot-test-residual solver 1.0d-7)))
+	      initially (print-state iter argval fnval)
+	    do
 	 (iterate solver)
 	 (setf fnval (function-value solver)
 	       argval (solution solver))
 	 (print-state iter argval fnval)
-	 finally (return
-		   (values (grid:aref argval 0)
-			   (grid:aref argval 1)
-			   (grid:aref fnval 0)
-			   (grid:aref fnval 1)))))))
+	    finally (return
+		      (values (grid:aref argval 0)
+			      (grid:aref argval 1)
+			      (grid:aref fnval 0)
+			      (grid:aref fnval 1)))))))
 
 ;; To see step-by-step information as the solution progresses, make
 ;; the last argument T.
