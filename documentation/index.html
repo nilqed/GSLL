@@ -121,17 +121,7 @@ combination for which the following are supported:</p>
   must be supported.
 </li>
 <li><a href="http://www.cliki.net/trivial-garbage">trivial-garbage</a>
-<li><a href="http://repo.or.cz/w/gsd.git">GSD</a>, the <i>Grid Structured Data</i>; in particular,
-  the <code>foreign-array</code> and <code>grid</code> systems, which
-  uses
-  <ul>
-  <li><a href="http://common-lisp.net/project/alexandria/">Alexandria</a>,</li>
-  <li><a href="http://www.cliki.net/SPLIT-SEQUENCE">split-sequence</a>,</li>
-  <li><a href="http://gitorious.org/iolib/static-vectors">static-vectors</a>
-    <i>(Optional)</i>, provides direct access to foreign arrays from
-    Lisp on some implementations.</li>
-  </ul>  
-<li><a href="http://www.cliki.net/asdf">ASDF</a></li>
+<li><a href="http://repo.or.cz/w/antik.git">Antik</a><li><a href="http://www.cliki.net/asdf">ASDF</a></li>
 <li><a href="http://repo.or.cz/w/lisp-unit.git">lisp-unit</a>, <i>(Optional)</i> necessary 
    to run <code>gsll-tests</code>
 </li>
@@ -241,11 +231,13 @@ T
 <p>
 GSLL has many functions that work on vectors (one-dimensional arrays)
 and matrices (two-dimensional arrays).  Foreign arrays are defined and
-manipulated using the GSD collection which defines generic operations
-on array-like objects; see the GSD documentation for more information.
-GSLL supports all array element types that are supported by CFFI, the
-CL implementation, GSL, and the platform.  This list is available in
-the variable <code>grid:*array-element-types*</code>.
+manipulated using
+the <a href="http://www.common-lisp.net/project/antik/">Antik</a>
+which defines generic operations on array-like objects; see the Antik
+documentation for more information.  GSLL supports all array element
+types that are supported by CFFI, the CL implementation, GSL, and the
+platform.  This list is available in the
+variable <code>grid:*array-element-types*</code>.
 <p>
 
 <h3>Passing functions</h3>
@@ -351,7 +343,7 @@ four-digit number; please attach them all to your email.
 <!-- Created: Feb 25 2005 -->
 <!-- hhmts start -->
 <small>
-Time-stamp: <2011-08-09 22:37:23EDT index.html>
+Time-stamp: <2011-08-17 01:00:15EDT index.html>
 </small>
 <!-- hhmts end -->
  </div>
