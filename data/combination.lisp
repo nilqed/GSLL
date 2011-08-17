@@ -1,8 +1,8 @@
 ;; Combinations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2010-07-16 17:14:03EDT combination.lisp>
+;; Time-stamp: <2011-01-10 18:16:28EST combination.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@
     (setf (grid:metadata-slot object 'mpointer)
 	  mptr
 	  (cffi:foreign-slot-value mptr 'gsl-combination-c 'data)
-	  (foreign-pointer object)
+	  (grid:foreign-pointer object)
 	  (cffi:foreign-slot-value mptr 'gsl-combination-c 'range)
 	  range
 	  (cffi:foreign-slot-value mptr 'gsl-combination-c 'size)
@@ -56,7 +56,7 @@
 	     (make-instance
 	      'combination
 	      :element-type '(unsigned-byte #+int64 64 #+int32 32)
-	      :range (combination-range n) :dimensions (dimensions k))
+	      :range (combination-range n) :dimensions (grid:dimensions k))
 	     (make-instance
 	      'combination
 	      :element-type '(unsigned-byte #+int64 64 #+int32 32)

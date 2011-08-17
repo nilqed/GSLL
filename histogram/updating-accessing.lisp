@@ -1,6 +1,6 @@
 ;; Updating and accessing histogram elements.
 ;; Liam Healy, Mon Jan  1 2007 - 14:43
-;; Time-stamp: <2010-11-14 17:46:45EST updating-accessing.lisp>
+;; Time-stamp: <2011-05-26 12:37:35EDT updating-accessing.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -42,12 +42,12 @@
    histograms for a small range of a larger dataset, ignoring the values
    outside the range of interest.")
 
-(defmfun grid:gref ((histogram histogram) &rest indices)
+(defmfun grid:aref ((histogram histogram) &rest indices)
   "gsl_histogram_get"
   (((mpointer histogram) :pointer) ((first indices) sizet))
   :definition :method 
   :c-return :double
-  :index grid:gref
+  :index grid:aref
   :documentation			; FDL
   "Return the contents of the i-th bin of the histogram.
    If i lies outside the valid range of index for the
@@ -128,22 +128,22 @@
    (set-ranges-uniform histo 0.0d0 10.0d0)
    (increment histo 2.7d0)
    (increment histo 6.9d0 2.0d0)
-   (grid:gref histo 1))
+   (grid:aref histo 1))
  (let ((histo (make-histogram 10)))
    (set-ranges-uniform histo 0.0d0 10.0d0)
    (increment histo 2.7d0)
    (increment histo 6.9d0 2.0d0)
-   (grid:gref histo 2))
+   (grid:aref histo 2))
  (let ((histo (make-histogram 10)))
    (set-ranges-uniform histo 0.0d0 10.0d0)
    (increment histo 2.7d0)
    (increment histo 6.9d0 2.0d0)
-   (grid:gref histo 6))
+   (grid:aref histo 6))
  (let ((histo (make-histogram 10)))
    (set-ranges-uniform histo 0.0d0 10.0d0)
    (increment histo 2.7d0)
    (increment histo 6.9d0 2.0d0)
-   (grid:gref histo 16))
+   (grid:aref histo 16))
  (let ((histo (make-histogram 10)))
    (set-ranges-uniform histo 0.0d0 10.0d0)
    (increment histo 2.7d0)

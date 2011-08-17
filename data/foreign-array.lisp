@@ -1,8 +1,8 @@
 ;; A grid:foreign-array with added metadata for GSL.
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2010-07-13 22:53:02EDT foreign-array.lisp>
+;; Time-stamp: <2011-01-12 00:34:42EST foreign-array.lisp>
 ;;
-;; Copyright 2008, 2009, 2010 Liam M. Healy
+;; Copyright 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -44,7 +44,7 @@
       (setf (cffi:foreign-slot-value blockptr 'gsl-block-c 'size)
 	    (size object)
 	    (cffi:foreign-slot-value blockptr 'gsl-block-c 'data)
-	    (foreign-pointer object)
+	    (grid:foreign-pointer object)
 	    (grid:metadata-slot object 'block-pointer) blockptr)
       (let ((array-struct (alloc-from-block object blockptr)))
 	(setf
@@ -53,8 +53,8 @@
 	 ;; from the block to the vector/matrix; we must do that manually here
 	 (cffi:foreign-slot-value
 	  array-struct
-	  (if (typep object 'matrix) 'gsl-matrix-c 'gsl-vector-c) 'data)
-	 (foreign-pointer object))
+	  (if (typep object 'grid:matrix) 'gsl-matrix-c 'gsl-vector-c) 'data)
+	 (grid:foreign-pointer object))
 	(tg:finalize object
 		     (lambda ()
 		       (cffi:foreign-free blockptr)
@@ -82,23 +82,23 @@
   (let* ((category
 	  (case category-or-rank
 	    ((vector :vector 1) 'vector)
-	    ((matrix :matrix 2) 'matrix)
+	    ((matrix grid:matrix :matrix 2) 'grid:matrix)
 	    (t (error "Unrecognized category ~a" category-or-rank))))
 	 (cstruct
 	  (case category
 	    (vector 'gsl-vector-c)
-	    (matrix 'gsl-matrix-c)))
+	    (grid:matrix 'gsl-matrix-c)))
 	 (fa
 	  (grid:make-grid
 	   (case category
 	     (vector
-	      `((foreign-array ,(cffi:foreign-slot-value mpointer cstruct 'size))
-		,element-type))
-	     (matrix
-	      `((foreign-array
-		 ,(cffi:foreign-slot-value mpointer cstruct 'size0)
-		 ,(cffi:foreign-slot-value mpointer cstruct 'size1))
-		,element-type)))
+		`((grid:foreign-array ,(cffi:foreign-slot-value mpointer cstruct 'size))
+		  ,element-type))
+	     (grid:matrix
+		`((grid:foreign-array
+		   ,(cffi:foreign-slot-value mpointer cstruct 'size0)
+		   ,(cffi:foreign-slot-value mpointer cstruct 'size1))
+		  ,element-type)))
 	   :foreign-pointer
 	   (cffi:foreign-slot-value mpointer cstruct 'data)
 	   :finalizer finalize)))

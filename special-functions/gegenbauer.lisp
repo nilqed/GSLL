@@ -1,8 +1,8 @@
 ;; Gegenbauer polynomials
 ;; Liam Healy, Fri Apr 28 2006 - 20:40
-;; Time-stamp: <2010-07-07 14:24:57EDT gegenbauer.lisp>
+;; Time-stamp: <2011-01-10 17:59:32EST gegenbauer.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -47,7 +47,7 @@
 	    &aux (array (vdf size-or-array)))
   "gsl_sf_gegenpoly_array"
   (((1- (dim0 array)) :int)
-   (lambda :double) (x :double) ((foreign-pointer array) :pointer))
+   (lambda :double) (x :double) ((grid:foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "Compute an array of Gegenbauer polynomials C^{(\lambda)}_n(X)}

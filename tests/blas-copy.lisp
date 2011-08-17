@@ -1,6 +1,6 @@
 ;; Regression test BLAS-COPY for GSLL, automatically generated
 ;;
-;; Copyright 2009, 2010 Liam M. Healy
+;; Copyright 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -20,11 +20,11 @@
 
 (LISP-UNIT:DEFINE-TEST BLAS-COPY
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-   (LIST #(-34.5 8.24 3.29))
+   (LIST #(-34.5f0 8.24f0 3.29f0))
    (MULTIPLE-VALUE-LIST
     (LET ((V1
 	   (GRID:MAKE-FOREIGN-ARRAY
-	    'SINGLE-FLOAT :INITIAL-CONTENTS '(-34.5 8.24 3.29)))
+	    'SINGLE-FLOAT :INITIAL-CONTENTS '(-34.5f0 8.24f0 3.29f0)))
 	  (V2 (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :DIMENSIONS '3)))
       (BLAS-COPY V1 V2)
       (GRID:COPY-TO V2))))
@@ -38,13 +38,13 @@
       (BLAS-COPY V1 V2)
       (GRID:COPY-TO V2))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-   (LIST #(#C(-34.5 8.24) #C(3.29 -8.93) #C(34.12 -6.15)))
+   (LIST #(#C(-34.5f0 8.24f0) #C(3.29f0 -8.93f0) #C(34.12f0 -6.15f0)))
    (MULTIPLE-VALUE-LIST
     (LET ((V1
 	   (GRID:MAKE-FOREIGN-ARRAY
 	    '(COMPLEX SINGLE-FLOAT)
 	    :INITIAL-CONTENTS
-	    '(#C(-34.5 8.24) #C(3.29 -8.93) #C(34.12 -6.15))))
+	    '(#C(-34.5f0 8.24f0) #C(3.29f0 -8.93f0) #C(34.12f0 -6.15f0))))
 	  (V2
 	   (GRID:MAKE-FOREIGN-ARRAY
 	    '(COMPLEX SINGLE-FLOAT) :DIMENSIONS '3)))

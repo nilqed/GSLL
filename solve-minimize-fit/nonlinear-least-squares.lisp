@@ -1,6 +1,6 @@
 ;; Nonlinear least squares fitting.
 ;; Liam Healy, 2008-02-09 12:59:16EST nonlinear-least-squares.lisp
-;; Time-stamp: <2010-06-30 19:57:28EDT nonlinear-least-squares.lisp>
+;; Time-stamp: <2011-05-26 12:37:32EDT nonlinear-least-squares.lisp>
 ;;
 ;; Copyright 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -301,7 +301,7 @@
    (let ((arr (grid:make-foreign-array 'double-float :dimensions number-of-observations))
 	 (rng (make-random-number-generator +mt19937+ 0)))
      (dotimes (i number-of-observations arr)
-       (setf (grid:gref arr i)
+       (setf (grid:aref arr i)
 	     (+ 1 (* 5 (exp (* -1/10 i)))
 		(sample rng :gaussian :sigma 0.1d0)))))
    :sigma
@@ -311,32 +311,32 @@
 (defun exponential-residual (x f)
   "Compute the negative of the residuals with the exponential model
    for the nonlinear least squares example."
-  (let ((A (grid:gref x 0))
-	(lambda (grid:gref x 1))
-	(b (grid:gref x 2)))
+  (let ((A (grid:aref x 0))
+	(lambda (grid:aref x 1))
+	(b (grid:aref x 2)))
     (symbol-macrolet
 	((y (exponent-fit-data-y *nlls-example-data*))
 	 (sigma (exponent-fit-data-sigma *nlls-example-data*)))
       (dotimes (i (exponent-fit-data-n *nlls-example-data*))
-	(setf (grid:gref f i)
+	(setf (grid:aref f i)
 	      ;; the difference model - observation = - residual
-	      (/ (- (+ (* A (exp (* (- lambda) i))) b) (grid:gref y i))
-		 (grid:gref sigma i)))))))
+	      (/ (- (+ (* A (exp (* (- lambda) i))) b) (grid:aref y i))
+		 (grid:aref sigma i)))))))
 
 (defun exponential-residual-derivative (x jacobian)
   "Compute the partial derivatives of the negative of the
    residuals with the exponential model
    for the nonlinear least squares example."
-  (let ((A (grid:gref x 0))
-	(lambda (grid:gref x 1)))
+  (let ((A (grid:aref x 0))
+	(lambda (grid:aref x 1)))
     (symbol-macrolet
 	  ((sigma (exponent-fit-data-sigma *nlls-example-data*)))
 	(dotimes (i (exponent-fit-data-n *nlls-example-data*))
 	  (let ((e (exp (* (- lambda) i)))
-		(s (grid:gref sigma i)))
-	  (setf (grid:gref jacobian i 0) (/ e s)
-		(grid:gref jacobian i 1) (* -1 i A (/ e s))
-		(grid:gref jacobian i 2) (/ s)))))))
+		(s (grid:aref sigma i)))
+	  (setf (grid:aref jacobian i 0) (/ e s)
+		(grid:aref jacobian i 1) (* -1 i A (/ e s))
+		(grid:aref jacobian i 2) (/ s)))))))
 
 (defun exponential-residual-fdf (x f jacobian)
   "Compute the function and partial derivatives of the negative of the
@@ -363,8 +363,8 @@
 		 '(exponential-residual
 		   exponential-residual-derivative exponential-residual-fdf)
 		 init nil)))
-      (macrolet ((fitx (i) `(grid:gref (solution fit) ,i))
-		 (err (i) `(sqrt (grid:gref covariance ,i ,i))))
+      (macrolet ((fitx (i) `(grid:aref (solution fit) ,i))
+		 (err (i) `(sqrt (grid:aref covariance ,i ,i))))
 	(when print-steps
 	  (format t "iter: ~d x = ~15,8f ~15,8f ~15,8f |f(x)|=~7,6g~&"
 		  0 (fitx 0) (fitx 1) (fitx 2)

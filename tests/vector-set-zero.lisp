@@ -1,6 +1,6 @@
 ;; Regression test VECTOR-SET-ZERO for GSLL, automatically generated
 ;;
-;; Copyright 2009, 2010 Liam M. Healy
+;; Copyright 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -20,10 +20,10 @@
 
 (LISP-UNIT:DEFINE-TEST VECTOR-SET-ZERO
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-   (LIST #(0.0 0.0 0.0))
+   (LIST #(0.0f0 0.0f0 0.0f0))
    (MULTIPLE-VALUE-LIST
     (LET ((V1
-	   (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS '(-34.5 8.24 3.29))))
+	   (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS '(-34.5f0 8.24f0 3.29f0))))
       (SET-ZERO V1)
       (GRID:COPY-TO V1))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
@@ -34,12 +34,12 @@
       (SET-ZERO V1)
       (GRID:COPY-TO V1))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
-   (LIST #(#C(0.0 0.0) #C(0.0 0.0) #C(0.0 0.0)))
+   (LIST #(#C(0.0f0 0.0f0) #C(0.0f0 0.0f0) #C(0.0f0 0.0f0)))
    (MULTIPLE-VALUE-LIST
     (LET ((V1
 	   (GRID:MAKE-FOREIGN-ARRAY
 	    '(COMPLEX SINGLE-FLOAT)
-	    :INITIAL-CONTENTS '(#C(-34.5 8.24) #C(3.29 -8.93) #C(34.12 -6.15)))))
+	    :INITIAL-CONTENTS '(#C(-34.5f0 8.24f0) #C(3.29f0 -8.93f0) #C(34.12f0 -6.15f0)))))
       (SET-ZERO V1)
       (GRID:COPY-TO V1))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL

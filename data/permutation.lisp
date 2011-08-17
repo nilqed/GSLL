@@ -1,8 +1,8 @@
 ;; Permutations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2010-11-13 18:44:09EST permutation.lisp>
+;; Time-stamp: <2011-05-26 12:37:36EDT permutation.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@
     (setf (grid:metadata-slot object 'mpointer)
 	  mptr
 	  (cffi:foreign-slot-value mptr 'gsl-permutation-c 'data)
-	  (foreign-pointer object)
+	  (grid:foreign-pointer object)
 	  (cffi:foreign-slot-value mptr 'gsl-permutation-c 'size)
 	  (first dimensions))
     (tg:finalize object (lambda () (cffi:foreign-free mptr)))))
@@ -53,7 +53,7 @@
 	 (make-instance
 	  'permutation
 	  :element-type '(unsigned-byte #+int64 64 #+int32 32)
-	  :dimensions (if (typep n 'permutation) (dimensions n) (list n)))))
+	  :dimensions (if (typep n 'permutation) (grid:dimensions n) (list n)))))
     (when initialize
       (if (typep n 'permutation)
 	  (error "not available yet")	; (copy perm n)
@@ -339,7 +339,7 @@
 
 (save-test permutation
  (let ((perm-1 (make-permutation 4 t)))
-   (grid:gref perm-1 2))
+   (grid:aref perm-1 2))
  (let ((perm-1 (make-permutation 4 t)))	;grid:contents
    (grid:contents perm-1))
  (let ((perm-1 (make-permutation 4 t)))	;permutation-reverse

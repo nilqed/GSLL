@@ -1,8 +1,8 @@
 ;; Load GSL
 ;; Liam Healy Sat Mar  4 2006 - 18:53
-;; Time-stamp: <2010-08-16 23:08:13EDT init.lisp>
+;; Time-stamp: <2011-01-13 09:38:45EST init.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -19,17 +19,36 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 (defpackage gsll
-  (:nicknames :gsl)
+    (:nicknames :gsl)
   (:use :common-lisp :cffi)
-  (:import-from
-   :grid
-   #:cl-array #:dimensions #:element-type
-   #:foreign-array #:matrix #:dim0 #:dim1 #:^
-   #:copy)
-  (:shadowing-import-from :grid #:foreign-pointer)
-  (:export
-   #:cl-array #:dimensions #:element-type #:dim0 #:dim1
-   #:copy))
+  (:import-from :grid #:dim0 #:dim1 #:^ #:copy)
+  (:export #:dim0 #:dim1 #:copy)
+  ;; No actual conflict due to different usage of symbols:
+  ;; antik:psi means "pounds per square inch" vs. function #'gsl:psi
+  ;; antik:knots means "nautical miles per hour" vs. function #'gsl:knots
+  ;; antik:acceleration refers to the time derivative of velocity vs. object 'gsl:acceleration.
+  ;; si units symbol-macro vs. GSLL's sine integral.
+  (:shadowing-import-from :antik #:psi #:knots #:acceleration #:si))
+
+(setf
+ antik::*antik-user-shadow-symbols*
+ (append antik::*antik-user-shadow-symbols*
+	 ;; Where there is a symbol conflict between GSLL and other packages,
+	 '(
+	   ;; take from the other package
+	   grid:row			; GSLL alternate is equivalent
+	   grid:column			; GSLL alternate is equivalent
+	   iterate:sum ; GSLL histogram function, both pretty obscure
+	   iterate:multiply		; GSLL function duplicates '*
+	   antik:polar-to-rectangular	; GSLL's doesn't use vectors
+	   antik:rectangular-to-polar	; GSLL's doesn't use vectors
+	   ;; taken from GSLL
+	   gsll::iterate ; conflict with iterate:iterate, but iterate:iter is a synonym
+	   ))
+ antik::*antik-user-use-packages*
+ (cons '#:gsll antik::*antik-user-use-packages*))
+
+(antik:make-user-package :antik-user)	; Add the new use package and shadow symbols to :antik-user
 
 (in-package :gsl)
 

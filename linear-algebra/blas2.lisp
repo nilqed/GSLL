@@ -1,8 +1,8 @@
 ;; BLAS level 2, Matrix-vector operations
 ;; Liam Healy, Wed Apr 26 2006 - 21:08
-;; Time-stamp: <2010-07-07 14:25:00EDT blas2.lisp>
+;; Time-stamp: <2011-04-23 17:15:33EDT blas2.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -41,20 +41,20 @@
 ;;;;****************************************************************************
 
 (defun matrix-product-dimensions (a b)
-  (if (typep b 'matrix)
-      (list (first (dimensions a))
-	    (second (dimensions b)))
-      (first (dimensions a))))
+  (if (typep b 'grid:matrix)
+      (list (first (grid:dimensions a))
+	    (second (grid:dimensions b)))
+      (first (grid:dimensions a))))
 
 (defmfun matrix-product
-    ((A matrix) (x vector)
+    ((A grid:matrix) (x vector)
      &optional
      y
      (alpha 1) (beta 1) (TransA :notrans) TransB
      &aux
      (yarr
-      (grid:make-foreign-array-or-default
-       y (matrix-product-dimensions A x) nil element-type 0)))
+      (grid:ensure-foreign-array
+       y (matrix-product-dimensions A x) element-type 0)))
   ("gsl_blas_" :type "gemv")
   ((transa cblas-transpose) (alpha :element-c-type) ((mpointer A) :pointer)
    ((mpointer x) :pointer) (beta :element-c-type) ((mpointer yarr) :pointer))
@@ -74,7 +74,7 @@
   parameter TransB.")
 
 (defmfun matrix-product-triangular
-    ((A matrix) (x vector)
+    ((A grid:matrix) (x vector)
      &optional (alpha 1) (uplo :upper) (TransA :notrans)
      (diag :nonunit) (side :left))
   ("gsl_blas_" :type "trmv")
@@ -106,7 +106,7 @@
    are taken as unity and are not referenced.")
 
 (defmfun inverse-matrix-product
-    ((A matrix) (x vector)
+    ((A grid:matrix) (x vector)
      &optional (alpha 1) (uplo :upper) (TransA :notrans)
      (diag :nonunit) (side :left))
   ("gsl_blas_" :type "trsv")
@@ -137,7 +137,7 @@
    matrix A are taken as unity and are not referenced.")
 
 (defmfun matrix-product-symmetric
-    ((A matrix) (x vector)
+    ((A grid:matrix) (x vector)
      &optional y
      (alpha 1) (beta 1) (uplo :upper) (side :left)
      &aux
@@ -170,7 +170,7 @@
 
 #+fsbv
 (defmfun matrix-product-hermitian
-    ((A matrix) (x vector)
+    ((A grid:matrix) (x vector)
      &optional
      (y (grid:make-foreign-array element-type :dimensions (matrix-product-dimensions A x)
 		     :initial-element 0))
@@ -199,7 +199,7 @@
   are used. The imaginary elements of the diagonal are automatically
   set to zero.")
 
-(defmfun rank-1-update (alpha (x vector) (y vector) (A matrix))
+(defmfun rank-1-update (alpha (x vector) (y vector) (A grid:matrix))
   ("gsl_blas_" :type "ger" :suffix)
   ((alpha :element-c-type) ((mpointer x) :pointer)
    ((mpointer y) :pointer) ((mpointer A) :pointer))
@@ -211,7 +211,7 @@
    "The rank-1 update A = alpha x y^T + A of the matrix A.")
 
 #+fsbv
-(defmfun conjugate-rank-1-update (alpha (x vector) (y vector) (A matrix))
+(defmfun conjugate-rank-1-update (alpha (x vector) (y vector) (A grid:matrix))
   ("gsl_blas_" :type "gerc")
   ((alpha :element-c-type) ((mpointer x) :pointer)
    ((mpointer y) :pointer) ((mpointer A) :pointer))
@@ -223,7 +223,7 @@
   "The conjugate rank-1 update A = alpha x y^H + A of the matrix A.")
 
 (defmfun symmetric-rank-1-update
-    ((x vector) (A matrix)
+    ((x vector) (A grid:matrix)
      &optional (alpha 1) (beta 1) (uplo :upper) (trans :notrans))
   ("gsl_blas_" :type "syr")
   ((uplo cblas-uplo) (alpha :element-c-type)
@@ -249,7 +249,7 @@
 
 #+fsbv
 (defmfun hermitian-rank-1-update
-    ((x vector) (A matrix)
+    ((x vector) (A grid:matrix)
      &optional (alpha 1) (beta 1) (uplo :upper) (trans :notrans))
   ("gsl_blas_" :type "her")
   ((uplo cblas-uplo) (alpha :element-c-type)
@@ -276,7 +276,7 @@
   elements of the diagonal are automatically set to zero.")
 
 (defmfun symmetric-rank-2-update
-    ((x vector) (y vector) (A matrix)
+    ((x vector) (y vector) (A grid:matrix)
      &optional (alpha 1) (beta 1) (uplo :upper) (trans :notrans))
   ("gsl_blas_" :type "syr2")
   ((uplo cblas-uplo) (alpha :element-c-type)
@@ -303,7 +303,7 @@
 
 #+fsbv
 (defmfun hermitian-rank-2-update
-    ((x vector) (y vector) (A matrix)
+    ((x vector) (y vector) (A grid:matrix)
      &optional (alpha 1) (beta 1) (uplo :upper) (trans :notrans))
   ("gsl_blas_" :type "her2")
   ((uplo cblas-uplo) (alpha :element-c-type)

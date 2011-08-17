@@ -1,8 +1,8 @@
 ;; Functions for both vectors and matrices.
 ;; Liam Healy 2008-04-26 20:48:44EDT both.lisp
-;; Time-stamp: <2010-11-25 09:31:17EST both.lisp>
+;; Time-stamp: <2011-05-26 12:37:36EDT both.lisp>
 ;;
-;; Copyright 2008, 2009, 2010 Liam M. Healy
+;; Copyright 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -35,13 +35,13 @@
   :export nil
   :documentation "Allocate memory for the GSL struct given a block pointer.")
 
-(defmfun alloc-from-block ((object matrix) blockptr)
+(defmfun alloc-from-block ((object grid:matrix) blockptr)
   ("gsl_" :category :type "_alloc_from_block")
   ((blockptr :pointer)
    (0 sizet)				; offset
-   ((first (dimensions object)) sizet)	; number of rows
-   ((second (dimensions object)) sizet)	; number of columns
-   ((second (dimensions object)) sizet))	; "tda" = number of columns for now
+   ((first (grid:dimensions object)) sizet)	; number of rows
+   ((second (grid:dimensions object)) sizet)	; number of columns
+   ((second (grid:dimensions object)) sizet))	; "tda" = number of columns for now
   :definition :methods
   :c-return :pointer
   :export nil)
@@ -81,7 +81,7 @@
 ;;;;****************************************************************************
 ;;;; Array elements; used in callbacks scalarsp=T only
 ;;;;****************************************************************************
-;;; Normal foreign array access is with grid:gref, but in order to
+;;; Normal foreign array access is with grid:aref, but in order to
 ;;; avoid the overhead of instantiating a foreign-array object to
 ;;; access components, we use these macros which expand to gsl_*_get
 ;;; and gsl_*_set.
@@ -113,7 +113,7 @@
     `(cffi:foreign-funcall
       ,(actual-gsl-function-name
 	`("gsl_" :category :type ,(if value "_set" "_get"))
-	(if matrixp 'matrix 'vector)
+	(if matrixp 'grid:matrix 'vector)
 	element-type)
       :pointer ,mpointer
       sizet ,(first indices)
@@ -192,7 +192,7 @@
   :documentation			; FDL
   "Add the scalar complex x to all the elements of array a.")
 
-(defmethod elt+ ((x float) (a foreign-array))
+(defmethod elt+ ((x float) (a grid:foreign-array))
   (elt+ a x))
   
 (defmfun elt- ((a both) (b both))
@@ -207,7 +207,7 @@
   "Subtract the elements of b from the elements of a.
    The two must have the same dimensions.")
 
-(defmethod elt- ((a foreign-array) (x float))
+(defmethod elt- ((a grid:foreign-array) (x float))
   (elt+ a (- x)))
 
 (defmfun elt* ((a vector) (b vector))
@@ -222,7 +222,7 @@
   "Multiply the elements of a by the elements of b.
    The two must have the same dimensions.")
 
-(defmfun elt* ((a matrix) (b matrix))
+(defmfun elt* ((a grid:matrix) (b grid:matrix))
   ("gsl_" :category :type "_mul_elements")
   (((mpointer a) :pointer) ((mpointer b) :pointer))
   :definition :methods
@@ -243,7 +243,7 @@
   "Divide the elements of a by the elements of b.
    The two must have the same dimensions.")
 
-(defmfun elt/ ((a matrix) (b matrix))
+(defmfun elt/ ((a grid:matrix) (b grid:matrix))
   ("gsl_" :category :type "_div_elements")
   (((mpointer a) :pointer) ((mpointer b) :pointer))
   :definition :methods
@@ -252,7 +252,7 @@
   :outputs (a)
   :return (a))
 
-(defmethod elt/ ((a foreign-array) (x number))
+(defmethod elt/ ((a grid:foreign-array) (x number))
   (elt* a (/ x)))
 
 (defmfun elt* ((a both) (x float))
@@ -279,7 +279,7 @@
   :documentation			; FDL
   "Multiply the elements of a by the scalar complex factor x.")
 
-(defmethod elt* ((x float) (a foreign-array))
+(defmethod elt* ((x float) (a grid:foreign-array))
   (elt* a x))
 
 ;;;;****************************************************************************
@@ -329,7 +329,7 @@
   "The index of the minimum value in a.  When there are several
   equal minimum elements, then the lowest index is returned.")
 
-(defmfun min-index ((a matrix))
+(defmfun min-index ((a grid:matrix))
   ("gsl_" :category :type "_min_index")
   (((mpointer a) :pointer) (imin (:pointer sizet)) (jmin (:pointer sizet)))
   :definition :methods
@@ -348,7 +348,7 @@
   "The index of the maximum value in a.  When there are several
   equal maximum elements, then the lowest index is returned.")
 
-(defmfun max-index ((a matrix))
+(defmfun max-index ((a grid:matrix))
   ("gsl_" :category :type "_max_index")
   (((mpointer a) :pointer) (imin (:pointer sizet)) (jmin (:pointer sizet)))
   :definition :methods
@@ -369,7 +369,7 @@
   returned.  Returned indices are minimum, maximum; for matrices
   imin, jmin, imax, jmax.")
 
-(defmfun minmax-index ((a matrix))
+(defmfun minmax-index ((a grid:matrix))
   ("gsl_" :category :type "_minmax_index")
   (((mpointer a) :pointer)
    (imin (:pointer sizet)) (jmin (:pointer sizet))

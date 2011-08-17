@@ -1,8 +1,8 @@
 ;;; Multivariate roots.                
 ;;; Liam Healy 2008-01-12 12:49:08
-;;; Time-stamp: <2010-07-13 09:52:54EDT roots-multi.lisp>
+;;; Time-stamp: <2011-05-26 12:37:31EDT roots-multi.lisp>
 ;;
-;; Copyright 2008, 2009 Liam M. Healy
+;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -54,7 +54,7 @@
     `((type &optional function-or-dimension (initial nil ,set) (scalarsp t))
       (:type type
 	     :dimensions
-	     (if ,set (dimensions initial) function-or-dimension))
+	     (if ,set (grid:dimensions initial) function-or-dimension))
       (:functions
        (list function-or-dimension) :initial initial :scalarsp scalarsp)))
   :inputs (initial))
@@ -91,7 +91,7 @@
 	    (scalarsp t))
       (:type type
 	     :dimensions
-	     (if ,set (dimensions initial) function-or-dimension))
+	     (if ,set (grid:dimensions initial) function-or-dimension))
       (:functions function-or-dimension :initial initial :scalarsp scalarsp)))
   :inputs (initial))
 
@@ -418,15 +418,15 @@
        (when print-steps
 	 (format t "iter=~d~8tx0=~12,8g~24tx1=~12,8g~38tf0=~12,8g~52tf1=~12,8g~&"
 		 iter
-		 (grid:gref argval 0)
-		 (grid:gref argval 1)
-		 (grid:gref fnval 0)
-		 (grid:gref fnval 1)))
+		 (grid:aref argval 0)
+		 (grid:aref argval 1)
+		 (grid:aref fnval 0)
+		 (grid:aref fnval 1)))
        finally (return
-		 (values (grid:gref argval 0)
-			 (grid:gref argval 1)
-			 (grid:gref fnval 0)
-			 (grid:gref fnval 1))))))
+		 (values (grid:aref argval 0)
+			 (grid:aref argval 1)
+			 (grid:aref fnval 0)
+			 (grid:aref fnval 1))))))
 
 (defun rosenbrock-df (arg0 arg1)
   "The partial derivatives of the Rosenbrock functions."
@@ -452,10 +452,10 @@
 	   (when print-steps
 	     (format t "iter=~d~8tx0=~12,8g~24tx1=~12,8g~38tf0=~12,8g~52tf1=~12,8g~&"
 		     iter
-		     (grid:gref argval 0)
-		     (grid:gref argval 1)
-		     (grid:gref fnval 0)
-		     (grid:gref fnval 1)))))
+		     (grid:aref argval 0)
+		     (grid:aref argval 1)
+		     (grid:aref fnval 0)
+		     (grid:aref fnval 1)))))
     (let ((max-iter 1000)
 	  (solver (make-multi-dimensional-root-solver-fdf
 		   method
@@ -473,10 +473,10 @@
 	       argval (solution solver))
 	 (print-state iter argval fnval)
 	 finally (return
-		   (values (grid:gref argval 0)
-			   (grid:gref argval 1)
-			   (grid:gref fnval 0)
-			   (grid:gref fnval 1)))))))
+		   (values (grid:aref argval 0)
+			   (grid:aref argval 1)
+			   (grid:aref fnval 0)
+			   (grid:aref fnval 1)))))))
 
 ;; To see step-by-step information as the solution progresses, make
 ;; the last argument T.

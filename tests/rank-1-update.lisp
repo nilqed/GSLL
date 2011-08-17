@@ -1,26 +1,42 @@
 ;; Regression test RANK-1-UPDATE for GSLL, automatically generated
+;;
+;; Copyright 2009, 2011 Liam M. Healy
+;; Distributed under the terms of the GNU General Public License
+;;
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 (in-package :gsl)
 
 (LISP-UNIT:DEFINE-TEST RANK-1-UPDATE
   (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
    (LIST
-    #2A((33772.18 17310.045 -44960.434)
-	(-13648.694 -6946.5283 18135.074)
-	(34314.832 17523.164 -45541.547)))
+    #2A((33772.18f0 17310.045f0 -44960.434f0)
+	(-13648.694f0 -6946.5283f0 18135.074f0)
+	(34314.832f0 17523.164f0 -45541.547f0)))
    (MULTIPLE-VALUE-LIST
     (LET ((M1
 	   (GRID:MAKE-FOREIGN-ARRAY
 	    'SINGLE-FLOAT
 	    :INITIAL-CONTENTS
-	    '((-34.5 8.24 3.29)
-	      (-8.93 34.12 -6.15)
-	      (49.27 -13.49 32.5))))
+	    '((-34.5f0 8.24f0 3.29f0)
+	      (-8.93f0 34.12f0 -6.15f0)
+	      (49.27f0 -13.49f0 32.5f0))))
 	  (V1
-	   (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS '(42.73 -17.24 43.31)))
+	   (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS '(42.73f0 -17.24f0 43.31f0)))
 	  (V2
-	   (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS '(-16.12 -8.25 21.44)))
-	  (S1 -49.08))
+	   (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS '(-16.12f0 -8.25f0 21.44f0)))
+	  (S1 -49.08f0))
       (GRID:COPY-TO (RANK-1-UPDATE S1 V1 V2 M1)))))
   (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -43,31 +59,31 @@
       (GRID:COPY-TO (RANK-1-UPDATE S1 V1 V2 M1)))))
   (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
    (LIST
-    #2A((#C(37793.65 36629.23) #C(-101265.76 118286.42)
-	   #C(68357.26 171191.28))
-	(#C(36918.79 37780.418) #C(-104760.06 115889.945)
-	   #C(63820.45 173533.31))
-	(#C(-26166.797 1319.2356) #C(-8642.514 -77109.22)
-	   #C(-85661.76 -33283.21))))
+    #2A((#C(37793.65f0 36629.23f0) #C(-101265.76f0 118286.42f0)
+	   #C(68357.26f0 171191.28f0))
+	(#C(36918.79f0 37780.418f0) #C(-104760.06f0 115889.945f0)
+	   #C(63820.45f0 173533.31f0))
+	(#C(-26166.797f0 1319.2356f0) #C(-8642.514f0 -77109.22f0)
+	   #C(-85661.76f0 -33283.21f0))))
    (MULTIPLE-VALUE-LIST
     (LET ((M1
 	   (GRID:MAKE-FOREIGN-ARRAY
 	    '(COMPLEX SINGLE-FLOAT)
 	    :INITIAL-CONTENTS
-	    '((#C(-34.5 8.24) #C(3.29 -8.93) #C(34.12 -6.15))
-	      (#C(-8.93 34.12) #C(-6.15 49.27) #C(-13.49 32.5))
-	      (#C(49.27 -13.49) #C(32.5 42.73) #C(-17.24 43.31)))))
+	    '((#C(-34.5f0 8.24f0) #C(3.29f0 -8.93f0) #C(34.12f0 -6.15f0))
+	      (#C(-8.93f0 34.12f0) #C(-6.15f0 49.27f0) #C(-13.49f0 32.5f0))
+	      (#C(49.27f0 -13.49f0) #C(32.5f0 42.73f0) #C(-17.24f0 43.31f0)))))
 	  (V1
 	   (GRID:MAKE-FOREIGN-ARRAY
 	    '(COMPLEX SINGLE-FLOAT)
 	    :INITIAL-CONTENTS
-	    '(#C(42.73 -17.24) #C(43.31 -16.12) #C(-8.25 21.44))))
+	    '(#C(42.73f0 -17.24f0) #C(43.31f0 -16.12f0) #C(-8.25f0 21.44f0))))
 	  (V2
 	   (GRID:MAKE-FOREIGN-ARRAY
 	    '(COMPLEX SINGLE-FLOAT)
 	    :INITIAL-CONTENTS
-	    '(#C(-16.12 -8.25) #C(21.44 -49.08) #C(-39.66 -49.46))))
-	  (S1 #C(-49.08 -39.66)))
+	    '(#C(-16.12f0 -8.25f0) #C(21.44f0 -49.08f0) #C(-39.66f0 -49.46f0))))
+	  (S1 #C(-49.08f0 -39.66f0)))
       (GRID:COPY-TO (RANK-1-UPDATE S1 V1 V2 M1)))))
   (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
    (LIST

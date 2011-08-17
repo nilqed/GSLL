@@ -1,8 +1,8 @@
 ;; Multinomial distribution
 ;; Liam Healy, Sat Nov 25 2006 - 16:00
-;; Time-stamp: <2010-07-07 14:24:58EDT multinomial.lisp>
+;; Time-stamp: <2011-01-10 17:59:29EST multinomial.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -31,9 +31,9 @@
   (((mpointer generator) :pointer) 
    ((dim0 probabilities) sizet)
    (sum sizet)
-   ((foreign-pointer probabilities) :pointer)
+   ((grid:foreign-pointer probabilities) :pointer)
    ;; technically, n should be a uint array, but integers work
-   ((foreign-pointer n) :pointer))
+   ((grid:foreign-pointer n) :pointer))
   :definition :method
   :inputs (p)
   :outputs (n)
@@ -56,7 +56,7 @@
 
 (defmfun multinomial-pdf (p n)
   "gsl_ran_multinomial_pdf"
-  (((dim0 p) sizet) ((foreign-pointer p) :pointer) ((foreign-pointer n) :pointer))
+  (((dim0 p) sizet) ((grid:foreign-pointer p) :pointer) ((grid:foreign-pointer n) :pointer))
   :inputs (p n)
   :c-return :double
   :documentation			; FDL
@@ -66,7 +66,7 @@
 
 (defmfun multinomial-log-pdf (p n)
   "gsl_ran_multinomial_lnpdf"
-  (((dim0 p) sizet) ((foreign-pointer p) :pointer) ((foreign-pointer n) :pointer))
+  (((dim0 p) sizet) ((grid:foreign-pointer p) :pointer) ((grid:foreign-pointer n) :pointer))
   :inputs (p n)
   :c-return :double
   :documentation			; FDL

@@ -1,8 +1,8 @@
 ;; Evolution functions for ODE integration.
 ;; Liam Healy, Sun Sep 30 2007 - 14:31
-;; Time-stamp: <2010-06-27 18:13:51EDT evolution.lisp>
+;; Time-stamp: <2011-01-10 18:16:19EST evolution.lisp>
 ;;
-;; Copyright 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
 (in-package :gsl)
 
 (defmobject ode-evolution "gsl_odeiv_evolve"
-  ((dimensions sizet))
+  ((grid:dimensions sizet))
   "evolution for ordinary differential equations"
   :documentation "Make an object to advance the ODE solution."
   :initialize-suffix "reset"
@@ -32,9 +32,9 @@
   "gsl_odeiv_evolve_apply"
   (((mpointer evolution) :pointer) ((mpointer control) :pointer)
    ((mpointer stepper) :pointer)
-   ((callback-struct stepper) :pointer) ((foreign-pointer time) :pointer)
+   ((callback-struct stepper) :pointer) ((grid:foreign-pointer time) :pointer)
    (max-time :double)
-   ((foreign-pointer step-size) :pointer) ((foreign-pointer y) :pointer))
+   ((grid:foreign-pointer step-size) :pointer) ((grid:foreign-pointer y) :pointer))
   :inputs (time step-size y)
   :outputs (time step-size y)
   :callback-object ((stepper ode-stepper))

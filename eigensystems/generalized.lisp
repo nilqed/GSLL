@@ -1,8 +1,8 @@
 ;; Real generalized eigensystems
 ;; Liam Healy 2009-02-16 12:55:04EST real-generalized.lisp
-;; Time-stamp: <2010-06-29 22:15:24EDT generalized.lisp>
+;; Time-stamp: <2011-01-12 00:08:22EST generalized.lisp>
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -56,8 +56,7 @@
     n-by-n complex generalized hermitian-definite eigensystems. The
     size of the workspace is O(5n).")
 
-(defmfun eigenvalues-gensymm
-    ((A matrix) (B matrix)
+(defmfun eigenvalues-gensymm ((A grid:matrix) (B grid:matrix)
      &optional
      (eigenvalues (grid:make-foreign-array element-type :dimensions (dim0 A)))
      (ws (eltcase complex (make-eigen-genherm (dim0 A))
@@ -78,11 +77,10 @@
   outlined above. On output, B contains its Cholesky decomposition and
   A is destroyed.")
 
-(defmfun eigenvalues-eigenvectors-gensymm
-    ((A matrix) (B matrix)
+(defmfun eigenvalues-eigenvectors-gensymm ((A grid:matrix) (B grid:matrix)
      &optional
      (eigenvalues (grid:make-foreign-array element-type :dimensions (dim0 A)))
-     (eigenvectors (grid:make-foreign-array element-type :dimensions (dimensions A)))
+     (eigenvectors (grid:make-foreign-array element-type :dimensions (grid:dimensions A)))
      (ws (eltcase complex (make-eigen-hermv (dim0 A))
 		  t (make-eigen-symmv (dim0 A)))))
   (double-float "gsl_eigen_gensymmv"

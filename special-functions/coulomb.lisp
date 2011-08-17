@@ -1,8 +1,8 @@
 ;; Coulumb functions
 ;; Liam Healy, Sat Mar 18 2006 - 23:23
-;; Time-stamp: <2010-07-07 14:24:53EDT coulomb.lisp>
+;; Time-stamp: <2011-01-10 17:59:32EST coulomb.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -70,7 +70,7 @@
 	   &aux (fc-array (vdf size-or-array)))
   "gsl_sf_coulomb_wave_F_array"
   ((L-min :double) ((1- (dim0 fc-array)) :int) (eta :double) (x :double)
-   ((foreign-pointer fc-array) :pointer) (F-exponent (:pointer :double)))
+   ((grid:foreign-pointer fc-array) :pointer) (F-exponent (:pointer :double)))
   :outputs (fc-array)
   :return (fc-array (grid:dcref F-exponent))
   :documentation			; FDL
@@ -86,7 +86,7 @@
 	   (gc-array (vdf (or gc-size-or-array (dim0 fc-array)))))
   "gsl_sf_coulomb_wave_FG_array"
   ((L-min :double) ((1- (dim0 fc-array)) :int) (eta :double) (x :double)
-   ((foreign-pointer fc-array) :pointer) ((foreign-pointer gc-array) :pointer)
+   ((grid:foreign-pointer fc-array) :pointer) ((grid:foreign-pointer gc-array) :pointer)
    (F-exponent (:pointer :double)) (G-exponent (:pointer :double)))
   :outputs (fc-array gc-array)
   :return (fc-array gc-array (grid:dcref F-exponent) (grid:dcref G-exponent))
@@ -108,8 +108,8 @@
 	   (gcp-array (vdf (or gcp-size-or-array (dim0 fc-array)))))
   "gsl_sf_coulomb_wave_FGp_array"
   ((L-min :double) ((1- (dim0 fc-array)) :int) (eta :double) (x :double)
-   ((foreign-pointer fc-array) :pointer) ((foreign-pointer fcp-array) :pointer)
-   ((foreign-pointer gc-array) :pointer) ((foreign-pointer gcp-array) :pointer)
+   ((grid:foreign-pointer fc-array) :pointer) ((grid:foreign-pointer fcp-array) :pointer)
+   ((grid:foreign-pointer gc-array) :pointer) ((grid:foreign-pointer gcp-array) :pointer)
    (F-exponent (:pointer :double)) (G-exponent (:pointer :double)))
   :outputs (fc-array fcp-array gc-array gcp-array)
   :return
@@ -128,7 +128,7 @@
 	   &aux (fc-array (vdf size-or-array)))
   "gsl_sf_coulomb_wave_sphF_array"
   ((L-min :double) ((1- (dim0 fc-array)) :int) (eta :double) (x :double)
-   ((foreign-pointer fc-array) :pointer) (F-exponent (:pointer :double)))
+   ((grid:foreign-pointer fc-array) :pointer) (F-exponent (:pointer :double)))
   :outputs (fc-array)
   :return (fc-array (grid:dcref F-exponent))
   :documentation			; FDL
@@ -153,7 +153,7 @@
 	   &aux (array (vdf size-or-array)))
   "gsl_sf_coulomb_CL_array"
   ((L-min :double) ((1- (dim0 array)) :int) (eta :double)
-   ((foreign-pointer array) :pointer))
+   ((grid:foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "The Coulomb wave function normalization constant C_L(\eta)

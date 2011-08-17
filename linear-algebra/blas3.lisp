@@ -1,8 +1,8 @@
 ;; BLAS level 3, Matrix-matrix operations
 ;; Liam Healy, Wed Apr 26 2006 - 21:08
-;; Time-stamp: <2010-07-07 14:25:00EDT blas3.lisp>
+;; Time-stamp: <2011-01-12 00:49:27EST blas3.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@
 ;;;;****************************************************************************
 
 (defmfun matrix-product
-    ((A matrix) (B matrix)
+    ((A grid:matrix) (B grid:matrix)
      &optional
      C
      (alpha 1) (beta 1) (TransA :notrans) (TransB :notrans)
@@ -53,7 +53,7 @@
   :outputs (Carr))
 
 (defmfun matrix-product-symmetric
-    ((A matrix) (B matrix)
+    ((A grid:matrix) (B grid:matrix)
      &optional C (alpha 1) (beta 1) (uplo :upper) (side :left)
      &aux
      (Carr
@@ -71,7 +71,7 @@
 
 #+fsbv
 (defmfun matrix-product-hermitian
-    ((A matrix) (B matrix)
+    ((A grid:matrix) (B grid:matrix)
      &optional
      (C (grid:make-foreign-array element-type :dimensions (matrix-product-dimensions A B)
 		     :initial-element 0))
@@ -88,7 +88,7 @@
   :outputs (C))
 
 (defmfun matrix-product-triangular
-    ((A matrix) (B matrix)
+    ((A grid:matrix) (B grid:matrix)
      &optional (alpha 1) (uplo :upper) (TransA :notrans)
      (diag :nonunit) (side :left))
   ("gsl_blas_" :type "trmm")
@@ -101,7 +101,7 @@
   :outputs (B))
 
 (defmfun inverse-matrix-product
-    ((A matrix) (B matrix)
+    ((A grid:matrix) (B grid:matrix)
      &optional (alpha 1) (uplo :upper) (TransA :notrans)
      (diag :nonunit) (side :left))
   ;; This signals an error for complex arguments because you can't pass a
@@ -116,7 +116,7 @@
   :outputs (B))
 
 (defmfun symmetric-rank-1-update
-    ((A matrix) (C matrix)
+    ((A grid:matrix) (C grid:matrix)
      &optional (alpha 1) (beta 1) (uplo :upper) (trans :notrans))
   ("gsl_blas_" :type "syrk")
   ((uplo cblas-uplo) (trans cblas-transpose)
@@ -129,7 +129,7 @@
 
 #+fsbv
 (defmfun hermitian-rank-1-update
-    ((A matrix) (C matrix)
+    ((A grid:matrix) (C grid:matrix)
      &optional (alpha 1) (beta 1) (uplo :upper) (trans :notrans))
   ("gsl_blas_" :type "herk")
   ((uplo cblas-uplo) (trans cblas-transpose)
@@ -141,7 +141,7 @@
   :outputs (C))
 
 (defmfun symmetric-rank-2-update
-    ((A matrix) (B matrix) (C matrix)
+    ((A grid:matrix) (B grid:matrix) (C grid:matrix)
      &optional (alpha 1) (beta 1) (uplo :upper) (trans :notrans))
   ("gsl_blas_" :type "syr2k")
   ((uplo cblas-uplo) (trans cblas-transpose)
@@ -155,7 +155,7 @@
 
 #+fsbv
 (defmfun hermitian-rank-2-update
-    ((A matrix) (B matrix) (C matrix)
+    ((A grid:matrix) (B grid:matrix) (C grid:matrix)
      &optional (alpha 1) (beta 1) (uplo :upper) (trans :notrans))
   ("gsl_blas_" :type "her2k")
   ((uplo cblas-uplo) (trans cblas-transpose)

@@ -1,8 +1,8 @@
 ;; Definition of GSL objects and ways to use them.
 ;; Liam Healy, Sun Dec  3 2006 - 10:21
-;; Time-stamp: <2010-11-13 18:22:18EST mobject.lisp>
+;; Time-stamp: <2011-01-11 19:10:48EST mobject.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -288,9 +288,9 @@
   (if (listp symbol)
       (mappend (lambda (s) (symbol-keyword-symbol s singular)) symbol)
       (if (member (singular-symbol symbol) singular)
-	  (list (intern (symbol-name symbol) :keyword)
+	  (list (alexandria:make-keyword symbol)
 		`(list ,(singular-symbol symbol)))
-	  (list (intern (symbol-name symbol) :keyword)
+	  (list (alexandria:make-keyword symbol)
 		symbol))))
 
 ;;;;****************************************************************************

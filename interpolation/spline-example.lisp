@@ -1,6 +1,6 @@
 ;; Example spline
 ;; Liam Healy, Sat Nov 10 2007 - 21:18
-;; Time-stamp: <2010-08-07 21:37:07EDT spline-example.lisp>
+;; Time-stamp: <2011-05-26 12:37:34EDT spline-example.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -35,7 +35,7 @@
 	   (loop for i from 0.0d0 below 10.0d0
 	      collect (+ i (cos (expt i 2))))))
 	 (spline (make-spline +cubic-spline-interpolation+ xarr yarr)))
-    (loop for xi from (grid:gref xarr 0) below (grid:gref xarr 9) by step
+    (loop for xi from (grid:aref xarr 0) below (grid:aref xarr 9) by step
        collect (list xi (evaluate spline xi)))))
 
 (defun evaluate-integral-example (&optional (intervals 4))

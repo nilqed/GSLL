@@ -1,7 +1,7 @@
 ;; Regression test LU for GSLL, automatically generated
 ;; with some manual changes to the results
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@
 
 (in-package :gsl)
 
-;;; Answers (except for invert-matrix)inserted from linalg/test.c
+;;; Answers inserted from linalg/test.c
 ;;; GSL has #define GSL_DBL_EPSILON        2.2204460492503131e-16
 ;;; which is 2x what double-float-epsilon is.
 (LISP-UNIT:DEFINE-TEST LU
@@ -129,14 +129,4 @@
 	    (MATRIX-PRODUCT-TRIANGULAR
 	     MATRIX
 	     (MATRIX-PRODUCT-TRIANGULAR MATRIX X 1 :UPPER :NOTRANS :NONUNIT)
-	     1 :LOWER :NOTRANS :UNIT))))))))
-  (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
-   (LIST
-    #2A((-1.9999999999999998d0 1.0d0)
-	(1.4999999999999998d0 -0.49999999999999994d0)))
-   (MULTIPLE-VALUE-LIST
-    (GRID:COPY-TO
-     (INVERT-MATRIX
-      (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS '(2 2)
-			       :INITIAL-CONTENTS
-			       '((1.0d0 2.0d0) (3.0d0 4.0d0))))))))
+	     1 :LOWER :NOTRANS :UNIT)))))))))

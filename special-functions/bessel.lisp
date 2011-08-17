@@ -1,8 +1,8 @@
 ;; Bessel functions
 ;; Liam Healy, Fri Mar 17 2006 - 18:42
-;; Time-stamp: <2010-07-07 14:24:57EDT bessel.lisp>
+;; Time-stamp: <2011-01-10 17:59:32EST bessel.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -49,7 +49,7 @@
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_Jn_array"
   ((nmin :int) ((+ nmin (dim0 array) -1) :int) (x :double)
-   ((foreign-pointer array) :pointer))
+   ((grid:foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "The values of the regular cylindrical Bessel functions J_n(x)
@@ -65,7 +65,7 @@
 
 (defmfun cylindrical-bessel-J-array-x (nu v &optional (mode :double))
   "gsl_sf_bessel_sequence_Jnu_e"
-  ((nu :double) (mode sf-mode) ((dim0 v) :int) ((foreign-pointer v) :pointer))
+  ((nu :double) (mode sf-mode) ((dim0 v) :int) ((grid:foreign-pointer v) :pointer))
   :inputs (v)
   :outputs (v)
   :documentation			; FDL
@@ -106,7 +106,7 @@
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_Yn_array"
   ((nmin :int) ((+ nmin (dim0 array) -1) :int) (x :double)
-   ((foreign-pointer array) :pointer))
+   ((grid:foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "The values of the irregular cylindrical Bessel functions
@@ -150,7 +150,7 @@
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_In_array"
   ((nmin :int) ((+ nmin (dim0 array) -1) :int) (x :double)
-   ((foreign-pointer array) :pointer))
+   ((grid:foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "The values of the regular modified cylindrical Bessel functions
@@ -188,7 +188,7 @@
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_In_scaled_array"
   ((nmin :int) ((+ nmin (dim0 array) -1) :int) (x :double)
-   ((foreign-pointer array) :pointer))
+   ((grid:foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   ;; Bug in original documentation?  doesn't say "modified"
@@ -243,7 +243,7 @@
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_Kn_array"
   ((nmin :int) ((+ nmin (dim0 array) -1) :int) (x :double)
-   ((foreign-pointer array) :pointer))
+   ((grid:foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "The values of the irregular modified cylindrical Bessel functions
@@ -278,7 +278,7 @@
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_Kn_scaled_array"
   ((nmin :int) ((+ nmin (dim0 array) -1) :int) (x :double)
-   ((foreign-pointer array) :pointer))
+   ((grid:foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "The values of the scaled irregular cylindrical
@@ -342,7 +342,7 @@
     (x &optional (size-or-array *default-sf-array-size*)
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_jl_array"
-  (((1- (dim0 array)) :int) (x :double) ((foreign-pointer array) :pointer))
+  (((1- (dim0 array)) :int) (x :double) ((grid:foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "The values of the regular spherical Bessel
@@ -354,7 +354,7 @@
     (x &optional (size-or-array *default-sf-array-size*)
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_jl_steed_array"
-  (((1- (dim0 array)) :int) (x :double) ((foreign-pointer array) :pointer))
+  (((1- (dim0 array)) :int) (x :double) ((grid:foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "Uses Steed's method to compute the values of the regular spherical
@@ -395,7 +395,7 @@
     (x &optional (size-or-array *default-sf-array-size*)
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_yl_array"
-  (((1- (dim0 array)) :int) (x :double) ((foreign-pointer array) :pointer))
+  (((1- (dim0 array)) :int) (x :double) ((grid:foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "The irregular spherical Bessel functions y_l(x) for l
@@ -435,7 +435,7 @@
     (x &optional (size-or-array *default-sf-array-size*)
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_il_scaled_array"
-  (((1- (dim0 array)) :int) (x :double) ((foreign-pointer array) :pointer))
+  (((1- (dim0 array)) :int) (x :double) ((grid:foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "The values of the scaled regular modified cylindrical Bessel
@@ -475,7 +475,7 @@
     (x &optional (size-or-array *default-sf-array-size*)
        &aux (array (vdf size-or-array)))
   "gsl_sf_bessel_kl_scaled_array"
-  (((1- (dim0 array)) :int) (x :double) ((foreign-pointer array) :pointer))
+  (((1- (dim0 array)) :int) (x :double) ((grid:foreign-pointer array) :pointer))
   :outputs (array)
   :documentation			; FDL
   "The values of the scaled irregular modified spherical Bessel
