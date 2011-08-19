@@ -1,8 +1,8 @@
 ;; N-tuples
 ;; Liam Healy Sat Feb  3 2007 - 12:53
-;; Time-stamp: <2011-05-26 12:37:35EDT ntuple.lisp>
+;; Time-stamp: <2011-08-19 09:44:16EDT ntuple.lisp>
 ;;
-;; Copyright 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -159,10 +159,8 @@
 
 (defparameter *ntuple-example-data-file*
   (namestring
-   (merge-pathnames 
-    "ntuple-example.dat"
-     (asdf:component-pathname
-      (asdf:find-component (asdf:find-system :gsll) "histogram"))))
+   (merge-pathnames  "ntuple-example.dat" osicat::*temporary-directory*))
+   ;;(asdf:system-relative-pathname :gsll #p"histogram/ntuple-example.dat")
   "The full path string of the ntuple example data file.  This can be created
    with the function #'make-ntuple-example-data.")
 
@@ -238,6 +236,12 @@
 	(unless (= (grid:aref histo row) (aref answer row))
 	  (return nil))))))
 
-(save-test ntuple
- (ntuple-example-read)
+(defun ntuple-example-make-read ()
+  "Create an ntuple historgram example data file, and read it."
+  (make-ntuple-example-data)
+  (ntuple-example-read))
+
+(save-test
+ ntuple
+ (ntuple-example-make-read)
  (ntuple-example-histogramming))
