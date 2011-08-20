@@ -267,6 +267,7 @@
 	    :components
 	    ((cffi-grovel:grovel-file "mksa")
 	     (cffi-grovel:grovel-file "cgsm")
+	     (cffi-grovel:grovel-file "num")
 	     (:file export)))))
 
 (asdf:defsystem-connection GSLL-tests
