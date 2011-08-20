@@ -1,6 +1,6 @@
 ;; Load GSL
 ;; Liam Healy Sat Mar  4 2006 - 18:53
-;; Time-stamp: <2011-01-13 09:38:45EST init.lisp>
+;; Time-stamp: <2011-08-19 23:29:56EDT init.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -28,7 +28,7 @@
   ;; antik:knots means "nautical miles per hour" vs. function #'gsl:knots
   ;; antik:acceleration refers to the time derivative of velocity vs. object 'gsl:acceleration.
   ;; si units symbol-macro vs. GSLL's sine integral.
-  (:shadowing-import-from :antik #:psi #:knots #:acceleration #:si))
+  (:shadowing-import-from :antik #:psi #:knots #:si))
 
 (setf
  antik::*antik-user-shadow-symbols*
@@ -42,6 +42,7 @@
 	   iterate:multiply		; GSLL function duplicates '*
 	   antik:polar-to-rectangular	; GSLL's doesn't use vectors
 	   antik:rectangular-to-polar	; GSLL's doesn't use vectors
+	   antik:acceleration
 	   ;; taken from GSLL
 	   gsll::iterate ; conflict with iterate:iterate, but iterate:iter is a synonym
 	   ))
