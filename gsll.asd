@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2011-08-25 22:34:18EDT gsll.asd>
+;; Time-stamp: <2011-08-26 10:32:29EDT gsll.asd>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -21,18 +21,14 @@
 (when (asdf:find-system :fsbv nil)
   (pushnew :fsbv *features*))
 
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (asdf:oos 'asdf:load-op :cffi-grovel)
-  (asdf:oos 'asdf:load-op 'asdf-system-connections))
-
 (asdf:defsystem #:gsll
   :name "GSLL"
   :description "GNU Scientific Library for Lisp."
   :version "0"
   :author "Liam M. Healy"
   :licence "GPL v3"
-  :depends-on (#:asdf-system-connections
-	       #:antik
+  :defsystem-depends-on (#:cffi-grovel #:asdf-system-connections)
+  :depends-on (#:antik
 	       #:cffi-grovel
 	       #:trivial-garbage
 	       #:alexandria
