@@ -107,7 +107,7 @@
                                                              (INCREMENT HISTO
                                                                         6.9d0
                                                                         2.0d0)
-                                                             (BINS HISTO))))
+                                                             (first (grid:dimensions HISTO)))))
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST 5)
                                                           (MULTIPLE-VALUE-LIST
                                                            (LET ((HISTO

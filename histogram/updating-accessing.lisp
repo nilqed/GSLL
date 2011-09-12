@@ -1,8 +1,8 @@
 ;; Updating and accessing histogram elements.
 ;; Liam Healy, Mon Jan  1 2007 - 14:43
-;; Time-stamp: <2011-05-26 12:37:35EDT updating-accessing.lisp>
+;; Time-stamp: <2011-09-12 17:35:27EDT updating-accessing.lisp>
 ;;
-;; Copyright 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,9 @@
 
 ;;; /usr/include/gsl/gsl_histogram.h
 ;;; /usr/include/gsl/gsl_histogram2d.h
+
+;;; Missing: 2D functions/methods; the 1D functions will need to be made into methods if not already.
+;;; http://www.gnu.org/s/gsl/manual/html_node/Updating-and-accessing-2D-histogram-elements.html
 
 (defmfun increment (histogram value &optional weight)
   ("gsl_histogram_increment" "gsl_histogram_accumulate")
@@ -82,16 +85,19 @@
   :documentation			; FDL
   "The minimum lower range limit of the histogram.")
 
-(defmfun bins (histogram)
+(defmfun grid:dimensions ((histogram histogram))
   "gsl_histogram_bins"
   (((mpointer histogram) :pointer))
-  :c-return sizet
+  :definition :method
+  :c-return (dim sizet)
+  :return ((list dim))
   :documentation			; FDL
   "The number of bins in the histogram.")
 
-(defmfun reset (histogram)
+(defmfun set-zero ((histogram histogram))
   "gsl_histogram_reset"
   (((mpointer histogram) :pointer))
+  :definition :method
   :c-return :void
   :documentation			; FDL
   "Reset all the bins in the histogram to zero.")
@@ -153,7 +159,7 @@
    (set-ranges-uniform histo 0.0d0 10.0d0)
    (increment histo 2.7d0)
    (increment histo 6.9d0 2.0d0)
-   (bins histo))
+   (grid:dimensions histo))
  (let ((histo (make-histogram 10)))
    (set-ranges-uniform histo 0.0d0 10.0d0)
    (increment histo 2.7d0)
