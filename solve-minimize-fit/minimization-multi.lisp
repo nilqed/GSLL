@@ -1,6 +1,6 @@
 ;; Multivariate minimization.
 ;; Liam Healy  <Tue Jan  8 2008 - 21:28>
-;; Time-stamp: <2011-08-17 00:50:24EDT minimization-multi.lisp>
+;; Time-stamp: <2011-09-28 13:30:49EDT minimization-multi.lisp>
 ;;
 ;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -47,11 +47,11 @@
   ((type :pointer) ((first dimensions) sizet))
   "multi-dimensional minimizer with function only"
   :documentation			; FDL
-  "Make an instance of a minimizer of the given for an function of the
-   given dimensions.  Optionally initialize the minimizer to minimize
-   the function starting from the initial point.  The size of the
-   initial trial steps is given in vector step-size. The precise
-   meaning of this parameter depends on the method used."
+  "Make an instance of a minimizer for a function of the given
+   dimensions without derivative.  Optionally initialize the minimizer
+   to minimize the function starting from the initial point.  The size
+   of the initial trial steps is given in vector step-size. The
+   precise meaning of this parameter depends on the method used."
   :callbacks
   (callback fnstruct-dimension (dimension)
 	    (function :double (:input :double :foreign-array dim0) :slug))
@@ -66,16 +66,15 @@
   ((type :pointer) ((first dimensions) sizet))
   "multi-dimensional minimizer with function and derivative"
   :documentation			; FDL
-  "Make an instance of a derivative-based minimizer of the given for
-   an function of the given dimensions.  Optionally initialize the
-   minimizer to minimize the function starting from the initial point.
-   The size of the first trial step is given by step-size.  The
-   accuracy of the line minimization is specified by tolernace.  The
-   precise meaning of this parameter depends on the method used.
-   Typically the line minimization is considered successful if the
-   gradient of the function g is orthogonal to the current search
-   direction p to a relative accuracy of tolerance, where dot(p,g) <
-   tol |p| |g|."
+  "Make an instance of a minimizer for a function of the given
+   dimensions with a derivative.  Optionally initialize the minimizer
+   to minimize the function starting from the initial point.  The size
+   of the first trial step is given by step-size.  The accuracy of the
+   line minimization is specified by tolernace.  The precise meaning
+   of this parameter depends on the method used.  Typically the line
+   minimization is considered successful if the gradient of the
+   function g is orthogonal to the current search direction p to a
+   relative accuracy of tolerance, where dot(p,g) < tol |p| |g|."
   :callbacks
   (callback fnstruct-dimension-fdf (dimension)
 	    (function :double (:input :double :foreign-array dim0) :slug)
