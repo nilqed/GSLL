@@ -1,8 +1,8 @@
 ;; Structures returned by special functions.
 ;; Liam Healy, Mon Jan  1 2007 - 11:35
-;; Time-stamp: <2010-12-19 16:09:12EST return-structures.lisp>
+;; Time-stamp: <2011-10-23 21:15:46EDT return-structures.lisp>
 ;;
-;; Copyright 2007, 2008, 2009, 2010 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -24,38 +24,14 @@
 ;;;; Result from special functions
 ;;;;****************************************************************************
 
-#|
-
-;;; Remove #'val, #'err, #'e10 in favor of using #'fsbv:object to
-;;; convert from foreign to CL.
-
-(defun val (sf-result &optional (type 'sf-result))
-  (cffi:foreign-slot-value sf-result type 'val))
-
-(defun err (sf-result &optional (type 'sf-result))
-  (cffi:foreign-slot-value sf-result type 'err))
-
-(defun e10 (sf-result)
-  (cffi:foreign-slot-value sf-result 'sf-result-e10 'e10))
-|#
-
-;;; Define instead with fsbv:defconvert.  Eventually this should get
-;;; into CFFI and automatically from cffi:defcstruct; and also picked
-;;; up by cffi-grovel.  For the time being, FSBV is required.
-
-#+fsbv
-(fsbv:defconvert (sf-result :constructor values)
-  (val :double)
-  (err :double))
-
-(defun values-e10 (val err e10)
-  (values val e10 err))
-
-#+fsbv
-(fsbv:defconvert (sf-result-e10 :constructor values-e10)
-  (val :double)
-  (err :double)
-  (e10 :int))
+;;; Define methods for cffi:translate-from-foreign for translate-from-foreign
+;;; that return the slots as successive values.
+;;; (defmethod cffi:translate-from-foreign (value (type ))); sf-result
+;;; (defmethod cffi:translate-from-foreign (value (type ))); sf-result-e10
+;;; This should become the cffi:translate-from-foreign method for sf-result-e10
+;;;(defun values-e10 (val err e10)
+;;;  (values val e10 err))
+;;; Note: need to enhance CFFI to either make a default class name for each type, or allow the specification of a class when groveling.
 
 (defun complex-with-error (real-sfr imaginary-sfr)
   "Return two complex numbers, the value and the error."

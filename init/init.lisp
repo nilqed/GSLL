@@ -1,6 +1,6 @@
 ;; Load GSL
 ;; Liam Healy Sat Mar  4 2006 - 18:53
-;; Time-stamp: <2011-10-17 23:09:40EDT init.lisp>
+;; Time-stamp: <2011-10-23 21:57:41EDT init.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -22,6 +22,7 @@
     (:nicknames :gsl)
   (:use :common-lisp :cffi)
   (:import-from :grid #:dim0 #:dim1 #:^ #:copy)
+  #+fsbv (:import-from :cffi-fsbv #:sizet) ; and what do we do if #-fsbv?
   (:export #:dim0 #:dim1 #:copy)
   ;; No actual conflict due to different usage of symbols:
   ;; antik:psi means "pounds per square inch" vs. function #'gsl:psi

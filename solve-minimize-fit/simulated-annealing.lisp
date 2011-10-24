@@ -1,6 +1,6 @@
 ;; Simulated Annealing
 ;; Liam Healy Sun Feb 11 2007 - 17:23
-;; Time-stamp: <2011-05-26 12:37:32EDT simulated-annealing.lisp>
+;; Time-stamp: <2011-10-23 22:15:00EDT simulated-annealing.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -26,7 +26,7 @@
 ;;;; Simulated annealing argument structure
 ;;;;****************************************************************************
 
-(fsbv:defcstruct simulated-annealing-parameters
+(cffi:defcstruct simulated-annealing-parameters
   (n-tries :int)		; how many points to try for each step
   (iterations-fixed-T :int) ; how many iterations at each temperature?
   (step-size :double)		    ; max step size in the random walk
@@ -181,7 +181,7 @@
    ((cffi:get-callback 'sa-copy-constructor-function) :pointer)
    ((cffi:get-callback 'sa-destroy-function) :pointer)
    (0 sizet)
-   (parameters simulated-annealing-parameters))
+   (parameters (:struct simulated-annealing-parameters)))
   :c-return :void
   :export nil
   :index simulated-annealing)

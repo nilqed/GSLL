@@ -1,6 +1,6 @@
 ;; Generators of random numbers.
 ;; Liam Healy, Sat Jul 15 2006 - 14:43
-;; Time-stamp: <2010-12-19 16:11:01EST generators.lisp>
+;; Time-stamp: <2011-10-23 22:02:24EDT generators.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -169,7 +169,7 @@
     (loop for i from 0 below (length ans)
        do
        (setf (aref ans i)
-	     (fsbv:object (rng-state gen) :uint8 i)))
+	     (cffi:mem-aref (rng-state gen) :uint8 i)))
     ans))
 
 ;;;;****************************************************************************
