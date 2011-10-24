@@ -1,6 +1,6 @@
 ;; Trigonometry
 ;; Liam Healy, Thu May  4 2006 - 22:58
-;; Time-stamp: <2009-12-27 10:09:58EST trigonometry.lisp>
+;; Time-stamp: <2010-12-04 11:32:57EST trigonometry.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -40,8 +40,7 @@
   (((realpart x) :double) ((imagpart x) :double)
    (re-ret sf-result) (im-ret sf-result))
   :definition :method
-  :return ((complex (val re-ret) (val im-ret))
-	   (complex (err re-ret) (err im-ret))))
+  :return ((complex-with-error re-ret im-ret)))
 
 (defmfun gsl-cos ((x float))
   "gsl_sf_cos_e" ((x :double) (ret sf-result))
@@ -53,8 +52,7 @@
   (((realpart x) :double) ((imagpart x) :double)
    (re-ret sf-result) (im-ret sf-result))
   :definition :method 
-  :return ((complex (val re-ret) (val im-ret))
-	   (complex (err re-ret) (err im-ret))))
+  :return ((complex-with-error re-ret im-ret)))
 
 (defmfun hypotenuse (x y)
   "gsl_sf_hypot_e" ((x :double) (y :double) (ret sf-result))
@@ -74,8 +72,7 @@
   "This function computes the logarithm of the complex sine,
   \log(\sin(z_r + i z_i)) storing the real and imaginary parts in
   szr, szi."
-  :return ((complex (val re-ret) (val im-ret))
-	   (complex (err re-ret) (err im-ret))))
+  :return ((complex-with-error re-ret im-ret)))
 
 ;;;;****************************************************************************
 ;;;; Hyperbolic Trigonometric Functions
@@ -100,7 +97,7 @@
 (defmfun polar-to-rectangular (r theta)
   "gsl_sf_polar_to_rect"
   ((r :double) (theta :double) (x sf-result) (y sf-result))
-  :return ((val x) (val y) (err x) (err y))
+  :return ((values-with-errors x y))
   :documentation			; FDL
   "Convert the polar coordinates (r, theta) to
   rectilinear coordinates (x, y), x = r\cos(\theta), y = r\sin(\theta).")
@@ -108,7 +105,7 @@
 (defmfun rectangular-to-polar (x y)
   "gsl_sf_rect_to_polar"
   ((x :double) (y :double) (r sf-result) (theta sf-result))
-  :return ((val r) (val theta) (err r) (err theta))
+  :return ((values-with-errors r theta))
   :documentation			; FDL
   "Convert the rectilinear coordinates (x, y) to
   polar coordinates (r, theta), such that x =

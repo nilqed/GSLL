@@ -1,8 +1,8 @@
 ;; Coulumb functions
 ;; Liam Healy, Sat Mar 18 2006 - 23:23
-;; Time-stamp: <2011-01-10 17:59:32EST coulomb.lisp>
+;; Time-stamp: <2011-10-23 20:32:16EDT coulomb.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -52,9 +52,13 @@
    (F sf-result) (Fp sf-result) (G sf-result) (Gp sf-result)
    (exp-F (:pointer :double)) (exp-G (:pointer :double)))
   :return
-  ((val F) (val Fp) (val G) (val Gp)
-   (grid:dcref exp-F) (grid:dcref exp-G)
-   (err F) (err Fp) (err G) (err Gp))
+  ((let ((vl (multiple-value-list (values-with-errors F Fp G Gp))))
+     (values-list
+      (append (subseq vl 0 4)
+	      (list
+	       (fsbv:object exp-F :double)
+	       (fsbv:object exp-G :double))
+	      (subseq vl 4)))))
   :documentation			; FDL
   "The Coulomb wave functions F_L(\eta,x),
   G_{L-k}(\eta,x) and their derivatives F'_L(\eta,x), G'_{L-k}(\eta,x)
@@ -72,7 +76,7 @@
   ((L-min :double) ((1- (dim0 fc-array)) :int) (eta :double) (x :double)
    ((grid:foreign-pointer fc-array) :pointer) (F-exponent (:pointer :double)))
   :outputs (fc-array)
-  :return (fc-array (grid:dcref F-exponent))
+  :return (fc-array (fsbv:object F-exponent :double))
   :documentation			; FDL
   "The Coulomb wave function F_L(\eta,x) for
   L = Lmin ... Lmin + kmax, storing the results in fc-array.
@@ -89,7 +93,10 @@
    ((grid:foreign-pointer fc-array) :pointer) ((grid:foreign-pointer gc-array) :pointer)
    (F-exponent (:pointer :double)) (G-exponent (:pointer :double)))
   :outputs (fc-array gc-array)
-  :return (fc-array gc-array (grid:dcref F-exponent) (grid:dcref G-exponent))
+  :return (fc-array
+	   gc-array
+	   (fsbv:object F-exponent :double)
+	   (fsbv:object G-exponent :double))
   :documentation			; FDL
   "The functions F_L(\eta,x),
   G_L(\eta,x) for L = Lmin ... Lmin + kmax storing the
@@ -114,7 +121,7 @@
   :outputs (fc-array fcp-array gc-array gcp-array)
   :return
   (fc-array fcp-array gc-array gcp-array
-	    (grid:dcref F-exponent) (grid:dcref G-exponent))
+	    (fsbv:object F-exponent :double) (fsbv:object G-exponent :double))
   :documentation			; FDL
   "The functions F_L(\eta,x),
   G_L(\eta,x) and their derivatives F'_L(\eta,x),
@@ -130,7 +137,7 @@
   ((L-min :double) ((1- (dim0 fc-array)) :int) (eta :double) (x :double)
    ((grid:foreign-pointer fc-array) :pointer) (F-exponent (:pointer :double)))
   :outputs (fc-array)
-  :return (fc-array (grid:dcref F-exponent))
+  :return (fc-array (fsbv:object F-exponent :double))
   :documentation			; FDL
   "The Coulomb wave function divided by the argument
    F_L(\eta, x)/x for L = Lmin ... Lmin + kmax, storing the

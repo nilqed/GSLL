@@ -1,8 +1,8 @@
 ;; Gamma functions
 ;; Liam Healy, Thu Apr 27 2006 - 22:06
-;; Time-stamp: <2010-06-27 18:03:15EDT gamma.lisp>
+;; Time-stamp: <2010-12-04 11:39:55EST gamma.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -52,7 +52,9 @@
 (defmfun log-gamma-sign (x)
   "gsl_sf_lngamma_sgn_e"
   ((x :double) (ret sf-result) (sign (:pointer :double)))
-  :return ((val ret) (grid:dcref sign) (err ret))
+  :return ((multiple-value-bind (val err)
+	       (fsbv:object ret 'sf-result)
+	     (values val (fsbv:object sign :double) err )))
   :documentation			; FDL
   "Compute the sign of the gamma function and the logarithm of
   its magnitude, subject to x not being a negative integer.  The
@@ -89,7 +91,7 @@
   will result in a :ELOSS error when it occurs.  The absolute
   value part (lnr), however, never suffers from loss of precision."
   :return
-  ((val lnr) (val arg) (err lnr) (err arg)))
+  ((values-with-errors lnr arg)))
 
 (defmfun taylor-coefficient (n x)
   "gsl_sf_taylorcoeff_e" ((n :int) (x :double) (ret sf-result))
@@ -151,7 +153,9 @@
   The computed parameters are result =
   log(|(a)_x|) and sgn = sgn((a)_x) where (a)_x :=
   Gamma(a + x)/Gamma(a), subject to a, a+x not being negative integers."
-  :return ((val ret) (grid:dcref sign) (err ret)))
+  :return ((multiple-value-bind (val err)
+	       (fsbv:object ret 'sf-result)
+	     (values val (fsbv:object sign :double) err ))))
 
 (defmfun relative-pochammer (a x)
   "gsl_sf_pochrel_e" ((a :double) (x :double) (ret sf-result))

@@ -1,8 +1,8 @@
 ;; Linear least squares, or linear regression
 ;; Liam Healy <2008-01-21 12:41:46EST linear-least-squares.lisp>
-;; Time-stamp: <2011-08-16 23:46:14EDT linear-least-squares.lisp>
+;; Time-stamp: <2011-10-23 20:31:38EDT linear-least-squares.lisp>
 ;;
-;; Copyright 2008, 2009, 2011 Liam M. Healy
+;; Copyright 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -202,7 +202,7 @@
   :inputs (model weight observations)
   :outputs (parameters covariance)
   :switch (weight)
-  :return (parameters covariance (grid:dcref chisq))
+  :return (parameters covariance (fsbv:object chisq :double))
   :export nil
   :index linear-mfit
   :documentation			; FDL
@@ -247,7 +247,7 @@
   :inputs (model weight observations)
   :outputs (parameters covariance)
   :switch (weight)
-  :return ((grid:dcref chisq) (scref rank))
+  :return ((fsbv:object chisq :double) (fsbv:object rank 'sizet))
   :export nil
   :index linear-mfit
   :documentation			; FDL

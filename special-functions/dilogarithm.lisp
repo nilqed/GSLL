@@ -1,8 +1,8 @@
 ;; Dilogarithm
 ;; Liam Healy, Fri Mar 17 2006 - 18:44
-;; Time-stamp: <2009-12-27 10:10:05EST dilogarithm.lisp>
+;; Time-stamp: <2010-12-04 11:51:29EST dilogarithm.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@
   "gsl_sf_complex_dilog_e"
   (((abs x) :double) ((phase x) :double) (re sf-result) (im sf-result))
   :definition :method
-  :return ((complex (val re) (val im)) (complex (err re) (err im))))
+  :return ((complex-with-error re im)))
 
 (save-test dilogarithm
 	   (dilogarithm 1.0d0)
