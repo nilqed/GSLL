@@ -1,6 +1,6 @@
 ;; BLAS level 3, Matrix-matrix operations
 ;; Liam Healy, Wed Apr 26 2006 - 21:08
-;; Time-stamp: <2011-10-23 20:27:45EDT blas3.lisp>
+;; Time-stamp: <2011-10-23 20:37:22EDT blas3.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -21,13 +21,6 @@
 (in-package :gsl)
 
 ;;; /usr/include/gsl/gsl_blas.h
-
-;;;;****************************************************************************
-;;;; Options
-;;;;****************************************************************************
-
-#+fsbv (fsbv:defenumeration cblas-side)
-;;; Eventually, #-fsbv (cffi:defconvert-cenum cblas-side)
 
 ;;;;****************************************************************************
 ;;;; Functions
