@@ -1,6 +1,6 @@
 ;; Structures returned by special functions.
 ;; Liam Healy, Mon Jan  1 2007 - 11:35
-;; Time-stamp: <2011-10-23 21:15:46EDT return-structures.lisp>
+;; Time-stamp: <2011-10-29 18:24:42EDT return-structures.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -26,30 +26,35 @@
 
 ;;; Define methods for cffi:translate-from-foreign for translate-from-foreign
 ;;; that return the slots as successive values.
-;;; (defmethod cffi:translate-from-foreign (value (type ))); sf-result
-;;; (defmethod cffi:translate-from-foreign (value (type ))); sf-result-e10
-;;; This should become the cffi:translate-from-foreign method for sf-result-e10
-;;;(defun values-e10 (val err e10)
-;;;  (values val e10 err))
-;;; Note: need to enhance CFFI to either make a default class name for each type, or allow the specification of a class when groveling.
+
+(cffi:define-translation-method (pointer sf-result :from)
+  (let ((plist (call-next-method)))
+    (values (getf plist 'val) (getf plist 'err))))
+
+(cffi:define-translation-method (pointer sf-result-e10 :from)
+  (let ((plist (call-next-method)))
+    (values (getf plist 'val) (getf plist 'e10) (getf plist 'err))))
 
 (defun complex-with-error (real-sfr imaginary-sfr)
   "Return two complex numbers, the value and the error."
-  (multiple-value-bind (re-val re-err)
-      (fsbv:object real-sfr 'sf-result)
-    (multiple-value-bind (im-val im-err)
-	(fsbv:object imaginary-sfr 'sf-result)
-      (values
-       (complex re-val im-val)
-       (complex re-err im-err)))))
+  (metabang-bind:bind
+      (((:values treal-val treal-err)
+	(cffi:convert-from-foreign real-sfr '(:struct sf-result)))
+       ((:values timag-val timag-err)
+	(cffi:convert-from-foreign imaginary-sfr '(:struct sf-result))))
+    (values
+     (complex treal-val timag-val)
+     (complex treal-err timag-err))))
 
 (defun values-with-errors (&rest values-sfr)
   "Return numbers as values and errors."
   (loop for vs in values-sfr
-     for (val err) = (multiple-value-list (fsbv:object vs 'sf-result))
-     collect val into values
-     collect err into errors
-     finally (return (values-list (append values errors)))))
+	for tvs
+	  =  (multiple-value-list
+	      (cffi:convert-from-foreign vs '(:struct sf-result)))
+	collect (first tvs) into values
+	collect (second tvs) into errors
+	finally (return (values-list (append values errors)))))
 
 ;;;;****************************************************************************
 ;;;; Array construction

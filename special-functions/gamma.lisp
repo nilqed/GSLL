@@ -1,8 +1,8 @@
 ;; Gamma functions
 ;; Liam Healy, Thu Apr 27 2006 - 22:06
-;; Time-stamp: <2011-10-23 22:04:31EDT gamma.lisp>
+;; Time-stamp: <2011-10-29 18:19:04EDT gamma.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2010 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -41,7 +41,7 @@
    Gamma(x) is not considered an overflow is given by +gamma-xmax+.")
 
 (defmfun log-gamma (x)
-  "gsl_sf_lngamma_e" ((x :double) (ret sf-result))
+  "gsl_sf_lngamma_e" ((x :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The logarithm of the Gamma function,
    log(Gamma(x)), subject to x not a being negative
@@ -51,9 +51,9 @@
 
 (defmfun log-gamma-sign (x)
   "gsl_sf_lngamma_sgn_e"
-  ((x :double) (ret sf-result) (sign (:pointer :double)))
+  ((x :double) (ret (:pointer (:struct sf-result))) (sign (:pointer :double)))
   :return ((multiple-value-bind (val err)
-	       (fsbv:object ret 'sf-result)
+	       (cffi:convert-from-foreign ret '(:struct sf-result))
 	     (values val (cffi:mem-ref sign :double) err )))
   :documentation			; FDL
   "Compute the sign of the gamma function and the logarithm of
@@ -147,15 +147,18 @@
 
 (defmfun log-pochammer-sign (a x)
   "gsl_sf_lnpoch_sgn_e"
-  ((a :double) (x :double) (ret sf-result) (sign (:pointer :double)))
+  ((a :double)
+   (x :double)
+   (ret (:pointer (:struct sf-result)))
+   (sign (:pointer :double)))
   :documentation			; FDL
   "The logarithm of the Pochhammer symbol and its sign.
   The computed parameters are result =
   log(|(a)_x|) and sgn = sgn((a)_x) where (a)_x :=
   Gamma(a + x)/Gamma(a), subject to a, a+x not being negative integers."
-  :return ((multiple-value-bind (val err)
-	       (fsbv:object ret 'sf-result)
-	     (values val (cffi:mem-ref sign :double) err ))))
+  :return  ((multiple-value-bind (val err)
+		(cffi:convert-from-foreign ret '(:struct sf-result))
+	      (values val (cffi:mem-ref sign :double) err ))))
 
 (defmfun relative-pochammer (a x)
   "gsl_sf_pochrel_e" ((a :double) (x :double) (ret sf-result))

@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2011-08-26 10:32:29EDT gsll.asd>
+;; Time-stamp: <2011-10-29 19:21:04EDT gsll.asd>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -18,8 +18,8 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-(when (asdf:find-system :fsbv nil)
-  (pushnew :fsbv *features*))
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (asdf:oos 'asdf:load-op :cffi-fsbv))	; loads cff-grovel too, needed here
 
 (asdf:defsystem #:gsll
   :name "GSLL"
@@ -32,7 +32,7 @@
 	       #:cffi-grovel
 	       #:trivial-garbage
 	       #:alexandria
-	       #+fsbv #:fsbv
+	       #:metabang-bind
 	       #:osicat)
   :components
   ((:module init
