@@ -1,6 +1,6 @@
 ;; Legendre functions
 ;; Liam Healy, Sat Apr 29 2006 - 19:16
-;; Time-stamp: <2011-01-10 17:59:33EST legendre.lisp>
+;; Time-stamp: <2011-10-29 23:42:17EDT legendre.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -27,25 +27,26 @@
 ;;;;****************************************************************************
 
 (defmfun legendre-P1 (x)
-  "gsl_sf_legendre_P1_e" ((x :double) (ret sf-result))
+  "gsl_sf_legendre_P1_e" ((x :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The Legendre polynomials P_1(x) using an explicit
    representation.")
 
 (defmfun legendre-P2 (x)
-  "gsl_sf_legendre_P2_e" ((x :double) (ret sf-result))
+  "gsl_sf_legendre_P2_e" ((x :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The Legendre polynomials P_2(x) using an explicit
    representation.")
 
 (defmfun legendre-P3 (x)
-  "gsl_sf_legendre_P3_e" ((x :double) (ret sf-result))
+  "gsl_sf_legendre_P3_e" ((x :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The Legendre polynomials P_3(x) using an explicit
    representation.")
 
 (defmfun legendre-Pl (l x)
-  "gsl_sf_legendre_Pl_e" ((l :int) (x :double) (ret sf-result))
+  "gsl_sf_legendre_Pl_e"
+  ((l :int) (x :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The Legendre polynomial P_l(x) for a specific value of l,
    x subject to l >= 0, |x| <= 1.")
@@ -71,19 +72,19 @@
   dP_l(x)/dx, for l = 0, ...,  length(array), |x| <= 1.")
 
 (defmfun legendre-Q0 (x)
-  "gsl_sf_legendre_Q0_e" ((x :double) (ret sf-result))
+  "gsl_sf_legendre_Q0_e" ((x :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The Legendre function Q_0(x) for x > -1,
    x /= 1.")
 
 (defmfun legendre-Q1 (x)
-  "gsl_sf_legendre_Q1_e" ((x :double) (ret sf-result))
+  "gsl_sf_legendre_Q1_e" ((x :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The Legendre function Q_1(x) for x > -1,
    x /= 1.")
 
 (defmfun legendre-Ql (l x)
-  "gsl_sf_legendre_Ql_e" ((l :int) (x :double) (ret sf-result))
+  "gsl_sf_legendre_Ql_e" ((l :int) (x :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The Legendre function Q_l(x) for x > -1, x /= 1, l >= 0.")
 
@@ -105,7 +106,8 @@
 ;;; which uses a similar recursion, but with the normalized functions.
 
 (defmfun legendre-Plm (l m x)
-  "gsl_sf_legendre_Plm_e" ((l :int) (m :int) (x :double) (ret sf-result))
+  "gsl_sf_legendre_Plm_e"
+  ((l :int) (m :int) (x :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The associated Legendre polynomial
    P_l^m(x) for m >= 0, l >= m, |x| <= 1.")
@@ -137,7 +139,8 @@
     l = |m|, ..., length(values) and |x| <= 1.")
 
 (defmfun legendre-sphPlm (l m x)
-  "gsl_sf_legendre_sphPlm_e" ((l :int) (m :int) (x :double) (ret sf-result))
+  "gsl_sf_legendre_sphPlm_e"
+  ((l :int) (m :int) (x :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The normalized associated Legendre polynomial
    \sqrt{(2l+1)/(4\pi) \sqrt{(l-m)!/(l+m)!} P_l^m(x) suitable
@@ -164,7 +167,8 @@
        (derivatives (vdf derivatives-size-or-array)))
   "gsl_sf_legendre_sphPlm_deriv_array"
   (((+ (dim0 values) m -1) :int) (m :int) (x :double)
-   ((grid:foreign-pointer values) :pointer) ((grid:foreign-pointer derivatives) :pointer))
+   ((grid:foreign-pointer values) :pointer)
+   ((grid:foreign-pointer derivatives) :pointer))
   :outputs (values derivatives)
   :documentation			; FDL
   "An array of normalized associated Legendre functions
@@ -188,38 +192,42 @@
 ;;; are described in Abramowitz & Stegun, Section 8.12.
 
 (defmfun legendre-conicalP-half (lambda x)
-  "gsl_sf_conicalP_half_e" ((lambda :double) (x :double) (ret sf-result))
+  "gsl_sf_conicalP_half_e"
+  ((lambda :double) (x :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The irregular Spherical Conical Function
    P^{1/2}_{-1/2 + i \lambda}(x) for x > -1.")
 
 (defmfun legendre-conicalP-mhalf (lambda x)
-  "gsl_sf_conicalP_mhalf_e" ((lambda :double) (x :double) (ret sf-result))
+  "gsl_sf_conicalP_mhalf_e"
+  ((lambda :double) (x :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The regular Spherical Conical Function
    P^{-1/2}_{-1/2 + i \lambda}(x) for x > -1.")
 
 (defmfun legendre-conicalP-0 (lambda x)
-  "gsl_sf_conicalP_0_e" ((lambda :double) (x :double) (ret sf-result))
+  "gsl_sf_conicalP_0_e"
+  ((lambda :double) (x :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The conical function P^0_{-1/2 + i \lambda(x)} for x > -1.")
 
 (defmfun legendre-conicalP-1 (lambda x)
-  "gsl_sf_conicalP_1_e" ((lambda :double) (x :double) (ret sf-result))
+  "gsl_sf_conicalP_1_e"
+  ((lambda :double) (x :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The conical function 
    P^1_{-1/2 + i \lambda}(x)} for x > -1.")
 
 (defmfun legendre-regular-spherical-conical (l lambda x)
   "gsl_sf_conicalP_sph_reg_e"
-  ((l :int) (lambda :double) (x :double) (ret sf-result))
+  ((l :int) (lambda :double) (x :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The Regular Spherical Conical Function
    P^{-1/2-l}_{-1/2 + i \lambda}(x) for x > -1, l >= -1.")
 
 (defmfun legendre-regular-cylindrical-conical (l lambda x)
   "gsl_sf_conicalP_cyl_reg_e"
-  ((l :int) (lambda :double) (x :double) (ret sf-result))
+  ((l :int) (lambda :double) (x :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The Regular Cylindrical Conical Function
    P^{-m}_{-1/2 + i \lambda}(x) for x > -1, m >= -1.")
@@ -237,7 +245,7 @@
 
 (defmfun legendre-H3d-0 (lambda eta)
   "gsl_sf_legendre_H3d_0_e"
-  ((lambda :double) (eta :double) (ret sf-result))
+  ((lambda :double) (eta :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The zeroth radial eigenfunction of the Laplacian on the
    3-dimensional hyperbolic space,
@@ -247,7 +255,7 @@
 
 (defmfun legendre-H3d-1 (lambda eta)
   "gsl_sf_legendre_H3d_1_e"
-  ((lambda :double) (eta :double) (ret sf-result))
+  ((lambda :double) (eta :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The first radial eigenfunction of the Laplacian on
    the 3-dimensional hyperbolic space,
@@ -258,7 +266,7 @@
 
 (defmfun legendre-H3d (l lambda eta)
   "gsl_sf_legendre_H3d_e"
-  ((l :int) (lambda :double) (eta :double) (ret sf-result))
+  ((l :int) (lambda :double) (eta :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The l-th radial eigenfunction of the
    Laplacian on the 3-dimensional hyperbolic space

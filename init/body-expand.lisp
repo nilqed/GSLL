@@ -1,6 +1,6 @@
 ;; Expand the body of a defmfun
 ;; Liam Healy 2009-04-13 22:07:13EDT body-expand.lisp
-;; Time-stamp: <2011-10-29 18:52:05EDT body-expand.lisp>
+;; Time-stamp: <2011-10-30 00:35:29EDT body-expand.lisp>
 ;;
 ;; Copyright 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -22,13 +22,16 @@
 
 (defun creturn-st (c-return)
   "The symbol-type of the return from the C function."
-  (grid:make-st
-   (if (listp c-return)
-       (grid:st-symbol c-return)
-       (make-symbol "CRETURN"))
-   (if (member c-return *special-c-return*)
-       :int
-       (if (listp c-return) (grid:st-type c-return) c-return))))
+  (let ((supplied-symbol-p		; return symbol supplied
+	  (and (listp c-return)		; accommodate (:struct foo) type spec
+	       (not (eq (symbol-package (first c-return)) (find-package :keyword))))))
+    (grid:make-st
+     (if supplied-symbol-p
+      (grid:st-symbol c-return)
+      (make-symbol "CRETURN"))
+     (if (member c-return *special-c-return*)
+	 :int
+	 (if supplied-symbol-p (grid:st-type c-return) c-return)))))
 
 (defun cl-convert-form (decl)
   "Generate a form that calls the appropriate converter from C/GSL to CL."

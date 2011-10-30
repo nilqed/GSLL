@@ -1,6 +1,6 @@
 ;; Coulumb functions
 ;; Liam Healy, Sat Mar 18 2006 - 23:23
-;; Time-stamp: <2011-10-23 22:04:09EDT coulomb.lisp>
+;; Time-stamp: <2011-10-29 23:32:13EDT coulomb.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -27,14 +27,15 @@
 ;;;;****************************************************************************
 
 (defmfun hydrogenicR-1 (x r)
-  "gsl_sf_hydrogenicR_1_e" ((x :double) (r :double) (ret sf-result))
+  "gsl_sf_hydrogenicR_1_e"
+  ((x :double) (r :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The lowest-order normalized hydrogenic bound state radial
    wavefunction R_1 := 2Z \sqrt{Z} \exp(-Z r).")
 
 (defmfun hydrogenicR (n l x r)
   "gsl_sf_hydrogenicR_e"
-  ((n :int) (l :int) (x :double) (r :double) (ret sf-result))
+  ((n :int) (l :int) (x :double) (r :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The n-th normalized hydrogenic bound state radial wavefunction,
   R_n := {2 Z^{3/2} \over n^2}  \left({2Z \over n}\right)^l
@@ -49,7 +50,8 @@
 (defmfun coulomb-wave-FG (eta x L-F k)
   "gsl_sf_coulomb_wave_FG_e"
   ((eta :double) (x :double) (L-F :double) (k :int)
-   (F sf-result) (Fp sf-result) (G sf-result) (Gp sf-result)
+   (F (:pointer (:struct sf-result))) (Fp (:pointer (:struct sf-result)))
+   (G (:pointer (:struct sf-result))) (Gp (:pointer (:struct sf-result)))
    (exp-F (:pointer :double)) (exp-G (:pointer :double)))
   :return
   ((let ((vl (multiple-value-list (values-with-errors F Fp G Gp))))
@@ -150,7 +152,8 @@
 ;;;;****************************************************************************
 
 (defmfun coulomb-CL (L eta)
-  "gsl_sf_coulomb_CL_e" ((L :double) (eta :double) (ret sf-result))
+  "gsl_sf_coulomb_CL_e"
+  ((L :double) (eta :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The Coulomb wave function normalization constant C_L(\eta)
    for L > -1.")

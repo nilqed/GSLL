@@ -1,6 +1,6 @@
 ;; Mathieu functions
 ;; Liam Healy 2009-02-16 16:30:59EST mathieu.lisp
-;; Time-stamp: <2011-01-10 17:59:33EST mathieu.lisp>
+;; Time-stamp: <2011-10-29 23:29:25EDT mathieu.lisp>
 ;;
 ;; Copyright 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -36,7 +36,7 @@
 
 (defmfun mathieu-a (n q)
   "gsl_sf_mathieu_a"
-  ((n :int) (q :double) (ret sf-result))
+  ((n :int) (q :double) (ret (:pointer (:struct sf-result))))
   :gsl-version (1 9)
   :documentation			; FDL
   "Compute the characteristic value a_n(q) of the Mathieu function
@@ -44,7 +44,7 @@
 
 (defmfun mathieu-b (n q)
   "gsl_sf_mathieu_b"
-  ((n :int) (q :double) (ret sf-result))
+  ((n :int) (q :double) (ret (:pointer (:struct sf-result))))
   :gsl-version (1 9)
   :documentation			; FDL
   "Compute the characteristic values b_n(q) of the Mathieu
@@ -94,14 +94,14 @@
 
 (defmfun mathieu-ce (n q x)
   "gsl_sf_mathieu_ce"
-  ((n :int) (q :double) (x :double) (ret sf-result))
+  ((n :int) (q :double) (x :double) (ret (:pointer (:struct sf-result))))
   :gsl-version (1 9)
   :documentation			; FDL
   "Compute the angular Mathieu functions ce_n(q,x).")
 
 (defmfun mathieu-se (n q x)
   "gsl_sf_mathieu_se"
-  ((n :int) (q :double) (x :double) (ret sf-result))
+  ((n :int) (q :double) (x :double) (ret (:pointer (:struct sf-result))))
   :gsl-version (1 9)
   :documentation			; FDL
   "Compute the angular Mathieu functions se_n(q,x).")
@@ -152,7 +152,7 @@
 
 (defmfun mathieu-Mc (j n q x)
   "gsl_sf_mathieu_Mc"
-  ((j :int) (n :int) (q :double) (x :double) (ret sf-result))
+  ((j :int) (n :int) (q :double) (x :double) (ret (:pointer (:struct sf-result))))
   :gsl-version (1 9)
   :documentation			; FDL
   "Compute the radial j-th kind Mathieu functions Mc_n^{(j)}(q,x) of
@@ -163,7 +163,7 @@
 
 (defmfun mathieu-Ms (j n q x)
   "gsl_sf_mathieu_Ms"
-  ((j :int) (n :int) (q :double) (x :double) (ret sf-result))
+  ((j :int) (n :int) (q :double) (x :double) (ret (:pointer (:struct sf-result))))
   :gsl-version (1 9)
   :documentation			; FDL
   "Compute the radial j-th kind Mathieu functions Ms_n^{(j)}(q,x) of order n.

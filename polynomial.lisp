@@ -1,6 +1,6 @@
 ;; Polynomials
 ;; Liam Healy, Tue Mar 21 2006 - 18:33
-;; Time-stamp: <2011-01-10 17:47:56EST polynomial.lisp>
+;; Time-stamp: <2011-10-29 23:21:19EDT polynomial.lisp>
 ;;
 ;; Copyright 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -47,11 +47,11 @@
      &key)
   "gsl_poly_complex_eval"
   (((grid:foreign-pointer coefficients) :pointer) ((dim0 coefficients) sizet)
-   (x grid:complex-double-c))
+   (x (:struct grid:complex-double-c)))
   :definition :method
   :gsl-version (1 11)
   :inputs (coefficients)
-  :c-return grid:complex-double-c
+  :c-return (:struct grid:complex-double-c)
   :documentation			; FDL
   "Evaluate the polyonomial with coefficients at the complex value x.")
 
@@ -61,11 +61,11 @@
      &key)
   "gsl_complex_poly_complex_eval"
   (((grid:foreign-pointer coefficients) :pointer) ((dim0 coefficients) sizet)
-   (x grid:complex-double-c))
+   (x (:struct grid:complex-double-c)))
   :definition :method
   :gsl-version (1 11)
   :inputs (coefficients)
-  :c-return grid:complex-double-c
+  :c-return (:struct grid:complex-double-c)
   :documentation			; FDL
   "Evaluate the polyonomial with coefficients at the complex value x.")
 
@@ -128,7 +128,8 @@
 (defmfun solve-quadratic-complex (a b c)
   "gsl_poly_complex_solve_quadratic"
   ((a :double) (b :double) (c :double)
-   (root1 (:pointer grid:complex-double-c)) (root2 (:pointer grid:complex-double-c)))
+   (root1 (:pointer (:struct grid:complex-double-c)))
+   (root2 (:pointer (:struct grid:complex-double-c))))
   :c-return :number-of-answers
   :documentation			; FDL
   "The complex roots of the quadratic equation a x^2 + b x + c = 0.
@@ -154,8 +155,9 @@
 (defmfun solve-cubic-complex (a b c)
   "gsl_poly_complex_solve_cubic"
   ((a :double) (b :double) (c :double)
-   (root1 (:pointer grid:complex-double-c)) (root2 (:pointer grid:complex-double-c))
-   (root3 (:pointer grid:complex-double-c)))
+   (root1 (:pointer (:struct grid:complex-double-c)))
+   (root2 (:pointer (:struct grid:complex-double-c)))
+   (root3 (:pointer (:struct grid:complex-double-c))))
   :c-return :number-of-answers
   :documentation			; FDL
   "Find the complex roots of the cubic equation, x^3 + a x^2 + b x + c = 0

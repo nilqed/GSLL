@@ -1,8 +1,8 @@
 ;; Elliptic integrals
 ;; Liam Healy, Mon Mar 20 2006 - 21:50
-;; Time-stamp: <2009-12-27 10:10:04EST elliptic-integrals.lisp>
+;; Time-stamp: <2011-10-29 23:36:10EDT elliptic-integrals.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -25,14 +25,14 @@
 ;;;;****************************************************************************
 
 (defmfun elliptic-integral-K-complete (k &optional (mode :double))
-  "gsl_sf_ellint_Kcomp_e" ((k :double) (mode sf-mode) (ret sf-result))
+  "gsl_sf_ellint_Kcomp_e" ((k :double) (mode sf-mode) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The complete elliptic integral of the first kind, K(k).  Note that
   Abramowitz & Stegun define this function in terms of the parameter m
   = k^2.")
 
 (defmfun elliptic-integral-E-complete (k &optional (mode :double))
-  "gsl_sf_ellint_Ecomp_e" ((k :double) (mode sf-mode) (ret sf-result))
+  "gsl_sf_ellint_Ecomp_e" ((k :double) (mode sf-mode) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The complete elliptic integral of the second kind, E(k).
    Note that Abramowitz & Stegun define this function in terms of the
@@ -43,14 +43,14 @@
 ;;;;****************************************************************************
 
 (defmfun elliptic-integral-F (phi k &optional (mode :double))
-  "gsl_sf_ellint_F_e" ((phi :double) (k :double) (mode sf-mode) (ret sf-result))
+  "gsl_sf_ellint_F_e" ((phi :double) (k :double) (mode sf-mode) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The incomplete elliptic integral of the first kind, F(phi,k).  Note
   that Abramowitz & Stegun define this function in terms of the
   parameter m = k^2.")
 
 (defmfun elliptic-integral-E (phi k &optional (mode :double))
-  "gsl_sf_ellint_E_e" ((phi :double) (k :double) (mode sf-mode) (ret sf-result))
+  "gsl_sf_ellint_E_e" ((phi :double) (k :double) (mode sf-mode) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The incomplete elliptic integral of the second kind, E(phi,k).  Note
   that Abramowitz & Stegun define this function in terms of the
@@ -58,7 +58,7 @@
 
 (defmfun elliptic-integral-P (phi k n &optional (mode :double))
   "gsl_sf_ellint_P_e"
-  ((phi :double) (k :double) (n :double) (mode sf-mode) (ret sf-result))
+  ((phi :double) (k :double) (n :double) (mode sf-mode) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The incomplete elliptic integral of the third kind, P(phi,k,n).
   Note that Abramowitz & Stegun define this function in terms of the
@@ -67,7 +67,7 @@
 
 (defmfun elliptic-integral-D (phi k n &optional (mode :double))
   "gsl_sf_ellint_D_e"
-  ((phi :double) (k :double) (n :double) (mode sf-mode) (ret sf-result))
+  ((phi :double) (k :double) (n :double) (mode sf-mode) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The incomplete elliptic integral D(phi,k,n) which is
    defined through the Carlson form RD(x,y,z)
@@ -79,25 +79,26 @@
 ;;;;****************************************************************************
 
 (defmfun elliptic-integral-RC (x y &optional (mode :double))
-  "gsl_sf_ellint_RC_e" ((x :double) (y :double) (mode sf-mode) (ret sf-result))
+  "gsl_sf_ellint_RC_e" ((x :double) (y :double) (mode sf-mode) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The incomplete elliptic integral RC(x,y).")
 
 (defmfun elliptic-integral-RD (x y z &optional (mode :double))
   "gsl_sf_ellint_RD_e"
-  ((x :double) (y :double) (z :double) (mode sf-mode) (ret sf-result))
+  ((x :double) (y :double) (z :double) (mode sf-mode) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The incomplete elliptic integral RD(x,y,z).")
 
 (defmfun elliptic-integral-RF (x y z &optional (mode :double))
   "gsl_sf_ellint_RF_e"
-  ((x :double) (y :double) (z :double) (mode sf-mode) (ret sf-result))
+  ((x :double) (y :double) (z :double) (mode sf-mode) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The incomplete elliptic integral RF(x,y,z).")
 
 (defmfun elliptic-integral-RJ (x y z p &optional (mode :double))
   "gsl_sf_ellint_RJ_e"
-  ((x :double) (y :double) (z :double) (p :double) (mode sf-mode) (ret sf-result))
+  ((x :double) (y :double) (z :double) (p :double) (mode sf-mode)
+	       (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The incomplete elliptic integral RJ(x,y,z,p).")
 
