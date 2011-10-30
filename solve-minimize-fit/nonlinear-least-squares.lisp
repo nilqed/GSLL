@@ -1,6 +1,6 @@
 ;; Nonlinear least squares fitting.
 ;; Liam Healy, 2008-02-09 12:59:16EST nonlinear-least-squares.lisp
-;; Time-stamp: <2011-08-17 00:50:45EDT nonlinear-least-squares.lisp>
+;; Time-stamp: <2011-10-30 10:02:12EDT nonlinear-least-squares.lisp>
 ;;
 ;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -37,7 +37,7 @@
   :documentation			; FDL
   "The number of observations must be greater than or equal to parameters."
   :callbacks
-  (callback fnstruct-fit
+  (callback (:struct fnstruct-fit)
 	    (number-of-observations number-of-parameters)
 	    (function
 	     :success-failure
@@ -68,7 +68,7 @@
   "The number of observations must be greater than or
    equal to parameters."
   :callbacks
-  (callback fnstruct-fit-fdf
+  (callback (:struct fnstruct-fit-fdf)
 	    (number-of-observations number-of-parameters)
 	    (function :success-failure
 		      (:input :double :foreign-array dim1)

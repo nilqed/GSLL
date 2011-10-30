@@ -1,6 +1,6 @@
 ;;; Multivariate roots.                
 ;;; Liam Healy 2008-01-12 12:49:08
-;;; Time-stamp: <2011-08-16 23:58:35EDT roots-multi.lisp>
+;;; Time-stamp: <2011-10-30 10:02:55EDT roots-multi.lisp>
 ;;
 ;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -44,7 +44,7 @@
   :initialize-suffix "set"
   :initialize-args ((callback :pointer) ((mpointer initial) :pointer))
   :callbacks
-  (callback fnstruct-dimension (dimension)
+  (callback (:struct fnstruct-dimension) (dimension)
 	    (function
 	     :success-failure
 	     (:input :double :foreign-array dim0) :slug
@@ -71,7 +71,7 @@
   :initialize-suffix "set"
   :initialize-args ((callback :pointer) ((mpointer initial) :pointer))
   :callbacks
-  (callback fnstruct-dimension-fdf (dimension)
+  (callback (:struct fnstruct-dimension-fdf) (dimension)
 	    (function :success-failure
 		      (:input :double :foreign-array dim0)
 		      :slug
@@ -206,7 +206,7 @@
 ;;; to discriminate on mfsolver vs. mfdfsolver.
 
 (defun multiroot-slot (solver slot)
-  (cffi:foreign-slot-value (mpointer solver) 'gsl-multiroot-fsolver slot))
+  (cffi:foreign-slot-value (mpointer solver) '(:struct gsl-multiroot-fsolver) slot))
 
 (defmfun multiroot-test-delta (solver absolute-error relative-error)
   "gsl_multiroot_test_delta"

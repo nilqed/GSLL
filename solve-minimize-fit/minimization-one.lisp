@@ -1,8 +1,8 @@
 ;; Univariate minimization
 ;; Liam Healy Tue Jan  8 2008 - 21:02
-;; Time-stamp: <2010-08-07 21:41:13EDT minimization-one.lisp>
+;; Time-stamp: <2011-10-30 10:31:55EDT minimization-one.lisp>
 ;;
-;; Copyright 2008, 2009 Liam M. Healy
+;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@
    (x-minimum x-lower x-upper) and optionally 
    function values at those points (f-minimum f-lower f-upper)."
   :callbacks
-  (callback fnstruct nil (function :double (:input :double) :slug))
+  (callback (:struct fnstruct) nil (function :double (:input :double) :slug))
   :initialize-suffix ("set" "set_with_values")
   :initialize-args
   (((callback :pointer) (x-minimum :double)

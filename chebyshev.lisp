@@ -1,8 +1,8 @@
 ;; Chebyshev Approximations
 ;; Liam Healy Sat Nov 17 2007 - 20:36
-;; Time-stamp: <2010-06-29 21:47:34EDT chebyshev.lisp>
+;; Time-stamp: <2011-10-30 10:25:39EDT chebyshev.lisp>
 ;;
-;; Copyright 2007, 2008, 2009, 2010 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,7 @@
   :documentation			; FDL
   "Make a Chebyshev series of specified order."
   :callbacks
-  (callback fnstruct nil (function :double (:input :double) :slug))
+  (callback (:struct fnstruct) nil (function :double (:input :double) :slug))
   :initialize-suffix "init"
   :initialize-args
   ((callback :pointer) (lower-limit :double) (upper-limit :double))

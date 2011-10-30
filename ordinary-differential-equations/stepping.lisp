@@ -1,6 +1,6 @@
 ;; Stepping functions for ODE systems.
 ;; Liam Healy, Mon Sep 24 2007 - 21:33
-;; Time-stamp: <2011-01-10 17:59:27EST stepping.lisp>
+;; Time-stamp: <2011-10-30 09:55:50EDT stepping.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -33,7 +33,7 @@
    continuation of a previous step."
   :superclasses (callback-included-cl)
   :callbacks
-  (callback ode-system
+  (callback (:struct ode-system)
 	    (dimension)
 	    (function :success-failure
 		      (:input :double)	; t (independent variable)

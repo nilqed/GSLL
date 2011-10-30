@@ -1,6 +1,6 @@
 ;; Series acceleration.
 ;; Liam Healy, Wed Nov 21 2007 - 18:41
-;; Time-stamp: <2011-05-26 12:37:29EDT series-acceleration.lisp>
+;; Time-stamp: <2011-10-30 09:55:05EDT series-acceleration.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -27,7 +27,7 @@
 ;;;;****************************************************************************
 
 (defun levin-value (levin slot)
-  (cffi:foreign-slot-value (mpointer levin) 'levin-c slot))
+  (cffi:foreign-slot-value (mpointer levin) '(:struct levin-c) slot))
 
 (defmobject levin "gsl_sum_levin_u"
   ((order sizet))

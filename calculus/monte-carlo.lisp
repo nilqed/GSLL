@@ -1,6 +1,6 @@
 ;; Monte Carlo Integration
 ;; Liam Healy Sat Feb  3 2007 - 17:42
-;; Time-stamp: <2011-08-16 23:54:40EDT monte-carlo.lisp>
+;; Time-stamp: <2011-10-30 10:01:57EDT monte-carlo.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -58,7 +58,7 @@
    (result (:pointer :double)) (abserr (:pointer :double)))
   :inputs (lower-limits upper-limits)
   :callbacks
-  (callback fnstruct-dimension (dimension)
+  (callback (:struct fnstruct-dimension) (dimension)
 	    (function :double (:input :double :cvector dim0) :slug))
   :callback-dynamic (((dim0 lower-limits)) (function scalars))
   :documentation			; FDL
@@ -119,7 +119,7 @@
    (result (:pointer :double)) (abserr (:pointer :double)))
   :inputs (lower-limits upper-limits)
   :callbacks
-  (callback fnstruct-dimension (dimension)
+  (callback (:struct fnstruct-dimension) (dimension)
 	    (function :double (:input :double :cvector dim0) :slug))
   :callback-dynamic (((dim0 lower-limits)) (function scalars))
   :documentation			; FDL
@@ -180,7 +180,7 @@
    (result (:pointer :double)) (abserr (:pointer :double)))
   :inputs (lower-limits upper-limits)
   :callbacks
-  (callback fnstruct-dimension (dimension)
+  (callback (:struct fnstruct-dimension) (dimension)
 	    (function :double (:input :double :cvector dim0) :slug))
   :callback-dynamic (((dim0 lower-limits)) (function scalars))
   :documentation			; FDL

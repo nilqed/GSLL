@@ -1,8 +1,8 @@
 ;; Numerical integration techniques that require tables
 ;; Liam Healy 2009-04-04 15:24:05EDT 
-;; Time-stamp: <2010-08-07 21:41:16EDT numerical-integration-with-tables.lisp>
+;; Time-stamp: <2011-10-30 10:27:27EDT numerical-integration-with-tables.lisp>
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -65,7 +65,7 @@
    (limit sizet) ((mpointer workspace) :pointer)
    (result (:pointer :double)) (abserr (:pointer :double)))
   :callbacks
-  (callback fnstruct nil (function :double (:input :double) :slug))
+  (callback (:struct fnstruct) nil (function :double (:input :double) :slug))
   :callback-dynamic (nil (function))
   :documentation			; FDL
   "Compute the integral of the function f(x) over the interval (a,b)
@@ -123,7 +123,7 @@
    ((mpointer table) :pointer)
    (result (:pointer :double)) (abserr (:pointer :double)))
   :callbacks
-  (callback fnstruct nil (function :double (:input :double) :slug))
+  (callback (:struct fnstruct) nil (function :double (:input :double) :slug))
   :callback-dynamic (nil (function))
   :documentation			; FDL
   "Use an adaptive algorithm to compute the integral of f over (a,b)
@@ -167,7 +167,7 @@
    ((mpointer table) :pointer)
    (result (:pointer :double)) (abserr (:pointer :double)))
   :callbacks
-  (callback fnstruct nil (function :double (:input :double) :slug))
+  (callback (:struct fnstruct) nil (function :double (:input :double) :slug))
   :callback-dynamic (nil (function))
   :documentation			; FDL
   "This function attempts to compute a Fourier integral of the

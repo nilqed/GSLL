@@ -1,6 +1,6 @@
 ;; A grid:foreign-array with added metadata for GSL.
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2011-01-12 00:34:42EST foreign-array.lisp>
+;; Time-stamp: <2011-10-30 09:45:20EDT foreign-array.lisp>
 ;;
 ;; Copyright 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -53,7 +53,10 @@
 	 ;; from the block to the vector/matrix; we must do that manually here
 	 (cffi:foreign-slot-value
 	  array-struct
-	  (if (typep object 'grid:matrix) 'gsl-matrix-c 'gsl-vector-c) 'data)
+	  (if (typep object 'grid:matrix)
+	      '(:struct gsl-matrix-c)
+	      '(:struct gsl-vector-c))
+	  'data)
 	 (grid:foreign-pointer object))
 	(tg:finalize object
 		     (lambda ()
@@ -77,8 +80,7 @@
 (defun make-foreign-array-from-mpointer
     (mpointer
      &optional (element-type 'double-float) (category-or-rank 'vector) finalize)
-  "Make the foreign array when a GSL pointer to a
-   gsl-vector-c or gsl-matrix-c is given."
+  "Make the foreign array when a GSL pointer to a gsl-vector-c or gsl-matrix-c is given."
   (let* ((category
 	  (case category-or-rank
 	    ((vector :vector 1) 'vector)
@@ -86,8 +88,8 @@
 	    (t (error "Unrecognized category ~a" category-or-rank))))
 	 (cstruct
 	  (case category
-	    (vector 'gsl-vector-c)
-	    (grid:matrix 'gsl-matrix-c)))
+	    (vector '(:struct gsl-vector-c))
+	    (grid:matrix '(:struct gsl-matrix-c))))
 	 (fa
 	  (grid:make-grid
 	   (case category

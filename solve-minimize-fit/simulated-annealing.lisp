@@ -1,8 +1,8 @@
 ;; Simulated Annealing
 ;; Liam Healy Sun Feb 11 2007 - 17:23
-;; Time-stamp: <2011-10-23 22:15:00EDT simulated-annealing.lisp>
+;; Time-stamp: <2011-10-30 09:40:23EDT simulated-annealing.lisp>
 ;;
-;; Copyright 2007, 2008, 2009 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -160,7 +160,13 @@
     (setf cl-generator generator)
     (let ((x0-p (make-new-sa-state state-values)))
       (simulated-annealing-int
-       (list n-tries iterations-fixed-T step-size k t-initial mu-t t-min)
+       (list 'n-tries n-tries
+	     'iterations-fixed-T iterations-fixed-T
+	     'step-size step-size
+	     'k k
+	     't-initial t-initial
+	     'mu-t mu-t
+	     't-min t-min)
        generator
        x0-p
        'sa-energy-function

@@ -1,6 +1,6 @@
 ;; Multivariate minimization.
 ;; Liam Healy  <Tue Jan  8 2008 - 21:28>
-;; Time-stamp: <2011-09-28 13:30:49EDT minimization-multi.lisp>
+;; Time-stamp: <2011-10-30 10:03:24EDT minimization-multi.lisp>
 ;;
 ;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -53,7 +53,7 @@
    of the initial trial steps is given in vector step-size. The
    precise meaning of this parameter depends on the method used."
   :callbacks
-  (callback fnstruct-dimension (dimension)
+  (callback (:struct fnstruct-dimension) (dimension)
 	    (function :double (:input :double :foreign-array dim0) :slug))
   :initialize-suffix "set"
   :initialize-args ;; Could have one fewer argument: dimension=(dim0 initial)
@@ -76,7 +76,7 @@
    function g is orthogonal to the current search direction p to a
    relative accuracy of tolerance, where dot(p,g) < tol |p| |g|."
   :callbacks
-  (callback fnstruct-dimension-fdf (dimension)
+  (callback (:struct fnstruct-dimension-fdf) (dimension)
 	    (function :double (:input :double :foreign-array dim0) :slug)
 	    (df :void
 		(:input :double :foreign-array dim0) :slug
