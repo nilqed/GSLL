@@ -1,6 +1,6 @@
 ;; Gamma functions
 ;; Liam Healy, Thu Apr 27 2006 - 22:06
-;; Time-stamp: <2011-10-30 00:37:46EDT gamma.lisp>
+;; Time-stamp: <2011-11-24 22:42:00EST gamma.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -56,7 +56,7 @@
    (ret (:pointer (:struct sf-result)))
    (sign (:pointer :double)))
   :return ((multiple-value-bind (val err)
-	       (cffi:convert-from-foreign ret '(:pointer (:struct sf-result)))
+	       (cffi:mem-ref ret '(:struct sf-result))
 	     (values val (cffi:mem-ref sign :double) err )))
   :documentation			; FDL
   "Compute the sign of the gamma function and the logarithm of
@@ -166,9 +166,9 @@
   The computed parameters are result =
   log(|(a)_x|) and sgn = sgn((a)_x) where (a)_x :=
   Gamma(a + x)/Gamma(a), subject to a, a+x not being negative integers."
-  :return  ((multiple-value-bind (val err)
-		(cffi:convert-from-foreign ret '(:pointer (:struct sf-result)))
-	      (values val (cffi:mem-ref sign :double) err ))))
+  :return ((multiple-value-bind (val err)
+	       (cffi:mem-ref ret '(:struct sf-result))
+	     (values val (cffi:mem-ref sign :double) err ))))
 
 (defmfun relative-pochammer (a x)
   "gsl_sf_pochrel_e"

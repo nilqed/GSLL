@@ -1,6 +1,6 @@
 ;; Hypergeometric function
 ;; Liam Healy, Fri Apr 28 2006 - 23:00
-;; Time-stamp: <2011-10-29 23:40:22EDT hypergeometric.lisp>
+;; Time-stamp: <2011-11-24 22:46:31EST hypergeometric.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -17,6 +17,8 @@
 ;;
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+;; /usr/include/gsl/gsl_sf_hyperg.h
 
 (in-package :gsl)
 
@@ -72,7 +74,7 @@
 
 (defmfun hypergeometric-U-e10 ((m integer) (n integer) x)
   "gsl_sf_hyperg_U_int_e10_e"
-  ((m :int) (n :int) (x :double) (ret sf-result-e10))
+  ((m :int) (n :int) (x :double) (ret (:pointer (:struct sf-result-e10))))
   :definition :method
   :export t
   :documentation			; FDL
@@ -82,7 +84,7 @@
 
 (defmfun hypergeometric-U-e10 ((a float) (b float) x)
   "gsl_sf_hyperg_U_e10_e"
-  ((a :double) (b :double) (x :double) (ret sf-result-e10))
+  ((a :double) (b :double) (x :double) (ret (:pointer (:struct sf-result-e10))))
   :definition :method
   :documentation			; FDL
   "The confluent hypergeometric function
