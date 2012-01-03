@@ -1,8 +1,8 @@
 ;; Sorting
 ;; Liam Healy, Fri Apr 14 2006 - 20:20
-;; Time-stamp: <2011-01-10 18:16:18EST sorting.lisp>
+;; Time-stamp: <2012-01-03 13:16:28EST sorting.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2011, 2012 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -21,6 +21,7 @@
 (in-package :gsl)
 
 ;;; #'heapsort has just a cursory port, use CL's #'sort.
+;;; [2012-01-03 Tue 13:15] To do: rewrite other index functions to take an optional array or size (sort-smallest-index, sort-largest-index already done).
 
 ;;;;****************************************************************************
 ;;;; Heapsort, not recommended
@@ -182,23 +183,21 @@
     allocated and returned.  If it is a CL vector,
     it will be filled with the indices.")
 
-(defmfun sort-smallest-index (combination (v vector))
+(defmfun sort-smallest-index
+    ((v vector) &optional (size-or-array 3)
+		&aux (combination (vdf size-or-array 'sizet)))
   ("gsl_sort" :type "_smallest_index")
   (((grid:foreign-pointer combination) :pointer) ((size combination) sizet)
    ((grid:foreign-pointer v) :pointer)
    (1 sizet)				; stride, set to 1 for now
-   ((first (grid:dimensions combination)) sizet))
-  :definition :generic
+   ((first (grid:dimensions v)) sizet))
   :element-types :no-complex
+  :definition :generic
   :c-return :void
   :inputs (v)
   :outputs (combination)
   :documentation
-  "The indices of the smallest elements of the vector stored,
-    returned as a CL vector of element type fixnum.  If
-    indices is a positive initeger, a vector will be
-    allocated and returned.  If it is a CL vector,
-    it will be filled with the indices.")
+  "The indices of the smallest elements of the vector.  If size-or-array is an integer, it is the number of smallest elements.  If it is an array of sizet elements, it is filled.")
 
 (defmfun sort-vector-largest (dest (v vector))
   ("gsl_sort_vector" :type "_largest")
@@ -246,23 +245,21 @@
     allocated and returned.  If it is a CL vector,
     it will be filled with the indices.")
 
-(defmfun sort-largest-index (combination (v vector))
+(defmfun sort-largest-index
+    ((v vector) &optional (size-or-array 3)
+		&aux (combination (vdf size-or-array 'sizet)))
   ("gsl_sort" :type "_largest_index")
   (((grid:foreign-pointer combination) :pointer) ((size combination) sizet)
    ((grid:foreign-pointer v) :pointer)
    (1 sizet)				; stride, set to 1 for now
-   ((first (grid:dimensions combination)) sizet))
+   ((first (grid:dimensions v)) sizet))
   :element-types :no-complex
   :definition :generic
   :c-return :void
   :inputs (v)
   :outputs (combination)
   :documentation
-  "The indices of the largest elements of the vector stored,
-    returned as a CL vector of element type fixnum.  If
-    indices is a positive initeger, a vector will be
-    allocated and returned.  If it is a CL vector,
-    it will be filled with the indices.")
+  "The indices of the largest elements of the vector.  If size-or-array is an integer, it is the number of smallest elements.  If it is an array of sizet elements, it is filled.")
 
 ;;;;****************************************************************************
 ;;;; Examples and unit test

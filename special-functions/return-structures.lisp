@@ -1,8 +1,8 @@
 ;; Structures returned by special functions.
 ;; Liam Healy, Mon Jan  1 2007 - 11:35
-;; Time-stamp: <2011-10-29 18:24:42EDT return-structures.lisp>
+;; Time-stamp: <2012-01-03 13:16:46EST return-structures.lisp>
 ;;
-;; Copyright 2007, 2008, 2009, 2010, 2011 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2010, 2011, 2012 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -63,14 +63,19 @@
 (defparameter *default-sf-array-size* 5
   "The default size to make an array returned from a special function.")
 
-(defun vdf (size-or-array)
-  "Make or take a vector-double-float."
+(defun vdf (size-or-array &optional (type 'double-float))
+  "Make or take a vector."
   (if (integerp size-or-array)
-      (grid:make-foreign-array 'double-float :dimensions size-or-array)
+      (grid:make-foreign-array
+       (if (eq type 'sizet)
+	   #+int64 '(unsigned-byte 64)
+	   #+int32 '(unsigned-byte 32)
+	   type)
+       :dimensions size-or-array)
       size-or-array))
 
 (defun vdf-size (size-or-array)
-  "Make or take a vector-double-float."
+  "Size of vector made with vfd."
   (if (integerp size-or-array)
       size-or-array
       (size size-or-array)))
