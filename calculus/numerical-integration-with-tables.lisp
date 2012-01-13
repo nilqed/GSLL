@@ -1,6 +1,6 @@
 ;; Numerical integration techniques that require tables
 ;; Liam Healy 2009-04-04 15:24:05EDT 
-;; Time-stamp: <2011-10-30 10:27:27EDT numerical-integration-with-tables.lisp>
+;; Time-stamp: <2012-01-13 12:01:39EST numerical-integration-with-tables.lisp>
 ;;
 ;; Copyright 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -62,7 +62,7 @@
    (a :double) (b :double)
    ((mpointer table) :pointer)
    (absolute-error :double) (relative-error :double)
-   (limit sizet) ((mpointer workspace) :pointer)
+   (limit :sizet) ((mpointer workspace) :pointer)
    (result (:pointer :double)) (abserr (:pointer :double)))
   :callbacks
   (callback (:struct fnstruct) nil (function :double (:input :double) :slug))
@@ -86,7 +86,7 @@
 
 (defmobject qawo-table
     "gsl_integration_qawo_table"
-  ((omega :double) (L :double) (trig integrate-sine-cosine) (n sizet))
+  ((omega :double) (L :double) (trig integrate-sine-cosine) (n :sizet))
   "table for QAWO numerical integration method"
   :documentation			; FDL
   "Make a table describing a sine or cosine weight function W(x) with
@@ -119,7 +119,7 @@
   ((callback :pointer)
    (a :double)
    (absolute-error :double) (relative-error :double)
-   (limit sizet) ((mpointer workspace) :pointer)
+   (limit :sizet) ((mpointer workspace) :pointer)
    ((mpointer table) :pointer)
    (result (:pointer :double)) (abserr (:pointer :double)))
   :callbacks
@@ -162,7 +162,7 @@
   ((callback :pointer)
    (a :double)
    (absolute-error :double)
-   (limit sizet)
+   (limit :sizet)
    ((mpointer workspace) :pointer) ((mpointer cycle-workspace) :pointer)
    ((mpointer table) :pointer)
    (result (:pointer :double)) (abserr (:pointer :double)))

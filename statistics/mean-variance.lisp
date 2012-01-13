@@ -1,6 +1,6 @@
 ;; Mean, standard deviation, and variance    
 ;; Liam Healy, Sat Dec  2 2006 - 22:15
-;; Time-stamp: <2011-05-26 12:37:30EDT mean-variance.lisp>
+;; Time-stamp: <2012-01-13 12:01:12EST mean-variance.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -29,7 +29,7 @@
 
 (defmfun mean ((array both))
   ("gsl_stats" :type "_mean")
-  (((grid:foreign-pointer array) :pointer) (1 :int) ((size array) sizet))
+  (((grid:foreign-pointer array) :pointer) (1 :int) ((size array) :sizet))
   :definition :generic
   :element-types :no-complex
   :c-return :double
@@ -43,7 +43,7 @@
   ("gsl_stats" :type "_wmean")
   (((grid:foreign-pointer weights) :pointer) (1 :int)
    ((grid:foreign-pointer array) :pointer) (1 :int)
-   ((size array) sizet))
+   ((size array) :sizet))
   :definition :generic
   :element-types :float
   :c-return :element-c-type
@@ -60,9 +60,9 @@
 (defmfun variance ((array both) &optional mean)
   (("gsl_stats" :type "_variance")
    ("gsl_stats" :type "_variance_m"))
-  ((((grid:foreign-pointer array) :pointer) (1 :int) ((size array) sizet))
+  ((((grid:foreign-pointer array) :pointer) (1 :int) ((size array) :sizet))
    (((grid:foreign-pointer array) :pointer) (1 :int)
-   ((size array) sizet) (mean :double)))
+   ((size array) :sizet) (mean :double)))
   :definition :generic
   :element-types :no-complex
   :c-return :double
@@ -84,10 +84,10 @@
    ("gsl_stats" :type "_wvariance_m"))
   ((((grid:foreign-pointer weights) :pointer) (1 :int)
     ((grid:foreign-pointer array) :pointer) (1 :int)
-    ((size array) sizet))
+    ((size array) :sizet))
    (((grid:foreign-pointer weights) :pointer) (1 :int)
     ((grid:foreign-pointer array) :pointer) (1 :int)
-    ((size array) sizet) (mean :double)))
+    ((size array) :sizet) (mean :double)))
   :definition :generic
   :element-types :float
   :c-return :double
@@ -108,9 +108,9 @@
 (defmfun standard-deviation ((array both) &optional mean)
   (("gsl_stats" :type "_sd")
    ("gsl_stats" :type "_sd_m"))
-  ((((grid:foreign-pointer array) :pointer) (1 :int) ((size array) sizet))
+  ((((grid:foreign-pointer array) :pointer) (1 :int) ((size array) :sizet))
    (((grid:foreign-pointer array) :pointer) (1 :int)
-   ((size array) sizet) (mean :double)))
+   ((size array) :sizet) (mean :double)))
   :definition :generic
   :element-types :no-complex
   :c-return :double
@@ -125,10 +125,10 @@
    ("gsl_stats" :type "_wsd_m"))
   ((((grid:foreign-pointer weights) :pointer) (1 :int)
     ((grid:foreign-pointer array) :pointer) (1 :int)
-    ((size array) sizet))
+    ((size array) :sizet))
    (((grid:foreign-pointer weights) :pointer) (1 :int)
     ((grid:foreign-pointer array) :pointer) (1 :int)
-    ((size array) sizet) (mean :double)))
+    ((size array) :sizet) (mean :double)))
   :definition :generic
   :element-types :float
   :c-return :double
@@ -145,7 +145,7 @@
 (defmfun variance-with-fixed-mean ((array both) mean)
   ("gsl_stats" :type "_variance_with_fixed_mean")
   (((grid:foreign-pointer array) :pointer) (1 :int)
-   ((size array) sizet) (mean :double))
+   ((size array) :sizet) (mean :double))
   :definition :generic
   :element-types :no-complex
   :c-return :double
@@ -161,7 +161,7 @@
 (defmfun standard-deviation-with-fixed-mean ((array both) mean)
   ("gsl_stats" :type "_sd_with_fixed_mean")
   (((grid:foreign-pointer array) :pointer) (1 :int)
-   ((size array) sizet) (mean :double))
+   ((size array) :sizet) (mean :double))
   :definition :generic
   :element-types :no-complex
   :c-return :double
@@ -180,7 +180,7 @@
   ("gsl_stats" :type "_wvariance_with_fixed_mean")
   (((grid:foreign-pointer weights) :pointer) (1 :int)
    ((grid:foreign-pointer array) :pointer) (1 :int)
-   ((size array) sizet) (mean :double))
+   ((size array) :sizet) (mean :double))
   :definition :generic
   :element-types :float
   :c-return :double
@@ -198,7 +198,7 @@
   ("gsl_stats" :type "_wsd_with_fixed_mean")
   (((grid:foreign-pointer weights) :pointer) (1 :int)
    ((grid:foreign-pointer array) :pointer) (1 :int)
-   ((size array) sizet) (mean :double))
+   ((size array) :sizet) (mean :double))
   :definition :generic
   :element-types :float
   :c-return :double

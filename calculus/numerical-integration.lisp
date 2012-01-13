@@ -1,6 +1,6 @@
 ;; Numerical integration
 ;; Liam Healy, Wed Jul  5 2006 - 23:14
-;; Time-stamp: <2011-10-30 10:01:11EDT numerical-integration.lisp>
+;; Time-stamp: <2012-01-13 12:01:38EST numerical-integration.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -50,7 +50,7 @@
    (a :double) (b :double)
    (absolute-error :double) (relative-error :double)
    (result (:pointer :double)) (abserr (:pointer :double))
-   (neval (:pointer sizet)))
+   (neval (:pointer :sizet)))
   :callbacks
   (callback (:struct fnstruct) nil (function :double (:input :double) :slug))
   :callback-dynamic (nil (function))
@@ -70,7 +70,7 @@
 ;;;;****************************************************************************
 
 (defmobject integration-workspace
-    "gsl_integration_workspace" ((size sizet))
+    "gsl_integration_workspace" ((size :sizet))
     "integration workspace"
     :documentation			; FDL
     "Make a workspace sufficient to hold n double
@@ -89,7 +89,7 @@
   ((callback :pointer)
    (a :double) (b :double)
    (absolute-error :double) (relative-error :double)
-   (limit sizet) (method integrate-method) ((mpointer workspace) :pointer)
+   (limit :sizet) (method integrate-method) ((mpointer workspace) :pointer)
    (result (:pointer :double)) (abserr (:pointer :double)))
   :callbacks
   (callback (:struct fnstruct) nil (function :double (:input :double) :slug))
@@ -125,7 +125,7 @@
   "gsl_integration_qags"
   ((callback :pointer)
    (a :double) (b :double)
-   (absolute-error :double) (relative-error :double) (limit sizet)
+   (absolute-error :double) (relative-error :double) (limit :sizet)
    ((mpointer workspace) :pointer)
    (result (:pointer :double)) (abserr (:pointer :double)))
   :callbacks
@@ -157,8 +157,8 @@
 	      (limit 1000) (workspace (make-integration-workspace limit)))
   "gsl_integration_qagp"
   ((callback :pointer)
-   ((grid:foreign-pointer points) :pointer) ((dim0 points) sizet)
-   (absolute-error :double) (relative-error :double) (limit sizet)
+   ((grid:foreign-pointer points) :pointer) ((dim0 points) :sizet)
+   (absolute-error :double) (relative-error :double) (limit :sizet)
    ((mpointer workspace) :pointer)
    (result (:pointer :double)) (abserr (:pointer :double)))
   :inputs (points)
@@ -189,7 +189,7 @@
      (limit 1000) (workspace (make-integration-workspace limit)))
   "gsl_integration_qagi"
   ((callback :pointer)
-   (absolute-error :double) (relative-error :double) (limit sizet)
+   (absolute-error :double) (relative-error :double) (limit :sizet)
    ((mpointer workspace) :pointer)
    (result (:pointer :double)) (abserr (:pointer :double)))
   :callbacks
@@ -214,7 +214,7 @@
 	      (limit 1000) (workspace (make-integration-workspace limit)))
   "gsl_integration_qagiu"
   ((callback :pointer) (a :double)
-   (absolute-error :double) (relative-error :double) (limit sizet)
+   (absolute-error :double) (relative-error :double) (limit :sizet)
    ((mpointer workspace) :pointer)
    (result (:pointer :double)) (abserr (:pointer :double)))
   :callbacks
@@ -235,7 +235,7 @@
 	      (limit 1000) (workspace (make-integration-workspace limit)))
   "gsl_integration_qagil"
   ((callback :pointer) (b :double)
-   (absolute-error :double) (relative-error :double) (limit sizet)
+   (absolute-error :double) (relative-error :double) (limit :sizet)
    ((mpointer workspace) :pointer)
    (result (:pointer :double)) (abserr (:pointer :double)))
   :callbacks
@@ -261,7 +261,7 @@
   "gsl_integration_qawc"
   ((callback :pointer)
    (a :double) (b :double) (c :double)
-   (absolute-error :double) (relative-error :double) (limit sizet)
+   (absolute-error :double) (relative-error :double) (limit :sizet)
    ((mpointer workspace) :pointer)
    (result (:pointer :double)) (abserr (:pointer :double)))
   :callbacks

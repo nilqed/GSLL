@@ -1,6 +1,6 @@
 ;; CFFI-Grovel definitions for unix systems.
 ;; Liam Healy 2009-06-06 09:32:30EDT monte-carlo-structs.lisp
-;; Time-stamp: <2010-05-23 11:36:42EDT monte-carlo-structs.lisp>
+;; Time-stamp: <2012-01-13 12:01:40EST monte-carlo-structs.lisp>
 ;;
 ;; Copyright 2009, 2010 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -31,18 +31,18 @@
 (include "gsl/gsl_monte_plain.h")
 
 (cstruct plain-state "gsl_monte_plain_state"
-  (dim "dim" :type sizet)
+  (dim "dim" :type :sizet)
   (x "x" :type :pointer))
 
 (include "gsl/gsl_monte_miser.h")
 
 (cstruct miser-state "gsl_monte_miser_state"
-  (min-calls "min_calls" :type sizet)
-  (min-calls-per-bisection "min_calls_per_bisection" :type sizet)
+  (min-calls "min_calls" :type :sizet)
+  (min-calls-per-bisection "min_calls_per_bisection" :type :sizet)
   (dither "dither" :type :double)
   (estimate-frac "estimate_frac" :type :double)
   (alpha "alpha" :type :double)
-  (dim "dim" :type sizet)
+  (dim "dim" :type :sizet)
   (estimate-style "estimate_style" :type :int)
   (depth "depth" :type :int)
   (verbose "verbose" :type :int)
@@ -65,8 +65,8 @@
 
 (cstruct vegas-state "gsl_monte_vegas_state"
   ;; grid 
-  (dim "dim" :type sizet)
-  (bins-max "bins_max" :type sizet)
+  (dim "dim" :type :sizet)
+  (bins-max "bins_max" :type :sizet)
   (bins "bins" :type :uint)		       ; uint
   (boxes "boxes" :type :uint)		       ; these are both counted along the axes
   (xi "xi" :type :pointer)

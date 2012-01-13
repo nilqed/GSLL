@@ -1,6 +1,6 @@
 ;; Functions for both vectors and matrices.
 ;; Liam Healy 2008-04-26 20:48:44EDT both.lisp
-;; Time-stamp: <2011-05-26 12:37:36EDT both.lisp>
+;; Time-stamp: <2012-01-13 12:01:36EST both.lisp>
 ;;
 ;; Copyright 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -27,9 +27,9 @@
 (defmfun alloc-from-block ((object vector) blockptr)
   ("gsl_" :category :type "_alloc_from_block")
   ((blockptr :pointer)
-   (0 sizet)				; offset
-   ((size object) sizet)		; number of elements
-   (1 sizet))				; stride
+   (0 :sizet)				; offset
+   ((size object) :sizet)		; number of elements
+   (1 :sizet))				; stride
   :definition :generic
   :c-return :pointer
   :export nil
@@ -38,10 +38,10 @@
 (defmfun alloc-from-block ((object grid:matrix) blockptr)
   ("gsl_" :category :type "_alloc_from_block")
   ((blockptr :pointer)
-   (0 sizet)				; offset
-   ((first (grid:dimensions object)) sizet)	; number of rows
-   ((second (grid:dimensions object)) sizet)	; number of columns
-   ((second (grid:dimensions object)) sizet))	; "tda" = number of columns for now
+   (0 :sizet)				; offset
+   ((first (grid:dimensions object)) :sizet)	; number of rows
+   ((second (grid:dimensions object)) :sizet)	; number of columns
+   ((second (grid:dimensions object)) :sizet))	; "tda" = number of columns for now
   :definition :methods
   :c-return :pointer
   :export nil)
@@ -100,9 +100,9 @@
   "Create a form to access the GSL array value from the mpointer.  If value is not nil,
    set the value; otherwise, get the value."
   ;; (access-value-int 'ptr 'grid:vector-unsigned-byte-16 45 '(3))
-  ;; (FOREIGN-FUNCALL "gsl_vector_ushort_set" :POINTER PTR SIZET 3 :UNSIGNED-SHORT 45 :VOID)
+  ;; (FOREIGN-FUNCALL "gsl_vector_ushort_set" :POINTER PTR :SIZET 3 :UNSIGNED-SHORT 45 :VOID)
   ;; (access-value-int 'ptr 'grid:matrix-unsigned-byte-16 nil '(45 3))
-  ;; (FOREIGN-FUNCALL "gsl_matrix_ushort_get" :POINTER PTR SIZET 45 SIZET 3 :UNSIGNED-SHORT)
+  ;; (FOREIGN-FUNCALL "gsl_matrix_ushort_get" :POINTER PTR :SIZET 45 :SIZET 3 :UNSIGNED-SHORT)
   (let ((element-type (grid::farray-element-type class-name))
 	(matrixp (subtypep class-name 'grid:matrix)))
     (unless (or (and matrixp (eql 2 (length indices)))
@@ -116,8 +116,8 @@
 	(if matrixp 'grid:matrix 'vector)
 	element-type)
       :pointer ,mpointer
-      sizet ,(first indices)
-      ,@(when matrixp (list 'sizet (second indices)))
+      :sizet ,(first indices)
+      ,@(when matrixp (list ':sizet (second indices)))
       ,(grid:cl-cffi element-type)
       ,@(when value `(,value :void)))))
 
@@ -324,14 +324,14 @@
   :definition :generic
   :element-types :no-complex
   :inputs (a)
-  :c-return sizet
+  :c-return :sizet
   :documentation			; FDL
   "The index of the minimum value in a.  When there are several
   equal minimum elements, then the lowest index is returned.")
 
 (defmfun min-index ((a grid:matrix))
   ("gsl_" :category :type "_min_index")
-  (((mpointer a) :pointer) (imin (:pointer sizet)) (jmin (:pointer sizet)))
+  (((mpointer a) :pointer) (imin (:pointer :sizet)) (jmin (:pointer :sizet)))
   :definition :methods
   :element-types :no-complex
   :inputs (a)
@@ -343,14 +343,14 @@
   :definition :generic
   :element-types :no-complex
   :inputs (a)
-  :c-return sizet
+  :c-return :sizet
   :documentation			; FDL
   "The index of the maximum value in a.  When there are several
   equal maximum elements, then the lowest index is returned.")
 
 (defmfun max-index ((a grid:matrix))
   ("gsl_" :category :type "_max_index")
-  (((mpointer a) :pointer) (imin (:pointer sizet)) (jmin (:pointer sizet)))
+  (((mpointer a) :pointer) (imin (:pointer :sizet)) (jmin (:pointer :sizet)))
   :definition :methods
   :element-types :no-complex
   :inputs (a)
@@ -358,7 +358,7 @@
 
 (defmfun minmax-index ((a vector))
   ("gsl_" :category :type "_minmax_index")
-  (((mpointer a) :pointer) (imin (:pointer sizet)) (jmin (:pointer sizet)))
+  (((mpointer a) :pointer) (imin (:pointer :sizet)) (jmin (:pointer :sizet)))
   :definition :generic
   :element-types :no-complex
   :inputs (a)
@@ -372,8 +372,8 @@
 (defmfun minmax-index ((a grid:matrix))
   ("gsl_" :category :type "_minmax_index")
   (((mpointer a) :pointer)
-   (imin (:pointer sizet)) (jmin (:pointer sizet))
-   (imax (:pointer sizet)) (jmax (:pointer sizet)))
+   (imin (:pointer :sizet)) (jmin (:pointer :sizet))
+   (imax (:pointer :sizet)) (jmax (:pointer :sizet)))
   :definition :methods
   :element-types :no-complex
   :inputs (a)

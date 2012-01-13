@@ -1,6 +1,6 @@
 ;; Eigenvectors and eigenvalues
 ;; Liam Healy, Sun May 21 2006 - 19:52
-;; Time-stamp: <2011-08-17 00:18:16EDT symmetric-hermitian.lisp>
+;; Time-stamp: <2012-01-13 12:01:32EST symmetric-hermitian.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -31,7 +31,7 @@
 ;;;;****************************************************************************
 
 (defmobject eigen-symm
-    "gsl_eigen_symm" ((n sizet))
+    "gsl_eigen_symm" ((n :sizet))
     "symmetric eigenvalue workspace"
     :documentation			; FDL
     "Make a workspace for computing eigenvalues of
@@ -39,7 +39,7 @@
   is O(2n).")
 
 (defmobject eigen-symmv
-    "gsl_eigen_symmv" ((n sizet))
+    "gsl_eigen_symmv" ((n :sizet))
     "symmetric eigensystem workspace"
     :documentation			; FDL
     "Make a workspace for computing eigenvalues and
@@ -47,7 +47,7 @@
   the workspace is O(4n).")
 
 (defmobject eigen-herm
-    "gsl_eigen_herm" ((n sizet))
+    "gsl_eigen_herm" ((n :sizet))
     "Hermitian eigenvalue workspace"	; FDL
     :documentation			; FDL
     "Make a workspace for computing eigenvalues of
@@ -55,7 +55,7 @@
   is O(3n).")
 
 (defmobject eigen-hermv
-    "gsl_eigen_hermv" ((n sizet))
+    "gsl_eigen_hermv" ((n :sizet))
     "Hermitian eigensystem workspace"
     :documentation			; FDL
     "Make a workspace for computing eigenvalues and

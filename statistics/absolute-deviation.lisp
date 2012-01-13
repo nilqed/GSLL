@@ -1,6 +1,6 @@
 ;; Absolute deviation
 ;; Liam Healy, Sun Dec 31 2006 - 13:19
-;; Time-stamp: <2011-01-10 17:59:33EST absolute-deviation.lisp>
+;; Time-stamp: <2012-01-13 12:01:14EST absolute-deviation.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -26,8 +26,8 @@
 (defmfun absolute-deviation ((data vector) &optional mean)
   (("gsl_stats" :type "_absdev")
    ("gsl_stats" :type "_absdev_m"))
-  ((((grid:foreign-pointer data) :pointer) (1 :int) ((dim0 data) sizet))
-   (((grid:foreign-pointer data) :pointer) (1 :int) ((dim0 data) sizet)
+  ((((grid:foreign-pointer data) :pointer) (1 :int) ((dim0 data) :sizet))
+   (((grid:foreign-pointer data) :pointer) (1 :int) ((dim0 data) :sizet)
     (mean :double)))
   :definition :generic
   :element-types :no-complex
@@ -50,10 +50,10 @@
    ("gsl_stats" :type "_wabsdev_m"))
   ((((grid:foreign-pointer weights) :pointer) (1 :int)
     ((grid:foreign-pointer data) :pointer) (1 :int)
-    ((dim0 data) sizet))
+    ((dim0 data) :sizet))
    (((grid:foreign-pointer weights) :pointer) (1 :int)
     ((grid:foreign-pointer data) :pointer) (1 :int)
-    ((dim0 data) sizet) (mean :double)))
+    ((dim0 data) :sizet) (mean :double)))
   :definition :generic
   :element-types :float
   :c-return :double

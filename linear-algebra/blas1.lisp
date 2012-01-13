@@ -1,6 +1,6 @@
 ;; BLAS level 1, Vector operations
 ;; Liam Healy, Wed Apr 26 2006 - 15:23
-;; Time-stamp: <2011-05-26 12:37:34EDT blas1.lisp>
+;; Time-stamp: <2012-01-13 12:01:25EST blas1.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -79,7 +79,7 @@
   (((mpointer vec) :pointer))
   :definition :generic
   :element-types :float-complex
-  :c-return sizet
+  :c-return :sizet
   :inputs (vec)
   :documentation			; FDL
   "The index of the largest element of the vector

@@ -1,6 +1,6 @@
 ;; Discrete Hankel Transforms.
 ;; Liam Healy, Sat Dec  8 2007 - 16:50
-;; Time-stamp: <2011-05-26 12:37:29EDT hankel.lisp>
+;; Time-stamp: <2012-01-13 12:01:11EST hankel.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -28,7 +28,7 @@
 
 ;;; Create the Hankel transform object and essential methods/functions.
 (defmobject hankel "gsl_dht"
-  ((size sizet))
+  ((size :sizet))
   "discrete Hankel Transform"
   :documentation
   "Allocate a Discrete Hankel transform object of the given size and

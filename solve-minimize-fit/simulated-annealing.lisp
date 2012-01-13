@@ -1,6 +1,6 @@
 ;; Simulated Annealing
 ;; Liam Healy Sun Feb 11 2007 - 17:23
-;; Time-stamp: <2011-10-30 09:40:23EDT simulated-annealing.lisp>
+;; Time-stamp: <2012-01-13 12:01:16EST simulated-annealing.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -186,7 +186,7 @@
    ((cffi:get-callback 'sa-copy-function) :pointer)
    ((cffi:get-callback 'sa-copy-constructor-function) :pointer)
    ((cffi:get-callback 'sa-destroy-function) :pointer)
-   (0 sizet)
+   (0 :sizet)
    (parameters (:struct simulated-annealing-parameters)))
   :c-return :void
   :export nil

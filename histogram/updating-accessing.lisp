@@ -1,6 +1,6 @@
 ;; Updating and accessing histogram elements.
 ;; Liam Healy, Mon Jan  1 2007 - 14:43
-;; Time-stamp: <2011-09-12 17:35:27EDT updating-accessing.lisp>
+;; Time-stamp: <2012-01-13 12:01:27EST updating-accessing.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -47,7 +47,7 @@
 
 (defmfun grid:aref ((histogram histogram) &rest indices)
   "gsl_histogram_get"
-  (((mpointer histogram) :pointer) ((first indices) sizet))
+  (((mpointer histogram) :pointer) ((first indices) :sizet))
   :definition :method 
   :c-return :double
   :index grid:aref
@@ -58,7 +58,7 @@
 
 (defmfun range (histogram i)
   "gsl_histogram_get_range"
-  (((mpointer histogram) :pointer) (i sizet)
+  (((mpointer histogram) :pointer) (i :sizet)
    (lower (:pointer :double)) (upper (:pointer :double)))
   :documentation			; FDL
   "Find the upper and lower range limits of the i-th
@@ -89,7 +89,7 @@
   "gsl_histogram_bins"
   (((mpointer histogram) :pointer))
   :definition :method
-  :c-return (dim sizet)
+  :c-return (dim :sizet)
   :return ((list dim))
   :documentation			; FDL
   "The number of bins in the histogram.")
@@ -104,9 +104,9 @@
 
 (defmfun histogram-find (histogram x-value &optional y-value)
   ("gsl_histogram_find" "gsl_histogram2d_find")
-  ((((mpointer histogram) :pointer) (x-value :double) (bin (:pointer sizet)))
+  ((((mpointer histogram) :pointer) (x-value :double) (bin (:pointer :sizet)))
    (((mpointer histogram) :pointer) (x-value :double) (y-value :double)
-   (xbin (:pointer sizet)) (ybin (:pointer sizet))))
+   (xbin (:pointer :sizet)) (ybin (:pointer :sizet))))
   :documentation			; FDL
   "Finds the bin number which covers the coordinate value in
    the histogram.  The bin is located using a binary search. The

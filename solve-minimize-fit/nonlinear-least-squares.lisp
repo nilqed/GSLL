@@ -1,6 +1,6 @@
 ;; Nonlinear least squares fitting.
 ;; Liam Healy, 2008-02-09 12:59:16EST nonlinear-least-squares.lisp
-;; Time-stamp: <2011-10-30 10:02:12EDT nonlinear-least-squares.lisp>
+;; Time-stamp: <2012-01-13 12:01:17EST nonlinear-least-squares.lisp>
 ;;
 ;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -31,8 +31,8 @@
 
 (defmobject nonlinear-ffit "gsl_multifit_fsolver"
   ((solver-type :pointer)
-   ((first dimensions) sizet)		; number-of-observations
-   ((second dimensions) sizet))		; number-of-parameters
+   ((first dimensions) :sizet)		; number-of-observations
+   ((second dimensions) :sizet))		; number-of-parameters
   "nonlinear least squares fit with function only"
   :documentation			; FDL
   "The number of observations must be greater than or equal to parameters."
@@ -61,8 +61,8 @@
 
 (defmobject nonlinear-fdffit "gsl_multifit_fdfsolver"
   ((solver-type :pointer)
-   ((first dimensions) sizet)		; number-of-observations
-   ((second dimensions) sizet))		; number-of-parameters
+   ((first dimensions) :sizet)		; number-of-observations
+   ((second dimensions) :sizet))		; number-of-parameters
   "nonlinear least squares fit with function and derivative"
   :documentation			; FDL
   "The number of observations must be greater than or

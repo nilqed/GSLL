@@ -1,6 +1,6 @@
 ;; Monte Carlo Integration
 ;; Liam Healy Sat Feb  3 2007 - 17:42
-;; Time-stamp: <2011-10-30 10:01:57EDT monte-carlo.lisp>
+;; Time-stamp: <2012-01-13 12:01:39EST monte-carlo.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -31,7 +31,7 @@
 
 (defmobject monte-carlo-plain
     "gsl_monte_plain"
-  ((dim sizet))
+  ((dim :sizet))
   "plain Monte Carlo integration"
   :documentation			; FDL
   "Make and initialize a workspace for Monte Carlo integration in dimension dim."
@@ -52,7 +52,7 @@
   "gsl_monte_plain_integrate"
   ((callback :pointer)
    ((grid:foreign-pointer lower-limits) :pointer) ((grid:foreign-pointer upper-limits) :pointer)
-   ((dim0 lower-limits) sizet) (number-of-samples sizet)
+   ((dim0 lower-limits) :sizet) (number-of-samples :sizet)
    ((mpointer generator) :pointer)
    ((mpointer state) :pointer)
    (result (:pointer :double)) (abserr (:pointer :double)))
@@ -83,7 +83,7 @@
 
 (defmobject monte-carlo-miser
     "gsl_monte_miser"
-  ((dim sizet))
+  ((dim :sizet))
   "miser Monte Carlo integration"
   :documentation			; FDL
   "Make and initialize a workspace for Monte Carlo integration in
@@ -113,7 +113,7 @@
   "gsl_monte_miser_integrate"
   ((callback :pointer)
    ((grid:foreign-pointer lower-limits) :pointer) ((grid:foreign-pointer upper-limits) :pointer)
-   ((dim0 lower-limits) sizet) (number-of-samples sizet)
+   ((dim0 lower-limits) :sizet) (number-of-samples :sizet)
    ((mpointer generator) :pointer)
    ((mpointer state) :pointer)
    (result (:pointer :double)) (abserr (:pointer :double)))
@@ -144,7 +144,7 @@
 
 (defmobject monte-carlo-vegas
     "gsl_monte_vegas"
-  ((dim sizet))
+  ((dim :sizet))
   "vegas Monte Carlo integration"
   :documentation			; FDL
   "Make and initialize a workspace for Monte Carlo integration in
@@ -174,7 +174,7 @@
   "gsl_monte_vegas_integrate"
   ((callback :pointer)
    ((grid:foreign-pointer lower-limits) :pointer) ((grid:foreign-pointer upper-limits) :pointer)
-   ((dim0 lower-limits) sizet) (number-of-samples sizet)
+   ((dim0 lower-limits) :sizet) (number-of-samples :sizet)
    ((mpointer generator) :pointer)
    ((mpointer state) :pointer)
    (result (:pointer :double)) (abserr (:pointer :double)))

@@ -1,6 +1,6 @@
 ;; The histogram structure
 ;; Liam Healy, Mon Jan  1 2007 - 11:32
-;; Time-stamp: <2011-01-10 17:59:25EST histogram.lisp>
+;; Time-stamp: <2012-01-13 12:01:28EST histogram.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -27,19 +27,19 @@
 
 (defmobject histogram
     "gsl_histogram"
-  ((number-of-bins sizet))
+  ((number-of-bins :sizet))
   "one-dimensional histogram, including bin boundaries and bin contents"
   :initialize-suffix "set_ranges"
-  :initialize-args (((grid:foreign-pointer ranges) :pointer) ((dim0 ranges) sizet)))
+  :initialize-args (((grid:foreign-pointer ranges) :pointer) ((dim0 ranges) :sizet)))
 
 (defmobject histogram2d
     "gsl_histogram2d"
-  ((number-of-bins-x sizet) (number-of-bins-y sizet))
+  ((number-of-bins-x :sizet) (number-of-bins-y :sizet))
   "two-dimensional histogram, including bin boundaries and bin contents."
   :initialize-suffix "set_ranges"
   :initialize-args
-  (((grid:foreign-pointer x-ranges) :pointer) ((dim0 x-ranges) sizet)
-   ((grid:foreign-pointer y-ranges) :pointer) ((dim0 y-ranges) sizet)))
+  (((grid:foreign-pointer x-ranges) :pointer) ((dim0 x-ranges) :sizet)
+   ((grid:foreign-pointer y-ranges) :pointer) ((dim0 y-ranges) :sizet)))
 
 ;;; GSL documentation does not state what the return value for the
 ;;; C function for reinitialization means; assumed to be error code.

@@ -1,6 +1,6 @@
 ;; Structures returned by special functions.
 ;; Liam Healy, Mon Jan  1 2007 - 11:35
-;; Time-stamp: <2012-01-03 13:16:46EST return-structures.lisp>
+;; Time-stamp: <2012-01-13 12:01:15EST return-structures.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2010, 2011, 2012 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -67,7 +67,7 @@
   "Make or take a vector."
   (if (integerp size-or-array)
       (grid:make-foreign-array
-       (if (eq type 'sizet)
+       (if (eq type ':sizet)
 	   #+int64 '(unsigned-byte 64)
 	   #+int32 '(unsigned-byte 32)
 	   type)

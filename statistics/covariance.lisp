@@ -1,6 +1,6 @@
 ;; Covariance
 ;; Liam Healy, Sun Dec 31 2006 - 13:19
-;; Time-stamp: <2011-01-10 17:59:34EST covariance.lisp>
+;; Time-stamp: <2012-01-13 12:01:13EST covariance.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -28,9 +28,9 @@
   (("gsl_stats" :type "_covariance")
    ("gsl_stats" :type "_covariance_m"))
   ((((grid:foreign-pointer data1) :pointer) (1 :int)
-    ((grid:foreign-pointer data2) :pointer) (1 :int) ((dim0 data2) sizet))
+    ((grid:foreign-pointer data2) :pointer) (1 :int) ((dim0 data2) :sizet))
    (((grid:foreign-pointer data1) :pointer) (1 :int)
-    ((grid:foreign-pointer data2) :pointer) (1 :int) ((dim0 data2) sizet)
+    ((grid:foreign-pointer data2) :pointer) (1 :int) ((dim0 data2) :sizet)
     (mean1 :double) (mean2 :double)))
   :definition :generic
   :element-types :no-complex
@@ -45,7 +45,7 @@
 (defmfun correlation ((data1 vector) (data2 vector))
   ("gsl_stats" :type "_correlation")
   (((grid:foreign-pointer data1) :pointer) (1 :int)
-    ((grid:foreign-pointer data2) :pointer) (1 :int) ((dim0 data2) sizet))
+    ((grid:foreign-pointer data2) :pointer) (1 :int) ((dim0 data2) :sizet))
   :definition :generic
   :gsl-version (1 10)
   :element-types :no-complex

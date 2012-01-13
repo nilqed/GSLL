@@ -1,6 +1,6 @@
 ;;; Multivariate roots.                
 ;;; Liam Healy 2008-01-12 12:49:08
-;;; Time-stamp: <2011-10-30 10:02:55EDT roots-multi.lisp>
+;;; Time-stamp: <2012-01-13 12:01:17EST roots-multi.lisp>
 ;;
 ;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -33,7 +33,7 @@
 ;;;;****************************************************************************
 
 (defmobject multi-dimensional-root-solver-f "gsl_multiroot_fsolver"
-  ((type :pointer) ((first dimensions) sizet))
+  ((type :pointer) ((first dimensions) :sizet))
   "multi-dimensional root solver with function only"
   :documentation			; FDL
   "Make an instance of a solver of the type specified for a system of
@@ -60,7 +60,7 @@
   :inputs (initial))
 
 (defmobject multi-dimensional-root-solver-fdf "gsl_multiroot_fdfsolver"
-  ((type :pointer) ((first dimensions) sizet))
+  ((type :pointer) ((first dimensions) :sizet))
   "multi-dimensional root solver with function and derivative"
   :documentation			; FDL
   "Make an instance of a derivative solver of the type specified for

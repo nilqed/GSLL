@@ -1,6 +1,6 @@
 ;; Wavelet transforms.
 ;; Liam Healy, Mon Nov 26 2007 - 20:43
-;; Time-stamp: <2011-05-26 12:37:28EDT wavelet.lisp>
+;; Time-stamp: <2012-01-13 12:01:10EST wavelet.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -37,7 +37,7 @@
 ;;;;****************************************************************************
 
 (defmobject wavelet "gsl_wavelet"
-  ((type :pointer) (member sizet))
+  ((type :pointer) (member :sizet))
   "wavelet"
   :documentation			; FDL
   "Make and initialize a wavelet object of type 'type.  The
@@ -89,7 +89,7 @@
 
 (defmobject wavelet-workspace
   "gsl_wavelet_workspace"
-  ((size sizet))
+  ((size :sizet))
   "wavelet workspace"
   :documentation			; FDL
   "Make a workspace for the discrete wavelet transform.
@@ -106,7 +106,7 @@
 (defmfun wavelet-transform (wavelet data stride direction workspace)
   "gsl_wavelet_transform"
   (((mpointer wavelet) :pointer) ((grid:foreign-pointer data) :pointer)
-   (stride sizet) ((dim0 data) sizet) ((forward-backward direction) :int)
+   (stride :sizet) ((dim0 data) :sizet) ((forward-backward direction) :int)
    ((mpointer workspace) :pointer))
   :documentation			; FDL
   "Compute in-place forward and inverse discrete wavelet
@@ -132,7 +132,7 @@
 (defmfun wavelet-transform-forward (wavelet data stride workspace)
   "gsl_wavelet_transform_forward"
   (((mpointer wavelet) :pointer) ((grid:foreign-pointer data) :pointer)
-   (stride sizet) ((dim0 data) sizet) ((mpointer workspace) :pointer))
+   (stride :sizet) ((dim0 data) :sizet) ((mpointer workspace) :pointer))
   :documentation			; FDL
   "Compute in-place forward and inverse discrete wavelet
    transforms on the array data.  The length of the transform
@@ -154,7 +154,7 @@
 (defmfun wavelet-transform-inverse (wavelet data stride workspace)
   "gsl_wavelet_transform_inverse"
   (((mpointer wavelet) :pointer) ((grid:foreign-pointer data) :pointer)
-   (stride sizet) ((dim0 data) sizet) ((mpointer workspace) :pointer))
+   (stride :sizet) ((dim0 data) :sizet) ((mpointer workspace) :pointer))
   :documentation			; FDL
   "Compute in-place inverse discrete wavelet
    transforms on the array data.  The length of the transform
@@ -180,7 +180,7 @@
 (defmfun wavelet-2d-transform (wavelet data tda direction workspace)
   "gsl_wavelet2d_transform"
   (((mpointer wavelet) :pointer) ((grid:foreign-pointer data) :pointer)
-   (tda sizet) ((dim0 data) sizet) ((dim1 data) sizet)
+   (tda :sizet) ((dim0 data) :sizet) ((dim1 data) :sizet)
    ((forward-backward direction) :int) ((mpointer workspace) :pointer))
   :documentation			; FDL
   "Compute in-place forward and inverse discrete wavelet transforms
@@ -200,7 +200,7 @@
 (defmfun wavelet-2d-transform-forward (wavelet data tda workspace)
   "gsl_wavelet2d_transform_forward"
   (((mpointer wavelet) :pointer) ((grid:foreign-pointer data) :pointer)
-   (tda sizet) ((dim0 data) sizet) ((dim1 data) sizet)
+   (tda :sizet) ((dim0 data) :sizet) ((dim1 data) :sizet)
    ((mpointer workspace) :pointer))
   :documentation			; FDL
   "Compute two-dimensional in-place forward and inverse
@@ -218,7 +218,7 @@
 (defmfun wavelet-2d-transform-inverse (wavelet data tda workspace)
   "gsl_wavelet2d_transform_inverse"
   (((mpointer wavelet) :pointer) ((grid:foreign-pointer data) :pointer)
-   (tda sizet) ((dim0 data) sizet) ((dim1 data) sizet)
+   (tda :sizet) ((dim0 data) :sizet) ((dim1 data) :sizet)
    ((mpointer workspace) :pointer))
   :documentation			; FDL
   "Compute two-dimensional in-place forward and inverse discrete
@@ -255,7 +255,7 @@
 (defmfun wavelet-2d-nonstandard-transform (wavelet data tda direction workspace)
   "gsl_wavelet2d_nstransform"
   (((mpointer wavelet) :pointer) ((grid:foreign-pointer data) :pointer)
-   (tda sizet) ((dim0 data) sizet) ((dim1 data) sizet) (direction :int)
+   (tda :sizet) ((dim0 data) :sizet) ((dim1 data) :sizet) (direction :int)
    ((mpointer workspace) :pointer))
   :documentation			; FDL
   "Compute the two-dimensional wavelet transform in non-standard form.")
@@ -263,7 +263,7 @@
 (defmfun wavelet-2d-nonstandard-transform-forward (wavelet data tda workspace)
   "gsl_wavelet2d_nstransform_forward"
   (((mpointer wavelet) :pointer) ((grid:foreign-pointer data) :pointer)
-   (tda sizet) ((dim0 data) sizet) ((dim1 data) sizet)
+   (tda :sizet) ((dim0 data) :sizet) ((dim1 data) :sizet)
    ((mpointer workspace) :pointer))
   :documentation			; FDL
   "Compute the two-dimensional wavelet transform in non-standard form.")
@@ -271,7 +271,7 @@
 (defmfun wavelet-2d-nonstandard-transform-inverse (wavelet data tda workspace)
   "gsl_wavelet2d_nstransform_inverse"
   (((mpointer wavelet) :pointer) ((grid:foreign-pointer data) :pointer)
-   (tda sizet) ((dim0 data) sizet) ((dim1 data) sizet)
+   (tda :sizet) ((dim0 data) :sizet) ((dim1 data) :sizet)
    ((mpointer workspace) :pointer))
   :documentation			; FDL
   "Compute the two-dimensional wavelet transform in non-standard form.")

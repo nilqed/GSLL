@@ -1,6 +1,6 @@
 ;; Linear least squares, or linear regression
 ;; Liam Healy <2008-01-21 12:41:46EST linear-least-squares.lisp>
-;; Time-stamp: <2011-10-23 21:55:39EDT linear-least-squares.lisp>
+;; Time-stamp: <2012-01-13 12:01:18EST linear-least-squares.lisp>
 ;;
 ;; Copyright 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -36,16 +36,16 @@
 (defmfun linear-fit
     (x y &optional weight (x-stride 1) (y-stride 1) (weight-stride 1))
   ("gsl_fit_linear" "gsl_fit_wlinear")
-  ((((grid:foreign-pointer x) :pointer) (x-stride sizet)
-    ((grid:foreign-pointer y) :pointer) (y-stride sizet)
-    ((dim0 x) sizet)
+  ((((grid:foreign-pointer x) :pointer) (x-stride :sizet)
+    ((grid:foreign-pointer y) :pointer) (y-stride :sizet)
+    ((dim0 x) :sizet)
     (c0 (:pointer :double)) (c1 (:pointer :double))
     (cov00 (:pointer :double)) (cov01 (:pointer :double))
     (cov11 (:pointer :double)) (sumsq (:pointer :double)))
-   (((grid:foreign-pointer x) :pointer) (x-stride sizet)
-    ((grid:foreign-pointer weight) :pointer) (weight-stride sizet)
-    ((grid:foreign-pointer y) :pointer) (y-stride sizet)
-    ((dim0 x) sizet)
+   (((grid:foreign-pointer x) :pointer) (x-stride :sizet)
+    ((grid:foreign-pointer weight) :pointer) (weight-stride :sizet)
+    ((grid:foreign-pointer y) :pointer) (y-stride :sizet)
+    ((dim0 x) :sizet)
     (c0 (:pointer :double)) (c1 (:pointer :double))
     (cov00 (:pointer :double)) (cov01 (:pointer :double))
     (cov11 (:pointer :double)) (sumsq (:pointer :double))))
@@ -85,15 +85,15 @@
 (defmfun multiplier-fit
     (x y &optional weight (x-stride 1) (y-stride 1) (weight-stride 1))
   ("gsl_fit_mul" "gsl_fit_wmul")
-  ((((grid:foreign-pointer x) :pointer) (x-stride sizet)
-    ((grid:foreign-pointer y) :pointer) (y-stride sizet)
-    ((dim0 x) sizet)
+  ((((grid:foreign-pointer x) :pointer) (x-stride :sizet)
+    ((grid:foreign-pointer y) :pointer) (y-stride :sizet)
+    ((dim0 x) :sizet)
     (c1 (:pointer :double)) (cov11 (:pointer :double))
     (sumsq (:pointer :double)))
-   (((grid:foreign-pointer x) :pointer) (x-stride sizet)
-    ((grid:foreign-pointer weight) :pointer) (weight-stride sizet)
-    ((grid:foreign-pointer y) :pointer) (y-stride sizet)
-    ((dim0 x) sizet)
+   (((grid:foreign-pointer x) :pointer) (x-stride :sizet)
+    ((grid:foreign-pointer weight) :pointer) (weight-stride :sizet)
+    ((grid:foreign-pointer y) :pointer) (y-stride :sizet)
+    ((dim0 x) :sizet)
     (c1 (:pointer :double)) (cov11 (:pointer :double))
     (sumsq (:pointer :double))))
   :inputs (x y weight)
@@ -127,7 +127,7 @@
 
 (defmobject fit-workspace
     "gsl_multifit_linear"
-  ((number-of-observations sizet) (number-of-parameters sizet))
+  ((number-of-observations :sizet) (number-of-parameters :sizet))
   "multi-dimensional root solver with function only"
   :documentation
   "Make a workspace for a multidimensional linear least-squares fit.")
@@ -230,7 +230,7 @@
   ((((mpointer model) :pointer)
     ((mpointer observations) :pointer)
     (tolerance :double)
-    (rank (:pointer sizet))
+    (rank (:pointer :sizet))
     ((mpointer parameters) :pointer)
     ((mpointer covariance) :pointer)
     (chisq (:pointer :double))
@@ -239,7 +239,7 @@
     ((mpointer weight) :pointer)
     ((mpointer observations) :pointer)
     (tolerance :double)
-    (rank (:pointer sizet))
+    (rank (:pointer :sizet))
     ((mpointer parameters) :pointer)
     ((mpointer covariance) :pointer)
     (chisq (:pointer :double))
@@ -247,7 +247,7 @@
   :inputs (model weight observations)
   :outputs (parameters covariance)
   :switch (weight)
-  :return ((cffi:mem-ref chisq :double) (cffi:mem-ref rank 'sizet))
+  :return ((cffi:mem-ref chisq :double) (cffi:mem-ref rank ':sizet))
   :export nil
   :index linear-mfit
   :documentation			; FDL

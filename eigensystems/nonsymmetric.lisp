@@ -1,6 +1,6 @@
 ;; Eigensystems for nonsymmetric real matrices
 ;; Liam Healy 2009-02-16 12:51:18EST nonsymmetric.lisp
-;; Time-stamp: <2011-01-10 18:19:13EST nonsymmetric.lisp>
+;; Time-stamp: <2012-01-13 12:01:33EST nonsymmetric.lisp>
 ;;
 ;; Copyright 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -21,7 +21,7 @@
 (in-package :gsl)
 
 (defmobject eigen-nonsymm
-    "gsl_eigen_nonsymm" ((n sizet))
+    "gsl_eigen_nonsymm" ((n :sizet))
     "non-symmetric eigenvalue workspace"
     :gsl-version (1 9)
     :documentation			; FDL
@@ -30,7 +30,7 @@
   is O(2n).")
 
 (defmobject eigen-nonsymmv
-    "gsl_eigen_nonsymmv" ((n sizet))
+    "gsl_eigen_nonsymmv" ((n :sizet))
     "non-symmetric eigenvector and eigenvalue workspace"
     :gsl-version (1 9)
     :documentation			; FDL

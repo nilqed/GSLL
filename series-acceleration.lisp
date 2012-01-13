@@ -1,6 +1,6 @@
 ;; Series acceleration.
 ;; Liam Healy, Wed Nov 21 2007 - 18:41
-;; Time-stamp: <2011-10-30 09:55:05EDT series-acceleration.lisp>
+;; Time-stamp: <2012-01-13 12:01:09EST series-acceleration.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -30,7 +30,7 @@
   (cffi:foreign-slot-value (mpointer levin) '(:struct levin-c) slot))
 
 (defmobject levin "gsl_sum_levin_u"
-  ((order sizet))
+  ((order :sizet))
   "Levin u-transform"
   :documentation			; FDL
   "Make a workspace for a Levin u-transform of n
@@ -38,7 +38,7 @@
 
 (defmfun accelerate (array levin)
   "gsl_sum_levin_u_accel"
-  (((grid:foreign-pointer array) :pointer) ((dim0 array) sizet) ((mpointer levin) :pointer)
+  (((grid:foreign-pointer array) :pointer) ((dim0 array) :sizet) ((mpointer levin) :pointer)
    (accelerated-sum (:pointer :double)) (abserr (:pointer :double)))
   :inputs (array)
   :documentation			; FDL
@@ -57,7 +57,7 @@
 ;;;;****************************************************************************
 
 (defmobject levin-truncated "gsl_sum_levin_utrunc"
-  ((order sizet))
+  ((order :sizet))
   "truncated Levin u-transform"
   :documentation			; FDL
   "Make a workspace for a Levin u-transform of n
@@ -66,7 +66,7 @@
 
 (defmfun accelerate-truncated (array levin)
   "gsl_sum_levin_utrunc_accel"
-  (((grid:foreign-pointer array) :pointer) ((dim0 array) sizet) ((mpointer levin) :pointer)
+  (((grid:foreign-pointer array) :pointer) ((dim0 array) :sizet) ((mpointer levin) :pointer)
    (accelerated-sum (:pointer :double)) (abserr (:pointer :double)))
   :inputs (array)
   :documentation			; FDL

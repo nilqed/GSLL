@@ -1,6 +1,6 @@
 ;; Basis splines.
 ;; Liam Healy 2008-02-18 14:43:20EST basis-splines.lisp
-;; Time-stamp: <2011-05-26 12:37:29EDT basis-splines.lisp>
+;; Time-stamp: <2012-01-13 12:01:11EST basis-splines.lisp>
 ;;
 ;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -25,7 +25,7 @@
 ;;; Should be subclass of interpolation?
 
 (defmobject basis-spline "gsl_bspline"
-  ((order sizet) (number-of-breakpoints sizet))
+  ((order :sizet) (number-of-breakpoints :sizet))
   "basis spline"
   :gsl-version (1 9)
   :documentation			; FDL
@@ -79,26 +79,26 @@
 (defmfun number-of-coefficients (bspline)
   "gsl_bspline_ncoeffs"
   (((mpointer bspline) :pointer))
-  :c-return sizet
+  :c-return :sizet
   :gsl-version (1 9))
 
 (defmfun order ((bspline basis-spline))
   "gsl_bspline_order"
   (((mpointer bspline) :pointer))
   :definition :method
-  :c-return sizet
+  :c-return :sizet
   :gsl-version (1 9))
 
 (defmfun number-of-breakpoints (bspline)
   "gsl_bspline_nbreak"
   (((mpointer bspline) :pointer))
-  :c-return sizet
+  :c-return :sizet
   :gsl-version (1 9)
   :documentation "The number of breakpoints of the basis spline bspline.")
 
 (defmfun breakpoint (i bspline)
   "gsl_bspline_breakpoint"
-  ((i sizet) ((mpointer bspline) :pointer))
+  ((i :sizet) ((mpointer bspline) :pointer))
   :c-return :double
   :gsl-version (1 9)
   :documentation "The ith breakpoint of the basis spline bspline.")

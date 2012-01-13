@@ -1,6 +1,6 @@
 ;; N-tuples
 ;; Liam Healy Sat Feb  3 2007 - 12:53
-;; Time-stamp: <2011-10-30 10:09:06EDT ntuple.lisp>
+;; Time-stamp: <2012-01-13 12:01:27EST ntuple.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -26,7 +26,7 @@
 (defmfun create-ntuple (filename data foreign-type)
   "gsl_ntuple_create"
   ((filename :string) (data :pointer)
-   ((cffi:foreign-type-size foreign-type) sizet))
+   ((cffi:foreign-type-size foreign-type) :sizet))
   :c-return :pointer
   :documentation			; FDL
   "Create a new write-only ntuple file filename for
@@ -40,7 +40,7 @@
 (defmfun open-ntuple (filename data foreign-type)
   "gsl_ntuple_open"
   ((filename :string) (data :pointer)
-   ((cffi:foreign-type-size foreign-type) sizet))
+   ((cffi:foreign-type-size foreign-type) :sizet))
   :c-return :pointer
   :documentation			; FDL
   "Open an existing ntuple file filename for reading

@@ -1,6 +1,6 @@
 ;; Airy functions
 ;; Liam Healy, Fri Mar 17 2006 - 18:41
-;; Time-stamp: <2011-10-29 23:30:34EDT airy.lisp>
+;; Time-stamp: <2012-01-13 12:01:16EST airy.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -80,22 +80,22 @@
    exp(-(2/3) x^(3/2)), and is 1 for x<0.")
 
 (defmfun airy-zero-Ai (s)
-  "gsl_sf_airy_zero_Ai_e" ((s sizet) (ret (:pointer (:struct sf-result))))
+  "gsl_sf_airy_zero_Ai_e" ((s :sizet) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The location of the s-th zero of the Airy function Ai(x).")
 
 (defmfun airy-zero-Bi (s)
-  "gsl_sf_airy_zero_Bi_e" ((s sizet) (ret (:pointer (:struct sf-result))))
+  "gsl_sf_airy_zero_Bi_e" ((s :sizet) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The location of the s-th zero of the Airy function Bi(x).")
 
 (defmfun airy-zero-Ai-deriv (s)
-  "gsl_sf_airy_zero_Ai_deriv_e" ((s sizet) (ret (:pointer (:struct sf-result))))
+  "gsl_sf_airy_zero_Ai_deriv_e" ((s :sizet) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The location of the s-th zero of the Airy function derivative Ai'(x).")
 
 (defmfun airy-zero-Bi-deriv (s)
-  "gsl_sf_airy_zero_Bi_deriv_e" ((s sizet) (ret (:pointer (:struct sf-result))))
+  "gsl_sf_airy_zero_Bi_deriv_e" ((s :sizet) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
   "The location of the s-th zero of the Airy function derivative Bi'(x).")
 

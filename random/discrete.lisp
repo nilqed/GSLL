@@ -1,6 +1,6 @@
 ;; Discrete random variables
 ;; Liam Healy, Sat Nov 11 2006 - 21:51
-;; Time-stamp: <2011-01-10 17:59:28EST discrete.lisp>
+;; Time-stamp: <2012-01-13 12:01:21EST discrete.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -23,7 +23,7 @@
 ;;; /usr/include/gsl/gsl_randist.h
 
 (defmobject discrete-random "gsl_ran_discrete"
-  (((dim0 probabilities) sizet) ((grid:foreign-pointer probabilities) :pointer))
+  (((dim0 probabilities) :sizet) ((grid:foreign-pointer probabilities) :pointer))
   "lookup table for the discrete random number generator"
   :allocator "gsl_ran_discrete_preproc"
   :allocate-inputs (probabilities)
@@ -41,13 +41,13 @@
   "gsl_ran_discrete"
   (((mpointer generator) :pointer) ((mpointer table) :pointer))
   :definition :method
-  :c-return sizet
+  :c-return :sizet
   :documentation
   "Generate discrete random numbers.")
 
 (defmfun discrete-pdf (k table)
   "gsl_ran_discrete_pdf"
-  ((k sizet) ((mpointer table) :pointer))
+  ((k :sizet) ((mpointer table) :pointer))
   :c-return :double
   :documentation			; FDL
   "The probability P[k] of observing the variable k.

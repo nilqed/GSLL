@@ -1,6 +1,6 @@
 ;; Chebyshev Approximations
 ;; Liam Healy Sat Nov 17 2007 - 20:36
-;; Time-stamp: <2011-10-30 10:25:39EDT chebyshev.lisp>
+;; Time-stamp: <2012-01-13 12:01:09EST chebyshev.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -27,7 +27,7 @@
 ;;;;****************************************************************************
 
 (defmobject chebyshev "gsl_cheb"
-  ((order sizet))
+  ((order :sizet))
   "Chebyshev series"
   :documentation			; FDL
   "Make a Chebyshev series of specified order."
@@ -43,7 +43,7 @@
   (((mpointer object) :pointer))
   :definition :method
   :documentation "The order of Chebyshev series."
-  :c-return sizet
+  :c-return :sizet
   :gsl-version (1 12))
 
 (defmfun size ((chebyshev chebyshev))
@@ -51,7 +51,7 @@
   (((mpointer chebyshev) :pointer))
   :definition :method
   :documentation "The length of the Chebyshev coefficient array."
-  :c-return sizet
+  :c-return :sizet
   :gsl-version (1 12))
 
 (defmfun coefficients (chebyshev)
@@ -75,7 +75,7 @@
 (defmfun evaluate ((object chebyshev) x &key order)
   ("gsl_cheb_eval" "gsl_cheb_eval_n")
   ((((mpointer object) :pointer) (x :double))
-   (((mpointer object) :pointer) (order sizet) (x :double)))
+   (((mpointer object) :pointer) (order :sizet) (x :double)))
   :definition :method
   :callback-object object
   :c-return :double
@@ -87,7 +87,7 @@
   ("gsl_cheb_eval_err" "gsl_cheb_eval_n_err")
   ((((mpointer chebyshev) :pointer) (x :double)
     (result (:pointer :double)) (abserr (:pointer :double)))
-   (((mpointer chebyshev) :pointer) (order sizet) (x :double)
+   (((mpointer chebyshev) :pointer) (order :sizet) (x :double)
     (result (:pointer :double)) (abserr (:pointer :double))))
   :documentation			; FDL
   "Evaluate the Chebyshev series at a point x, returning result and

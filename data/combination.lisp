@@ -1,6 +1,6 @@
 ;; Combinations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2011-01-10 18:16:28EST combination.lisp>
+;; Time-stamp: <2012-01-13 12:01:36EST combination.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -123,7 +123,7 @@
 (defmfun combination-range (c)
   "gsl_combination_n"
   (((mpointer c) :pointer))
-  :c-return sizet
+  :c-return :sizet
   :inputs (c)
   :documentation			; FDL
   "The range (n), or maximum possible value (n in the (n k) notation)
@@ -133,7 +133,7 @@
   "gsl_combination_k"
   (((mpointer c) :pointer))
   :definition :method
-  :c-return sizet
+  :c-return :sizet
   :documentation			; FDL
   "The number of elements (k) in the combination c.")
 

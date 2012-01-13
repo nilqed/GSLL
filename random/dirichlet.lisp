@@ -1,6 +1,6 @@
 ;; Dirichlet distribution
 ;; Liam Healy, Sun Oct 29 2006
-;; Time-stamp: <2011-07-29 12:09:55EDT dirichlet.lisp>
+;; Time-stamp: <2012-01-13 12:01:22EST dirichlet.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -27,7 +27,7 @@
      &key alpha (theta (vdf (dim0 alpha))))
   "gsl_ran_dirichlet"
   (((mpointer generator) :pointer)
-   ((dim0 alpha) sizet)
+   ((dim0 alpha) :sizet)
    ((grid:foreign-pointer alpha) :pointer)
    ;; theta had better be at least as long as alpha, or they'll be trouble
    ((grid:foreign-pointer theta) :pointer))
@@ -54,7 +54,7 @@
 
 (defmfun dirichlet-pdf (alpha theta)
   "gsl_ran_dirichlet_pdf"
-  (((dim0 alpha) sizet)
+  (((dim0 alpha) :sizet)
    ((grid:foreign-pointer alpha) :pointer)
    ;; theta had better be at least as long as alpha, or they'll be trouble
    ((grid:foreign-pointer theta) :pointer))
@@ -67,7 +67,7 @@
 
 (defmfun dirichlet-log-pdf (alpha theta)
   "gsl_ran_dirichlet_lnpdf"
-  (((dim0 alpha) sizet)
+  (((dim0 alpha) :sizet)
    ((grid:foreign-pointer alpha) :pointer)
    ;; theta had better be at least as long as alpha, or they'll be trouble
    ((grid:foreign-pointer theta) :pointer))

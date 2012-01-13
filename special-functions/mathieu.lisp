@@ -1,6 +1,6 @@
 ;; Mathieu functions
 ;; Liam Healy 2009-02-16 16:30:59EST mathieu.lisp
-;; Time-stamp: <2011-10-29 23:29:25EDT mathieu.lisp>
+;; Time-stamp: <2012-01-13 12:01:15EST mathieu.lisp>
 ;;
 ;; Copyright 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -25,7 +25,7 @@
 ;;;;****************************************************************************
 
 (defmobject mathieu "gsl_sf_mathieu"
-  ((n sizet) (qmax :double))
+  ((n :sizet) (qmax :double))
   "workspace for Mathieu functions"
   :gsl-version (1 9)
   :documentation "Make a workspace needed for some Mathieu functions.")

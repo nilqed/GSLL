@@ -1,6 +1,6 @@
 ;; Skewness and kurtosis.
 ;; Liam Healy, Sun Dec 31 2006 - 14:20
-;; Time-stamp: <2011-01-10 17:59:34EST higher-moments.lisp>
+;; Time-stamp: <2012-01-13 12:01:13EST higher-moments.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -25,8 +25,8 @@
 (defmfun skewness ((data vector) &optional mean standard-deviation)
   (("gsl_stats" :type "_skew")
    ("gsl_stats" :type "_skew_m_sd"))
-  ((((grid:foreign-pointer data) :pointer) (1 :int) ((dim0 data) sizet))
-   (((grid:foreign-pointer data) :pointer) (1 :int) ((dim0 data) sizet)
+  ((((grid:foreign-pointer data) :pointer) (1 :int) ((dim0 data) :sizet))
+   (((grid:foreign-pointer data) :pointer) (1 :int) ((dim0 data) :sizet)
     (mean :double) (standard-deviation :double)))
   :definition :generic
   :element-types :no-complex
@@ -45,8 +45,8 @@
 (defmfun kurtosis ((data vector) &optional mean standard-deviation)
   (("gsl_stats" :type "_kurtosis")
    ("gsl_stats" :type "_kurtosis_m_sd"))
-  ((((grid:foreign-pointer data) :pointer) (1 :int) ((dim0 data) sizet))
-   (((grid:foreign-pointer data) :pointer) (1 :int) ((dim0 data) sizet)
+  ((((grid:foreign-pointer data) :pointer) (1 :int) ((dim0 data) :sizet))
+   (((grid:foreign-pointer data) :pointer) (1 :int) ((dim0 data) :sizet)
     (mean :double) (standard-deviation :double)))
   :definition :generic
   :element-types :no-complex
@@ -65,10 +65,10 @@
    ("gsl_stats" :type "_wskew_m_sd"))
   ((((grid:foreign-pointer weights) :pointer) (1 :int)
     ((grid:foreign-pointer data) :pointer) (1 :int)
-    ((dim0 data) sizet))
+    ((dim0 data) :sizet))
    (((grid:foreign-pointer weights) :pointer) (1 :int)
     ((grid:foreign-pointer data) :pointer) (1 :int)
-    ((dim0 data) sizet)
+    ((dim0 data) :sizet)
     (mean :double) (standard-deviation :double)))
   :definition :generic
   :element-types :float
@@ -84,10 +84,10 @@
    ("gsl_stats" :type "_wkurtosis_m_sd"))
   ((((grid:foreign-pointer weights) :pointer) (1 :int)
     ((grid:foreign-pointer data) :pointer) (1 :int)
-    ((dim0 data) sizet))
+    ((dim0 data) :sizet))
    (((grid:foreign-pointer weights) :pointer) (1 :int)
     ((grid:foreign-pointer data) :pointer) (1 :int)
-    ((dim0 data) sizet)
+    ((dim0 data) :sizet)
     (mean :double) (standard-deviation :double)))
   :definition :generic
   :element-types :float

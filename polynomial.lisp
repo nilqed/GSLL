@@ -1,6 +1,6 @@
 ;; Polynomials
 ;; Liam Healy, Tue Mar 21 2006 - 18:33
-;; Time-stamp: <2011-10-29 23:21:19EDT polynomial.lisp>
+;; Time-stamp: <2012-01-13 12:01:12EST polynomial.lisp>
 ;;
 ;; Copyright 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -29,11 +29,11 @@
 (defmfun evaluate
     ((coefficients grid:vector-double-float) (x float) &key divided-difference)
   ("gsl_poly_eval" "gsl_poly_dd_eval")
-  ((((grid:foreign-pointer coefficients) :pointer) ((dim0 coefficients) sizet)
+  ((((grid:foreign-pointer coefficients) :pointer) ((dim0 coefficients) :sizet)
     (x :double))
    (((grid:foreign-pointer divided-difference) :pointer)
     ((grid:foreign-pointer coefficients) :pointer)
-    ((dim0 coefficients) sizet)
+    ((dim0 coefficients) :sizet)
     (x :double)))
   :definition :method
   :inputs (coefficients divided-difference)
@@ -46,7 +46,7 @@
     ((coefficients grid:vector-double-float) (x complex)
      &key)
   "gsl_poly_complex_eval"
-  (((grid:foreign-pointer coefficients) :pointer) ((dim0 coefficients) sizet)
+  (((grid:foreign-pointer coefficients) :pointer) ((dim0 coefficients) :sizet)
    (x (:struct grid:complex-double-c)))
   :definition :method
   :gsl-version (1 11)
@@ -60,7 +60,7 @@
     ((coefficients grid:vector-complex-double-float) (x complex)
      &key)
   "gsl_complex_poly_complex_eval"
-  (((grid:foreign-pointer coefficients) :pointer) ((dim0 coefficients) sizet)
+  (((grid:foreign-pointer coefficients) :pointer) ((dim0 coefficients) :sizet)
    (x (:struct grid:complex-double-c)))
   :definition :method
   :gsl-version (1 11)
@@ -78,7 +78,7 @@
   "gsl_poly_dd_init"
   (((grid:foreign-pointer dd) :pointer)
    ((grid:foreign-pointer xa) :pointer) ((grid:foreign-pointer ya) :pointer)
-   ((dim0 xa) sizet))
+   ((dim0 xa) :sizet))
   :inputs (xa ya)
   :outputs (dd)
   :return (dd)
@@ -99,7 +99,7 @@
    (xp :double)
    ((grid:foreign-pointer dd) :pointer)
    ((grid:foreign-pointer xa) :pointer)
-   ((dim0 xa) sizet)
+   ((dim0 xa) :sizet)
    ((grid:foreign-pointer workspace) :pointer))
   :inputs (dd xa)
   :outputs (coefficients)
@@ -169,7 +169,7 @@
 ;;;;****************************************************************************
 
 (defmobject polynomial-complex-workspace "gsl_poly_complex_workspace"
-  ((n sizet))
+  ((n :sizet))
   "complex workspace for polynomials")
 
 (defmfun polynomial-solve
@@ -179,7 +179,7 @@
 			  :dimensions (1- (size coefficients))))
      (workspace (make-polynomial-complex-workspace (size coefficients))))
   "gsl_poly_complex_solve"
-  (((grid:foreign-pointer coefficients) :pointer) ((dim0 coefficients) sizet)
+  (((grid:foreign-pointer coefficients) :pointer) ((dim0 coefficients) :sizet)
    ((mpointer workspace) :pointer) ((grid:foreign-pointer answer) :pointer))
   :inputs (coefficients)
   :outputs (answer)

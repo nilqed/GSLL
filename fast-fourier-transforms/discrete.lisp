@@ -1,6 +1,6 @@
 ;; Discrete Fourier Transforms
 ;; Liam Healy 2009-11-07 14:24:07EST
-;; Time-stamp: <2011-01-10 18:16:24EST discrete.lisp>
+;; Time-stamp: <2012-01-13 12:01:31EST discrete.lisp>
 ;;
 ;; Copyright 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -31,7 +31,7 @@
      &key (stride 1)
      (result (grid:make-foreign-array element-type :dimensions (grid:dimensions vector))))
   ("gsl_dft" :type "_forward")
-  (((grid:foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
+  (((grid:foreign-pointer vector) :pointer) (stride :sizet) ((floor (size vector) stride) :sizet)
    ((grid:foreign-pointer result) :pointer))
   :definition :generic
   :element-types :complex
@@ -47,7 +47,7 @@
      &key (stride 1)
      (result (grid:make-foreign-array element-type :dimensions (grid:dimensions vector))))
   ("gsl_dft" :type "_backward")
-  (((grid:foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
+  (((grid:foreign-pointer vector) :pointer) (stride :sizet) ((floor (size vector) stride) :sizet)
    ((grid:foreign-pointer result) :pointer))
   :definition :generic
   :element-types :complex
@@ -63,7 +63,7 @@
      &key (stride 1)
      (result (grid:make-foreign-array element-type :dimensions (grid:dimensions vector))))
   ("gsl_dft" :type "_inverse")
-  (((grid:foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
+  (((grid:foreign-pointer vector) :pointer) (stride :sizet) ((floor (size vector) stride) :sizet)
    ((grid:foreign-pointer result) :pointer))
   :definition :generic
   :element-types :complex
@@ -79,7 +79,7 @@
      &key (stride 1)
      (result (grid:make-foreign-array element-type :dimensions (grid:dimensions vector))))
   ("gsl_dft" :type "_transform")
-  (((grid:foreign-pointer vector) :pointer) (stride sizet) ((floor (size vector) stride) sizet)
+  (((grid:foreign-pointer vector) :pointer) (stride :sizet) ((floor (size vector) stride) :sizet)
    ((grid:foreign-pointer result) :pointer))
   :definition :generic
   :element-types :complex

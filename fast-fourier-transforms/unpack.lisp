@@ -1,6 +1,6 @@
 ;; Unpack functions for FFT vectors.
 ;; Sumant Oemrawsingh, Sun Oct 25 2009 - 16:35
-;; Time-stamp: <2011-01-10 17:59:24EST unpack.lisp>
+;; Time-stamp: <2012-01-13 12:01:29EST unpack.lisp>
 ;;
 ;; Copyright 2009, 2011 Sumant Oemrawsingh, Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -36,7 +36,7 @@
   ("gsl_fft_real" :type "_unpack")
   (((grid:foreign-pointer vector) :pointer)
    ((grid:foreign-pointer output) :pointer)
-   (stride sizet) ((floor (size vector) stride) sizet))
+   (stride :sizet) ((floor (size vector) stride) :sizet))
   :definition :generic
   :element-types :float
   :inputs (vector output)
@@ -60,7 +60,7 @@
   ("gsl_fft_halfcomplex" :type "_radix2_unpack")
   (((grid:foreign-pointer vector) :pointer)
    ((grid:foreign-pointer output) :pointer)
-   (stride sizet) ((floor (size vector) stride) sizet))
+   (stride :sizet) ((floor (size vector) stride) :sizet))
   :definition :generic
   :element-types :float
   :inputs (vector output)
@@ -83,7 +83,7 @@
   ("gsl_fft_halfcomplex" :type "_unpack")
   (((grid:foreign-pointer vector) :pointer)
    ((grid:foreign-pointer output) :pointer)
-   (stride sizet) ((floor (size vector) stride) sizet))
+   (stride :sizet) ((floor (size vector) stride) :sizet))
   :definition :generic
   :element-types :float
   :inputs (vector output)

@@ -1,6 +1,6 @@
 ;; Multivariate minimization.
 ;; Liam Healy  <Tue Jan  8 2008 - 21:28>
-;; Time-stamp: <2011-10-30 10:03:24EDT minimization-multi.lisp>
+;; Time-stamp: <2012-01-13 12:01:18EST minimization-multi.lisp>
 ;;
 ;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -44,7 +44,7 @@
 
 (defmobject multi-dimensional-minimizer-f
     "gsl_multimin_fminimizer"
-  ((type :pointer) ((first dimensions) sizet))
+  ((type :pointer) ((first dimensions) :sizet))
   "multi-dimensional minimizer with function only"
   :documentation			; FDL
   "Make an instance of a minimizer for a function of the given
@@ -63,7 +63,7 @@
 
 (defmobject multi-dimensional-minimizer-fdf
     "gsl_multimin_fdfminimizer"
-  ((type :pointer) ((first dimensions) sizet))
+  ((type :pointer) ((first dimensions) :sizet))
   "multi-dimensional minimizer with function and derivative"
   :documentation			; FDL
   "Make an instance of a minimizer for a function of the given

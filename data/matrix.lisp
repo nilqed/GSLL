@@ -1,6 +1,6 @@
 ;; Matrices
 ;; Liam Healy 2008-04-15 21:57:52EDT matrix.lisp
-;; Time-stamp: <2011-01-12 00:34:45EST matrix.lisp>
+;; Time-stamp: <2012-01-13 12:01:35EST matrix.lisp>
 ;;
 ;; Copyright 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -46,7 +46,7 @@
 (defmfun row ((matrix grid:matrix) i
      &optional (vector (grid:make-foreign-array element-type :dimensions (dim1 matrix))))
   ("gsl_matrix" :type "_get_row")
-  (((mpointer vector) :pointer) ((mpointer matrix) :pointer) (i sizet))
+  (((mpointer vector) :pointer) ((mpointer matrix) :pointer) (i :sizet))
   :definition :generic
   :inputs (matrix)
   :outputs (vector)
@@ -58,7 +58,7 @@
 
 (defmfun (setf row) ((vector vector) (matrix grid:matrix) i)
   ("gsl_matrix" :type "_set_row")
-  (((mpointer matrix) :pointer) (i sizet) ((mpointer vector) :pointer))
+  (((mpointer matrix) :pointer) (i :sizet) ((mpointer vector) :pointer))
   :definition :generic
   :inputs (vector matrix)
   :outputs (matrix)
@@ -70,7 +70,7 @@
 (defmfun column ((matrix grid:matrix) i
      &optional (vector (grid:make-foreign-array element-type :dimensions (dim0 matrix))))
   ("gsl_matrix" :type "_get_col")
-  (((mpointer vector) :pointer) ((mpointer matrix) :pointer) (i sizet))
+  (((mpointer vector) :pointer) ((mpointer matrix) :pointer) (i :sizet))
   :definition :generic
   :inputs (matrix)
   :outputs (vector)
@@ -82,7 +82,7 @@
 
 (defmfun (setf column) ((vector vector) (matrix grid:matrix) i)
   ("gsl_matrix" :type "_set_col")
-  (((mpointer matrix) :pointer) (i sizet) ((mpointer vector) :pointer))
+  (((mpointer matrix) :pointer) (i :sizet) ((mpointer vector) :pointer))
   :definition :generic
   :inputs (vector matrix)
   :outputs (matrix)
@@ -97,7 +97,7 @@
 
 (defmfun swap-rows ((matrix grid:matrix) i j)
   ("gsl_matrix" :type "_swap_rows")
-  (((mpointer matrix) :pointer) (i sizet) (j sizet))
+  (((mpointer matrix) :pointer) (i :sizet) (j :sizet))
   :definition :generic
   :return (matrix)
   :inputs (matrix)
@@ -107,7 +107,7 @@
 
 (defmfun swap-columns ((matrix grid:matrix) i j)
   ("gsl_matrix" :type "_swap_columns")
-  (((mpointer matrix) :pointer) (i sizet) (j sizet))
+  (((mpointer matrix) :pointer) (i :sizet) (j :sizet))
   :definition :generic
   :return (matrix)
   :inputs (matrix)
@@ -117,7 +117,7 @@
 
 (defmfun swap-row-column ((matrix grid:matrix) i j)
   ("gsl_matrix" :type "_swap_rowcol")
-  (((mpointer matrix) :pointer) (i sizet) (j sizet))
+  (((mpointer matrix) :pointer) (i :sizet) (j :sizet))
   :definition :generic
   :return (matrix)
   :inputs (matrix)

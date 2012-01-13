@@ -1,6 +1,6 @@
 ;; Index lookup and acceleration
 ;; Liam Healy, Sun Nov  4 2007 - 18:09
-;; Time-stamp: <2011-01-13 10:24:57EST lookup.lisp>
+;; Time-stamp: <2012-01-13 12:01:25EST lookup.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -31,8 +31,8 @@
 
 (defmfun interpolation-search (x-array x low-index high-index)
   "gsl_interp_bsearch"
-  ((x-array :pointer) (x :double) (low-index sizet) (high-index sizet))
-  :c-return sizet
+  ((x-array :pointer) (x :double) (low-index :sizet) (high-index :sizet))
+  :c-return :sizet
   :documentation			; FDL
   "Find the index i of the array x-array such
    that x-array[i] <= x < x-array[i+1].  The index is searched for
@@ -41,7 +41,7 @@
 (defmfun accelerated-interpolation-search (x-array x acceleration)
   "gsl_interp_accel_find"
   (((mpointer acceleration) :pointer) (x-array :pointer) (x :double))
-  :c-return sizet
+  :c-return :sizet
   :documentation			; FDL
   "Search the data array x-array of size, using the given acceleration.
    This is how lookups are performed during evaluation of an interpolation.  The

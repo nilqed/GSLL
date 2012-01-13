@@ -1,6 +1,6 @@
 ;; Real generalized eigensystems
 ;; Liam Healy 2009-02-16 12:55:04EST real-generalized.lisp
-;; Time-stamp: <2011-01-12 00:08:22EST generalized.lisp>
+;; Time-stamp: <2012-01-13 12:01:34EST generalized.lisp>
 ;;
 ;; Copyright 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -21,7 +21,7 @@
 (in-package :gsl)
 
 (defmobject eigen-gensymm
-    "gsl_eigen_gensymm" ((n sizet))
+    "gsl_eigen_gensymm" ((n :sizet))
     "symmetric generalized eigenvalue workspace"
     :gsl-version (1 10)
     :documentation			; FDL
@@ -30,7 +30,7 @@
      is O(2n).")
 
 (defmobject eigen-gensymmv
-    "gsl_eigen_gensymmv" ((n sizet))
+    "gsl_eigen_gensymmv" ((n :sizet))
     "symmetric generalized eigensystem workspace"
     :gsl-version (1 10)
     :documentation			; FDL
@@ -39,7 +39,7 @@
     of the workspace is O(4n).")
 
 (defmobject eigen-genherm
-    "gsl_eigen_genherm" ((n sizet))
+    "gsl_eigen_genherm" ((n :sizet))
     "hermitian generalized eigenvalue workspace"
     :gsl-version (1 10)
     :documentation			; FDL
@@ -48,7 +48,7 @@
     workspace is O(3n).")
 
 (defmobject eigen-genhermv
-    "gsl_eigen_genhermv" ((n sizet))
+    "gsl_eigen_genhermv" ((n :sizet))
     "hermitian generalized eigensystem workspace"
     :gsl-version (1 10)
     :documentation			; FDL

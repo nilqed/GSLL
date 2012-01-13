@@ -1,6 +1,6 @@
 ;; Stepping functions for ODE systems.
 ;; Liam Healy, Mon Sep 24 2007 - 21:33
-;; Time-stamp: <2011-10-30 09:55:50EDT stepping.lisp>
+;; Time-stamp: <2012-01-13 12:01:23EST stepping.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -23,7 +23,7 @@
 (in-package :gsl)
 
 (defmobject ode-stepper "gsl_odeiv_step"
-  ((type :pointer) ((first dimensions) sizet))
+  ((type :pointer) ((first dimensions) :sizet))
   "stepper for ordinary differential equations"
   :documentation
   "Make a stepper for ordinary differential equations.  The type is
