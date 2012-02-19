@@ -1,6 +1,6 @@
 ;; Load GSL
 ;; Liam Healy Sat Mar  4 2006 - 18:53
-;; Time-stamp: <2012-01-13 12:03:27EST init.lisp>
+;; Time-stamp: <2012-02-19 10:35:34EST init.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -67,8 +67,8 @@
 
 (cffi:define-foreign-library libgslcblas
   (:darwin #+ccl #.(ccl:native-translated-namestring
-		    (gsl-config-pathname "lib/libgslcblas.dylib"))
-           #-ccl #.(gsl-config-pathname "lib/libgslcblas.dylib"))
+		    (gsl-config-pathname "libgslcblas.dylib"))
+           #-ccl #.(gsl-config-pathname "libgslcblas.dylib"))
   (:cygwin "cyggslcblas-0.dll")
   (:unix (:or "libgslcblas.so.0" "libgslcblas.so"))
   (t (:default "libgslcblas")))
@@ -83,8 +83,8 @@
 
 (cffi:define-foreign-library libgsl
   (:darwin #+ccl #.(ccl:native-translated-namestring
-                     (gsl-config-pathname "lib/libgsl.dylib"))
-           #-ccl #.(gsl-config-pathname "lib/libgsl.dylib"))
+                     (gsl-config-pathname "libgsl.dylib"))
+           #-ccl #.(gsl-config-pathname "libgsl.dylib"))
   (:cygwin "cyggsl-0.dll")
   (:unix (:or "libgsl.so.0" "libgsl.so"))
   (t (:default "libgsl")))
