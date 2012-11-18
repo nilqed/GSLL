@@ -1,8 +1,8 @@
 ;; Evolution functions for ODE integration.
 ;; Liam Healy, Sun Sep 30 2007 - 14:31
-;; Time-stamp: <2012-01-13 12:01:23EST evolution.lisp>
+;; Time-stamp: <2012-11-17 12:06:56EST evolution.lisp>
 ;;
-;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2011, 2012 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -17,6 +17,8 @@
 ;;
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+;; /usr/include/gsl_odeiv.h
 
 (in-package :gsl)
 
