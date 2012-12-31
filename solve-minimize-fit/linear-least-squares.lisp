@@ -1,8 +1,8 @@
 ;; Linear least squares, or linear regression
 ;; Liam Healy <2008-01-21 12:41:46EST linear-least-squares.lisp>
-;; Time-stamp: <2012-01-13 12:01:18EST linear-least-squares.lisp>
+;; Time-stamp: <2012-12-31 12:30:36EST linear-least-squares.lisp>
 ;;
-;; Copyright 2008, 2009, 2010, 2011 Liam M. Healy
+;; Copyright 2008, 2009, 2010, 2011, 2012 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@
 ;;;;****************************************************************************
 
 ;;; Error in GSL documentation or in code: vectors must be equal
-;;; lengths but strides re not?  Shouldn't (floor length stride) be n?
+;;; lengths but strides are not?  Shouldn't (floor length stride) be n?
 ;;; Error in GSL documentation for gsl_fit_linear_est, "c00" instead
 ;;; of "cov00" etc.  Last arg to gsl_fit_wmul is labelled sumsq but
 ;;; referred to as chisq.
