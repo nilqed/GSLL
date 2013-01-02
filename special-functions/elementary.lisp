@@ -1,8 +1,8 @@
 ;; Elementary functions
 ;; Liam Healy, Mon Mar 20 2006 - 21:43
-;; Time-stamp: <2011-10-29 23:35:51EDT elementary.lisp>
+;; Time-stamp: <2012-12-30 10:59:51EST elementary.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2011, 2012 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -24,14 +24,14 @@
   "gsl_sf_multiply_e"
   ((x :double) (y :double) (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
-  "Multiplies x and y returning the product and associated error.")
+  "Multiplies two double-floats returning the product and associated error.")
 
 (defmfun multiply-err (x dx y dy)
     "gsl_sf_multiply_err_e"
   ((x :double) (dx :double) (y :double)  (dy :double)
 	       (ret (:pointer (:struct sf-result))))
   :documentation			; FDL
-  "Multiplies x and y with associated absolute
+  "Multiplies two double floats x and y with associated absolute
    errors dx and dy.  The product xy +/- xy \sqrt((dx/x)^2 +(dy/y)^2)
    is returned.")
 

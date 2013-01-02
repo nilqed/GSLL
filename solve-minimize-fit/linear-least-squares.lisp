@@ -1,8 +1,8 @@
 ;; Linear least squares, or linear regression
 ;; Liam Healy <2008-01-21 12:41:46EST linear-least-squares.lisp>
-;; Time-stamp: <2012-12-31 12:30:36EST linear-least-squares.lisp>
+;; Time-stamp: <2013-01-01 21:29:30EST linear-least-squares.lisp>
 ;;
-;; Copyright 2008, 2009, 2010, 2011, 2012 Liam M. Healy
+;; Copyright 2008, 2009, 2010, 2011, 2012, 2013 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -64,7 +64,9 @@
    computed using the weights and returned via the parameters
    (cov00, cov01, c0v01) as the next three values.  The weighted or
    unweighted sum of squares of the residuals from the best-fit line,
-   \chi^2, is returned in as the last value.")
+   \chi^2, is returned as the last value.
+
+   Returns: c0, c1, cov00, cov01, cov11, sumsq.")
 
 (defmfun linear-estimate (x c0 c1 cov00 cov01 cov11)
   "gsl_fit_linear_est"
