@@ -1,6 +1,6 @@
 ;; Linear least squares, or linear regression
 ;; Liam Healy <2008-01-21 12:41:46EST linear-least-squares.lisp>
-;; Time-stamp: <2013-01-01 21:29:30EST linear-least-squares.lisp>
+;; Time-stamp: <2013-01-03 10:14:04EST linear-least-squares.lisp>
 ;;
 ;; Copyright 2008, 2009, 2010, 2011, 2012, 2013 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -51,7 +51,7 @@
     (cov11 (:pointer :double)) (sumsq (:pointer :double))))
   :inputs (x weight y)
   :switch (weight weight-stride)
-  :documentation			; FDL
+  :documentation			; GSL texi partial
   "Compute the best-fit linear regression coefficients
    c0, c1 of the model Y = c_0 + c_1 X for the weighted or unweighted
    dataset (x, y), two vectors of equal length with strides
@@ -66,14 +66,15 @@
    unweighted sum of squares of the residuals from the best-fit line,
    \chi^2, is returned as the last value.
 
-   Returns: c0, c1, cov00, cov01, cov11, sumsq.")
+   Returns: c0, c1, cov00, cov01, cov11, sumsq.
+   Returns: intercept, slope, intercept variance, covariance, slope variance, sum square of residuals.")
 
 (defmfun linear-estimate (x c0 c1 cov00 cov01 cov11)
   "gsl_fit_linear_est"
   ((x :double) (c0 :double) (c1 :double)
    (cov00 :double) (cov01 :double) (cov11 :double)
    (y (:pointer :double)) (y-error (:pointer :double)))
-  :documentation			; FDL
+  :documentation			; GSL texi partial
   "Use the best-fit linear regression coefficients
    c0, c1 and their covariance
    cov00, cov01, cov11 to compute the fitted function
@@ -100,7 +101,7 @@
     (sumsq (:pointer :double))))
   :inputs (x y weight)
   :switch (weight weight-stride)
-  :documentation			; FDL
+  :documentation			; GSL texi
   "Compute the best-fit linear regression coefficient
    c1 of the model Y = c_1 X for the weighted or unweighted datasets
    (x, y), two vectors of equal length with strides
@@ -117,7 +118,7 @@
   "gsl_fit_mul_est"
   ((x :double) (c1 :double) (cov11 :double)
    (y (:pointer :double)) (y-error (:pointer :double)))
-  :documentation			; FDL
+  :documentation			; GSL texi
   "Use the best-fit linear regression coefficient
    c1 and its covariance cov11 to compute the fitted function
    y and its standard deviation y-error for the model
@@ -207,7 +208,7 @@
   :return (parameters covariance (cffi:mem-ref chisq :double))
   :export nil
   :index linear-mfit
-  :documentation			; FDL
+  :documentation			; GSL texi
   "Compute the best-fit parameters c of the weighted or unweighted
    model y = X c for the observations y and optional weights
    and the model matrix X.  The covariance matrix of
@@ -252,7 +253,7 @@
   :return ((cffi:mem-ref chisq :double) (cffi:mem-ref rank ':sizet))
   :export nil
   :index linear-mfit
-  :documentation			; FDL
+  :documentation			; GSL texi
   "Compute the best-fit parameters c of the weighted or unweighted
    model y = X c for the observations y and weights and the model
    matrix X.  The covariance matrix of the model parameters is
@@ -276,7 +277,7 @@
    ((mpointer covariance) :pointer)
    (y (:pointer :double)) (y-error (:pointer :double)))
   :inputs (x coefficients covariance)
-  :documentation			; FDL
+  :documentation			; GSL texi
   "Use the best-fit multilinear regression coefficients
    and their covariance matrix to compute the fitted function value
    y and its standard deviation for the model y = x.c
@@ -293,7 +294,7 @@
   :inputs (x observations coefficients)
   :outputs (residuals)
   :gsl-version (1 11)
-  :documentation			; FDL
+  :documentation			; GSL texi
   "Compute the vector of residuals r = y - X c for the observations y,
   coefficients c and matrix of predictor variables X.")
 
