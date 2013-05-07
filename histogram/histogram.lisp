@@ -1,8 +1,8 @@
 ;; The histogram structure
 ;; Liam Healy, Mon Jan  1 2007 - 11:32
-;; Time-stamp: <2012-01-13 12:01:28EST histogram.lisp>
+;; Time-stamp: <2013-05-03 15:46:46EDT histogram.lisp>
 ;;
-;; Copyright 2007, 2008, 2009, 2010, 2011 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,7 @@
     "gsl_histogram"
   ((number-of-bins :sizet))
   "one-dimensional histogram, including bin boundaries and bin contents"
+  ;; Need to be able to add to docstring: 'ranges argument is a range for each bin, array of length 1+ number of bins.
   :initialize-suffix "set_ranges"
   :initialize-args (((grid:foreign-pointer ranges) :pointer) ((dim0 ranges) :sizet)))
 
