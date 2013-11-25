@@ -1,8 +1,8 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2012-02-05 16:50:51EST gsll.asd>
+;; Time-stamp: <2013-11-24 19:18:07EST gsll.asd>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2013 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@
   :author "Liam M. Healy"
   :licence "GPL v3"
   :defsystem-depends-on (#:cffi-grovel #:asdf-system-connections)
-  :depends-on (#:antik
+  :depends-on (#:foreign-array
 	       #:cffi-grovel
 	       #:trivial-garbage
 	       #:alexandria
