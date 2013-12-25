@@ -1,8 +1,8 @@
 ;; BLAS level 3, Matrix-matrix operations
 ;; Liam Healy, Wed Apr 26 2006 - 21:08
-;; Time-stamp: <2011-10-23 20:37:22EDT blas3.lisp>
+;; Time-stamp: <2013-12-25 12:10:44EST blas3.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2013 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -34,8 +34,10 @@
      &aux
      (Carr
       (or C
-	  (grid:make-foreign-array element-type :dimensions (matrix-product-dimensions A B)
-		       :initial-element 0))))
+	  (grid:make-foreign-array
+	   element-type
+	   :dimensions (matrix-product-dimensions A B :transa TransA :transb TransB)
+	   :initial-element 0))))
   ("gsl_blas_" :type "gemm")
   ((TransA cblas-transpose) (TransB cblas-transpose)
    (alpha :element-c-type) ((mpointer A) :pointer)

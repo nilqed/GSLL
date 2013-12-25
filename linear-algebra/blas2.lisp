@@ -1,8 +1,8 @@
 ;; BLAS level 2, Matrix-vector operations
 ;; Liam Healy, Wed Apr 26 2006 - 21:08
-;; Time-stamp: <2011-10-23 20:36:31EDT blas2.lisp>
+;; Time-stamp: <2013-12-25 12:08:15EST blas2.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2013 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -26,11 +26,20 @@
 ;;;; Functions
 ;;;;****************************************************************************
 
-(defun matrix-product-dimensions (a b)
-  (if (typep b 'grid:matrix)
-      (list (first (grid:dimensions a))
-	    (second (grid:dimensions b)))
-      (first (grid:dimensions a))))
+(defun matrix-product-dimensions (a b &key (transa :notrans) (transb :notrans))
+  (let ((dima (funcall
+	       (ecase transa
+		 (:notrans #'first)
+		 (:trans #'second))
+	       (grid:dimensions a))))
+    (if (typep b 'grid:matrix)
+	(list dima
+	      (funcall
+	       (ecase transb
+		 (:notrans #'second)
+		 (:trans #'first))
+	       (grid:dimensions b)))
+	dima)))
 
 (defmfun matrix-product
     ((A grid:matrix) (x vector)
@@ -40,7 +49,7 @@
      &aux
      (yarr
       (grid:ensure-foreign-array
-       y (matrix-product-dimensions A x) element-type 0)))
+       y (matrix-product-dimensions A x :transa transa) element-type 0)))
   ("gsl_blas_" :type "gemv")
   ((transa cblas-transpose) (alpha :element-c-type) ((mpointer A) :pointer)
    ((mpointer x) :pointer) (beta :element-c-type) ((mpointer yarr) :pointer))
