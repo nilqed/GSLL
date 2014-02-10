@@ -1,6 +1,6 @@
 ;; Convert the GSL tests
 ;; Liam Healy 2010-05-22 13:03:53EDT convert.lisp
-;; Time-stamp: <2014-01-21 16:16:59EST convert.lisp>
+;; Time-stamp: <2014-02-09 17:18:12EST convert.lisp>
 
 ;; Copyright 2010, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -32,6 +32,34 @@
 
 (in-package :gsl)
 
+
+(defun replace-function-name (string)
+  "Replace the names of GSL functions with their GSLL equivalents."
+  (cl-ppcre:regex-replace
+   ;;"\\((\\w*)\\W*\\((.*\\))"
+    "(gsl_\\w*)\\W*\\((.*)\\)"
+   string
+   (lambda (match &rest registers)
+     (declare (ignore match))
+     (format
+      nil
+      "(~a ~a)"
+      (symbol-name (gsl-lookup (first registers)))
+      (second registers)))
+   :simple-calls t))
+
+(defun convert-gsl-form (string &optional map-args)
+  "Read the GSL form as a string and generate an equivalent CL form. The argument 'map-args is a list of numbers giving a permutation."
+  ;; Future: could be lambdas to map the functions.
+  (let ((sexp (read-from-string (substitute #\space #\, (replace-function-name string)))))
+    (if permute-args
+	(cons (first sexp) (mapcar (lambda (n) (nth n (rest sexp))) map-args))
+	sexp)))
+
+;;;;****************************************************************************
+;;; [2014-02-09 Sun 13:07] OLD
+
+
 ;;; (princ (convert-gsl-test "(gsl_cdf_tdist_P, (0.001, 1.0), 5.00318309780080559e-1, TEST_TOL6)"))
 ;;; (ASSERT-TO-TOLERANCE (TDIST-P 0.001d0 1.0d0) 5.00318309780080559d-1 +TEST-TOL6+)
 ;;; (princ (convert-gsl-test "(s,  gsl_sf_lngamma_e, (-0.1, &r), 2.368961332728788655 , TEST_TOL0, GSL_SUCCESS)" *sf-select*))
@@ -60,21 +88,6 @@
 	 for i from 0
 	 when d collect (nth i list))
       list))
-
-(defun replace-function-name (string)
-  "Replace the names of GSL functions with their GSLL equivalents."
-  (cl-ppcre:regex-replace
-   ;;"\\((\\w*)\\W*\\((.*\\))"
-    "(gsl_\\w*)\\W*\\((.*)\\)"
-   string
-   (lambda (match &rest registers)
-     (declare (ignore match))
-     (format
-      nil
-      "(~a ~a)"
-      (symbol-name (gsl-lookup (first registers)))
-      (second registers)))
-   :simple-calls t))
 
 (defparameter *float-parse-regex*
   ;; Based on advice given in

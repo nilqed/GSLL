@@ -1,6 +1,6 @@
 ;; GSL defined tests
 ;; Liam Healy 2014-01-21 10:42:48EST gsl-tests.lisp
-;; Time-stamp: <2014-01-21 16:14:55EST gsl-tests.lisp>
+;; Time-stamp: <2014-02-09 17:47:37EST gsl-tests.lisp>
 
 ;; Copyright 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -50,7 +50,8 @@
 		    status test-description result expected)))))
 
 
-;;    TEST(gsl_cdf_beta_P, (0.0000000000000000e+00,1.3,2.7), 0.000000000000e+00, TEST_TOL6);
+;;;    TEST(gsl_cdf_beta_P, (0.0000000000000000e+00,1.3,2.7), 0.000000000000e+00, TEST_TOL6);
+;;; (convert-gsl-form )
 
 ;; gsl-lookup("gsl_cdf_beta_P")
 
