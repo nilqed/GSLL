@@ -1,8 +1,8 @@
 ;; Updating and accessing histogram elements.
 ;; Liam Healy, Mon Jan  1 2007 - 14:43
-;; Time-stamp: <2012-01-13 12:01:27EST updating-accessing.lisp>
+;; Time-stamp: <2014-02-16 09:25:50EST updating-accessing.lisp>
 ;;
-;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2011, 2012, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@
   ("gsl_histogram_increment" "gsl_histogram_accumulate")
   ((((mpointer histogram) :pointer) (value :double))
    (((mpointer histogram) :pointer) (value :double) (weight :double)))
+  :definition :method
   :documentation
   "Update the histogram by adding the weight
    (which defaults to 1.0) to the
@@ -56,6 +57,15 @@
    If i lies outside the valid range of index for the
    histogram then an error (input-domain) is signalled.")
 
+(defmfun grid:aref ((histogram histogram2d) &rest indices)
+  "gsl_histogram2d_get"
+  (((mpointer histogram) :pointer) ((first indices) :sizet) ((second indices) :sizet))
+  :definition :method 
+  :c-return :double
+  :index grid:aref
+  :documentation
+  "Return the contents of the i-th, j-th bin of the 2D histogram. If either index lies outside the valid range of index for the histogram then an error (input-domain) is signalled.")
+
 (defmfun range (histogram i)
   "gsl_histogram_get_range"
   (((mpointer histogram) :pointer) (i :sizet)
@@ -71,12 +81,32 @@
    If i lies outside the valid range of indices for
    the histogram, then the error input-domain is signalled.")
 
-(defmfun max-range (histogram)
+(defgeneric max-range (histogram)
+  (:documentation "The maximum upper range limit(s) of the histogram.")
+  (:method ((histogram histogram2d))
+    (list
+     (funcall
+      (defmfun nil (histogram)
+	"gsl_histogram2d_xmax"
+	(((mpointer histogram) :pointer))
+	:c-return :double)
+      histogram)
+     (funcall
+      (defmfun nil (histogram)
+	"gsl_histogram2d_ymax"
+	(((mpointer histogram) :pointer))
+	:c-return :double)
+      histogram))))
+
+(map-name 'max-range "gsl_histogram2d_xmax")
+(map-name 'max-range "gsl_histogram2d_ymax")
+(export 'max-range)
+
+(defmfun max-range ((histogram histogram))
   "gsl_histogram_max"
   (((mpointer histogram) :pointer))
   :c-return :double
-  :documentation			; FDL
-  "The maximum upper range limit of the histogram.")
+  :definition :method)
 
 (defmfun min-range (histogram)
   "gsl_histogram_min"
@@ -96,6 +126,14 @@
 
 (defmfun set-zero ((histogram histogram))
   "gsl_histogram_reset"
+  (((mpointer histogram) :pointer))
+  :definition :method
+  :c-return :void
+  :documentation			; FDL
+  "Reset all the bins in the histogram to zero.")
+
+(defmfun set-zero ((histogram histogram2d))
+  "gsl_histogram2d_reset"
   (((mpointer histogram) :pointer))
   :definition :method
   :c-return :void
