@@ -1,8 +1,8 @@
 ;; Additional methods for lisp-unit
 ;; Liam Healy 2009-04-15 23:23:30EDT augment.lisp
-;; Time-stamp: <2011-01-10 18:19:07EST augment.lisp>
+;; Time-stamp: <2014-02-15 18:40:50EST augment.lisp>
 ;;
-;; Copyright 2009, 2011 Liam M. Healy
+;; Copyright 2009, 2011, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@
     (lisp-unit:numerical-equal (grid:copy-to result1) (grid:copy-to result2)
 			       :test test)))
 
-;;; See cdf/test.c
+;;; See cdf/test.c, specfunc/test_sf.h
 (defconstant +test-tol0+ (* 2 +dbl-epsilon+))
 (defconstant +test-tol1+ (* 16 +dbl-epsilon+))
 (defconstant +test-tol2+ (* 256 +dbl-epsilon+))
