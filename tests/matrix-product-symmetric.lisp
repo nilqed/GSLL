@@ -1,6 +1,6 @@
 ;; Regression test MATRIX-PRODUCT-SYMMETRIC for GSLL, automatically generated
 ;;
-;; Copyright 2009, 2011 Liam M. Healy
+;; Copyright 2009, 2011, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -43,7 +43,8 @@
 	     (S1 -41.67f0)
 	     (S2 42.0f0))
 	 (GRID:COPY-TO
-	  (MATRIX-PRODUCT-SYMMETRIC M1 M2 M3 S1 S2)))))
+	  (MATRIX-PRODUCT-SYMMETRIC M1 M2 M3 S1 S2)
+	   'array 'single-float))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     #2A((74519.41329d0 -16747.696062d0
@@ -71,7 +72,8 @@
 	     (S1 -41.67d0)
 	     (S2 42.0d0))
 	 (GRID:COPY-TO
-	  (MATRIX-PRODUCT-SYMMETRIC M1 M2 M3 S1 S2)))))
+	  (MATRIX-PRODUCT-SYMMETRIC M1 M2 M3 S1 S2)
+	  'array 'double-float))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(72971.1f0 24989.41f0 -82037.61f0))
    (MULTIPLE-VALUE-LIST
@@ -89,7 +91,8 @@
 	     (S1 -49.08f0)
 	     (S2 -39.66f0))
 	 (GRID:COPY-TO
-	  (MATRIX-PRODUCT-SYMMETRIC M1 V1 V3 S1 S2)))))
+	  (MATRIX-PRODUCT-SYMMETRIC M1 V1 V3 S1 S2)
+	  'array 'single-float))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     #(72971.10171599999d0 24989.409107999996d0
@@ -109,5 +112,6 @@
 	     (S1 -49.08d0)
 	     (S2 -39.66d0))
 	 (GRID:COPY-TO
-	  (MATRIX-PRODUCT-SYMMETRIC M1 V1 V3 S1 S2))))))
+	  (MATRIX-PRODUCT-SYMMETRIC M1 V1 V3 S1 S2)
+	  'array 'double-float)))))
 

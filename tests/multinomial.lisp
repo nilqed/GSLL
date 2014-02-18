@@ -1,6 +1,6 @@
 ;; Regression test MULTINOMIAL for GSLL, automatically generated
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@
 	       (p
 		(grid:make-foreign-array
 		 'double-float :initial-contents '(0.1d0 0.2d0 0.3d0 0.4d0))))
-	   (grid:copy-to (sample rng :multinomial :sum 8 :probabilities p)))))
+	   (grid:copy-to (sample rng :multinomial :sum 8 :probabilities p) 'array 'fixnum))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST 8.064000000000026d-5)
    (MULTIPLE-VALUE-LIST

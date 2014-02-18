@@ -1,6 +1,6 @@
 ;; Regression test RANK-1-UPDATE for GSLL, automatically generated
 ;;
-;; Copyright 2009, 2011 Liam M. Healy
+;; Copyright 2009, 2011, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,7 @@
 	  (V2
 	   (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS '(-16.12f0 -8.25f0 21.44f0)))
 	  (S1 -49.08f0))
-      (GRID:COPY-TO (RANK-1-UPDATE S1 V1 V2 M1)))))
+      (GRID:COPY-TO (RANK-1-UPDATE S1 V1 V2 M1) 'array 'single-float))))
   (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
    (LIST
     #2A((33772.17700799999d0 17310.044299999998d0 -44960.429295999995d0)
@@ -56,7 +56,7 @@
 	  (V2
 	   (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS '(-16.12d0 -8.25d0 21.44d0)))
 	  (S1 -49.08d0))
-      (GRID:COPY-TO (RANK-1-UPDATE S1 V1 V2 M1)))))
+      (GRID:COPY-TO (RANK-1-UPDATE S1 V1 V2 M1) 'array 'double-float))))
   (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
    (LIST
     #2A((#C(37793.65f0 36629.23f0) #C(-101265.76f0 118286.42f0)
@@ -84,7 +84,7 @@
 	    :INITIAL-CONTENTS
 	    '(#C(-16.12f0 -8.25f0) #C(21.44f0 -49.08f0) #C(-39.66f0 -49.46f0))))
 	  (S1 #C(-49.08f0 -39.66f0)))
-      (GRID:COPY-TO (RANK-1-UPDATE S1 V1 V2 M1)))))
+      (GRID:COPY-TO (RANK-1-UPDATE S1 V1 V2 M1) 'array '(complex single-float)))))
   (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
    (LIST
     #2A((#C(37793.646065999994d0 36629.23161199999d0)
@@ -118,5 +118,5 @@
 	      #C(21.44d0 -49.08d0)
 	      #C(-39.66d0 -49.46d0))))
 	  (S1 #C(-49.08d0 -39.66d0)))
-      (GRID:COPY-TO (RANK-1-UPDATE S1 V1 V2 M1))))))
+      (GRID:COPY-TO (RANK-1-UPDATE S1 V1 V2 M1) 'array '(complex double-float))))))
 

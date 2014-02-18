@@ -1,6 +1,6 @@
 ;; Regression test SORT-MATRIX-LARGEST for GSLL, automatically generated
 ;;
-;; Copyright 2009, 2011 Liam M. Healy
+;; Copyright 2009, 2011, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@
 		   (49.27f0 -13.49f0 32.5f0))))
 	       (M2
 		(GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :DIMENSIONS '(2 3))))
-	   (GRID:COPY-TO (SORT-LARGEST M2 M1)))))
+	   (GRID:COPY-TO (SORT-LARGEST M2 M1) 'array 'single-float))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     #2A((49.27d0 34.12d0 32.5d0) (8.24d0 3.29d0 -6.15d0)))
@@ -43,7 +43,7 @@
 					 (49.27d0 -13.49d0 32.5d0))))
 	     (M2
 	      (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS '(2 3))))
-	 (GRID:COPY-TO (SORT-LARGEST M2 M1)))))
+	 (GRID:COPY-TO (SORT-LARGEST M2 M1) 'array 'double-float))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #2A((123 73 71) (52 -5 -10)))
    (MULTIPLE-VALUE-LIST
@@ -54,7 +54,7 @@
 	     (M2
 	      (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 8) :DIMENSIONS
 				       '(2 3))))
-	 (GRID:COPY-TO (SORT-LARGEST M2 M1)))))
+	 (GRID:COPY-TO (SORT-LARGEST M2 M1) 'array '(signed-byte 8)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #2A((215 189 163) (161 140 116)))
    (MULTIPLE-VALUE-LIST
@@ -66,7 +66,7 @@
 	     (M2
 	      (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 8) :DIMENSIONS
 				       '(2 3))))
-	 (GRID:COPY-TO (SORT-LARGEST M2 M1)))))
+	 (GRID:COPY-TO (SORT-LARGEST M2 M1) 'array '(unsigned-byte 8)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #2A((123 73 71) (52 -5 -10)))
    (MULTIPLE-VALUE-LIST
@@ -78,7 +78,7 @@
 	     (M2
 	      (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 16) :DIMENSIONS
 				       '(2 3))))
-	 (GRID:COPY-TO (SORT-LARGEST M2 M1)))))
+	 (GRID:COPY-TO (SORT-LARGEST M2 M1) 'array '(signed-byte 16)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #2A((215 189 163) (161 140 116)))
    (MULTIPLE-VALUE-LIST
@@ -90,7 +90,7 @@
 	     (M2
 	      (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 16) :DIMENSIONS
 				       '(2 3))))
-	 (GRID:COPY-TO (SORT-LARGEST M2 M1)))))
+	 (GRID:COPY-TO (SORT-LARGEST M2 M1) 'array '(unsigned-byte 16)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #2A((123 73 71) (52 -5 -10)))
    (MULTIPLE-VALUE-LIST
@@ -102,7 +102,7 @@
 	     (M2
 	      (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 32) :DIMENSIONS
 				       '(2 3))))
-	 (GRID:COPY-TO (SORT-LARGEST M2 M1)))))
+	 (GRID:COPY-TO (SORT-LARGEST M2 M1) 'array '(signed-byte 32)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #2A((215 189 163) (161 140 116)))
    (MULTIPLE-VALUE-LIST
@@ -114,7 +114,7 @@
 	     (M2
 	      (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 32) :DIMENSIONS
 				       '(2 3))))
-	 (GRID:COPY-TO (SORT-LARGEST M2 M1)))))
+	 (GRID:COPY-TO (SORT-LARGEST M2 M1) 'array '(unsigned-byte 32)))))
   #+int64
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #2A((123 73 71) (52 -5 -10)))
@@ -127,7 +127,7 @@
 	     (M2
 	      (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 64) :DIMENSIONS
 				       '(2 3))))
-	 (GRID:COPY-TO (SORT-LARGEST M2 M1)))))
+	 (GRID:COPY-TO (SORT-LARGEST M2 M1) 'array '(signed-byte 64)))))
   #+int64
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #2A((215 189 163) (161 140 116)))
@@ -140,5 +140,5 @@
 	     (M2
 	      (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 64) :DIMENSIONS
 				       '(2 3))))
-	 (GRID:COPY-TO (SORT-LARGEST M2 M1))))))
+	 (GRID:COPY-TO (SORT-LARGEST M2 M1) 'array '(unsigned-byte 64))))))
 

@@ -1,6 +1,6 @@
 ;; Regression test MATRIX-PRODUCT-NONSQUARE for GSLL, automatically generated
 ;;
-;; Copyright 2009, 2010, 2011 Liam M. Healy
+;; Copyright 2009, 2010, 2011, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,7 @@
 	    'SINGLE-FLOAT :INITIAL-CONTENTS
 	    '((49.27f0 -13.49f0) (32.5f0 42.73f0)
 	      (-17.24f0 43.31f0)))))
-      (GRID:COPY-TO (MATRIX-PRODUCT M1 M2)))))
+      (GRID:COPY-TO (MATRIX-PRODUCT M1 M2) 'array 'single-float))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     #2A((-1488.7346d0 959.9901d0)
@@ -49,7 +49,7 @@
 	    '((49.27d0 -13.49d0)
 	      (32.5d0 42.73d0)
 	      (-17.24d0 43.31d0)))))
-      (GRID:COPY-TO (MATRIX-PRODUCT M1 M2)))))
+      (GRID:COPY-TO (MATRIX-PRODUCT M1 M2) 'array 'double-float))))
   #+fsbv
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -71,7 +71,7 @@
 	    '((#C(49.27f0 -13.49f0) #C(32.5f0 42.73f0))
 	      (#C(32.5f0 42.73f0) #C(-17.24f0 43.31f0))
 	      (#C(-17.24f0 43.31f0) #C(-16.12f0 -8.25f0))))))
-      (GRID:COPY-TO (MATRIX-PRODUCT M1 M2)))))
+      (GRID:COPY-TO (MATRIX-PRODUCT M1 M2) 'array '(complex single-float)))))
   #+fsbv
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -93,5 +93,5 @@
 	    '((#C(49.27d0 -13.49d0) #C(32.5d0 42.73d0))
 	      (#C(32.5d0 42.73d0) #C(-17.24d0 43.31d0))
 	      (#C(-17.24d0 43.31d0) #C(-16.12d0 -8.25d0))))))
-      (GRID:COPY-TO (MATRIX-PRODUCT M1 M2))))))
+      (GRID:COPY-TO (MATRIX-PRODUCT M1 M2) 'array '(complex double-float))))))
 

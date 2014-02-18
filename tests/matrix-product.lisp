@@ -1,6 +1,6 @@
 ;; Regression test MATRIX-PRODUCT for GSLL, automatically generated
 ;;
-;; Copyright 2009, 2010, 2011 Liam M. Healy
+;; Copyright 2009, 2010, 2011, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -45,7 +45,7 @@
 		 (29.36f0 -33.24f0 -27.03f0))))
 	     (S1 -41.67f0)
 	     (S2 42.0f0))
-	 (GRID:COPY-TO (MATRIX-PRODUCT M1 M2 M3 S1 S2)))))
+	 (GRID:COPY-TO (MATRIX-PRODUCT M1 M2 M3 S1 S2) 'array 'single-float))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     #2A((74519.41329d0 -16747.696061999995d0 61311.694176d0)
@@ -72,7 +72,7 @@
 		 (29.36d0 -33.24d0 -27.03d0))))
 	     (S1 -41.67d0)
 	     (S2 42.0d0))
-	 (GRID:COPY-TO (MATRIX-PRODUCT M1 M2 M3 S1 S2)))))
+	 (GRID:COPY-TO (MATRIX-PRODUCT M1 M2 M3 S1 S2) 'array 'double-float))))
   #+fsbv
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -106,7 +106,7 @@
 		 (#C(29.36f0 -33.24f0) #C(-27.03f0 -41.67f0) #C(42.0f0 -20.81f0)))))
 	     (S1 #C(-41.67f0 42.0f0))
 	     (S2 #C(42.0f0 -20.81f0)))
-	 (GRID:COPY-TO (MATRIX-PRODUCT M1 M2 M3 S1 S2)))))
+	 (GRID:COPY-TO (MATRIX-PRODUCT M1 M2 M3 S1 S2) 'array '(complex single-float)))))
   #+fsbv
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -143,7 +143,7 @@
 		 (#C(29.36d0 -33.24d0) #C(-27.03d0 -41.67d0) #C(42.0d0 -20.81d0)))))
 	     (S1 #C(-41.67d0 42.0d0))
 	     (S2 #C(42.0d0 -20.81d0)))
-	 (GRID:COPY-TO (MATRIX-PRODUCT M1 M2 M3 S1 S2)))))
+	 (GRID:COPY-TO (MATRIX-PRODUCT M1 M2 M3 S1 S2) 'array '(complex double-float)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(72971.1f0 60998.137f0 -184676.98f0))
    (MULTIPLE-VALUE-LIST
@@ -163,7 +163,7 @@
 	       '(-16.12f0 -8.25f0 21.44f0)))
 	     (S1 -49.08f0)
 	     (S2 -39.66f0))
-	 (GRID:COPY-TO (MATRIX-PRODUCT M1 V1 V2 S1 S2)))))
+	 (GRID:COPY-TO (MATRIX-PRODUCT M1 V1 V2 S1 S2) 'array 'single-float))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     #(72971.10171599999d0 60998.13393599999d0
@@ -185,7 +185,7 @@
 	       '(-16.12d0 -8.25d0 21.44d0)))
 	     (S1 -49.08d0)
 	     (S2 -39.66d0))
-	 (GRID:COPY-TO (MATRIX-PRODUCT M1 V1 V2 S1 S2)))))
+	 (GRID:COPY-TO (MATRIX-PRODUCT M1 V1 V2 S1 S2) 'array 'double-float))))
   #+fsbv
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -211,7 +211,7 @@
 	       '(#C(-16.12f0 -8.25f0) #C(21.44f0 -49.08f0) #C(-39.66f0 -49.46f0))))
 	     (S1 #C(-49.08f0 -39.66f0))
 	     (S2 #C(-39.66f0 -49.46f0)))
-	 (GRID:COPY-TO (MATRIX-PRODUCT M1 V1 V2 S1 S2)))))
+	 (GRID:COPY-TO (MATRIX-PRODUCT M1 V1 V2 S1 S2) 'array '(complex single-float)))))
   #+fsbv
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -238,4 +238,4 @@
 	       '(#C(-16.12d0 -8.25d0) #C(21.44d0 -49.08d0) #C(-39.66d0 -49.46d0))))
 	     (S1 #C(-49.08d0 -39.66d0))
 	     (S2 #C(-39.66d0 -49.46d0)))
-	 (GRID:COPY-TO (MATRIX-PRODUCT M1 V1 V2 S1 S2))))))
+	 (GRID:COPY-TO (MATRIX-PRODUCT M1 V1 V2 S1 S2) 'array '(complex double-float))))))

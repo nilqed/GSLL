@@ -1,6 +1,6 @@
 ;; Regression test VECTOR-SUB for GSLL, automatically generated
 ;;
-;; Copyright 2009, 2011 Liam M. Healy
+;; Copyright 2009, 2011, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@
 	       (V2
 		(GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :INITIAL-CONTENTS
 					 '(-8.93f0 34.12f0 -6.15f0))))
-	   (GRID:COPY-TO (ELT- V1 V2)))))
+	   (GRID:COPY-TO (ELT- V1 V2) 'array 'single-float))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     #(-25.57d0 -25.879999999999995d0 9.440000000000001d0))
@@ -39,7 +39,7 @@
 	     (V2
 	      (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
 				       '(-8.93d0 34.12d0 -6.15d0))))
-	 (GRID:COPY-TO (ELT- V1 V2)))))
+	 (GRID:COPY-TO (ELT- V1 V2) 'array 'double-float))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(27 -120 81))
 				     (MULTIPLE-VALUE-LIST
 					 (LET ((V1
@@ -57,7 +57,7 @@
 						 '(-91 52
 						   -10))))
 					   (GRID:COPY-TO
-					    (ELT- V1 V2)))))
+					    (ELT- V1 V2) 'array '(signed-byte 8)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(207 137 49))
 				     (MULTIPLE-VALUE-LIST
 					 (LET ((V1
@@ -75,7 +75,7 @@
 						 '(116 163
 						   140))))
 					   (GRID:COPY-TO
-					    (ELT- V1 V2)))))
+					    (ELT- V1 V2) 'array '(unsigned-byte 8)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(27 -120 81))
 				     (MULTIPLE-VALUE-LIST
 					 (LET ((V1
@@ -93,7 +93,7 @@
 						 '(-91 52
 						   -10))))
 					   (GRID:COPY-TO
-					    (ELT- V1 V2)))))
+					    (ELT- V1 V2) 'array '(signed-byte 16)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(65487 65417 49))
    (MULTIPLE-VALUE-LIST
@@ -103,7 +103,7 @@
 	     (V2
 	      (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 16)
 				       :INITIAL-CONTENTS '(116 163 140))))
-	 (GRID:COPY-TO (ELT- V1 V2)))))
+	 (GRID:COPY-TO (ELT- V1 V2) 'array '(unsigned-byte 16)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(27 -120 81))
 				     (MULTIPLE-VALUE-LIST
 					 (LET ((V1
@@ -121,7 +121,7 @@
 						 '(-91 52
 						   -10))))
 					   (GRID:COPY-TO
-					    (ELT- V1 V2)))))
+					    (ELT- V1 V2) 'array '(signed-byte 32)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(4294967247 4294967177 49))
    (MULTIPLE-VALUE-LIST
@@ -131,7 +131,7 @@
 	     (V2
 	      (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 32)
 				       :INITIAL-CONTENTS '(116 163 140))))
-	 (GRID:COPY-TO (ELT- V1 V2)))))
+	 (GRID:COPY-TO (ELT- V1 V2) 'array '(unsigned-byte 32)))))
   #+int64
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(27 -120 81))
 				     (MULTIPLE-VALUE-LIST
@@ -150,7 +150,7 @@
 						 '(-91 52
 						   -10))))
 					   (GRID:COPY-TO
-					    (ELT- V1 V2)))))
+					    (ELT- V1 V2) 'array '(signed-byte 64)))))
   #+int64
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(18446744073709551567 18446744073709551497 49))
@@ -161,5 +161,5 @@
 	     (V2
 	      (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 64)
 				       :INITIAL-CONTENTS '(116 163 140))))
-	 (GRID:COPY-TO (ELT- V1 V2))))))
+	 (GRID:COPY-TO (ELT- V1 V2) 'array '(unsigned-byte 64))))))
 

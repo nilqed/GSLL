@@ -1,6 +1,6 @@
 ;; Regression test SORT-VECTOR-INDEX for GSLL, automatically generated
 ;;
-;; Copyright 2009, 2011 Liam M. Healy
+;; Copyright 2009, 2011, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -28,7 +28,7 @@
 		 'SINGLE-FLOAT
 		 :INITIAL-CONTENTS '(-34.5f0 8.24f0 3.29f0 -8.93f0 34.12f0 -6.15f0 49.27f0 -13.49f0))))
 	   (SORT-VECTOR-INDEX PERM V1)
-	   (GRID:COPY-TO PERM))))
+	   (GRID:COPY-TO PERM 'array 'fixnum))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(0 7 3 5 2 1 4 6))
    (MULTIPLE-VALUE-LIST
@@ -39,7 +39,7 @@
 	       :INITIAL-CONTENTS
 	       '(-34.5d0 8.24d0 3.29d0 -8.93d0 34.12d0 -6.15d0 49.27d0 -13.49d0))))
 	 (SORT-VECTOR-INDEX PERM V1)
-	 (GRID:COPY-TO PERM))))
+	 (GRID:COPY-TO PERM 'array 'fixnum))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(3 1 0 5 7 4 2 6))
    (MULTIPLE-VALUE-LIST
@@ -48,7 +48,7 @@
 	      (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 8) :INITIAL-CONTENTS
 				       '(-64 -68 71 -91 52 -10 73 -5))))
 	 (SORT-VECTOR-INDEX PERM V1)
-	 (GRID:COPY-TO PERM))))
+	 (GRID:COPY-TO PERM 'array 'fixnum))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(1 0 3 5 6 4 2 7))
    (MULTIPLE-VALUE-LIST
@@ -58,7 +58,7 @@
 				       :INITIAL-CONTENTS
 				       '(67 44 189 116 163 140 161 215))))
 	 (SORT-VECTOR-INDEX PERM V1)
-	 (GRID:COPY-TO PERM))))
+	 (GRID:COPY-TO PERM 'array 'fixnum))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(3 1 0 5 7 4 2 6))
    (MULTIPLE-VALUE-LIST
@@ -68,7 +68,7 @@
 				       :INITIAL-CONTENTS
 				       '(-64 -68 71 -91 52 -10 73 -5))))
 	 (SORT-VECTOR-INDEX PERM V1)
-	 (GRID:COPY-TO PERM))))
+	 (GRID:COPY-TO PERM 'array 'fixnum))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(1 0 3 5 6 4 2 7))
    (MULTIPLE-VALUE-LIST
@@ -78,7 +78,7 @@
 				       :INITIAL-CONTENTS
 				       '(67 44 189 116 163 140 161 215))))
 	 (SORT-VECTOR-INDEX PERM V1)
-	 (GRID:COPY-TO PERM))))
+	 (GRID:COPY-TO PERM 'array 'fixnum))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(3 1 0 5 7 4 2 6))
    (MULTIPLE-VALUE-LIST
@@ -88,7 +88,7 @@
 				       :INITIAL-CONTENTS
 				       '(-64 -68 71 -91 52 -10 73 -5))))
 	 (SORT-VECTOR-INDEX PERM V1)
-	 (GRID:COPY-TO PERM))))
+	 (GRID:COPY-TO PERM 'array 'fixnum))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(1 0 3 5 6 4 2 7))
    (MULTIPLE-VALUE-LIST
@@ -98,7 +98,7 @@
 				       :INITIAL-CONTENTS
 				       '(67 44 189 116 163 140 161 215))))
 	 (SORT-VECTOR-INDEX PERM V1)
-	 (GRID:COPY-TO PERM))))
+	 (GRID:COPY-TO PERM 'array 'fixnum))))
   #+int64
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(3 1 0 5 7 4 2 6))
@@ -109,7 +109,7 @@
 				       :INITIAL-CONTENTS
 				       '(-64 -68 71 -91 52 -10 73 -5))))
 	 (SORT-VECTOR-INDEX PERM V1)
-	 (GRID:COPY-TO PERM))))
+	 (GRID:COPY-TO PERM 'array 'fixnum))))
   #+int64
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(1 0 3 5 6 4 2 7))
@@ -120,5 +120,4 @@
 				       :INITIAL-CONTENTS
 				       '(67 44 189 116 163 140 161 215))))
 	 (SORT-VECTOR-INDEX PERM V1)
-	 (GRID:COPY-TO PERM)))))
-
+	 (GRID:COPY-TO PERM 'array 'fixnum)))))

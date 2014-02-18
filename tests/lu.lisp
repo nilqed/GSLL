@@ -1,7 +1,7 @@
 ;; Regression test LU for GSLL, automatically generated
 ;; with some manual changes to the results
 ;;
-;; Copyright 2009, 2011 Liam M. Healy
+;; Copyright 2009, 2011, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -69,7 +69,7 @@
 	 #C(-7.88941207561151d+04 1.95053812987858d+04)
 	 #C(3.95548551241728d+04 -7.76593696255317d+03))))
      (MULTIPLE-VALUE-LIST
-      (TEST-LU-SOLVE-DIM (CREATE-COMPLEX-MATRIX 7)))))
+      (TEST-LU-SOLVE-DIM (CREATE-COMPLEX-MATRIX 7))))
   (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
    (LIST
     #(-39.65999999999999d0 -49.46000000000001d0
@@ -97,7 +97,8 @@
 			      MATRIX X 1 :UPPER :NOTRANS
 			      :NONUNIT)
 			     1 :LOWER :NOTRANS
-			     :UNIT))))))))
+			     :UNIT))
+	   'array 'double-float))))))
   (LISP-UNIT:ASSERT-NUMERICAL-EQUAL
    (LIST
     #(#C(-39.65999999999999d0 -49.46000000000001d0)
@@ -129,4 +130,5 @@
 	    (MATRIX-PRODUCT-TRIANGULAR
 	     MATRIX
 	     (MATRIX-PRODUCT-TRIANGULAR MATRIX X 1 :UPPER :NOTRANS :NONUNIT)
-	     1 :LOWER :NOTRANS :UNIT)))))))))
+	     1 :LOWER :NOTRANS :UNIT))
+	    'array '(complex double-float))))))))

@@ -1,6 +1,6 @@
 ;; Regression test SORT-VECTOR-SMALLEST for GSLL, automatically generated
 ;;
-;; Copyright 2009, 2011 Liam M. Healy
+;; Copyright 2009, 2011, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@
 		(GRID:MAKE-FOREIGN-ARRAY
 		 'SINGLE-FLOAT
 		 :INITIAL-CONTENTS '(32.5f0 42.73f0 -17.24f0))))
-	   (GRID:COPY-TO (SORT-VECTOR-SMALLEST V2 V1)))))
+	   (GRID:COPY-TO (SORT-VECTOR-SMALLEST V2 V1) 'array 'single-float))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(-34.5d0 -13.49d0 -8.93d0))
    (MULTIPLE-VALUE-LIST
@@ -43,7 +43,7 @@
 	     (V2
 	      (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :INITIAL-CONTENTS
 				       '(32.5d0 42.73d0 -17.24d0))))
-	 (GRID:COPY-TO (SORT-VECTOR-SMALLEST V2 V1)))))
+	 (GRID:COPY-TO (SORT-VECTOR-SMALLEST V2 V1) 'array 'double-float))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(-91 -68 -64))
 				     (MULTIPLE-VALUE-LIST
 					 (LET ((V1
@@ -63,7 +63,8 @@
 						   28))))
 					   (GRID:COPY-TO
 					    (SORT-VECTOR-SMALLEST
-					     V2 V1)))))
+					     V2 V1)
+					     'array '(SIGNED-BYTE 8)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(44 67 116))
 				     (MULTIPLE-VALUE-LIST
 					 (LET ((V1
@@ -84,7 +85,8 @@
 						   10))))
 					   (GRID:COPY-TO
 					    (SORT-VECTOR-SMALLEST
-					     V2 V1)))))
+					     V2 V1)
+					     'array '(unSIGNED-BYTE 8)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(-91 -68 -64))
 				     (MULTIPLE-VALUE-LIST
 					 (LET ((V1
@@ -104,7 +106,8 @@
 						   28))))
 					   (GRID:COPY-TO
 					    (SORT-VECTOR-SMALLEST
-					     V2 V1)))))
+					     V2 V1)
+					     'array '(SIGNED-BYTE 16)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(44 67 116))
 				     (MULTIPLE-VALUE-LIST
 					 (LET ((V1
@@ -125,7 +128,8 @@
 						   10))))
 					   (GRID:COPY-TO
 					    (SORT-VECTOR-SMALLEST
-					     V2 V1)))))
+					     V2 V1)
+					     'array '(unSIGNED-BYTE 16)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(-91 -68 -64))
 				     (MULTIPLE-VALUE-LIST
 					 (LET ((V1
@@ -145,7 +149,8 @@
 						   28))))
 					   (GRID:COPY-TO
 					    (SORT-VECTOR-SMALLEST
-					     V2 V1)))))
+					     V2 V1)
+					     'array '(SIGNED-BYTE 32)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(44 67 116))
 				     (MULTIPLE-VALUE-LIST
 					 (LET ((V1
@@ -166,7 +171,8 @@
 						   10))))
 					   (GRID:COPY-TO
 					    (SORT-VECTOR-SMALLEST
-					     V2 V1)))))
+					     V2 V1)
+					     'array '(unSIGNED-BYTE 32)))))
   #+int64
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(-91 -68 -64))
 				     (MULTIPLE-VALUE-LIST
@@ -187,7 +193,8 @@
 						   28))))
 					   (GRID:COPY-TO
 					    (SORT-VECTOR-SMALLEST
-					     V2 V1)))))
+					     V2 V1)
+					     'array '(SIGNED-BYTE 64)))))
   #+int64
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(44 67 116))
 				     (MULTIPLE-VALUE-LIST
@@ -209,5 +216,6 @@
 						   10))))
 					   (GRID:COPY-TO
 					    (SORT-VECTOR-SMALLEST
-					     V2 V1))))))
+					     V2 V1)
+					     'array '(unSIGNED-BYTE 64))))))
 

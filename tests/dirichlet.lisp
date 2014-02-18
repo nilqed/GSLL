@@ -1,6 +1,6 @@
 ;; Regression test DIRICHLET for GSLL, automatically generated
 ;;
-;; Copyright 2009 Liam M. Healy
+;; Copyright 2009, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@
 		(GRID:MAKE-FOREIGN-ARRAY
 		 'DOUBLE-FLOAT :INITIAL-CONTENTS
 		 '(1.0d0 2.0d0 3.0d0 4.0d0))))
-	   (grid:copy-to (sample rng :dirichlet :alpha alpha)))))
+	   (grid:copy-to (sample rng :dirichlet :alpha alpha) 'array 'double-float))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (list 3.483648000000004d7)
    (MULTIPLE-VALUE-LIST

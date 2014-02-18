@@ -1,6 +1,6 @@
 ;; Regression test MATRIX-PRODUCT-HERMITIAN for GSLL, automatically generated
 ;;
-;; Copyright 2009, 2010 Liam M. Healy
+;; Copyright 2009, 2010, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -53,7 +53,7 @@
 	  (S1 #C(-41.67f0 42.0f0))
 	  (S2 #C(42.0f0 -20.81f0)))
       (GRID:COPY-TO
-       (MATRIX-PRODUCT-HERMITIAN M1 M2 M3 S1 S2)))))
+       (MATRIX-PRODUCT-HERMITIAN M1 M2 M3 S1 S2) 'array '(complex single-float)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     #2A((#C(161635.17690299999d0 -134299.761873d0)
@@ -90,7 +90,7 @@
 	  (S1 #C(-41.67d0 42.0d0))
 	  (S2 #C(42.0d0 -20.81d0)))
       (GRID:COPY-TO
-       (MATRIX-PRODUCT-HERMITIAN M1 M2 M3 S1 S2)))))
+       (MATRIX-PRODUCT-HERMITIAN M1 M2 M3 S1 S2) 'array '(complex double-float)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     #(#C(117171.67f0 19582.54f0) #C(18787.117f0 29534.742f0)
@@ -116,7 +116,7 @@
 	  (S1 #C(-49.08f0 -39.66f0))
 	  (S2 #C(-39.66f0 -49.46f0)))
       (GRID:COPY-TO
-       (MATRIX-PRODUCT-HERMITIAN M1 V1 V2 S1 S2)))))
+       (MATRIX-PRODUCT-HERMITIAN M1 V1 V2 S1 S2) 'array '(complex single-float)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     #(#C(117171.67150799997d0 19582.539385999997d0)
@@ -143,5 +143,5 @@
 	  (S1 #C(-49.08d0 -39.66d0))
 	  (S2 #C(-39.66d0 -49.46d0)))
       (GRID:COPY-TO
-       (MATRIX-PRODUCT-HERMITIAN M1 V1 V2 S1 S2))))))
+       (MATRIX-PRODUCT-HERMITIAN M1 V1 V2 S1 S2) 'array '(complex double-float))))))
 

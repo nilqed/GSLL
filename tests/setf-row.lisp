@@ -37,7 +37,7 @@
 	    'SINGLE-FLOAT
 	    :INITIAL-CONTENTS '(42.73f0 -17.24f0 43.31f0))))
       (SETF (ROW M1 2) ROW)
-      (GRID:COPY-TO M1))))
+      (GRID:COPY-TO M1 'array 'single-float))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     #2A((-34.5d0 8.24d0 3.29d0)
@@ -56,7 +56,7 @@
 	    'DOUBLE-FLOAT
 	    :INITIAL-CONTENTS '(42.73d0 -17.24d0 43.31d0))))
       (SETF (ROW M1 2) ROW)
-      (GRID:COPY-TO M1))))
+      (GRID:COPY-TO M1 'array 'double-float))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     #2A((#C(-34.5f0 8.24f0) #C(3.29f0 -8.93f0) #C(34.12f0 -6.15f0))
@@ -75,7 +75,7 @@
 	    '(COMPLEX SINGLE-FLOAT)
 	    :INITIAL-CONTENTS '(#C(42.73f0 -17.24f0) #C(43.31f0 -16.12f0) #C(-8.25f0 21.44f0)))))
       (SETF (ROW M1 2) ROW)
-      (GRID:COPY-TO M1))))
+      (GRID:COPY-TO M1 'array '(complex single-float)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     #2A((#C(-34.5d0 8.24d0) #C(3.29d0 -8.93d0) #C(34.12d0 -6.15d0))
@@ -95,7 +95,7 @@
 	    :INITIAL-CONTENTS
 	    '(#C(42.73d0 -17.24d0) #C(43.31d0 -16.12d0) #C(-8.25d0 21.44d0)))))
       (SETF (ROW M1 2) ROW)
-      (GRID:COPY-TO M1))))
+      (GRID:COPY-TO M1 'array '(complex double-float)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #2A((-64 -68 71) (-91 52 -10) (32 28 30)))
    (MULTIPLE-VALUE-LIST
@@ -109,7 +109,7 @@
 	    '(SIGNED-BYTE 8)
 	    :INITIAL-CONTENTS '(32 28 30))))
       (SETF (ROW M1 2) ROW)
-      (GRID:COPY-TO M1))))
+      (GRID:COPY-TO M1 'array '(signed-byte 8)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #2A((67 44 189) (116 163 140) (28 10 19)))
    (MULTIPLE-VALUE-LIST
@@ -123,7 +123,7 @@
 	    '(UNSIGNED-BYTE 8)
 	    :INITIAL-CONTENTS '(28 10 19))))
       (SETF (ROW M1 2) ROW)
-      (GRID:COPY-TO M1))))
+      (GRID:COPY-TO M1 'array '(unsigned-byte 8)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #2A((-64 -68 71) (-91 52 -10) (32 28 30)))
    (MULTIPLE-VALUE-LIST
@@ -137,7 +137,7 @@
 	    '(SIGNED-BYTE 16)
 	    :INITIAL-CONTENTS '(32 28 30))))
       (SETF (ROW M1 2) ROW)
-      (GRID:COPY-TO M1))))
+      (GRID:COPY-TO M1 'array '(signed-byte 16)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #2A((67 44 189) (116 163 140) (28 10 19)))
    (MULTIPLE-VALUE-LIST
@@ -150,7 +150,7 @@
 	    '(UNSIGNED-BYTE 16)
 	    :INITIAL-CONTENTS '(28 10 19))))
       (SETF (ROW M1 2) ROW)
-      (GRID:COPY-TO M1))))
+      (GRID:COPY-TO M1 'array '(unsigned-byte 16)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #2A((-64 -68 71) (-91 52 -10) (32 28 30)))
    (MULTIPLE-VALUE-LIST
@@ -162,7 +162,7 @@
 	  (ROW
 	   (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 32) :INITIAL-CONTENTS '(32 28 30))))
       (SETF (ROW M1 2) ROW)
-      (GRID:COPY-TO M1))))
+      (GRID:COPY-TO M1 'array '(signed-byte 32)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #2A((67 44 189) (116 163 140) (28 10 19)))
    (MULTIPLE-VALUE-LIST
@@ -176,7 +176,7 @@
 	    '(UNSIGNED-BYTE 32)
 	    :INITIAL-CONTENTS '(28 10 19))))
       (SETF (ROW M1 2) ROW)
-      (GRID:COPY-TO M1))))
+      (GRID:COPY-TO M1 'array '(unsigned-byte 32)))))
   #+int64
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #2A((-64 -68 71) (-91 52 -10) (32 28 30)))
@@ -191,7 +191,7 @@
 	    '(SIGNED-BYTE 64)
 	    :INITIAL-CONTENTS '(32 28 30))))
       (SETF (ROW M1 2) ROW)
-      (GRID:COPY-TO M1))))
+      (GRID:COPY-TO M1 'array '(signed-byte 64)))))
   #+int64
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #2A((67 44 189) (116 163 140) (28 10 19)))
@@ -205,5 +205,5 @@
 	   (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 64)
 				    :INITIAL-CONTENTS '(28 10 19))))
       (SETF (ROW M1 2) ROW)
-      (GRID:COPY-TO M1)))))
+      (GRID:COPY-TO M1 'array '(unsigned-byte 64))))))
 

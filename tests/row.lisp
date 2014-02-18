@@ -1,6 +1,6 @@
 ;; Regression test ROW for GSLL, automatically generated
 ;;
-;; Copyright 2009, 2010, 2011 Liam M. Healy
+;; Copyright 2009, 2010, 2011, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@
 	      (-8.93f0 34.12f0 -6.15f0)
 	      (49.27f0 -13.49f0 32.5f0))))
 	  (ROW (GRID:MAKE-FOREIGN-ARRAY 'SINGLE-FLOAT :DIMENSIONS '3)))
-      (GRID:COPY-TO (ROW M1 1 ROW)))))
+      (GRID:COPY-TO (ROW M1 1 ROW) 'array 'single-float))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(-8.93d0 34.12d0 -6.15d0))
    (MULTIPLE-VALUE-LIST
@@ -42,7 +42,7 @@
 	      (-8.93d0 34.12d0 -6.15d0)
 	      (49.27d0 -13.49d0 32.5d0))))
 	  (ROW (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS '3)))
-      (GRID:COPY-TO (ROW M1 1 ROW)))))
+      (GRID:COPY-TO (ROW M1 1 ROW) 'array 'double-float))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     #(#C(-8.93f0 34.12f0) #C(-6.15f0 49.27f0) #C(-13.49f0 32.5f0)))
@@ -57,7 +57,7 @@
 	  (ROW
 	   (GRID:MAKE-FOREIGN-ARRAY
 	    '(COMPLEX SINGLE-FLOAT) :DIMENSIONS '3)))
-      (GRID:COPY-TO (ROW M1 1 ROW)))))
+      (GRID:COPY-TO (ROW M1 1 ROW) 'array '(complex single-float)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     #(#C(-8.93d0 34.12d0) #C(-6.15d0 49.27d0)
@@ -72,7 +72,7 @@
 	      (#C(49.27d0 -13.49d0) #C(32.5d0 42.73d0) #C(-17.24d0 43.31d0)))))
 	  (ROW
 	   (GRID:MAKE-FOREIGN-ARRAY '(COMPLEX DOUBLE-FLOAT) :DIMENSIONS '3)))
-      (GRID:COPY-TO (ROW M1 1 ROW)))))
+      (GRID:COPY-TO (ROW M1 1 ROW) 'array '(complex double-float)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(-91 52 -10))
    (MULTIPLE-VALUE-LIST
@@ -86,7 +86,7 @@
 	  (ROW (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 8) :DIMENSIONS '3)))
       (GRID:COPY-TO
        (ROW M1
-	    1 ROW)))))
+	    1 ROW)  'array '(signed-byte 8)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(116 163 140))
    (MULTIPLE-VALUE-LIST
@@ -98,7 +98,7 @@
 	      (116 163 140)
 	      (161 215 98))))
 	  (ROW (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 8) :DIMENSIONS '3)))
-      (GRID:COPY-TO (ROW M1 1 ROW)))))
+      (GRID:COPY-TO (ROW M1 1 ROW) 'array '(unsigned-byte 8)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(-91 52 -10))
    (MULTIPLE-VALUE-LIST
@@ -112,7 +112,7 @@
 	  (ROW (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 16) :DIMENSIONS '3)))
       (GRID:COPY-TO
        (ROW M1
-	    1 ROW)))))
+	    1 ROW) 'array '(signed-byte 16)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(116 163 140))
    (MULTIPLE-VALUE-LIST
@@ -124,7 +124,7 @@
 	      (116 163 140)
 	      (161 215 98))))
 	  (ROW (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 16) :DIMENSIONS '3)))
-      (GRID:COPY-TO (ROW M1 1 ROW)))))
+      (GRID:COPY-TO (ROW M1 1 ROW) 'array '(unsigned-byte 16)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(-91 52 -10))
    (MULTIPLE-VALUE-LIST
@@ -136,7 +136,7 @@
 	      (-91 52 -10)
 	      (73 -5 123))))
 	  (ROW (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 32) :DIMENSIONS '3)))
-      (GRID:COPY-TO (ROW M1 1 ROW)))))
+      (GRID:COPY-TO (ROW M1 1 ROW) 'array '(signed-byte 32)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(116 163 140))
    (MULTIPLE-VALUE-LIST
@@ -148,7 +148,7 @@
 	      (116 163 140)
 	      (161 215 98))))
 	  (ROW (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 32) :DIMENSIONS '3)))
-      (GRID:COPY-TO (ROW M1 1 ROW)))))
+      (GRID:COPY-TO (ROW M1 1 ROW) 'array '(unsigned-byte 32)))))
   #+int64
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(-91 52 -10))
@@ -161,7 +161,7 @@
 	      (-91 52 -10)
 	      (73 -5 123))))
 	  (ROW (GRID:MAKE-FOREIGN-ARRAY '(SIGNED-BYTE 64) :DIMENSIONS '3)))
-      (GRID:COPY-TO (ROW M1 1 ROW)))))
+      (GRID:COPY-TO (ROW M1 1 ROW) 'array '(signed-byte 64)))))
   #+int64
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(116 163 140))
@@ -174,5 +174,5 @@
 	      (116 163 140)
 	      (161 215 98))))
 	  (ROW (GRID:MAKE-FOREIGN-ARRAY '(UNSIGNED-BYTE 64) :DIMENSIONS '3)))
-      (GRID:COPY-TO (ROW M1 1 ROW))))))
+      (GRID:COPY-TO (ROW M1 1 ROW) 'array '(unsigned-byte 64))))))
 

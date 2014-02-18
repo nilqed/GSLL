@@ -1,6 +1,6 @@
 ;; Regression test MATRIX-PRODUCT-TRIANGULAR for GSLL, automatically generated
 ;;
-;; Copyright 2009, 2010 Liam M. Healy
+;; Copyright 2009, 2010, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,7 @@
 	      (-16.12f0 -8.25f0 21.44f0)
 	      (-49.08f0 -39.66f0 -49.46f0))))
 	  (S1 19.68f0))
-      (GRID:COPY-TO (MATRIX-PRODUCT-TRIANGULAR M1 M2 S1)))))
+      (GRID:COPY-TO (MATRIX-PRODUCT-TRIANGULAR M1 M2 S1) 'array 'single-float))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     #2A((-34803.82416d0 7799.550047999999d0 -29131.375104000002d0)
@@ -58,7 +58,7 @@
 	      (-16.12d0 -8.25d0 21.44d0)
 	      (-49.08d0 -39.66d0 -49.46d0))))
 	  (S1 19.68d0))
-      (GRID:COPY-TO (MATRIX-PRODUCT-TRIANGULAR M1 M2 S1)))))
+      (GRID:COPY-TO (MATRIX-PRODUCT-TRIANGULAR M1 M2 S1) 'array 'single-float))))
   #+fsbv
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -81,7 +81,7 @@
 	      (#C(-16.12f0 -8.25f0) #C(21.44f0 -49.08f0) #C(-39.66f0 -49.46f0))
 	      (#C(-49.08f0 -39.66f0) #C(-49.46f0 19.68f0) #C(-5.55f0 -8.82f0)))))
 	  (S1 #C(19.68f0 -5.55f0)))
-      (GRID:COPY-TO (MATRIX-PRODUCT-TRIANGULAR M1 M2 S1)))))
+      (GRID:COPY-TO (MATRIX-PRODUCT-TRIANGULAR M1 M2 S1) 'array '(complex single-float)))))
   #+fsbv
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -110,7 +110,7 @@
 	      (#C(-16.12d0 -8.25d0) #C(21.44d0 -49.08d0) #C(-39.66d0 -49.46d0))
 	      (#C(-49.08d0 -39.66d0) #C(-49.46d0 19.68d0) #C(-5.55d0 -8.82d0)))))
 	  (S1 #C(19.68d0 -5.55d0)))
-      (GRID:COPY-TO (MATRIX-PRODUCT-TRIANGULAR M1 M2 S1)))))
+      (GRID:COPY-TO (MATRIX-PRODUCT-TRIANGULAR M1 M2 S1) 'array '(complex double-float)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(-1473.7527f0 -854.58527f0 1407.5751f0))
    (MULTIPLE-VALUE-LIST
@@ -125,7 +125,7 @@
 	    'SINGLE-FLOAT :INITIAL-CONTENTS
 	    '(42.73f0 -17.24f0 43.31f0)))
 	  (S1 -16.12f0))
-      (GRID:COPY-TO (MATRIX-PRODUCT-TRIANGULAR M1 V1 S1)))))
+      (GRID:COPY-TO (MATRIX-PRODUCT-TRIANGULAR M1 V1 S1) 'array 'single-float))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST #(-1473.7527d0 -854.5853d0 1407.575d0))
    (MULTIPLE-VALUE-LIST
@@ -140,7 +140,7 @@
 	    'DOUBLE-FLOAT :INITIAL-CONTENTS
 	    '(42.73d0 -17.24d0 43.31d0)))
 	  (S1 -16.12d0))
-      (GRID:COPY-TO (MATRIX-PRODUCT-TRIANGULAR M1 V1 S1)))))
+      (GRID:COPY-TO (MATRIX-PRODUCT-TRIANGULAR M1 V1 S1) 'array 'double-float))))
   #+fsbv
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -160,7 +160,7 @@
 	    :INITIAL-CONTENTS
 	    '(#C(42.73f0 -17.24f0) #C(43.31f0 -16.12f0) #C(-8.25f0 21.44f0))))
 	  (S1 #C(-16.12f0 -8.25f0)))
-      (GRID:COPY-TO (MATRIX-PRODUCT-TRIANGULAR M1 V1 S1)))))
+      (GRID:COPY-TO (MATRIX-PRODUCT-TRIANGULAR M1 V1 S1) 'array '(complex single-float)))))
   #+fsbv
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -181,5 +181,5 @@
 	    :INITIAL-CONTENTS
 	    '(#C(42.73d0 -17.24d0) #C(43.31d0 -16.12d0) #C(-8.25d0 21.44d0))))
 	  (S1 #C(-16.12d0 -8.25d0)))
-      (GRID:COPY-TO (MATRIX-PRODUCT-TRIANGULAR M1 V1 S1))))))
+      (GRID:COPY-TO (MATRIX-PRODUCT-TRIANGULAR M1 V1 S1) 'array '(complex double-float))))))
 

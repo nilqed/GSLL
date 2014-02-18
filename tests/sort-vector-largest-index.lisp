@@ -1,6 +1,6 @@
 ;; Regression test SORT-VECTOR-LARGEST-INDEX for GSLL, automatically generated
 ;;
-;; Copyright 2009, 2011 Liam M. Healy
+;; Copyright 2009, 2011, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@
 		 '(-34.5f0 8.24f0 3.29f0 -8.93f0 34.12f0 -6.15f0 49.27f0 -13.49f0))))
 	   (GRID:COPY-TO
 	    (SORT-VECTOR-LARGEST-INDEX
-	     COMB V1)))))
+	     COMB V1) 'array 'fixnum))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(6 4 1))
 				     (MULTIPLE-VALUE-LIST
 					 (LET ((COMB
@@ -50,7 +50,7 @@
 						   -13.49d0))))
 					   (GRID:COPY-TO
 					    (SORT-VECTOR-LARGEST-INDEX
-					     COMB V1)))))
+					     COMB V1) 'array 'fixnum))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(6 2 4))
 				     (MULTIPLE-VALUE-LIST
 					 (LET ((COMB
@@ -66,7 +66,7 @@
 						   73 -5))))
 					   (GRID:COPY-TO
 					    (SORT-VECTOR-LARGEST-INDEX
-					     COMB V1)))))
+					     COMB V1) 'array 'fixnum))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(7 2 4))
 				     (MULTIPLE-VALUE-LIST
 					 (LET ((COMB
@@ -83,7 +83,7 @@
 						   215))))
 					   (GRID:COPY-TO
 					    (SORT-VECTOR-LARGEST-INDEX
-					     COMB V1)))))
+					     COMB V1) 'array 'fixnum))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(6 2 4))
 				     (MULTIPLE-VALUE-LIST
 					 (LET ((COMB
@@ -99,7 +99,7 @@
 						   73 -5))))
 					   (GRID:COPY-TO
 					    (SORT-VECTOR-LARGEST-INDEX
-					     COMB V1)))))
+					     COMB V1) 'array 'fixnum))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(7 2 4))
 				     (MULTIPLE-VALUE-LIST
 					 (LET ((COMB
@@ -116,7 +116,7 @@
 						   215))))
 					   (GRID:COPY-TO
 					    (SORT-VECTOR-LARGEST-INDEX
-					     COMB V1)))))
+					     COMB V1) 'array 'fixnum))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(6 2 4))
 				     (MULTIPLE-VALUE-LIST
 					 (LET ((COMB
@@ -132,7 +132,7 @@
 						   73 -5))))
 					   (GRID:COPY-TO
 					    (SORT-VECTOR-LARGEST-INDEX
-					     COMB V1)))))
+					     COMB V1) 'array 'fixnum))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(7 2 4))
 				     (MULTIPLE-VALUE-LIST
 					 (LET ((COMB
@@ -149,7 +149,7 @@
 						   215))))
 					   (GRID:COPY-TO
 					    (SORT-VECTOR-LARGEST-INDEX
-					     COMB V1)))))
+					     COMB V1) 'array 'fixnum))))
   #+int64
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(6 2 4))
 				     (MULTIPLE-VALUE-LIST
@@ -166,7 +166,7 @@
 						   73 -5))))
 					   (GRID:COPY-TO
 					    (SORT-VECTOR-LARGEST-INDEX
-					     COMB V1)))))
+					     COMB V1) 'array 'fixnum))))
   #+int64
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL (LIST #(7 2 4))
 				     (MULTIPLE-VALUE-LIST
@@ -184,5 +184,5 @@
 						   215))))
 					   (GRID:COPY-TO
 					    (SORT-VECTOR-LARGEST-INDEX
-					     COMB V1))))))
+					     COMB V1) 'array 'fixnum)))))
 

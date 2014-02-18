@@ -1,6 +1,6 @@
 ;; Regression test GIVENS for GSLL, automatically generated
 ;;
-;; Copyright 2009, 2011 Liam M. Healy
+;; Copyright 2009, 2011, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -50,7 +50,7 @@
 	     (SETF (GRID:AREF COSINES I)
 		   (COS (GRID:AREF ANGLES I))))
 	   (GIVENS-ROTATION V1 V2 COSINES SINES)
-	   (LIST (GRID:COPY-TO V1) (GRID:COPY-TO V2)))))
+	   (LIST (GRID:COPY-TO V1 'array 'single-float) (GRID:COPY-TO V2 'array 'single-float)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST
@@ -83,5 +83,5 @@
 	   (SETF (GRID:AREF COSINES I)
 		 (COS (GRID:AREF ANGLES I))))
 	 (GIVENS-ROTATION V1 V2 COSINES SINES)
-	 (LIST (GRID:COPY-TO V1) (GRID:COPY-TO V2))))))
+	 (LIST (GRID:COPY-TO V1 'array 'double-float) (GRID:COPY-TO V2 'array 'double-float))))))
 

@@ -1,6 +1,6 @@
 ;; Regression test MATRIX-SWAP for GSLL, automatically generated
 ;;
-;; Copyright 2009, 2010 Liam M. Healy
+;; Copyright 2009, 2010, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -44,7 +44,7 @@
 		 (-16.12f0 -8.25f0 21.44f0)
 		 (-49.08f0 -39.66f0 -49.46f0)))))
 	 (SWAP M2 M1)
-	 (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
+	 (LIST (GRID:COPY-TO M1 'array 'single-float) (GRID:COPY-TO M2 'array 'single-float)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST
@@ -68,7 +68,7 @@
 		 (-16.12d0 -8.25d0 21.44d0)
 		 (-49.08d0 -39.66d0 -49.46d0)))))
 	 (SWAP M2 M1)
-	 (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
+	 (LIST (GRID:COPY-TO M1 'array 'double-float) (GRID:COPY-TO M2 'array 'double-float)))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST
@@ -94,7 +94,7 @@
 		 (#C(-16.12f0 -8.25f0) #C(21.44f0 -49.08f0) #C(-39.66f0 -49.46f0))
 		 (#C(-49.08f0 -39.66f0) #C(-49.46f0 19.68f0) #C(-5.55f0 -8.82f0))))))
 	 (SWAP M2 M1)
-	 (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
+	 (LIST (GRID:COPY-TO M1 'array '(complex single-float)) (GRID:COPY-TO M2 'array '(complex single-float))))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST
@@ -120,7 +120,7 @@
 		 (#C(-16.12d0 -8.25d0) #C(21.44d0 -49.08d0) #C(-39.66d0 -49.46d0))
 		 (#C(-49.08d0 -39.66d0) #C(-49.46d0 19.68d0) #C(-5.55d0 -8.82d0))))))
 	 (SWAP M2 M1)
-	 (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
+	 (LIST (GRID:COPY-TO M1 'array '(complex double-float)) (GRID:COPY-TO M2 'array '(complex double-float))))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST #2A((32 28 30) (37 -73 -8) (-15 -22 68))
@@ -135,7 +135,7 @@
 				       '((32 28 30) (37 -73 -8)
 					 (-15 -22 68)))))
 	 (SWAP M2 M1)
-	 (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
+	 (LIST (GRID:COPY-TO M1 'array '(signed-byte 8)) (GRID:COPY-TO M2 'array '(signed-byte 8))))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST #2A((28 10 19) (28 178 217) (36 109 222))
@@ -152,7 +152,7 @@
 				       '((28 10 19) (28 178 217)
 					 (36 109 222)))))
 	 (SWAP M2 M1)
-	 (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
+	 (LIST (GRID:COPY-TO M1 'array '(unsigned-byte 8)) (GRID:COPY-TO M2 'array '(unsigned-byte 8))))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST #2A((32 28 30) (37 -73 -8) (-15 -22 68))
@@ -169,7 +169,7 @@
 				       '((32 28 30) (37 -73 -8)
 					 (-15 -22 68)))))
 	 (SWAP M2 M1)
-	 (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
+	 (LIST (GRID:COPY-TO M1 'array '(signed-byte 16)) (GRID:COPY-TO M2 'array '(signed-byte 16))))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST #2A((28 10 19) (28 178 217) (36 109 222))
@@ -186,7 +186,7 @@
 				       '((28 10 19) (28 178 217)
 					 (36 109 222)))))
 	 (SWAP M2 M1)
-	 (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
+	 (LIST (GRID:COPY-TO M1 'array '(unsigned-byte 16)) (GRID:COPY-TO M2 'array '(unsigned-byte 16))))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST #2A((32 28 30) (37 -73 -8) (-15 -22 68))
@@ -203,7 +203,7 @@
 				       '((32 28 30) (37 -73 -8)
 					 (-15 -22 68)))))
 	 (SWAP M2 M1)
-	 (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
+	 (LIST (GRID:COPY-TO M1 'array '(signed-byte 32)) (GRID:COPY-TO M2 'array '(signed-byte 32))))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     (LIST #2A((28 10 19) (28 178 217) (36 109 222))
@@ -220,7 +220,7 @@
 				       '((28 10 19) (28 178 217)
 					 (36 109 222)))))
 	 (SWAP M2 M1)
-	 (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
+	 (LIST (GRID:COPY-TO M1 'array '(unsigned-byte 32)) (GRID:COPY-TO M2 'array '(unsigned-byte 32))))))
   #+int64
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -238,7 +238,7 @@
 				       '((32 28 30) (37 -73 -8)
 					 (-15 -22 68)))))
 	 (SWAP M2 M1)
-	 (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2)))))
+	 (LIST (GRID:COPY-TO M1 'array '(signed-byte 64)) (GRID:COPY-TO M2 'array '(signed-byte 64))))))
   #+int64
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -256,5 +256,5 @@
 				       '((28 10 19) (28 178 217)
 					 (36 109 222)))))
 	 (SWAP M2 M1)
-	 (LIST (GRID:COPY-TO M1) (GRID:COPY-TO M2))))))
+	 (LIST (GRID:COPY-TO M1 'array '(unsigned-byte 64)) (GRID:COPY-TO M2 'array '(unsigned-byte 64)))))))
 

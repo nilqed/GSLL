@@ -1,6 +1,6 @@
 ;; Regression test AXPY for GSLL, automatically generated
 ;;
-;; Copyright 2009, 2011 Liam M. Healy
+;; Copyright 2009, 2011, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,7 @@
 	    'SINGLE-FLOAT :INITIAL-CONTENTS
 	    '(32.5f0 42.73f0 -17.24f0 43.31f0 -16.12f0 -8.25f0 21.44f0 -49.08f0)))
 	  (SCALAR -39.66f0))
-      (grid:copy-to (AXPY SCALAR V1 V2)))))
+      (GRID:COPY-TO (AXPY SCALAR V1 V2) 'array 'single-float))))
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
     #(1400.77d0 -284.06839999999994d0 -147.7214d0
@@ -55,7 +55,7 @@
 	      -16.12d0 -8.25d0 21.44d0
 	      -49.08d0)))
 	  (SCALAR -39.66d0))
-      (GRID:COPY-TO (AXPY SCALAR V1 V2)))))
+      (GRID:COPY-TO (AXPY SCALAR V1 V2) 'array 'double-float))))
   #+fsbv
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -80,7 +80,7 @@
 	      #C(19.68f0 -5.55f0) #C(-8.82f0 25.37f0)
 	      #C(-30.58f0 31.67f0))))
 	  (SCALAR #C(-39.66f0 -49.46f0)))
-      (GRID:COPY-TO (AXPY SCALAR V1 V2)))))
+      (GRID:COPY-TO (AXPY SCALAR V1 V2) 'array '(complex single-float)))))
   #+fsbv
   (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
    (LIST
@@ -110,4 +110,4 @@
 	      #C(-39.66d0 -49.46d0) #C(19.68d0 -5.55d0)
 	      #C(-8.82d0 25.37d0) #C(-30.58d0 31.67d0))))
 	  (SCALAR #C(-39.66d0 -49.46d0)))
-      (GRID:COPY-TO (AXPY SCALAR V1 V2))))))
+      (GRID:COPY-TO (AXPY SCALAR V1 V2) 'array '(complex double-float))))))

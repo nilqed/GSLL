@@ -1,6 +1,6 @@
 ;; Regression test MATHIEU for GSLL, automatically generated
 ;;
-;; Copyright 2009, 2010 Liam M. Healy
+;; Copyright 2009, 2010, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -315,7 +315,7 @@
 	-1.8369701987210297d-16 1.0d0
 	3.061616997868383d-16))
      (MULTIPLE-VALUE-LIST
-      (GRID:COPY-TO (MATHIEU-CE-ARRAY 0.0d0 (/ dPI 2) 6)))))
+      (GRID:COPY-TO (MATHIEU-CE-ARRAY 0.0d0 (/ dPI 2) 6) 'array 'double-float))))
   (let ((lisp-unit:*epsilon* 1.0d-6))
     (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
      (LIST
@@ -328,7 +328,7 @@
 	1.0767085541408374d0 1.0641859681403019d0
 	1.054606963632144d0 1.0470843441628828d0))
      (MULTIPLE-VALUE-LIST
-      (GRID:COPY-TO (MATHIEU-CE-ARRAY 20.0d0 0.0d0 16)))))
+      (GRID:COPY-TO (MATHIEU-CE-ARRAY 20.0d0 0.0d0 16) 'array 'double-float))))
   (let ((lisp-unit:*epsilon* 1.0d-6))
     (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
      (LIST
@@ -341,5 +341,5 @@
 	0.9433025704899831d0 8.979725089944524d-16
 	-0.9570452540612865d0))
      (MULTIPLE-VALUE-LIST
-      (GRID:COPY-TO (MATHIEU-SE-ARRAY 20.0d0 (/ dPI 2) 15 1))))))
+      (GRID:COPY-TO (MATHIEU-SE-ARRAY 20.0d0 (/ dPI 2) 15 1) 'array 'double-float)))))
 
