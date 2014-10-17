@@ -1,8 +1,8 @@
 ;; The histogram structure
 ;; Liam Healy, Mon Jan  1 2007 - 11:32
-;; Time-stamp: <2013-10-04 10:40:54EDT histogram.lisp>
+;; Time-stamp: <2014-10-16 22:54:14EDT histogram.lisp>
 ;;
-;; Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -102,8 +102,8 @@
 
 (defmethod grid:copy ((source histogram) &key destination &allow-other-keys)
   (if destination
-      (histo-copy destination source)
-      (histo-clone destination)))
+      (histo-copy source destination)
+      (histo-clone source)))
 
 (defmfun histo2d-copy (source destination)
   "gsl_histogram2d_memcpy"
@@ -127,8 +127,8 @@
 
 (defmethod grid:copy ((source histogram2d) &key destination &allow-other-keys)
   (if destination
-      (histo2d-copy destination source)
-      (histo2d-clone destination)))
+      (histo2d-copy source destination)
+      (histo2d-clone source)))
 
 ;;;;****************************************************************************
 ;;; Experimental direct access to vector
