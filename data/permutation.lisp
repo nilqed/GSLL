@@ -1,8 +1,8 @@
 ;; Permutations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2012-01-13 12:01:35EST permutation.lisp>
+;; Time-stamp: <2014-12-08 23:19:56EST permutation.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -357,7 +357,7 @@
    (swap-elements perm-1 1 3)
    (grid:contents perm-1))
  (let ((perm-1 (make-permutation 4 t))	;permute-vector
-       (intvec #31m(11 22 33 44)))
+       (intvec (grid:make-foreign-array '(signed-byte 32) :initial-contents '(11 22 33 44))))
    (set-identity perm-1)
    (swap-elements perm-1 1 3)
    (swap-elements perm-1 0 2)
