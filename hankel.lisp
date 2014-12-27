@@ -1,8 +1,8 @@
 ;; Discrete Hankel Transforms.
 ;; Liam Healy, Sat Dec  8 2007 - 16:50
-;; Time-stamp: <2012-01-13 12:01:11EST hankel.lisp>
+;; Time-stamp: <2014-12-26 13:18:38EST hankel.lisp>
 ;;
-;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2011, 2012, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
 ;; $Id$
 
 (in-package :gsl)
+(named-readtables:in-readtable :antik)
 
 ;;; /usr/include/gsl/gsl_dht.h
 
