@@ -369,4 +369,7 @@
   'integration-test-f454
   (grid:copy-to (vector 0.0d0 1.0d0 (sqrt 2.0d0) 3.0d0))
   0.0d0 1.0d-3 1000)
- (integration-QAWc 'integration-test-f459 -1.0d0 5.0d0 0.0d0 0.0d0 1.0d-3 1000))
+ (integration-QAWc 'integration-test-f459 -1.0d0 5.0d0 0.0d0 0.0d0 1.0d-3 1000)
+ (integration-QAG (lambda (x)
+                    (integration-QAG (lambda (y) (* (sin x) y)) 0d0 1d0 :gauss41))
+                  0d0 pi :gauss41))

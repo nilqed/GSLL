@@ -235,4 +235,6 @@
        ;; CL specials to do the same job.
        (declare ,@(when (member :slug args) `((ignore ,slug)))
 		(special ,dynamic-variable))
-       (funcall ,dynamic-variable ,@(mapcar 'grid:st-symbol (remove :slug args))))))
+       (let ((,dynamic-variable ,dynamic-variable))
+         (declare (special ,dynamic-variable))
+         (funcall ,dynamic-variable ,@(mapcar 'grid:st-symbol (remove :slug args)))))))

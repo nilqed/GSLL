@@ -232,5 +232,12 @@
      (LIST -0.08994400695837003d0 1.18529017636488d-6)
      (MULTIPLE-VALUE-LIST
       (INTEGRATION-QAWC 'INTEGRATION-TEST-F459 -1.0d0 5.0d0
-			0.0d0 0.0d0 0.001d0 1000)))))
-
+			0.0d0 0.0d0 0.001d0 1000))))
+  (LISP-UNIT:ASSERT-NUMERICAL-EQUAL (LIST 1.0d0 1.1102230246251565d-14)
+                                    (MULTIPLE-VALUE-LIST
+                                     (INTEGRATION-QAG
+                                      (LAMBDA (X)
+                                        (INTEGRATION-QAG
+                                         (LAMBDA (Y) (* (SIN X) Y)) 0.0d0 1.0d0
+                                         :GAUSS41))
+                                      0.0d0 PI :GAUSS41))))
