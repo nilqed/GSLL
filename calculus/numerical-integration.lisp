@@ -1,8 +1,8 @@
 ;; Numerical integration
 ;; Liam Healy, Wed Jul  5 2006 - 23:14
-;; Time-stamp: <2012-01-13 12:01:38EST numerical-integration.lisp>
+;; Time-stamp: <2015-01-22 23:32:29EST numerical-integration.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2010, 2011 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2015 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -370,6 +370,8 @@
   (grid:copy-to (vector 0.0d0 1.0d0 (sqrt 2.0d0) 3.0d0))
   0.0d0 1.0d-3 1000)
  (integration-QAWc 'integration-test-f459 -1.0d0 5.0d0 0.0d0 0.0d0 1.0d-3 1000)
+ ;; Check that integration-QAG is reentrant, but note this is not the
+ ;; recommended way to do multivariate integration (see Monte Carlo).
  (integration-QAG (lambda (x)
-                    (integration-QAG (lambda (y) (* (sin x) y)) 0d0 1d0 :gauss41))
-                  0d0 pi :gauss41))
+		    (integration-QAG (lambda (y) (* (sin x) y)) 0d0 1d0 :gauss41))
+		  0d0 pi :gauss41))
