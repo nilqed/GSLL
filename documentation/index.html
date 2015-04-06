@@ -108,38 +108,6 @@ function <code>examples</code>.  There is also a suite of over
 4000 tests; many of the examples also serve as tests, and most others
 are ported from GSL's tests. 
 
-<h2>Requirements</h2>
-<a name="require"/>
-<p>
-GSLL should work in any Common Lisp implementation and platform
-combination for which the following are supported:</p>
-<ul>
-<li><a href="http://www.gnu.org/software/gsl/">GSL</a>
-</li>
-<li><a href="http://common-lisp.net/project/cffi/">CFFI</a> and cffi-libffi,
-  version 0.11.0 or newer; callbacks and <code>foreign-funcall</code> 
-  must be supported.
-</li>
-<li><a href="http://www.cliki.net/trivial-garbage">trivial-garbage</a>
-<li><a href="http://repo.or.cz/w/antik.git">Antik</a><li><a href="http://www.cliki.net/asdf">ASDF</a></li>
-<li>Osicat</li>
-<li><a href="http://repo.or.cz/w/lisp-unit.git">lisp-unit</a>, <i>(Optional)</i> necessary 
-   to run the tests
-</li>
-<li>
-  <a href="http://common-lisp.net/project/iterate/">iterate</a>
-  and
-  <a href="http://common-lisp.net/project/asdf-system-connections/">asdf-system-connnections</a>,
-  <i>(Optional)</i> 
-  provides a convenient way to iterate over elements or indices of
-  vectors or matrices.
-</ul>
-<p>Most users will not need to worry about their implementation and
-  operating system, as all these are supported if the needed libraries
-  are installed (see below).  The use of CLISP, however, is not
-  recommended.
-</p>
-
 <h2>Download and Install</h2>
  <h3>Download</h3>
  <p>Use <a href="http://www.quicklisp.org/">quicklisp</a> and follow the
@@ -324,17 +292,12 @@ and arrays used internally or for function return.
 
 <h2>Contact</h2>
 <a name="contact"/>
-<p>There is a <a
- href="mailto:gsll-devel+help@common-lisp.net">mailing
+<p>There is a <a href="https://mailman.common-lisp.net/listinfo/gsll-devel">mailing
  list</a> for all aspects of this project, including bug reports. See also 
 the <a href="http://news.gmane.org/gmane.lisp.gsll">archives</a>. In
- addition, I am frequently on #lisp IRC channel as LiamH.
-</p>
-<p>For bug reports, please use the mailing list.  If you have
-patch(es) and use git, please commit your changes and do: 
+ addition, I am frequently on #lisp IRC channel as LiamH. For bug reports, please use the mailing list. The <a href="https://gitlab.common-lisp.net/antik/gsll">development site</a> for GSLL has the git repository. If you have patch(es), please commit your changes and do: 
 <pre>git format-patch origin</pre>
-<p>This will produce one or more files whose names start with a
-four-digit number; please attach them all to your email.
+<p>This will produce one or more files whose names start with a four-digit number; please attach them all to your email.
 </div>
 <!-- Page published by Emacs Muse ends here -->
 <div class="footer">
@@ -343,7 +306,7 @@ four-digit number; please attach them all to your email.
 <!-- Created: Feb 25 2005 -->
 <!-- hhmts start -->
 <small>
-Time-stamp: <2013-04-27 21:18:10EDT index.html>
+Time-stamp: <2015-04-04 12:10:58EDT index.html>
 </small>
 <!-- hhmts end -->
  </div>
