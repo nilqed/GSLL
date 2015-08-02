@@ -1,8 +1,8 @@
 ;; Load GSL
 ;; Liam Healy Sat Mar  4 2006 - 18:53
-;; Time-stamp: <2013-11-24 19:08:18EST init.lisp>
+;; Time-stamp: <2015-08-02 14:35:57EDT init.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2013 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2013, 2015 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -55,6 +55,7 @@
 
 (in-package :gsl)
 
+;;#+darwin
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun gsl-config (arg)
     "A wrapper for tool `gsl-config'."
@@ -63,9 +64,19 @@
              (asdf:run-shell-command "gsl-config ~s" arg)))
       (read-line s)
       (read-line s)))
-  #+unix
+  (defparameter *gsl-libpath*
+    (let ((gsl-config-libs (gsl-config "--libs")))
+      (when (eql 2 (mismatch gsl-config-libs "-L" :test #'string=))
+	(uiop:ensure-directory-pathname
+	 (uiop:ensure-absolute-pathname
+	  (pathname
+	   (subseq gsl-config-libs 2 (position #\space gsl-config-libs)))))))
+    "The path to the GSL libraries; gsl-config must return -L result first.")
   (defun gsl-config-pathname (pn)
-    (merge-pathnames pn (pathname (format nil "~a/" (gsl-config "--prefix"))))))
+    (namestring (uiop:merge-pathnames* pn *gsl-libpath*))))
+
+#-darwin 				; unneeded other than macosx
+(defun gsl-config-pathname (pn) pn)
 
 (cffi:define-foreign-library libgslcblas
   (:darwin #+ccl #.(ccl:native-translated-namestring
