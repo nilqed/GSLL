@@ -1,6 +1,6 @@
 ;; Load GSL
 ;; Liam Healy Sat Mar  4 2006 - 18:53
-;; Time-stamp: <2015-08-02 14:35:57EDT init.lisp>
+;; Time-stamp: <2015-08-23 11:23:16EDT init.lisp>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2013, 2015 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -55,7 +55,7 @@
 
 (in-package :gsl)
 
-;;#+darwin
+#+darwin
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (defun gsl-config (arg)
     "A wrapper for tool `gsl-config'."
@@ -76,7 +76,8 @@
     (namestring (uiop:merge-pathnames* pn *gsl-libpath*))))
 
 #-darwin 				; unneeded other than macosx
-(defun gsl-config-pathname (pn) pn)
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defun gsl-config-pathname (pn) pn))
 
 (cffi:define-foreign-library libgslcblas
   (:darwin #+ccl #.(ccl:native-translated-namestring
