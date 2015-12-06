@@ -1,6 +1,6 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2015-12-05 21:54:38EST gsll.asd>
+;; Time-stamp: <2015-12-06 09:39:19EST gsll.asd>
 ;;
 ;; Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2013, 2015 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -33,14 +33,14 @@
 	       #:trivial-garbage
 	       #:alexandria
 	       #:metabang-bind
-	       #:osicat
-	       #:lisp-unit)
+	       #:lisp-unit
+	       #:trivial-features)
   :components
   ((:module init
     :components
     ((:file "init")
      (cffi-grovel:grovel-file
-      "libgsl" :pathname #+unix "libgsl-unix" #-unix "nothing-here"
+      "libgsl" :pathname #+unix "libgsl-unix" #+windows "libgsl-unix"
       :depends-on ("init"))
      (:file "utility" :depends-on ("init"))
      (:file "forms" :depends-on ("init"))

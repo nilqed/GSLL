@@ -1,8 +1,8 @@
 ;; N-tuples
 ;; Liam Healy Sat Feb  3 2007 - 12:53
-;; Time-stamp: <2012-01-13 12:01:27EST ntuple.lisp>
+;; Time-stamp: <2015-12-06 09:47:29EST ntuple.lisp>
 ;;
-;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2011, 2015 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -159,7 +159,7 @@
 
 (defparameter *ntuple-example-data-file*
   (namestring
-   (merge-pathnames  "ntuple-example.dat" osicat::*temporary-directory*))
+   (merge-pathnames  "ntuple-example.dat" uiop:*temporary-directory*))
    ;;(asdf:system-relative-pathname :gsll #p"histogram/ntuple-example.dat")
   "The full path string of the ntuple example data file.  This can be created
    with the function #'make-ntuple-example-data.")
