@@ -1,8 +1,8 @@
 ;; BLAS level 3, Matrix-matrix operations
 ;; Liam Healy, Wed Apr 26 2006 - 21:08
-;; Time-stamp: <2013-12-25 12:10:44EST blas3.lisp>
+;; Time-stamp: <2015-12-05 09:56:16EST blas3.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2013 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2013, 2015 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -71,8 +71,6 @@
      (C (grid:make-foreign-array element-type :dimensions (matrix-product-dimensions A B)
 		     :initial-element 0))
      (alpha 1) (beta 1) (uplo :upper) (side :left))
-  ;; This always signals an error because you can't pass a
-  ;; struct in CFFI yet.
   ("gsl_blas_" :type "hemm")
   ((side cblas-side) (uplo cblas-uplo) (alpha :element-c-type)
    ((mpointer A) :pointer) ((mpointer B) :pointer)
@@ -99,8 +97,6 @@
     ((A grid:matrix) (B grid:matrix)
      &optional (alpha 1) (uplo :upper) (TransA :notrans)
      (diag :nonunit) (side :left))
-  ;; This signals an error for complex arguments because you can't pass a
-  ;; struct in CFFI yet.
   ("gsl_blas_" :type "trsm")
   ((side cblas-side) (uplo cblas-uplo)
    (TransA cblas-transpose) (diag cblas-diag)
