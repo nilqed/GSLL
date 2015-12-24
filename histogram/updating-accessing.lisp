@@ -1,8 +1,8 @@
 ;; Updating and accessing histogram elements.
 ;; Liam Healy, Mon Jan  1 2007 - 14:43
-;; Time-stamp: <2012-01-13 12:01:27EST updating-accessing.lisp>
+;; Time-stamp: <2014-02-22 15:33:57EST updating-accessing.lisp>
 ;;
-;; Copyright 2007, 2008, 2009, 2011 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2011, 2012, 2014 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -26,12 +26,9 @@
 ;;; Missing: 2D functions/methods; the 1D functions will need to be made into methods if not already.
 ;;; http://www.gnu.org/s/gsl/manual/html_node/Updating-and-accessing-2D-histogram-elements.html
 
-(defmfun increment (histogram value &optional weight)
-  ("gsl_histogram_increment" "gsl_histogram_accumulate")
-  ((((mpointer histogram) :pointer) (value :double))
-   (((mpointer histogram) :pointer) (value :double) (weight :double)))
-  :documentation
-  "Update the histogram by adding the weight
+(defgeneric increment (histogram value &optional weight)
+  (:documentation
+   "Update the histogram by adding the weight
    (which defaults to 1.0) to the
    bin whose range contains the coordinate x. 
 
@@ -43,7 +40,19 @@
    issues a warning input-domain, and none of the bins are modified.  The error
    handler is not called, however, since it is often necessary to compute
    histograms for a small range of a larger dataset, ignoring the values
-   outside the range of interest.")
+   outside the range of interest."))
+
+(defmfun increment ((histogram histogram) value &optional weight)
+  ("gsl_histogram_increment" "gsl_histogram_accumulate")
+  ((((mpointer histogram) :pointer) (value :double))
+   (((mpointer histogram) :pointer) (value :double) (weight :double)))
+  :definition :method)
+
+(defmfun increment ((histogram histogram2d) values &optional weight)
+  ("gsl_histogram2d_increment" "gsl_histogram2d_accumulate")
+  ((((mpointer histogram) :pointer) ((first values) :double) ((second values) :double))
+   (((mpointer histogram) :pointer) ((first values) :double) ((second values) :double) (weight :double)))
+  :definition :method)
 
 (defmfun grid:aref ((histogram histogram) &rest indices)
   "gsl_histogram_get"
@@ -56,12 +65,18 @@
    If i lies outside the valid range of index for the
    histogram then an error (input-domain) is signalled.")
 
-(defmfun range (histogram i)
-  "gsl_histogram_get_range"
-  (((mpointer histogram) :pointer) (i :sizet)
-   (lower (:pointer :double)) (upper (:pointer :double)))
-  :documentation			; FDL
-  "Find the upper and lower range limits of the i-th
+(defmfun grid:aref ((histogram histogram2d) &rest indices)
+  "gsl_histogram2d_get"
+  (((mpointer histogram) :pointer) ((first indices) :sizet) ((second indices) :sizet))
+  :definition :method 
+  :c-return :double
+  :index grid:aref
+  :documentation
+  "Return the contents of the i-th, j-th bin of the 2D histogram. If either index lies outside the valid range of index for the histogram then an error (input-domain) is signalled.")
+
+(defgeneric range (histogram i)
+  (:documentation
+   "Find the upper and lower range limits of the i-th
    bin of the histogram.  If the index i is valid then the
    corresponding range limits are stored in lower and upper.
    The lower limit is inclusive (i.e. events with this coordinate are
@@ -70,20 +85,82 @@
    neighboring higher bin, if it exists).
    If i lies outside the valid range of indices for
    the histogram, then the error input-domain is signalled.")
+  (:method ((histogram histogram2d) i)
+    (list
+     (funcall
+      (defmfun nil (histogram i)
+	"gsl_histogram2d_get_xrange"
+	(((mpointer histogram) :pointer) (i :sizet)))
+      histogram)
+     (funcall
+      (defmfun nil (histogram i)
+	"gsl_histogram2d_get_yrange"
+	(((mpointer histogram) :pointer) (i :sizet)))
+      histogram))))
 
-(defmfun max-range (histogram)
+(map-name 'range "gsl_histogram2d_get_xrange")
+(map-name 'range "gsl_histogram2d_get_yrange")
+(export 'range)
+
+(defmfun range ((histogram histogram) i)
+  "gsl_histogram_get_range"
+  (((mpointer histogram) :pointer) (i :sizet)
+   (lower (:pointer :double)) (upper (:pointer :double)))
+  :definition :method)
+
+(defgeneric max-range (histogram)
+  (:documentation "The maximum upper range limit(s) of the histogram.")
+  (:method ((histogram histogram2d))
+    (list
+     (funcall
+      (defmfun nil (histogram)
+	"gsl_histogram2d_xmax"
+	(((mpointer histogram) :pointer))
+	:c-return :double)
+      histogram)
+     (funcall
+      (defmfun nil (histogram)
+	"gsl_histogram2d_ymax"
+	(((mpointer histogram) :pointer))
+	:c-return :double)
+      histogram))))
+
+(map-name 'max-range "gsl_histogram2d_xmax")
+(map-name 'max-range "gsl_histogram2d_ymax")
+(export 'max-range)
+
+(defmfun max-range ((histogram histogram))
   "gsl_histogram_max"
   (((mpointer histogram) :pointer))
   :c-return :double
-  :documentation			; FDL
-  "The maximum upper range limit of the histogram.")
+  :definition :method)
 
-(defmfun min-range (histogram)
+(defgeneric min-range (histogram)
+  (:documentation "The minimum lower range limit(s) of the histogram.")
+  (:method ((histogram histogram2d))
+    (list
+     (funcall
+      (defmfun nil (histogram)
+	"gsl_histogram2d_xmin"
+	(((mpointer histogram) :pointer))
+	:c-return :double)
+      histogram)
+     (funcall
+      (defmfun nil (histogram)
+	"gsl_histogram2d_ymin"
+	(((mpointer histogram) :pointer))
+	:c-return :double)
+      histogram))))
+
+(map-name 'min-range "gsl_histogram2d_xmin")
+(map-name 'min-range "gsl_histogram2d_ymin")
+(export 'min-range)
+
+(defmfun min-range ((histogram histogram))
   "gsl_histogram_min"
   (((mpointer histogram) :pointer))
   :c-return :double
-  :documentation			; FDL
-  "The minimum lower range limit of the histogram.")
+  :definition :method)
 
 (defmfun grid:dimensions ((histogram histogram))
   "gsl_histogram_bins"
@@ -94,8 +171,34 @@
   :documentation			; FDL
   "The number of bins in the histogram.")
 
+(defmethod grid:dimensions ((histogram histogram2d))
+  (list
+   (funcall
+    (defmfun nil (histogram)
+      "gsl_histogram2d_nx"
+      (((mpointer histogram) :pointer))
+      :c-return :sizet)
+    histogram)
+   (funcall
+    (defmfun nil (histogram)
+      "gsl_histogram2d_ny"
+      (((mpointer histogram) :pointer))
+      :c-return :sizet)
+    histogram)))
+
+(map-name 'grid:dimensions "gsl_histogram2d_nx")
+(map-name 'grid:dimensions "gsl_histogram2d_ny")
+
 (defmfun set-zero ((histogram histogram))
   "gsl_histogram_reset"
+  (((mpointer histogram) :pointer))
+  :definition :method
+  :c-return :void
+  :documentation			; FDL
+  "Reset all the bins in the histogram to zero.")
+
+(defmfun set-zero ((histogram histogram2d))
+  "gsl_histogram2d_reset"
   (((mpointer histogram) :pointer))
   :definition :method
   :c-return :void
