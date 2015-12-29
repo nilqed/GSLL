@@ -1,8 +1,8 @@
 ;; Updating and accessing histogram elements.
 ;; Liam Healy, Mon Jan  1 2007 - 14:43
-;; Time-stamp: <2014-02-22 15:33:57EST updating-accessing.lisp>
+;; Time-stamp: <2015-12-28 22:27:17EST updating-accessing.lisp>
 ;;
-;; Copyright 2007, 2008, 2009, 2011, 2012, 2014 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2011, 2012, 2014, 2015 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -91,12 +91,12 @@
       (defmfun nil (histogram i)
 	"gsl_histogram2d_get_xrange"
 	(((mpointer histogram) :pointer) (i :sizet)))
-      histogram)
+      histogram i)
      (funcall
       (defmfun nil (histogram i)
 	"gsl_histogram2d_get_yrange"
 	(((mpointer histogram) :pointer) (i :sizet)))
-      histogram))))
+      histogram i))))
 
 (map-name 'range "gsl_histogram2d_get_xrange")
 (map-name 'range "gsl_histogram2d_get_yrange")
