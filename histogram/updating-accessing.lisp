@@ -1,8 +1,8 @@
 ;; Updating and accessing histogram elements.
 ;; Liam Healy, Mon Jan  1 2007 - 14:43
-;; Time-stamp: <2015-12-28 22:27:17EST updating-accessing.lisp>
+;; Time-stamp: <2016-01-20 16:51:15EST updating-accessing.lisp>
 ;;
-;; Copyright 2007, 2008, 2009, 2011, 2012, 2014, 2015 Liam M. Healy
+;; Copyright 2007, 2008, 2009, 2011, 2012, 2014, 2015, 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@
 ;;; Missing: 2D functions/methods; the 1D functions will need to be made into methods if not already.
 ;;; http://www.gnu.org/s/gsl/manual/html_node/Updating-and-accessing-2D-histogram-elements.html
 
+(export 'increment)
 (defgeneric increment (histogram value &optional weight)
   (:documentation
    "Update the histogram by adding the weight
