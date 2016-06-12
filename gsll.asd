@@ -1,8 +1,8 @@
 ;; Definition of GSLL system 
 ;; Liam Healy
-;; Time-stamp: <2015-12-06 09:39:19EST gsll.asd>
+;; Time-stamp: <2016-06-12 16:27:11EDT gsll.asd>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2013, 2015 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2013, 2015, 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -64,7 +64,8 @@
      (:file "defmfun-single"
       :depends-on ("init" "defmfun" "mobject" "callback"))
      (:file "body-expand" :depends-on ("init" "defmfun" "mobject" "callback"))
-     (:file "generate-examples" :depends-on ("init"))))
+     (:file "generate-examples" :depends-on ("init"))
+     (:file "generic")))
    (:module floating-point
     :depends-on (init)
     :components

@@ -1,8 +1,8 @@
 ;; CFFI-Grovel definitions for unix systems.
 ;; Liam Healy 2009-06-06 09:32:30EDT monte-carlo-structs.lisp
-;; Time-stamp: <2012-01-13 12:01:40EST monte-carlo-structs.lisp>
+;; Time-stamp: <2016-06-12 16:33:01EDT monte-carlo-structs.lisp>
 ;;
-;; Copyright 2009, 2010 Liam M. Healy
+;; Copyright 2009, 2010, 2012, 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -61,6 +61,14 @@
   (hits-l "hits_l" :type :pointer)
   (hits-r "hits_r" :type :pointer))
 
+;;; Added with GSL 1.13
+(cstruct miser-params "gsl_monte_miser_params"
+ (function-call-variance-estimation-fraction "estimate_frac" :type :double)
+ (minimum-number-of-calls-for-variance-estimation "min_calls" :type :sizet)
+ (minimum-calls-per-bisection "min_calls_per_bisection" :type :sizet)
+ (alpha "alpha" :type :double)
+ (dither "dither" :type :double))
+
 (include "gsl/gsl_monte_vegas.h")
 
 (cstruct vegas-state "gsl_monte_vegas_state"
@@ -84,3 +92,19 @@
   (verbose "verbose" :type :int)
   (iterations "iterations" :type :uint)
   (stage "stage" :type :int))
+
+;;; Added with GSL 1.13
+(cenum monte-carlo-vegas-mode
+ ((:stratified "GSL_VEGAS_MODE_STRATIFIED"))
+ ((:importance-only "GSL_VEGAS_MODE_IMPORTANCE_ONLY"))
+ ((:importance "GSL_VEGAS_MODE_IMPORTANCE")))
+
+;;; Added with GSL 1.13
+(cstruct vegas-params "gsl_monte_vegas_params"
+ (alpha "alpha" :type :double)
+ (iterations "iterations" :type :sizet)
+ (stage "stage" :type :int)
+ (mode "mode" :type monte-carlo-vegas-mode)
+ (verbose "verbose" :type :int)
+ (output-stream "ostream" :type :pointer))
+
