@@ -1,8 +1,8 @@
 ;; Nonlinear least squares fitting.
 ;; Liam Healy, 2008-02-09 12:59:16EST nonlinear-least-squares.lisp
-;; Time-stamp: <2012-01-13 12:01:17EST nonlinear-least-squares.lisp>
+;; Time-stamp: <2016-06-14 23:34:23EDT nonlinear-least-squares.lisp>
 ;;
-;; Copyright 2008, 2009, 2011 Liam M. Healy
+;; Copyright 2008, 2009, 2011, 2012, 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -135,15 +135,15 @@
 ;;; Why doesn't GSL have functions to extract these values?
 (defmethod function-value ((solver nonlinear-fdffit))
   (make-foreign-array-from-mpointer
-   (cffi:foreign-slot-value (mpointer solver) 'gsl-fdffit-solver 'f)))
+   (cffi:foreign-slot-value (mpointer solver) '(:struct gsl-fdffit-solver) 'f)))
 
 (defmethod last-step ((solver nonlinear-fdffit))
   ;; Raw pointer, because we presume we're passing it on to another GSL function. 
-  (cffi:foreign-slot-value (mpointer solver) 'gsl-fdffit-solver 'dx))
+  (cffi:foreign-slot-value (mpointer solver) '(:struct gsl-fdffit-solver) 'dx))
 
 (defun jacobian (solver)
   ;; Raw pointer, because we presume we're passing it on to another GSL function. 
-  (cffi:foreign-slot-value (mpointer solver) 'gsl-fdffit-solver 'jacobian))
+  (cffi:foreign-slot-value (mpointer solver) '(:struct gsl-fdffit-solver) 'jacobian))
 
 ;;;;****************************************************************************
 ;;;; Search stopping

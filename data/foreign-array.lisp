@@ -1,8 +1,8 @@
 ;; A grid:foreign-array with added metadata for GSL.
 ;; Liam Healy 2008-04-06 21:23:41EDT
-;; Time-stamp: <2011-10-30 09:45:20EDT foreign-array.lisp>
+;; Time-stamp: <2016-06-14 23:30:39EDT foreign-array.lisp>
 ;;
-;; Copyright 2008, 2009, 2010, 2011 Liam M. Healy
+;; Copyright 2008, 2009, 2010, 2011, 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -40,10 +40,10 @@
   (unless (grid:metadata-slot object 'mpointer)
     (when (zerop (size object))
       (error "Object ~a has zero total dimension." object))
-    (let ((blockptr (cffi:foreign-alloc 'gsl-block-c)))
-      (setf (cffi:foreign-slot-value blockptr 'gsl-block-c 'size)
+    (let ((blockptr (cffi:foreign-alloc '(:struct gsl-block-c))))
+      (setf (cffi:foreign-slot-value blockptr '(:struct gsl-block-c) 'size)
 	    (size object)
-	    (cffi:foreign-slot-value blockptr 'gsl-block-c 'data)
+	    (cffi:foreign-slot-value blockptr '(:struct gsl-block-c) 'data)
 	    (grid:foreign-pointer object)
 	    (grid:metadata-slot object 'block-pointer) blockptr)
       (let ((array-struct (alloc-from-block object blockptr)))

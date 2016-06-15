@@ -1,8 +1,8 @@
 ;; Macro for defining GSL functions.
 ;; Liam Healy 2008-04-16 20:49:50EDT defmfun.lisp
-;; Time-stamp: <2014-02-16 09:11:46EST defmfun.lisp>
+;; Time-stamp: <2016-06-14 23:39:02EDT defmfun.lisp>
 ;;
-;; Copyright 2008, 2009, 2010, 2014 Liam M. Healy
+;; Copyright 2008, 2009, 2010, 2014, 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -95,7 +95,7 @@
      documentation inputs outputs before after enumeration qualifier
      gsl-version switch ((:callbacks cbinfo)) callback-dynamic callback-object)
     ,key-args
-    (declare (ignorable c-return return definition element-types
+    (declare (ignorable c-return return return-supplied-p definition element-types
       index export documentation inputs outputs
       before after enumeration qualifier
       gsl-version switch cbinfo callback-dynamic callback-object)

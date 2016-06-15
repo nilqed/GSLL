@@ -1,8 +1,8 @@
 ;; Eigensystems for nonsymmetric real matrices
 ;; Liam Healy 2009-02-16 12:51:18EST nonsymmetric.lisp
-;; Time-stamp: <2012-01-13 12:01:33EST nonsymmetric.lisp>
+;; Time-stamp: <2016-06-14 23:38:36EDT nonsymmetric.lisp>
 ;;
-;; Copyright 2009, 2011 Liam M. Healy
+;; Copyright 2009, 2011, 2012, 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -74,7 +74,7 @@
   :outputs (A eigenvalues)
   :return
   (eigenvalues
-   (cffi:foreign-slot-value (mpointer ws) 'gsl-nonsymm-ws 'n-evals))
+   (cffi:foreign-slot-value (mpointer ws) '(:struct gsl-nonsymm-ws) 'n-evals))
   :documentation			; FDL
   "Compute the eigenvalues of the real nonsymmetric matrix A and
   stores them in the vector 'eigenvalues. If T is desired, it is
