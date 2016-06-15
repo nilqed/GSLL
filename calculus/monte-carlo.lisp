@@ -1,6 +1,6 @@
 ;; Monte Carlo Integration
 ;; Liam Healy Sat Feb  3 2007 - 17:42
-;; Time-stamp: <2016-06-12 16:44:20EDT monte-carlo.lisp>
+;; Time-stamp: <2016-06-14 23:07:35EDT monte-carlo.lisp>
 ;;
 ;; Copyright 2007, 2008, 2009, 2011, 2012, 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -92,28 +92,34 @@
   :initialize-suffix "init"
   :initialize-args nil)
 
-(defmfun parameter ((object monte-carlo-miser) parameter)
+(defmfun get-mcm-parameters (object)
   "gsl_monte_miser_params_get"
-  (((mpointer object) :pointer) (params miser-params))
-  :definition :method
+  (((mpointer object) :pointer) (params (:pointer (:struct miser-params))))
   :c-return :void
-  :return ((cffi:foreign-slot-value params 'miser-params parameter))
+  :return (params)
+  :documentation "Get all parameters, as a foreign struct, for the MISER method."
+  :export nil
+  :index parameter
   :gsl-version (1 13))
+
+(defmethod parameter ((object monte-carlo-miser) parameter)
+  (cffi:foreign-slot-value (get-mcm-parameters object) 'miser-params parameter))
 
 (defmfun set-mcm-parameters (object params)
   "gsl_monte_miser_params_set"
-  (((mpointer object) :pointer) (params miser-params))
+  (((mpointer object) :pointer) (params (:pointer (:struct miser-params))))
+  :documentation "Set the parameter for the MISER method."
   :c-return :void
-  :return (value)
-  :gsl-version (1 13)
+  :return (params)
   :export nil
-  :index (setf parameter))
+  :index (setf parameter)
+  :gsl-version (1 13))
 
 (defmethod (setf parameter) (value (object monte-carlo-miser) parameter)
-  (let ((current-params (parameter object)))
-    (setf (cffi:foreign-slot-value object 'miser-params parameter)
+  (let ((current-params (get-mcm-parameters object)))
+    (setf (cffi:foreign-slot-value current-params '(:struct miser-params) parameter)
 	  value)
-    (set-mcm-parameters value object parameter current-params)))
+    (set-mcm-parameters object current-params)))
 
 ;;; As of GSL v1.13, the API above is used to get/set the MISER parameters, so the following is removed.
 #+obsolete-gsl (export 'miser-parameter)
@@ -178,28 +184,33 @@
   :initialize-suffix "init"
   :initialize-args nil)
 
-(defmfun parameter ((object monte-carlo-vegas) parameter)
-  "gsl_monte_miser_params_get"
-  (((mpointer object) :pointer) (params vegas-params))
-  :definition :method
+(defmfun get-mcv-parameters (object)
+  "gsl_monte_vegas_params_get"
+  (((mpointer object) :pointer) (params (:pointer (:struct vegas-params))))
   :c-return :void
-  :return ((cffi:foreign-slot-value params 'vegas-params parameter))
+  :return (params)
+  :documentation "Get all parameters, as a foreign struct, for the VEGAS method."
+  :export nil
+  :index parameter
   :gsl-version (1 13))
 
+(defmethod parameter ((object monte-carlo-vegas) parameter)
+  (cffi:foreign-slot-value (get-mcv-parameters object) 'vegas-params parameter))
+
 (defmfun set-mcv-parameters (object params)
-  "gsl_monte_miser_params_set"
-  (((mpointer object) :pointer) (params vegas-params))
+  "gsl_monte_vegas_params_set"
+  (((mpointer object) :pointer) (params (:pointer (:struct vegas-params))))
   :c-return :void
-  :return (value)
-  :gsl-version (1 13)
+  :return (params)
   :export nil
-  :index (setf parameter))
+  :index (setf parameter)
+  :gsl-version (1 13))
 
 (defmethod (setf parameter) (value (object monte-carlo-vegas) parameter)
-  (let ((current-params (parameter object)))
-    (setf (cffi:foreign-slot-value object 'vegas-params parameter)
+  (let ((current-params (get-mcv-parameters object)))
+    (setf (cffi:foreign-slot-value current-params '(:struct vegas-params) parameter)
 	  value)
-    (set-mcv-parameters value object parameter current-params)))
+    (set-mcv-parameters object current-params)))
 
 ;;; As of GSL v1.13, the API above is used to get/set the VEGAS parameters, so the following is removed.
 #+obsolete-gsl
