@@ -1,8 +1,8 @@
 ;; Multivariate minimization.
 ;; Liam Healy  <Tue Jan  8 2008 - 21:28>
-;; Time-stamp: <2012-01-13 12:01:18EST minimization-multi.lisp>
+;; Time-stamp: <2016-06-15 23:07:48EDT minimization-multi.lisp>
 ;;
-;; Copyright 2008, 2009, 2011 Liam M. Healy
+;; Copyright 2008, 2009, 2011, 2012, 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -313,7 +313,6 @@
 
 (defmpar +simplex-nelder-mead+
     "gsl_multimin_fminimizer_nmsimplex2"
-  ;; FDL
   "The Simplex algorithm of Nelder and Mead. It constructs 
    n vectors p_i from the
    starting vector initial and the vector step-size as follows:
@@ -344,6 +343,11 @@
    distance of each vertex from the center rather than the mean
    distance, which has the advantage of allowing a linear update."
   :gsl-version (1 12))
+
+(defmpar +simplex-nelder-mead-random+
+  "gsl_multimin_fminimizer_nmsimplex2rand"
+  "This method is a variant of @code{nmsimplex2} which initialises the simplex around the starting point @var{x} using a randomly-oriented set of basis vectors instead of the fixed coordinate axes. The final dimensions of the simplex are scaled along the coordinate axes by the vector @var{step_size}.  The randomisation uses a simple deterministic generator so that repeated calls to @code{gsl_multimin_fminimizer_set} for a given solver object will vary the orientation in a well-defined way.")
+
 
 ;;;;****************************************************************************
 ;;;; Examples

@@ -1,8 +1,8 @@
 ;; Univariate minimization
 ;; Liam Healy Tue Jan  8 2008 - 21:02
-;; Time-stamp: <2011-10-30 10:31:55EDT minimization-one.lisp>
+;; Time-stamp: <2016-06-15 23:04:31EDT minimization-one.lisp>
 ;;
-;; Copyright 2008, 2009, 2011 Liam M. Healy
+;; Copyright 2008, 2009, 2011, 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -191,6 +191,10 @@
    not accepted then the algorithm falls back to an ordinary golden section
    step.  The full details of Brent's method include some additional checks
    to improve convergence.")
+
+(defmpar +quad-golden-fminimizer+ "gsl_min_fminimizer_quad_golden"
+  "A variant of Brent's algorithm which uses the safeguarded step-length algorithm of Gill and Murray."
+  :gsl-version (1 13))
 
 ;;;;****************************************************************************
 ;;;; Example

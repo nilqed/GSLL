@@ -1,8 +1,8 @@
 ;; Basis splines.
 ;; Liam Healy 2008-02-18 14:43:20EST basis-splines.lisp
-;; Time-stamp: <2012-01-13 12:01:11EST basis-splines.lisp>
+;; Time-stamp: <2016-06-15 23:07:19EDT basis-splines.lisp>
 ;;
-;; Copyright 2008, 2009, 2011 Liam M. Healy
+;; Copyright 2008, 2009, 2011, 2012, 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -102,6 +102,13 @@
   :c-return :double
   :gsl-version (1 9)
   :documentation "The ith breakpoint of the basis spline bspline.")
+
+(defmfun greville-abscissa (i bspline)
+  "gsl_bspline_greville_abscissa"
+  ((i :sizet) ((mpointer bspline) :pointer))
+  :c-return :double
+  :gsl-version (1 13)
+  :documentation "Returns the location of the @math{i}-th Greville abscissa for the given B-spline basis.  For the ill-defined case when @math{k=1}, the implementation chooses to return breakpoint interval midpoints.")
 
 ;;; Examples and unit test
 

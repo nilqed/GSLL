@@ -1,8 +1,8 @@
 ;; Polynomials
 ;; Liam Healy, Tue Mar 21 2006 - 18:33
-;; Time-stamp: <2014-12-26 13:18:34EST polynomial.lisp>
+;; Time-stamp: <2016-06-15 22:31:17EDT polynomial.lisp>
 ;;
-;; Copyright 2009, 2011, 2012, 2014 Liam M. Healy
+;; Copyright 2009, 2011, 2012, 2014, 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -41,6 +41,21 @@
   :c-return :double
   :documentation			; FDL
   "Evaluate the polyonomial with coefficients at the point x.")
+
+(defmfun evaluate-with-derivatives
+    (coefficients x &optional (derivatives 2)
+		  &aux (result (grid:ensure-foreign-array derivatives derivatives 'double-float)))
+  "gsl_poly_eval_derivs"
+  (((grid:foreign-pointer coefficients) :pointer)
+   ((grid:dim0 coefficients) :sizet)
+   (x :double)
+   ((grid:foreign-pointer result) :pointer)
+   ((grid:dim0 result) :sizet))
+  :gsl-version (1 13)
+  :inputs (coefficients x)
+  :return (result)
+  :documentation
+  "Evaluates a polynomial and its derivatives and stores the results in the array @var{res} of size @var{lenres}.  The output array contains the values of @math{d^k P/d x^k} for the specified value of @var{x} starting with @math{k = 0}. The optional argument 'derivatives may be either a vector-double-float, or a non-negative integer. If the former, the function value and derivatives are put in the vector supplied; if the latter, a new vector-double-float is created with the specified length.")
 
 #+fsbv
 (defmfun evaluate
