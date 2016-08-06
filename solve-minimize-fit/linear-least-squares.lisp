@@ -1,8 +1,8 @@
 ;; Linear least squares, or linear regression
 ;; Liam Healy <2008-01-21 12:41:46EST linear-least-squares.lisp>
-;; Time-stamp: <2013-01-03 10:14:04EST linear-least-squares.lisp>
+;; Time-stamp: <2016-08-06 12:26:24EDT linear-least-squares.lisp>
 ;;
-;; Copyright 2008, 2009, 2010, 2011, 2012, 2013 Liam M. Healy
+;; Copyright 2008, 2009, 2010, 2011, 2012, 2013, 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -223,6 +223,7 @@
    Any components which have zero singular value (to machine
    precision) are discarded from the fit.")
 
+#-#.(gsl::have-at-least-gsl-version '(2 0)) ; GSL v1.x
 (defmfun linear-mfit-svd
     (model observations parameters-or-size tolerance
 	   &optional weight
@@ -254,22 +255,39 @@
   :export nil
   :index linear-mfit
   :documentation			; GSL texi
-  "Compute the best-fit parameters c of the weighted or unweighted
-   model y = X c for the observations y and weights and the model
-   matrix X.  The covariance matrix of the model parameters is
-   computed with the given weights.  The weighted or unweighted sum of
-   squares of the residuals from the best-fit, chi^2, is returned as
-   the first value.
+  "Compute the best-fit parameters c of the weighted or unweighted model y = X c for the observations y and weights and the model matrix X.  The covariance matrix of the model parameters is computed with the given weights.  The weighted or unweighted sum of squares of the residuals from the best-fit, chi^2, is returned as the first value.
 
-   The best-fit is found by singular value decomposition of the matrix
-   model using the preallocated workspace provided.  The modified
-   Golub-Reinsch SVD algorithm is used, with column scaling to improve
-   the accuracy of the singular values (unweighted).  Any components
-   which have zero singular value (to machine precision) are discarded
-   from the fit.  In the second form of the function the components
-   are discarded if the ratio of singular values s_i/s_0 falls below
-   the user-specified tolerance, and the effective rank is returned as
-   the second value.")
+   The best-fit is found by singular value decomposition of the matrix model using the preallocated workspace provided.  The modified Golub-Reinsch SVD algorithm is used, with column scaling to improve the accuracy of the singular values (unweighted).  Any components which have zero singular value (to machine precision) are discarded  from the fit.  In the second form of the function the components are discarded if the ratio of singular values s_i/s_0 falls below the user-specified tolerance, and the effective rank is returned as the second value.")
+
+#+#.(gsl::have-at-least-gsl-version '(2 0)) ; GSL v2.x
+(defmfun linear-mfit-svd
+    (model observations parameters-or-size tolerance
+	   &optional weight
+	   (covariance (default-covariance parameters-or-size))
+	   (workspace (default-lls-workspace observations parameters-or-size))
+	   &aux (parameters (vdf parameters-or-size)))
+  ("gsl_multifit_linear_svd" "gsl_multifit_wlinear_svd")
+  ((((mpointer model) :pointer)
+    ((mpointer workspace) :pointer))
+   (((mpointer model) :pointer)
+    ((mpointer weight) :pointer)
+    ((mpointer observations) :pointer)
+    (tolerance :double)
+    (rank (:pointer :sizet))
+    ((mpointer parameters) :pointer)
+    ((mpointer covariance) :pointer)
+    (chisq (:pointer :double))
+    ((mpointer workspace) :pointer)))
+  :inputs (model weight observations)
+  :outputs (parameters covariance)
+  :switch (weight)
+  :return ((cffi:mem-ref chisq :double) (cffi:mem-ref rank ':sizet))
+  :export nil
+  :index linear-mfit
+  :documentation			; GSL texi
+  "Compute the best-fit parameters c of the weighted or unweighted model y = X c for the observations y and weights and the model matrix X.  The covariance matrix of the model parameters is computed with the given weights.  The weighted or unweighted sum of squares of the residuals from the best-fit, chi^2, is returned as the first value.
+
+   The best-fit is found by singular value decomposition of the matrix model using the preallocated workspace provided.  The modified Golub-Reinsch SVD algorithm is used, with column scaling to improve the accuracy of the singular values (unweighted).  Any components which have zero singular value (to machine precision) are discarded  from the fit.  In the second form of the function the components are discarded if the ratio of singular values s_i/s_0 falls below the user-specified tolerance, and the effective rank is returned as the second value.")
 
 (defmfun multi-linear-estimate (x coefficients covariance)
   "gsl_multifit_linear_est"

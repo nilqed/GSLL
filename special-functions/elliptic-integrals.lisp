@@ -1,8 +1,8 @@
 ;; Elliptic integrals
 ;; Liam Healy, Mon Mar 20 2006 - 21:50
-;; Time-stamp: <2011-10-29 23:36:10EDT elliptic-integrals.lisp>
+;; Time-stamp: <2016-08-06 11:49:54EDT elliptic-integrals.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2011, 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -65,14 +65,19 @@
   parameters m = k^2 and sin^2(alpha) = k^2, with the change of sign
   n to -n.")
 
+#-#.(gsl::have-at-least-gsl-version '(2 0)) ; GSL v1.x
 (defmfun elliptic-integral-D (phi k n &optional (mode :double))
   "gsl_sf_ellint_D_e"
   ((phi :double) (k :double) (n :double) (mode sf-mode) (ret (:pointer (:struct sf-result))))
-  :documentation			; FDL
-  "The incomplete elliptic integral D(phi,k,n) which is
-   defined through the Carlson form RD(x,y,z)
-   by the following relation:
-   D(phi,k,n) = RD (1-sin^2(phi), 1-k^2 sin^2(phi), 1).")
+  :documentation			; GSL texi
+  "The incomplete elliptic integral D(phi,k,n) which is defined through the Carlson form RD(x,y,z) by the relation D(phi,k,n) = RD (1-sin^2(phi), 1-k^2 sin^2(phi), 1).")
+
+#+#.(gsl::have-at-least-gsl-version '(2 0)) ; GSL v2.x
+(defmfun elliptic-integral-D (phi k &optional (mode :double))
+  "gsl_sf_ellint_D_e"
+  ((phi :double) (k :double) (mode sf-mode) (ret (:pointer (:struct sf-result))))
+  :documentation			; GSL texi
+  "The incomplete elliptic integral D(phi,k) which is defined through the Carlson form RD(x,y,z) by the relation D(phi,k) = 1/3 (\sin \phi)^3 RD (1-\sin^2(\phi), 1-k^2 \sin^2(\phi), 1).")
 
 ;;;;****************************************************************************
 ;;;; Carlson forms
