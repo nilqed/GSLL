@@ -1,6 +1,6 @@
 ;; GSL library version
 ;; Liam Healy 2016-08-06 10:37:52EDT gsl-version.lisp
-;; Time-stamp: <2016-08-06 10:48:20EDT gsl-version.lisp>
+;; Time-stamp: <2016-08-06 22:05:11EDT gsl-version.lisp>
 ;;
 ;; Copyright 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -20,17 +20,25 @@
 
 (in-package :gsl)
 
-(cffi:defcvar ("gsl_version" *gsl-version* :read-only t) :string
-          "The version of the GSL library being used.")
-(export '*gsl-version*)
+(eval-when (:compile-toplevel :load-toplevel :execute)
 
-(defun have-at-least-gsl-version (major-minor)
-  "The GSL version currently running is at least the specified major/minor version."
-  (or (null major-minor)
-      (let* ((sep-pos (position #\. *gsl-version*))
-	     (my-major
-	      (read-from-string *gsl-version* nil nil :end sep-pos))
-	     (my-minor
-	      (read-from-string *gsl-version* nil nil :start (1+ sep-pos))))
-	(and (>= my-major (first major-minor))
-	     (>= my-minor (second major-minor))))))
+  (cffi:defcvar ("gsl_version" *gsl-version* :read-only t) :string
+    "The version of the GSL library being used.")
+  (export '*gsl-version*)
+
+  (defun have-at-least-gsl-version (major-minor)
+    "The GSL version currently running is at least the specified major/minor version."
+    (or (null major-minor)
+	(let* ((sep-pos (position #\. *gsl-version*))
+	       (my-major
+		 (read-from-string *gsl-version* nil nil :end sep-pos))
+	       (my-minor
+		 (read-from-string *gsl-version* nil nil :start (1+ sep-pos))))
+	  (and (>= my-major (first major-minor))
+	       (>= my-minor (second major-minor))))))
+  )
+
+(when (have-at-least-gsl-version '(2 0))
+  (pushnew :gsl2 *features*)
+  ;; Following form to be deleted when GSL 2 support is present
+  (error "GSLL does not currently work with GSL version 2.x"))

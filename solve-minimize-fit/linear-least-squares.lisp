@@ -1,6 +1,6 @@
 ;; Linear least squares, or linear regression
 ;; Liam Healy <2008-01-21 12:41:46EST linear-least-squares.lisp>
-;; Time-stamp: <2016-08-06 12:26:24EDT linear-least-squares.lisp>
+;; Time-stamp: <2016-08-06 22:01:47EDT linear-least-squares.lisp>
 ;;
 ;; Copyright 2008, 2009, 2010, 2011, 2012, 2013, 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -223,7 +223,7 @@
    Any components which have zero singular value (to machine
    precision) are discarded from the fit.")
 
-#-#.(gsl::have-at-least-gsl-version '(2 0)) ; GSL v1.x
+#-gsl2 ; GSL v1.x
 (defmfun linear-mfit-svd
     (model observations parameters-or-size tolerance
 	   &optional weight
@@ -259,7 +259,7 @@
 
    The best-fit is found by singular value decomposition of the matrix model using the preallocated workspace provided.  The modified Golub-Reinsch SVD algorithm is used, with column scaling to improve the accuracy of the singular values (unweighted).  Any components which have zero singular value (to machine precision) are discarded  from the fit.  In the second form of the function the components are discarded if the ratio of singular values s_i/s_0 falls below the user-specified tolerance, and the effective rank is returned as the second value.")
 
-#+#.(gsl::have-at-least-gsl-version '(2 0)) ; GSL v2.x
+#+gsl2 ; GSL v2.x
 (defmfun linear-mfit-svd
     (model observations parameters-or-size tolerance
 	   &optional weight
