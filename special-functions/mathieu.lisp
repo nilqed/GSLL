@@ -1,8 +1,8 @@
 ;; Mathieu functions
 ;; Liam Healy 2009-02-16 16:30:59EST mathieu.lisp
-;; Time-stamp: <2012-01-13 12:01:15EST mathieu.lisp>
+;; Time-stamp: <2016-08-07 21:54:15EDT mathieu.lisp>
 ;;
-;; Copyright 2009, 2010, 2011 Liam M. Healy
+;; Copyright 2009, 2010, 2011, 2012, 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -34,21 +34,39 @@
 ;;;; Characteristic values
 ;;;;****************************************************************************
 
+#-gsl2
 (defmfun mathieu-a (n q)
   "gsl_sf_mathieu_a"
   ((n :int) (q :double) (ret (:pointer (:struct sf-result))))
   :gsl-version (1 9)
-  :documentation			; FDL
-  "Compute the characteristic value a_n(q) of the Mathieu function
-  ce_n(q,x) respectively.")
+  :documentation			; GSL texi
+  "Compute the characteristic value a_n(q) of the Mathieu function ce_n(q,x) respectively.")
 
+#+gsl2
+(defmfun mathieu-a (n q)
+  "gsl_sf_mathieu_a"
+  ((n :int) (q :double))
+  :c-return :double
+  :gsl-version (2 0)
+  :documentation			; GSL texi
+  "Compute the characteristic value a_n(q) of the Mathieu function ce_n(q,x) respectively.")
+
+#-gsl2
 (defmfun mathieu-b (n q)
   "gsl_sf_mathieu_b"
   ((n :int) (q :double) (ret (:pointer (:struct sf-result))))
   :gsl-version (1 9)
-  :documentation			; FDL
-  "Compute the characteristic values b_n(q) of the Mathieu
-  function se_n(q,x), respectively.")
+  :documentation			; GSL texi
+  "Compute the characteristic values b_n(q) of the Mathieu function se_n(q,x), respectively.")
+
+#+gsl2
+(defmfun mathieu-b (n q)
+  "gsl_sf_mathieu_b"
+  ((n :int) (q :double))
+  :c-return :double
+  :gsl-version (2 0)
+  :documentation			; GSL texi
+  "Compute the characteristic values b_n(q) of the Mathieu function se_n(q,x), respectively.")
 
 (defmfun mathieu-a-array
     (q &optional
@@ -92,6 +110,7 @@
 ;;;; Angular Mathieu functions
 ;;;;****************************************************************************
 
+#-gsl2
 (defmfun mathieu-ce (n q x)
   "gsl_sf_mathieu_ce"
   ((n :int) (q :double) (x :double) (ret (:pointer (:struct sf-result))))
@@ -99,10 +118,29 @@
   :documentation			; FDL
   "Compute the angular Mathieu functions ce_n(q,x).")
 
+#+gsl2
+(defmfun mathieu-ce (n q x)
+  "gsl_sf_mathieu_ce"
+  ((n :int) (q :double) (x :double))
+  :c-return :double
+  :gsl-version (2 0)
+  :documentation			; FDL
+  "Compute the angular Mathieu functions ce_n(q,x).")
+
+#-gsl2
 (defmfun mathieu-se (n q x)
   "gsl_sf_mathieu_se"
   ((n :int) (q :double) (x :double) (ret (:pointer (:struct sf-result))))
   :gsl-version (1 9)
+  :documentation			; FDL
+  "Compute the angular Mathieu functions se_n(q,x).")
+
+#+gsl2
+(defmfun mathieu-se (n q x)
+  "gsl_sf_mathieu_se"
+  ((n :int) (q :double) (x :double))
+  :c-return :double
+  :gsl-version (2 0)
   :documentation			; FDL
   "Compute the angular Mathieu functions se_n(q,x).")
 
@@ -150,27 +188,47 @@
 ;;;; Radial Mathieu functions
 ;;;;****************************************************************************
 
+#-gsl2
 (defmfun mathieu-Mc (j n q x)
   "gsl_sf_mathieu_Mc"
   ((j :int) (n :int) (q :double) (x :double) (ret (:pointer (:struct sf-result))))
   :gsl-version (1 9)
-  :documentation			; FDL
+  :documentation			; GSL texi
   "Compute the radial j-th kind Mathieu functions Mc_n^{(j)}(q,x) of
    order n. The allowed values of j are 1 and 2. The functions for j =
    3,4 can be computed as M_n^{(3)} = M_n^{(1)} + iM_n^{(2)} and
    M_n^{(4)} = M_n^{(1)} - iM_n^{(2)}, where M_n^{(j)} = Mc_n^{(j)} or
    Ms_n^{(j)}.")
 
+#+gsl2
+(defmfun mathieu-Mc (j n q x)
+  "gsl_sf_mathieu_Mc"
+  ((j :int) (n :int) (q :double) (x :double))
+  :c-return :double
+  :gsl-version (2 0)
+  :documentation			; GSL texi
+  "Compute the radial j-th kind Mathieu functions Mc_n^{(j)}(q,x) of order n. The allowed values of j are 1 and 2. The functions for j = 3,4 can be computed as M_n^{(3)} = M_n^{(1)} + iM_n^{(2)} and M_n^{(4)} = M_n^{(1)} - iM_n^{(2)}, where M_n^{(j)} = Mc_n^{(j)} or Ms_n^{(j)}.")
+
+#-gsl2
 (defmfun mathieu-Ms (j n q x)
   "gsl_sf_mathieu_Ms"
   ((j :int) (n :int) (q :double) (x :double) (ret (:pointer (:struct sf-result))))
   :gsl-version (1 9)
-  :documentation			; FDL
+  :documentation			; GSL texi
   "Compute the radial j-th kind Mathieu functions Ms_n^{(j)}(q,x) of order n.
    The allowed values of j are 1 and 2. The functions for j = 3,4 can
    be computed as M_n^{(3)} = M_n^{(1)} + iM_n^{(2)} and M_n^{(4)} =
    M_n^{(1)} - iM_n^{(2)}, where M_n^{(j)} = Mc_n^{(j)} or
    Ms_n^{(j)}.")
+
+#+gsl2
+(defmfun mathieu-Ms (j n q x)
+  "gsl_sf_mathieu_Ms"
+  ((j :int) (n :int) (q :double) (x :double))
+  :c-return :double
+  :gsl-version (2 0)
+  :documentation			; GSL texi
+  "Compute the radial j-th kind Mathieu functions Ms_n^{(j)}(q,x) of order n. The allowed values of j are 1 and 2. The functions for j = 3,4 can be computed as M_n^{(3)} = M_n^{(1)} + iM_n^{(2)} and M_n^{(4)} = M_n^{(1)} - iM_n^{(2)}, where M_n^{(j)} = Mc_n^{(j)} or Ms_n^{(j)}.")
 
 (defmfun mathieu-Mc-array
     (j q x &optional

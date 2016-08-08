@@ -1,6 +1,6 @@
 ;; Nonlinear least squares fitting.
 ;; Liam Healy, 2008-02-09 12:59:16EST nonlinear-least-squares.lisp
-;; Time-stamp: <2016-06-14 23:34:23EDT nonlinear-least-squares.lisp>
+;; Time-stamp: <2016-08-07 21:32:38EDT nonlinear-least-squares.lisp>
 ;;
 ;; Copyright 2008, 2009, 2011, 2012, 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -141,10 +141,20 @@
   ;; Raw pointer, because we presume we're passing it on to another GSL function. 
   (cffi:foreign-slot-value (mpointer solver) '(:struct gsl-fdffit-solver) 'dx))
 
+#-gsl2
 (defun jacobian (solver)
   ;; Raw pointer, because we presume we're passing it on to another GSL function. 
   (cffi:foreign-slot-value (mpointer solver) '(:struct gsl-fdffit-solver) 'jacobian))
 
+;;; This needs work to make matrix automatically allocated.
+#+gsl2
+(defmfun jacobian (solver matrix)
+  "gsl_multifit_fdfsolver_jac"
+  (((mpointer solver) :pointer) ((mpointer matrix) :pointer))
+  :return (matrix)
+  :documentation
+  "The Jacobian matrix for the current iteration of the solver.")
+  
 ;;;;****************************************************************************
 ;;;; Search stopping
 ;;;;****************************************************************************

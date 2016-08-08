@@ -1,8 +1,8 @@
 ;; Legendre functions
 ;; Liam Healy, Sat Apr 29 2006 - 19:16
-;; Time-stamp: <2011-10-29 23:42:17EDT legendre.lisp>
+;; Time-stamp: <2016-08-07 19:06:40EDT legendre.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2011, 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -108,10 +108,11 @@
 (defmfun legendre-Plm (l m x)
   "gsl_sf_legendre_Plm_e"
   ((l :int) (m :int) (x :double) (ret (:pointer (:struct sf-result))))
-  :documentation			; FDL
+  :documentation			; GSL texi
   "The associated Legendre polynomial
    P_l^m(x) for m >= 0, l >= m, |x| <= 1.")
 
+#-gsl2
 (defmfun legendre-Plm-array
     (m x &optional (size-or-array *default-sf-array-size*)
        &aux (array (vdf size-or-array)))
@@ -119,11 +120,12 @@
   (((+ (dim0 array) m -1) :int) (m :int) (x :double)
    ((grid:foreign-pointer array) :pointer))
   :outputs (array)
-  :documentation			; FDL
+  :documentation			; GSL texi
   "An array of Legendre polynomials
     P_l^m(x), for m >= 0, 
     l = |m|, ..., |m|+length(array)-1} and |x| <= 1.")
 
+#-gsl2
 (defmfun legendre-Plm-deriv-array
     (m x &optional (values-size-or-array *default-sf-array-size*)
        (derivatives-size-or-array *default-sf-array-size*)
@@ -133,7 +135,7 @@
   (((+ (dim0 values) m -1) :int) (m :int) (x :double)
    ((grid:foreign-pointer values) :pointer) ((grid:foreign-pointer derivatives) :pointer))
   :outputs (values derivatives)
-  :documentation			; FDL
+  :documentation			; GSL texi
   "An array of Legendre polynomials
     values and derivatives dP_l^m(x)/dx for m >= 0, 
     l = |m|, ..., length(values) and |x| <= 1.")
@@ -141,13 +143,14 @@
 (defmfun legendre-sphPlm (l m x)
   "gsl_sf_legendre_sphPlm_e"
   ((l :int) (m :int) (x :double) (ret (:pointer (:struct sf-result))))
-  :documentation			; FDL
+  :documentation			; GSL texi
   "The normalized associated Legendre polynomial
    \sqrt{(2l+1)/(4\pi) \sqrt{(l-m)!/(l+m)!} P_l^m(x) suitable
    for use in spherical harmonics.  The parameters must satisfy
    m >= 0, l >= m, |x| <= 1.  These routines avoid the overflows
    that occur for the standard normalization of P_l^m(x).")
 
+#-gsl2
 (defmfun legendre-sphPlm-array
     (m x &optional (size-or-array *default-sf-array-size*)
        &aux (array (vdf size-or-array)))
@@ -155,11 +158,12 @@
   (((+ (dim0 array) m -1) :int) (m :int) (x :double)
    ((grid:foreign-pointer array) :pointer))
   :outputs (array)
-  :documentation			; FDL
+  :documentation			; GSL texi
   "An array of normalized associated Legendre functions
    \sqrt(2l+1)/(4\pi) \sqrt(l-m)!/(l+m)! P_l^m(x),
    for m >= 0, l = |m|, ..., length(array)}, |x| <= 1.0.")
 
+#-gsl2
 (defmfun legendre-sphPlm-deriv-array
     (m x &optional (values-size-or-array *default-sf-array-size*)
        (derivatives-size-or-array *default-sf-array-size*)
@@ -170,14 +174,15 @@
    ((grid:foreign-pointer values) :pointer)
    ((grid:foreign-pointer derivatives) :pointer))
   :outputs (values derivatives)
-  :documentation			; FDL
+  :documentation			; GSL texi
   "An array of normalized associated Legendre functions
    values and derivatives for m >= 0,
    l = |m|, ..., length(array)}, |x| <= 1.0.")
 
+#-gsl2
 (defmfun legendre-array-size (lmax m)
   "gsl_sf_legendre_array_size" ((lmax :int) (m :int))
-  :documentation			; FDL
+  :documentation			; GSL texi
   "The size of result array needed for the array
    versions of P_l^m(x), lmax - m + 1."
   :c-return :int)
