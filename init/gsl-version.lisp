@@ -1,6 +1,6 @@
 ;; GSL library version
 ;; Liam Healy 2016-08-06 10:37:52EDT gsl-version.lisp
-;; Time-stamp: <2016-08-06 22:05:11EDT gsl-version.lisp>
+;; Time-stamp: <2016-11-20 16:42:06CST gsl-version.lisp>
 ;;
 ;; Copyright 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
@@ -26,19 +26,17 @@
     "The version of the GSL library being used.")
   (export '*gsl-version*)
 
-  (defun have-at-least-gsl-version (major-minor)
-    "The GSL version currently running is at least the specified major/minor version."
-    (or (null major-minor)
-	(let* ((sep-pos (position #\. *gsl-version*))
-	       (my-major
-		 (read-from-string *gsl-version* nil nil :end sep-pos))
-	       (my-minor
-		 (read-from-string *gsl-version* nil nil :start (1+ sep-pos))))
-	  (and (>= my-major (first major-minor))
-	       (>= my-minor (second major-minor))))))
-  )
+  (defun have-at-least-gsl-version (version-wanted)
+    "The GSL version currently running is at least the version wanted, specified as (major minor)."
+    (or (null version-wanted)
+	(let ((version-loaded
+		(mapcar 'read-from-string (split-sequence:split-sequence #\. *gsl-version*))))
+	  ;; subminor version number ignored
+	  (or (> (first version-loaded) (first version-wanted))
+	      (and
+	       (= (first version-loaded) (first version-wanted))
+	       (>= (second version-loaded) (second version-wanted)))))))
 
-(when (have-at-least-gsl-version '(2 0))
-  (pushnew :gsl2 *features*)
-  ;; Following form to be deleted when GSL 2 support is present
-  (error "GSLL does not currently work with GSL version 2.x"))
+  (when (have-at-least-gsl-version '(2 0))
+    (pushnew :gsl2 *features*))
+  )

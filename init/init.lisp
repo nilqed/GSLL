@@ -1,8 +1,8 @@
 ;; Load GSL
 ;; Liam Healy Sat Mar  4 2006 - 18:53
-;; Time-stamp: <2015-12-06 09:45:33EST init.lisp>
+;; Time-stamp: <2016-11-20 14:46:05CST init.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2013, 2015 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2013, 2015, 2016 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -100,7 +100,7 @@
                      (gsl-config-pathname "libgsl.dylib"))
            #-ccl #.(gsl-config-pathname "libgsl.dylib"))
   (:windows (:or "libgsl-0.dll" "cyggsl-0.dll"))
-  (:unix (:or "libgsl.so.0" "libgsl.so"))
+  (:unix (:or "libgsl.so.19" "libgsl.so.0" "libgsl.so"))
   (t (:default "libgsl")))
    
 (cffi:use-foreign-library libgsl)
