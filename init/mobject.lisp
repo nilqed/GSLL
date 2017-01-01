@@ -1,8 +1,8 @@
 ;; Definition of GSL objects and ways to use them.
 ;; Liam Healy, Sun Dec  3 2006 - 10:21
-;; Time-stamp: <2011-01-11 19:10:48EST mobject.lisp>
+;; Time-stamp: <2017-01-01 17:26:26EST mobject.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2011 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2011, 2017 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,9 @@
 ;;; Key arguments for defmobject:
 ;;; documentation
 ;;;  Docstring for the object maker.
+;;; initialize-when-making
+;;;  Call to initializer when making:
+;;;  T=yes, NIL=no, :default-T=optional (default T), :default-NIL=optional (default NIL)
 ;;; initialize-suffix
 ;;;  The string appended to prefix to form GSL function name or a list of
 ;;;  such a string and the c-return argument.
@@ -75,8 +78,9 @@
 
 (defmacro defmobject
     (class prefix allocation-args description 
-     &key documentation initialize-suffix initialize-name initialize-args
-     arglists-function inputs gsl-version allocator allocate-inputs freer
+     &key documentation (initialize-when-making t) initialize-suffix
+     initialize-name initialize-args arglists-function inputs
+     gsl-version allocator allocate-inputs freer
      ((:callbacks cbinfo)) (export t)
      (superclasses (if cbinfo '(callback-included) '(mobject)))
      singular switch ri-c-return)
@@ -134,7 +138,7 @@
 	   ,@(when cbinfo `((record-callbacks-for-class ',class ',cbinfo)))
 	   ,@(when cbinfo (make-mobject-defmcallbacks cbinfo class))
 	   ,(mobject-maker
-	     maker arglists class cl-alloc-args cl-initialize-args
+	     maker arglists class cl-alloc-args initialize-when-making cl-initialize-args
 	     description documentation initialize-args initializerp settingp
 	     singular cbinfo))
 	`(progn
@@ -215,51 +219,59 @@
 	  :index (reinitialize-instance ,class))))))
 
 (defun mobject-maker
-    (maker arglists class cl-alloc-args cl-initialize-args
-     description documentation initialize-args initializerp settingp
-     singular cbinfo)
+    (maker arglists class cl-alloc-args initialize-when-making
+     cl-initialize-args description documentation initialize-args
+     initializerp settingp singular cbinfo)
   "Make the defun form that makes the mobject."
   (when cbinfo
     (setf cl-initialize-args (append cl-initialize-args '((scalarsp t)))))
   (let ((initargs ; arguments that are exclusively for reinitialize-instance
-	 (remove-if (lambda (s) (member s cl-alloc-args)) cl-initialize-args)))
+	  (remove-if (lambda (s) (member s cl-alloc-args)) cl-initialize-args)))
     `(defun ,maker
 	 ,(if arglists
 	      (first arglists)
 	      (singularize
 	       singular
 	       `(,@cl-alloc-args
-		 ,@(when initargs
-			 (append
-			  (list
-			   '&optional
-			   (if (listp (first initargs))
-			       `(,@(first initargs) ,settingp)
-			       `(,(first initargs) nil ,settingp)))
-			  (rest initargs))))))
+		 ,@(when (or initargs (member initialize-when-making '(:default-t :default-nil)))
+		     (append
+		      '(&optional)
+		      (cond
+			((eql initialize-when-making :default-t) '((initialize T)))
+			((eql initialize-when-making :default-nil) '((initialize NIL)))
+			(t nil))
+		      (when initargs
+			(if (listp (first initargs))
+			    `((,@(first initargs) ,settingp))
+			    `((,(first initargs) nil ,settingp))))
+		      (rest initargs))))))
        ,(format
 	 nil "Create the GSL object representing a ~a (class ~a).~@[~&~a~]"
 	 description class documentation)
        (let ((object
-	      (make-instance
-	       ',class
-	       ,@(when cbinfo `(:cbinfo ',cbinfo))
-	       ,@(if arglists
-		     (second arglists)
-		     (symbol-keyword-symbol cl-alloc-args singular)))))
-	 ;; There is an initialization step
+	       (make-instance
+		',class
+		,@(when cbinfo `(:cbinfo ',cbinfo))
+		,@(if arglists
+		      (second arglists)
+		      (symbol-keyword-symbol cl-alloc-args singular)))))
 	 ,@(when initializerp
-		 (if (or initialize-args arglists)	; with arguments
-		     (let ((reii 
-			    `(reinitialize-instance
-			      object
-			      ,@(if arglists
-				    (third arglists)
-				    (symbol-keyword-symbol
-				     (arglist-plain-and-categories cl-initialize-args)
-				     singular)))))
-		       (if initargs `((when ,settingp ,reii)) `(,reii)))
-		     '((reinitialize-instance object)))) ; without arguments
+	     (let ((call
+		     (if (or initialize-args arglists) ; with arguments
+			 (let ((reii 
+				 `(reinitialize-instance
+				   object
+				   ,@(if arglists
+					 (third arglists)
+					 (symbol-keyword-symbol
+					  (arglist-plain-and-categories cl-initialize-args)
+					  singular)))))
+			   (if initargs `((when ,settingp ,reii)) `(,reii)))
+			 '((reinitialize-instance object))))) ; without arguments
+	       (case initialize-when-making
+		 ((:default-t :default-nil) `((when initialize ,@call)))
+		 ((t) call)
+		 (otherwise nil))))
 	 object))))
 
 (defun plural-symbol (symbol)

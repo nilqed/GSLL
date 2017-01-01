@@ -1,8 +1,8 @@
 ;; Permutations
 ;; Liam Healy, Sun Mar 26 2006 - 11:51
-;; Time-stamp: <2016-12-03 21:03:56CST permutation.lisp>
+;; Time-stamp: <2017-01-01 17:20:46EST permutation.lisp>
 ;;
-;; Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2014, 2016 Liam M. Healy
+;; Copyright 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2014, 2016, 2017 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -31,25 +31,9 @@
   "gsl_permutation"
   ((size :sizet))
   "permutation"
+  :initialize-when-making :default-t
+  :ri-c-return :void
   :initialize-suffix "init")
-
-;;; Need this because default the method defined by defmobject has c-return = :int.
-(defmfun reinitialize-instance ((object permutation) &key)
-  "gsl_permutation_init"
-  (((mpointer object) :pointer))
-  :definition :method
-  :qualifier :after
-  :return (object)
-  :c-return :void
-  :export nil
-  :index (reinitialize-instance permutation))
-
-(defun make-permutation (size &optional (initialize t))
-  ;; Define this outside of defmobject in order to add the optional argument.
-  "Create the GSL object representing a permutation (class PERMUTATION)."
-  (let ((object (make-instance 'permutation :size size)))
-    (when initialize (reinitialize-instance object))
-    object))
 
 (defmethod print-object ((object permutation) stream)
   (print-unreadable-object (object stream :type t)
