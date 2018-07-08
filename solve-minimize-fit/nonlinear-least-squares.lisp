@@ -1,8 +1,8 @@
 ;; Nonlinear least squares fitting.
 ;; Liam Healy, 2008-02-09 12:59:16EST nonlinear-least-squares.lisp
-;; Time-stamp: <2016-08-07 21:32:38EDT nonlinear-least-squares.lisp>
+;; Time-stamp: <2018-07-08 18:37:15EDT nonlinear-least-squares.lisp>
 ;;
-;; Copyright 2008, 2009, 2011, 2012, 2016 Liam M. Healy
+;; Copyright 2008, 2009, 2011, 2012, 2016, 2018 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -146,12 +146,20 @@
   ;; Raw pointer, because we presume we're passing it on to another GSL function. 
   (cffi:foreign-slot-value (mpointer solver) '(:struct gsl-fdffit-solver) 'jacobian))
 
-;;; This needs work to make matrix automatically allocated.
+(export 'make-jacobian-matrix)
+(defun make-jacobian-matrix (solver)
+  "Make an empty Jacobian matrix for nonlinear least squares."
+  (grid:make-foreign-array
+   'double-float
+   :dimensions
+   (list (grid:dim0 solver) (grid:dim1 solver))))
+
 #+gsl2
-(defmfun jacobian (solver matrix)
+(defmfun jacobian (solver &optional matrix
+			  &aux (mat (or matrix (make-jacobian-matrix solver))))
   "gsl_multifit_fdfsolver_jac"
-  (((mpointer solver) :pointer) ((mpointer matrix) :pointer))
-  :return (matrix)
+  (((mpointer solver) :pointer) ((mpointer mat) :pointer))
+  :return (mat)
   :documentation
   "The Jacobian matrix for the current iteration of the solver.")
   
@@ -253,13 +261,14 @@
 ;;;;****************************************************************************
 
 (defmfun ls-covariance
-    (solver relative-error &optional covariance
+    (solver relative-error &optional covariance jacobian
 	    &aux (cov (or covariance
 			  (grid:make-foreign-array 'double-float
-				       :dimensions
-				       (list (dim1 solver) (dim1 solver))))))
+						   :dimensions
+						   (list (grid:dim1 solver) (grid:dim1 solver))))))
   "gsl_multifit_covar"
-  (((jacobian solver) :pointer) (relative-error :double) ((mpointer cov) :pointer))
+  ((#-gsl2 (jacobian solver) #+gsl2 (mpointer (jacobian solver jacobian)) :pointer)
+   (relative-error :double) ((mpointer cov) :pointer))
   :return (cov)
   :documentation 			; FDL
   "Compute the covariance matrix of the best-fit parameters
@@ -361,11 +370,11 @@
 
 (defun nonlinear-least-squares-example
     (&optional (number-of-observations 40)
-     (method +levenberg-marquardt+)
-     (print-steps t))
+       (method +levenberg-marquardt+)
+       (print-steps t))
   (let ((*nlls-example-data* (generate-nlls-data number-of-observations)))
     (let* ((init
-	    (grid:make-foreign-array 'double-float :initial-contents '(1.0d0 0.0d0 0.0d0)))
+	     (grid:make-foreign-array 'double-float :initial-contents '(1.0d0 0.0d0 0.0d0)))
 	   (number-of-parameters 3)
 	   covariance
 	   (fit (make-nonlinear-fdffit
@@ -373,7 +382,9 @@
 		 (list number-of-observations number-of-parameters)
 		 '(exponential-residual
 		   exponential-residual-derivative exponential-residual-fdf)
-		 init nil)))
+		 init nil))
+	   ;; Making the jacobian here is optional -- it saves remaking on each iteration.
+	   (jacobian (make-jacobian-matrix fit)))
       (macrolet ((fitx (i) `(grid:aref (solution fit) ,i))
 		 (err (i) `(sqrt (grid:aref covariance ,i ,i))))
 	(when print-steps
@@ -381,26 +392,26 @@
 		  0 (fitx 0) (fitx 1) (fitx 2)
 		  (norm-f fit)))
 	(loop for iter from 0 below 25
-	   until
-	   (and (plusp iter)
-		(fit-test-delta fit 1.0d-4 1.0d-4))
-	   do
-	   (iterate fit)
-	   (setf covariance (ls-covariance fit 0.0d0 covariance))
-	   (when print-steps
-	     (format t "iter: ~d x = ~15,8f ~15,8f ~15,8f |f(x)|=~7,6g~&"
-		     (1+ iter) (fitx 0) (fitx 1) (fitx 2)
-		     (norm-f fit)))
-	   finally
-	   (let* ((chi (norm-f fit))
-		  (dof (- number-of-observations number-of-parameters))
-		  (c (max 1.0d0 (/ chi (sqrt dof)))))
-	     (when print-steps
-	       (format t "chisq/dof = ~g~&" (/ (expt chi 2) dof))
-	       (format t "A         = ~,5f +/- ~,5f~&" (fitx 0) (* c (err 0)))
-	       (format t "lambda    = ~,5f +/- ~,5f~&" (fitx 1) (* c (err 1)))
-	       (format t "b         = ~,5f +/- ~,5f~&" (fitx 2) (* c (err 2))))
-	     (return (list (fitx 0) (fitx 1) (fitx 2)))))))))
+	      until
+	      (and (plusp iter)
+		   (fit-test-delta fit 1.0d-4 1.0d-4))
+	      do
+		 (iterate fit)
+		 (setf covariance (ls-covariance fit 0.0d0 covariance jacobian))
+		 (when print-steps
+		   (format t "iter: ~d x = ~15,8f ~15,8f ~15,8f |f(x)|=~7,6g~&"
+			   (1+ iter) (fitx 0) (fitx 1) (fitx 2)
+			   (norm-f fit)))
+	      finally
+		 (let* ((chi (norm-f fit))
+			(dof (- number-of-observations number-of-parameters))
+			(c (max 1.0d0 (/ chi (sqrt dof)))))
+		   (when print-steps
+		     (format t "chisq/dof = ~g~&" (/ (expt chi 2) dof))
+		     (format t "A         = ~,5f +/- ~,5f~&" (fitx 0) (* c (err 0)))
+		     (format t "lambda    = ~,5f +/- ~,5f~&" (fitx 1) (* c (err 1)))
+		     (format t "b         = ~,5f +/- ~,5f~&" (fitx 2) (* c (err 2))))
+		   (return (list (fitx 0) (fitx 1) (fitx 2)))))))))
 
 (save-test nonlinear-least-squares
 	   (nonlinear-least-squares-example 40 +levenberg-marquardt+ nil))
