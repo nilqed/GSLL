@@ -1,8 +1,8 @@
 ;; Additional methods for lisp-unit
 ;; Liam Healy 2009-04-15 23:23:30EDT augment.lisp
-;; Time-stamp: <2014-02-15 18:40:50EST augment.lisp>
+;; Time-stamp: <2018-07-14 22:43:03EDT augment.lisp>
 ;;
-;; Copyright 2009, 2011, 2014 Liam M. Healy
+;; Copyright 2009, 2011, 2014, 2018 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -96,20 +96,25 @@
   ;; 1.0, &re) do a check of test_sf_frac_diff, then of the err, then
   ;; the scale (e10), then they (redundantly?) call test_sf_e10.
   ;; Others just call test_sf_e10.  This attempts to cover both cases.
-  `(lisp-unit::assert-true
-    (multiple-value-bind (val scale err)
-	,form
-      (and
-       (sf-check-single val ,expected-value ,result-tol err)
-       (= scale ,scale)
-       ,(if err-tol `(<= err ,err-tol) t)))))
+  `(lisp-unit::assert-equal
+    t
+    (when
+	(multiple-value-bind (val scale err)
+	    ,form
+	  (and
+	   (sf-check-single val ,expected-value ,result-tol err)
+	   (= scale ,scale)
+	   ,(if err-tol `(<= err ,err-tol) t)))
+      t)))
 
 (defmacro assert-posinf (form)
-  `(lisp-unit::assert-true
+  `(lisp-unit::assert-equal
+    t
     (let ((val ,form))
       (and (infinityp val) (plusp val)))))
 
 (defmacro assert-neginf (form)
-  `(lisp-unit::assert-true
+  `(lisp-unit::assert-equal
+    t
     (let ((val ,form))
       (and (infinityp val) (minusp val)))))

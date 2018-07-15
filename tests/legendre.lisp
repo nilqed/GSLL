@@ -1,6 +1,6 @@
 ;; Regression test LEGENDRE for GSLL, automatically generated
 ;;
-;; Copyright 2009, 2014 Liam M. Healy
+;; Copyright 2009, 2014, 2018 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -54,12 +54,14 @@
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST -34.099750274012266d0 3.0286662310541114d-14)
                         (MULTIPLE-VALUE-LIST (LEGENDRE-PLM 4 3 0.5d0)))
+                       #-gsl2
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST #(2.25d0 5.625d0 4.21875d0 -4.921875d0))
                         (MULTIPLE-VALUE-LIST
                          (LET ((ARR (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 4)))
                            (LEGENDRE-PLM-ARRAY 2 0.5d0 ARR)
                            (GRID:COPY-TO ARR 'array 'double-float))))
+                       #-gsl2
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST #(-3.0d0 3.75d0 33.75d0 55.78125d0))
                         (MULTIPLE-VALUE-LIST
@@ -72,6 +74,7 @@
                         (LIST 0.30366280894310793d0 3.5267592419993454d-14)
                         (MULTIPLE-VALUE-LIST
                          (LEGENDRE-SPHPLM 1200 1100 0.3d0)))
+                       #-gsl2
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST
                          #(0.24892463950030283d0 0.4127948151484927d0
@@ -80,6 +83,7 @@
                          (LET ((ARR (GRID:MAKE-FOREIGN-ARRAY 'DOUBLE-FLOAT :DIMENSIONS 4)))
                            (LEGENDRE-SPHPLM-ARRAY 4 0.5d0 ARR)
                            (GRID:COPY-TO ARR 'array 'double-float))))
+                       #-gsl2
                        (LISP-UNIT::ASSERT-NUMERICAL-EQUAL
                         (LIST
                          #(-0.6637990386674741d0 -0.2751965434323283d0
