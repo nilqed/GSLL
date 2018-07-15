@@ -1,8 +1,8 @@
 ;; Linear least squares, or linear regression
 ;; Liam Healy <2008-01-21 12:41:46EST linear-least-squares.lisp>
-;; Time-stamp: <2016-08-06 22:01:47EDT linear-least-squares.lisp>
+;; Time-stamp: <2018-07-14 22:42:07EDT linear-least-squares.lisp>
 ;;
-;; Copyright 2008, 2009, 2010, 2011, 2012, 2013, 2016 Liam M. Healy
+;; Copyright 2008, 2009, 2010, 2011, 2012, 2013, 2016, 2018 Liam M. Healy
 ;; Distributed under the terms of the GNU General Public License
 ;;
 ;; This program is free software: you can redistribute it and/or modify
@@ -266,8 +266,14 @@
 	   (covariance (default-covariance parameters-or-size))
 	   (workspace (default-lls-workspace observations parameters-or-size))
 	   &aux (parameters (vdf parameters-or-size)))
-  ("gsl_multifit_linear_svd" "gsl_multifit_wlinear_svd")
+  ("gsl_multifit_linear_tsvd" "gsl_multifit_wlinear_tsvd")
   ((((mpointer model) :pointer)
+    ((mpointer observations) :pointer)
+    (tolerance :double)
+    (rank (:pointer :sizet))
+    ((mpointer parameters) :pointer)
+    ((mpointer covariance) :pointer)
+    (chisq (:pointer :double))
     ((mpointer workspace) :pointer))
    (((mpointer model) :pointer)
     ((mpointer weight) :pointer)
